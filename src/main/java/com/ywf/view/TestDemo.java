@@ -146,10 +146,10 @@ public class TestDemo {
     private RSyntaxTextArea newTextArea() {
         RSyntaxTextArea textArea = new RSyntaxTextArea();
         textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSON);
-        textArea.setCodeFoldingEnabled(true);
+        //textArea.setCodeFoldingEnabled(true);
         textArea.setAntiAliasingEnabled(true);
         textArea.setAutoscrolls(true);
-        textArea.setLineWrap(true);
+        //textArea.setLineWrap(true);
         textArea.revalidate();
         try {
             Theme theme = Theme.load(getClass().getResourceAsStream("/themes/textAreaThemes.xml"));
