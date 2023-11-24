@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.ywf</groupId>
+  <artifactId>ViewJSON</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>ViewJSON</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.formdev</groupId>
+      <artifactId>flatlaf</artifactId>
+      <version>2.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf-intellij-themes -->
+    <dependency>
+      <groupId>com.formdev</groupId>
+      <artifactId>flatlaf-intellij-themes</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.formdev</groupId>
+      <artifactId>flatlaf-swingx</artifactId>
+      <version>2.1</version>
+    </dependency>
+
+    <!-- tool-->
+    <dependency>
+      <groupId>com.formdev</groupId>
+      <artifactId>flatlaf-extras</artifactId>
+      <version>2.1</version>
+    </dependency>
+
+    <!--svg-->
+    <dependency>
+      <groupId>com.formdev</groupId>
+      <artifactId>svgSalamander</artifactId>
+      <version>1.1.3</version>
+    </dependency>
+    <!--miglayout-->
+    <dependency>
+      <groupId>com.miglayout</groupId>
+      <artifactId>miglayout-swing</artifactId>
+      <version>5.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jdesktop.bsaf</groupId>
+      <artifactId>bsaf</artifactId>
+      <version>1.9.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.jnlp</groupId>
+          <artifactId>jnlp</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!--animal动画-->
+    <dependency>
+      <groupId>net.java.dev.timingframework</groupId>
+      <artifactId>timingframework</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <!-- 编辑器 -->
+    <dependency>
+      <groupId>com.fifesoft</groupId>
+      <artifactId>rsyntaxtextarea</artifactId>
+      <version>3.1.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fifesoft</groupId>
+      <artifactId>rstaui</artifactId>
+      <version>3.1.4</version>
+    </dependency>
+    <!-- 提示窗口-->
+    <dependency>
+      <groupId>net.java.balloontip</groupId>
+      <artifactId>balloontip</artifactId>
+      <version>1.2.4.1</version>
+    </dependency>
+
+    <!--全局按键-->
+    <dependency>
+      <groupId>com.github.tulskiy</groupId>
+      <artifactId>jkeymaster</artifactId>
+      <version>1.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.66</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-configuration</groupId>
+      <artifactId>commons-configuration</artifactId>
+      <version>1.10</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
+      <version>5.8.4</version>
+    </dependency>
+
+  </dependencies>
+
+
+</project>
