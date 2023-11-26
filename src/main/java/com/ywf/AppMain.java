@@ -1,7 +1,7 @@
 package com.ywf;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.ywf.view.TestDemo;
+import com.ywf.view.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,14 +15,8 @@ public class AppMain {
         try {
             /**
              * FlatLightLaf.install();
-             *
-             * //Flat Dark
              * FlatDarkLaf.install();
-             *
-             * //Flat IntelliJ
              * FlatIntelliJLaf.install();
-             *
-             * //Flat Darcula
              * FlatDarculaLaf.install();
              */
             UIManager.setLookAndFeel(new FlatIntelliJLaf());
@@ -37,21 +31,16 @@ public class AppMain {
             UIManager.put("Component.arc", 999);
             UIManager.put("TextComponent.arc", 10);
             //聚焦组件的特殊边框表示聚焦状态
-            UIManager.put("Component.focusWidth", 2);
-
+            UIManager.put("Component.focusWidth", 0);
             //控制右侧滑块
             UIManager.put("ScrollBar.trackArc", 999);
-
             UIManager.put("ScrollBar.thumbArc", 999);
-
             UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
-
             UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-
             UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
-        new TestDemo().createAndShowGUI();
+        new MainFrame().createAndShowGUI("JSON格式化工具V2.0");
     }
 }

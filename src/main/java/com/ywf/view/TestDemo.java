@@ -1,5 +1,6 @@
 package com.ywf.view;
 
+import com.ywf.framework.component.TextAreaBuilder;
 import com.ywf.utils.JsonFormatUtil;
 import org.fife.ui.rsyntaxtextarea.*;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -82,7 +83,7 @@ public class TestDemo {
         buttonFun.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         panelFun.add(buttonFun);
 
-        //鼠标移到按钮上改变颜色
+
         buttonFun.addActionListener(e -> {
             if ("".equals(textAreaSource.getText())) {
                 JOptionPane.showMessageDialog(frame, "请输入json字符串");
@@ -91,6 +92,7 @@ public class TestDemo {
             String json = JsonFormatUtil.formatJson(textAreaSource.getText());
             editorPane.setText(json);
         });
+        //鼠标移到按钮上改变颜色
         buttonFun.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -132,6 +134,7 @@ public class TestDemo {
         panelRight.setLayout(new BorderLayout());
 
         editorPane = newTextArea();
+        // editorPane = TextAreaBuilder.JsonTextArea();
         RTextScrollPane rTextScrollPane = new RTextScrollPane(editorPane);
         rTextScrollPane.setFoldIndicatorEnabled(true);
         panelRight.add(rTextScrollPane, BorderLayout.CENTER);
@@ -146,10 +149,10 @@ public class TestDemo {
     private RSyntaxTextArea newTextArea() {
         RSyntaxTextArea textArea = new RSyntaxTextArea();
         textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSON);
-        //textArea.setCodeFoldingEnabled(true);
+        textArea.setCodeFoldingEnabled(true);
         textArea.setAntiAliasingEnabled(true);
         textArea.setAutoscrolls(true);
-        //textArea.setLineWrap(true);
+        textArea.setLineWrap(true);
         textArea.revalidate();
         try {
             Theme theme = Theme.load(getClass().getResourceAsStream("/themes/textAreaThemes.xml"));
