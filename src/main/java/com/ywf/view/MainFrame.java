@@ -2,6 +2,7 @@ package com.ywf.view;
 
 import com.ywf.framework.component.ButtonBuilder;
 import com.ywf.framework.component.TextAreaBuilder;
+import com.ywf.framework.component.button.ToolBarBuilder;
 import com.ywf.utils.IconUtils;
 import com.ywf.utils.JsonFormatUtil;
 import com.ywf.utils.PropertiesUtil;
@@ -19,8 +20,8 @@ import java.awt.*;
  */
 public class MainFrame extends JFrame {
     private JFrame _this = this;
-    private JButton buttonClean;
-    private JButton buttonformat;
+    //private JButton buttonClean;
+    //private JButton buttonformat;
 
     private int num =0;
 
@@ -36,7 +37,6 @@ public class MainFrame extends JFrame {
         //设置图标
         setIconImage(IconUtils.getIcon("/ico/logo.png"));
         initUI(_this);
-        bindEvent(buttonClean,buttonformat);
         setVisible(true);
         pack();
     }
@@ -47,12 +47,12 @@ public class MainFrame extends JFrame {
         JScrollPane scrollTextArea = TextAreaBuilder.scrollTextArea();
         panelLeft.add(scrollTextArea,BorderLayout.CENTER);
         // 左侧下部功能区
-        JPanel panelFun = PanelView.createPanelFun();
-        buttonClean = ButtonBuilder.clearButton();
-        buttonformat = ButtonBuilder.formatButton();
-        panelFun.add(buttonClean);
-        panelFun.add(buttonformat);
-        panelLeft.add(panelFun, BorderLayout.SOUTH);
+        //JPanel panelFun = PanelView.createPanelFun();
+        //buttonClean = ButtonBuilder.clearButton();
+        //buttonformat = ButtonBuilder.formatButton();
+        //panelFun.add(buttonClean);
+        //panelFun.add(buttonformat);
+        //panelLeft.add(panelFun, BorderLayout.SOUTH);
         frame.add(panelLeft, BorderLayout.WEST);
         // 右侧JSON格式化区域
         JPanel panelRight = PanelView.createPanelRight();
@@ -65,27 +65,11 @@ public class MainFrame extends JFrame {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelLeft, panelRight);
         splitPane.setDividerLocation(235); // 设置分隔线位置为窗口宽度的1/3处
-        JToolBar toolBar = ButtonBuilder.createToolBar();
+        JToolBar toolBar = ToolBarBuilder.createToolBar();
+        ToolBarBuilder.bindEvent(_this,ToolBarBuilder.getBtnClean(),ToolBarBuilder.getBtnFormat());
         frame.add(toolBar,BorderLayout.NORTH);
         frame.add(splitPane, BorderLayout.CENTER);
     }
 
-    private void bindEvent(JButton buttonClean,JButton buttonformat){
-        JTextArea textAreaSource = TextAreaBuilder.getTextAreaSource();
-        RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
-        buttonformat.addActionListener(e -> {
-            if ("".equals(textAreaSource.getText())) {
-                JOptionPane.showMessageDialog(_this, "请输入json字符串");
-                return;
-            }
-            String json = JsonFormatUtil.formatJson(textAreaSource.getText());
-            rSyntaxTextArea.setText(json);
-        });
-        buttonClean.addActionListener(e -> {
-            textAreaSource.setText("");
-            rSyntaxTextArea.setText("");
-            // 保持光标的焦点
-            textAreaSource.requestFocusInWindow();
-        });
-    }
+
 }
