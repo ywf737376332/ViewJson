@@ -1,5 +1,7 @@
 package com.ywf.view;
 
+import com.ywf.framework.component.BasePanel;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -13,19 +15,25 @@ import java.awt.*;
  */
 public class PanelView {
 
+
     public static JPanel createPanelLeft(){
-        JPanel panelLeft = new JPanel();
+        JPanel panelLeft = new BasePanel();
         //panelLeft.setPreferredSize(new Dimension(300, 0));
         panelLeft.setMinimumSize(new Dimension(235,0));
-        panelLeft.setBorder(new TitledBorder(new EtchedBorder(), "", TitledBorder.LEFT, TitledBorder.TOP));
+        //panelLeft.setBorder(new TitledBorder(new EtchedBorder(), "源数据区域", TitledBorder.LEFT, TitledBorder.TOP));
+        panelLeft.setOpaque(false); // 设置为透明，以便边框可见
+        panelLeft.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
         panelLeft.setLayout(new BorderLayout());
         return panelLeft;
     }
 
     public static JPanel createPanelRight(){
-        JPanel panelRight = new JPanel();
+        JPanel panelRight = new BasePanel();
         //panelRight.setPreferredSize(new Dimension(600, 0));
-        panelRight.setBorder(new TitledBorder(new EtchedBorder(), "", TitledBorder.LEFT, TitledBorder.TOP));
+        panelRight.setMinimumSize(new Dimension(235,0));
+        //panelRight.setBorder(new TitledBorder(new EtchedBorder(), "JSON区域", TitledBorder.LEFT, TitledBorder.TOP));
+        panelRight.setOpaque(false); // 设置为透明，以便边框可见
+        panelRight.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
         panelRight.setLayout(new BorderLayout());
         return panelRight;
     }

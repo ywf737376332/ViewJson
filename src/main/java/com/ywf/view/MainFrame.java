@@ -1,12 +1,8 @@
 package com.ywf.view;
 
-import com.ywf.framework.component.ButtonBuilder;
 import com.ywf.framework.component.TextAreaBuilder;
 import com.ywf.framework.component.button.ToolBarBuilder;
 import com.ywf.utils.IconUtils;
-import com.ywf.utils.JsonFormatUtil;
-import com.ywf.utils.PropertiesUtil;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
@@ -20,10 +16,6 @@ import java.awt.*;
  */
 public class MainFrame extends JFrame {
     private JFrame _this = this;
-    //private JButton buttonClean;
-    //private JButton buttonformat;
-
-    private int num =0;
 
     public void createAndShowGUI(String title) {
         setTitle(title);
@@ -35,39 +27,44 @@ public class MainFrame extends JFrame {
         setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
         setMinimumSize(new Dimension(800, 600));
         //设置图标
-        setIconImage(IconUtils.getIcon("/ico/logo.png"));
+        // 使用Image.getScaledInstance()方法缩放图标
+        //Image icon = IconUtils.getIcon("/ico/logo003.png");
+        ImageIcon icon = IconUtils.getSVGIcon("ico/logo006.svg");
+        // 获取原始图标的宽度和高度
+        int originalWidth = icon.getIconWidth();
+        int originalHeight = icon.getIconHeight();
+        // 计算缩放比例
+        double scaleFactor = 100; // 例如，将图标大小缩小为原来的50%
+        // 使用Image.getScaledInstance()方法缩放图标
+        Image scaledIcon = icon.getImage().getScaledInstance((int) (originalWidth * scaleFactor), (int) (originalHeight * scaleFactor), Image.SCALE_SMOOTH);
+        setIconImage(scaledIcon);
+        //setIconImage(IconUtils.getIcon("/ico/logo005.png"));
+        // 初始化界面
         initUI(_this);
         setVisible(true);
         pack();
     }
 
     private void initUI(JFrame frame) {
-        // 左侧上部多文本框
+        // 左侧多文本框
         JPanel panelLeft = PanelView.createPanelLeft();
         JScrollPane scrollTextArea = TextAreaBuilder.scrollTextArea();
-        panelLeft.add(scrollTextArea,BorderLayout.CENTER);
-        // 左侧下部功能区
-        //JPanel panelFun = PanelView.createPanelFun();
-        //buttonClean = ButtonBuilder.clearButton();
-        //buttonformat = ButtonBuilder.formatButton();
-        //panelFun.add(buttonClean);
-        //panelFun.add(buttonformat);
-        //panelLeft.add(panelFun, BorderLayout.SOUTH);
+        panelLeft.add(scrollTextArea, BorderLayout.CENTER);
         frame.add(panelLeft, BorderLayout.WEST);
+
         // 右侧JSON格式化区域
         JPanel panelRight = PanelView.createPanelRight();
         RTextScrollPane rTextScrollPane = TextAreaBuilder.JsonScrollTextArea();
         panelRight.add(rTextScrollPane, BorderLayout.CENTER);
-        //frame.add(panelRight, BorderLayout.CENTER);
 
-        JPanel panelBottom = PanelView.createPanelBottom();
-        //frame.add(panelBottom, BorderLayout.SOUTH);
-
+        // 左右布局可变工具条
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelLeft, panelRight);
         splitPane.setDividerLocation(235); // 设置分隔线位置为窗口宽度的1/3处
-        JToolBar toolBar = ToolBarBuilder.createToolBar();
-        ToolBarBuilder.bindEvent(_this,ToolBarBuilder.getBtnClean(),ToolBarBuilder.getBtnFormat());
-        frame.add(toolBar,BorderLayout.NORTH);
+
+        // 可拖动工具栏
+        JToolBar toolBar = ToolBarBuilder.createToolBar(frame);
+
+        frame.add(toolBar, BorderLayout.NORTH);
         frame.add(splitPane, BorderLayout.CENTER);
     }
 

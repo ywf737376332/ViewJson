@@ -26,9 +26,9 @@ public class AppMain {
             //默认情况下，滚动条的上一个/下一个箭头按钮处于隐藏状态。要使 它们对应用程序使用中的所有滚动条可见：
             UIManager.put("ScrollBar.showButtons", true);
             //按钮组件的弧度
-            UIManager.put("ProgressBar.arc", 999);
+            UIManager.put("ProgressBar.arc", 10);
             UIManager.put("Button.arc", 10);
-            UIManager.put("Component.arc", 999);
+            UIManager.put("Component.arc", 10);
             UIManager.put("TextComponent.arc", 10);
             //聚焦组件的特殊边框表示聚焦状态
             UIManager.put("Component.focusWidth", 0);
