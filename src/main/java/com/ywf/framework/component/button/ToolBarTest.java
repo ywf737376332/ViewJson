@@ -9,23 +9,23 @@ import java.util.List;
 
 
 public class ToolBarTest {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("JToolBar Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
-
-        JToolBar toolBar = new JToolBar();
-        JButton button1 = new JButton("Button 1");
-        JButton button2 = new JButton("Button 2");
-        toolBar.add(button1);
-        toolBar.add(button2);
-
-        frame.getContentPane().add(toolBar, BorderLayout.NORTH);
-        frame.setVisible(true);
-
-        List<JButton> buttons = getButtonsFromToolBar(toolBar);
-        System.out.println("找到的按钮数量： " + buttons.size());
-    }
+    //public static void main(String[] args) {
+    //    JFrame frame = new JFrame("JToolBar Example");
+    //    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //    frame.setSize(300, 200);
+    //
+    //    JToolBar toolBar = new JToolBar();
+    //    JButton button1 = new JButton("Button 1");
+    //    JButton button2 = new JButton("Button 2");
+    //    toolBar.add(button1);
+    //    toolBar.add(button2);
+    //
+    //    frame.getContentPane().add(toolBar, BorderLayout.NORTH);
+    //    frame.setVisible(true);
+    //
+    //    List<JButton> buttons = getButtonsFromToolBar(toolBar);
+    //    System.out.println("找到的按钮数量： " + buttons.size());
+    //}
 
     public static List<JButton> getButtonsFromToolBar(JToolBar toolBar) {
         List<JButton> buttons = new ArrayList<>();
@@ -59,5 +59,27 @@ public class ToolBarTest {
             }
         }
         return buttons;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("JToolBar 边框示例");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JToolBar toolBar = new JToolBar();
+            toolBar.setFloatable(false);
+            toolBar.setRollover(true);
+            toolBar.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // 设置边框颜色和宽度
+
+            // 添加按钮到工具栏
+            for (int i = 0; i < 5; i++) {
+                toolBar.add(new JButton("按钮 " + (i + 1)));
+            }
+
+            frame.getContentPane().add(toolBar, BorderLayout.NORTH);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 }
