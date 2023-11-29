@@ -1,6 +1,5 @@
 package com.ywf.view;
 
-import com.ywf.framework.component.TextAreaBuilder;
 import com.ywf.utils.JsonFormatUtil;
 import org.fife.ui.rsyntaxtextarea.*;
 import org.fife.ui.rtextarea.RTextScrollPane;

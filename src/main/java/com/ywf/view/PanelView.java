@@ -1,10 +1,8 @@
 package com.ywf.view;
 
-import com.ywf.framework.component.BasePanel;
+import com.ywf.component.BasePanel;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**

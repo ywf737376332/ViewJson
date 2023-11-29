@@ -1,4 +1,4 @@
-package com.ywf.framework.component;
+package com.ywf.component;
 
 import javax.swing.*;
 import java.awt.*;

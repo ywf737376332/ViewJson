@@ -1,6 +1,6 @@
 package com.ywf.view;
 
-import com.ywf.framework.component.TextAreaBuilder;
+import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.component.button.ToolBarBuilder;
 import com.ywf.utils.IconUtils;
 import org.fife.ui.rtextarea.RTextScrollPane;

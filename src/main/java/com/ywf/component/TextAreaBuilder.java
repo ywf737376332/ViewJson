@@ -1,4 +1,4 @@
-package com.ywf.framework.component;
+package com.ywf.component;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -6,7 +6,6 @@ import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 /**

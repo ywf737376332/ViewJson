@@ -1,6 +1,6 @@
 package com.ywf.framework.component.button;
 
-import com.ywf.framework.component.TextAreaBuilder;
+import com.ywf.component.TextAreaBuilder;
 import com.ywf.utils.IconUtils;
 import com.ywf.utils.JsonFormatUtil;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
