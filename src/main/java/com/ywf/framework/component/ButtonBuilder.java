@@ -58,5 +58,31 @@ public class ButtonBuilder {
         return button;
     }
 
+    public static JToolBar createToolBar() {
+        JToolBar toolBar = new JToolBar("工具栏");
+        // 可移动工具栏
+        toolBar.setFloatable(true);
+        toolBar.setMargin(new Insets(2, 10, 2, 10));
+        // 需要绘制边框
+        toolBar.setBorderPainted(true);
+        toolBar.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        toolBar.putClientProperty("JToolBar.toolBarStyle", "Flat"); // 设置扁平化样式
+        // 将默认大小的分隔符添加到工具栏的末尾
+        toolBar.addSeparator(new Dimension(5,5));
+        JButton btnClean = new JButton("清空");
+        JButton btnFormat = new JButton("格式化");
+        JButton btnComp = new JButton("压缩");
+        JButton btnFind = new JButton("查找");
+        JButton btnRepl = new JButton("替换");
+        btnClean.setIcon(IconUtils.getSVGIcon("ico/btn.svg"));
+
+        toolBar.add(btnClean);
+        toolBar.add(btnFormat);
+        toolBar.add(btnComp);
+        toolBar.add(btnFind);
+        toolBar.add(btnRepl);
+
+        return toolBar;
+    }
 
 }
