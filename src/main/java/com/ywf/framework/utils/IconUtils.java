@@ -1,4 +1,4 @@
-package com.ywf.utils;
+package com.ywf.framework.utils;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 

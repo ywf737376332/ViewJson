@@ -1,8 +1,8 @@
 package com.ywf.framework.component.button;
 
 import com.ywf.component.TextAreaBuilder;
-import com.ywf.utils.IconUtils;
-import com.ywf.utils.JsonFormatUtil;
+import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.utils.JsonFormatUtil;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
@@ -18,8 +18,6 @@ import java.awt.event.MouseEvent;
  */
 public class ToolBarBuilder {
 
-
-
     private static JButton btnClean;
     private static JButton btnFormat;
     private static JButton btnComp;
@@ -29,6 +27,7 @@ public class ToolBarBuilder {
     private static JButton btnSave;
     private static JButton btnSavePict;
     private static JButton btnFindRepl;
+
     public static JToolBar createToolBar(JFrame frame) {
         JToolBar toolBar = new JToolBar("工具栏");
         // 可移动工具栏
@@ -74,11 +73,12 @@ public class ToolBarBuilder {
         //
         toolBarForButtonListener(toolBar);
         //绑定事件
-        bindEvent(frame, btnClean, btnFormat);
+        bindServiceEvent(frame, btnClean, btnFormat);
         return toolBar;
     }
 
-    private static void bindEvent(JFrame frame, JButton buttonClean, JButton buttonformat){
+    // 绑定业务处理事件
+    private static void bindServiceEvent(JFrame frame, JButton buttonClean, JButton buttonformat){
         JTextArea textAreaSource = TextAreaBuilder.getTextAreaSource();
         RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
         buttonformat.addActionListener(e -> {
@@ -97,7 +97,10 @@ public class ToolBarBuilder {
         });
     }
 
-
+    /**
+     * 按钮初始化事件
+     * @param toolbar
+     */
     private static void toolBarForButtonListener(JToolBar toolbar){
         for (Component component : toolbar.getComponents()) {
             if (component instanceof JButton) {

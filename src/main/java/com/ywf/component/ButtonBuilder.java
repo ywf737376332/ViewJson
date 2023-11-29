@@ -1,6 +1,6 @@
 package com.ywf.component;
 
-import com.ywf.utils.IconUtils;
+import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
 import java.awt.*;

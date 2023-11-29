@@ -1,9 +1,7 @@
-package com.ywf.utils;
+package com.ywf.framework.utils;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
