@@ -1,8 +1,12 @@
 package com.ywf.framework.component.button;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.plaf.basic.BasicEditorPaneUI;
+import javax.swing.plaf.basic.BasicTextFieldUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -33,7 +37,16 @@ public class FlattenedJToolBar {
             // 为 JToolBar 添加鼠标事件监听器
             List<JButton> buttons = getButtonsFromToolBar(toolBar);
             System.out.println("找到的按钮数量： " + buttons.size());
+            JTextField c = new JTextField();
+            c.setUI( new BasicTextFieldUI());
+            JTextField c1 = new JTextField();
 
+            JButton btn = new JButton("阿牛");
+            btn.setUI( new BasicButtonUI());
+
+            frame.getContentPane().add(btn,BorderLayout.WEST);
+
+            frame.getContentPane().add(c,BorderLayout.SOUTH);
             frame.getContentPane().add(toolBar, BorderLayout.NORTH);
             frame.pack();
             frame.setLocationRelativeTo(null);
@@ -74,4 +87,23 @@ public class FlattenedJToolBar {
         return buttons;
     }
 
+    /**
+     * TODO
+     *
+     * @Author YWF
+     * @Date 2023/11/29 17:52
+     */
+    public static class HtmlTest {
+        public static void main(String[] args) throws UnsupportedLookAndFeelException {
+            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+            JEditorPane editorPane = new JEditorPane(SyntaxConstants.SYNTAX_STYLE_JSON, "<h1>欢迎来到我的网站！</h1>");
+            editorPane.setEditable(true); // 设置不可编辑
+            editorPane.setUI(new BasicEditorPaneUI());
+            JFrame frame = new JFrame("BasicHTML示例");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().add(new JScrollPane(editorPane), BorderLayout.CENTER);
+            frame.setSize(400, 300);
+            frame.setVisible(true);
+        }
+    }
 }

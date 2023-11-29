@@ -34,10 +34,11 @@ public class JsonFormatUtil {
     }
 
     //格式化json
-    public static String formatJson(String json) {
+    public static String formatJson(String jsonStr) {
         // 替换空格、制表符和换行符，并在':'后面加空格
-        json = json.replaceAll("\\s", "").replaceAll(":(?!\\s)", ":  ");
-        json = StringEscapeUtils.unescapeJava(json);
+        String json = compressingStr(jsonStr).replaceAll(":(?!\\s)", ":  ");
+        //json = json.replaceAll("\\s", "").replaceAll(":(?!\\s)", ":  ");
+        //json = StringEscapeUtils.unescapeJava(json);
         StringBuffer result = new StringBuffer();
         int length = json.length();
         int number = 0;
@@ -120,6 +121,33 @@ public class JsonFormatUtil {
             result.append(space);
         }
         return result.toString();
+    }
+
+    /**
+     * 压缩字符串
+     * @param jsonStr
+     * @return
+     */
+    public static String compressingStr(String jsonStr){
+        return jsonStr.replaceAll("\\s", "");
+    }
+
+    /**
+     * 取出转义
+     * @param jsonStr
+     * @return
+     */
+    public static String unescapeJSON(String jsonStr){
+        return StringEscapeUtils.unescapeJavaScript(jsonStr);
+    }
+
+    /**
+     * 转义
+     * @param jsonStr
+     * @return
+     */
+    public static String escapeJSON(String jsonStr){
+        return StringEscapeUtils.escapeJavaScript(jsonStr);
     }
 }
 

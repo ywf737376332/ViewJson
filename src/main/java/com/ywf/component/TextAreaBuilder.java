@@ -1,11 +1,13 @@
 package com.ywf.component;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaUI;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -27,6 +29,7 @@ public class TextAreaBuilder {
         textAreaSource = new JTextArea();
         textAreaSource.setLineWrap(true);
         textAreaSource.setBorder(null);
+        textAreaSource.setForeground(new Color(200,96,17));
         JScrollPane jScrollPane = new JScrollPane();
         jScrollPane.setViewportView(textAreaSource);
         return jScrollPane;
@@ -37,9 +40,8 @@ public class TextAreaBuilder {
      * Json编辑器
      */
     public static RTextScrollPane JsonScrollTextArea() {
-        String styleKey = SyntaxConstants.SYNTAX_STYLE_JSON;
         String themesPath = "/themes/textAreaThemes.xml";
-        syntaxTextArea = createTextArea(styleKey, themesPath);
+        syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
         RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
         rTextScrollPane.setFoldIndicatorEnabled(true);
         return rTextScrollPane;

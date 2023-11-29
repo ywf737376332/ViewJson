@@ -29,16 +29,16 @@ public class MainFrame extends JFrame {
         //设置图标
         // 使用Image.getScaledInstance()方法缩放图标
         //Image icon = IconUtils.getIcon("/ico/logo003.png");
-        ImageIcon icon = IconUtils.getSVGIcon("ico/logo006.svg");
+        ImageIcon icon = IconUtils.getSVGIcon("ico/colors.svg");
         // 获取原始图标的宽度和高度
         int originalWidth = icon.getIconWidth();
         int originalHeight = icon.getIconHeight();
         // 计算缩放比例
-        double scaleFactor = 100; // 例如，将图标大小缩小为原来的50%
+        double scaleFactor = 200; // 例如，将图标大小缩小为原来的50%
         // 使用Image.getScaledInstance()方法缩放图标
         Image scaledIcon = icon.getImage().getScaledInstance((int) (originalWidth * scaleFactor), (int) (originalHeight * scaleFactor), Image.SCALE_SMOOTH);
-        setIconImage(scaledIcon);
-        //setIconImage(IconUtils.getIcon("/ico/logo005.png"));
+        //setIconImage(scaledIcon);
+        setIconImage(IconUtils.getIcon("/ico/logo009.png"));
         // 初始化界面
         initUI(_this);
         setVisible(true);
@@ -64,8 +64,12 @@ public class MainFrame extends JFrame {
         // 可拖动工具栏
         JToolBar toolBar = ToolBarBuilder.createToolBar(frame);
 
+        // 底部版权区域
+        JPanel panelBottom = PanelView.createPanelBottom();
+
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(splitPane, BorderLayout.CENTER);
+        frame.add(panelBottom, BorderLayout.SOUTH);
     }
 
 
