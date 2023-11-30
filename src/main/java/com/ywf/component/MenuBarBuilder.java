@@ -2,11 +2,9 @@ package com.ywf.component;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicMenuBarUI;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -27,7 +25,6 @@ public class MenuBarBuilder{
     public static JMenuBar createMenuBar(){
 
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setUI(new BasicMenuBarUI());
         JMenu fileMenu = new JMenu("文件");
         JMenuItem newTabMenuItem = new JMenuItem("新建");
         JMenuItem newFrameMenuItem = new JMenuItem("新建窗口");
@@ -74,14 +71,23 @@ public class MenuBarBuilder{
         setupMenu.add(replaceSpaceMenuItem);
 
         JMenu themesMenu = new JMenu("主题");
-        JMenuItem lightThemesMenuItem = new JMenuItem("FlatLaf Light");
-        JMenuItem darkThemesMenuItem = new JMenuItem("FlatLaf Dark");
-        JMenuItem intelliJThemesMenuItem = new JMenuItem("FlatLaf IntelliJ");
-        JMenuItem darculaThemesMenuItem = new JMenuItem("FlatLaf Darcula");
+        JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
+        lightThemesMenuItem.setSelected(true);
+        JRadioButtonMenuItem darkThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Dark");
+        JRadioButtonMenuItem intelliJThemesMenuItem = new JRadioButtonMenuItem("FlatLaf IntelliJ");
+        JRadioButtonMenuItem darculaThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Darcula");
+        // 组装为单选
+        ButtonGroup buttonGroupThemes = new ButtonGroup();
+        buttonGroupThemes.add(lightThemesMenuItem);
+        buttonGroupThemes.add(darkThemesMenuItem);
+        buttonGroupThemes.add(intelliJThemesMenuItem);
+        buttonGroupThemes.add(darculaThemesMenuItem);
         themesMenu.add(lightThemesMenuItem);
         themesMenu.add(darkThemesMenuItem);
         themesMenu.add(intelliJThemesMenuItem);
         themesMenu.add(darculaThemesMenuItem);
+        themesMenu.addActionListener(e -> themesActionPerformed(themesMenu));
+
 
         JMenu helpMenu = new JMenu("帮助");
         JMenuItem updateVersionLogMenuItem = new JMenuItem("更新日志");
@@ -137,8 +143,6 @@ public class MenuBarBuilder{
         return menuBar;
     }
 
-
-
     private static void aboutActionPerformed() {
         JLabel titleLabel = new JLabel( "FlatLaf Demo" );
         titleLabel.putClientProperty( FlatClientProperties.STYLE_CLASS, "h1" );
@@ -172,5 +176,9 @@ public class MenuBarBuilder{
     }
 
 
+    private static void themesActionPerformed(JMenu themesMenu){
+        for (Component menuComponent : themesMenu.getMenuComponents()) {
+        }
+    }
 
 }
