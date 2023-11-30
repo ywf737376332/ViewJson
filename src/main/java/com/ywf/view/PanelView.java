@@ -53,7 +53,7 @@ public class PanelView {
         // 设置边距
         JPanel panelBottomText = new BasePanel();
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        JLabel labelCopyright = new JLabel("作者：莫斐鱼  日期：2023/11/25", IconUtils.getSVGIcon("ico/banner02.svg"),SwingConstants.LEFT);
+        JLabel labelCopyright = new JLabel("作者：莫斐鱼  日期：2023/11/25", IconUtils.getSVGIcon("icons/banner02.svg"),SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156,170,207));
         labelCopyright.setUI(new BasicLabelUI());
 

@@ -38,6 +38,13 @@ public class AppMain {
             UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
             UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
             UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
+
+            UIManager.put( "[style]MenuBar.test", "foreground: #000009" );
+            UIManager.put( "[style]Menu.test", "foreground: #000010" );
+            UIManager.put( "[style]MenuItem.test", "foreground: #000011" );
+            UIManager.put( "[style]CheckBoxMenuItem.test", "foreground: #000012" );
+            UIManager.put( "[style]RadioButtonMenuItem.test", "foreground: #000013" );
+
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }

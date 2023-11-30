@@ -13,21 +13,15 @@ import java.awt.*;
 public class TestArea {
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("JTextArea Undo Example");
+        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JTextArea textArea = new JTextArea();
-        UndoManager undoManager = new UndoManager();
-        textArea.getDocument().addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
-        JButton undoButton = new JButton("Undo");
-        undoButton.addActionListener(e -> {
-            if (undoManager.canUndo()) {
-                undoManager.undo();
-            }
-        });
-
-        frame.getContentPane().add(new JScrollPane(textArea), BorderLayout.CENTER);
-        frame.getContentPane().add(undoButton, BorderLayout.SOUTH);
+        frame.setLayout(new BorderLayout());
+        JLabel titleLabel = new JLabel("Title");
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        frame.add(titleLabel, BorderLayout.CENTER);
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(new JMenu("Menu"));
+        frame.setJMenuBar(menuBar);
         frame.setSize(300, 200);
         frame.setVisible(true);
     }

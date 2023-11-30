@@ -74,7 +74,7 @@ public class ButtonBuilder {
         JButton btnComp = new JButton("压缩");
         JButton btnFind = new JButton("查找");
         JButton btnRepl = new JButton("替换");
-        btnClean.setIcon(IconUtils.getSVGIcon("ico/btn.svg"));
+        btnClean.setIcon(IconUtils.getSVGIcon("icons/btn.svg"));
 
         toolBar.add(btnClean);
         toolBar.add(btnFormat);

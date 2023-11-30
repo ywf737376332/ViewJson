@@ -1,5 +1,7 @@
 package com.ywf.view;
 
+import com.formdev.flatlaf.extras.FlatSVGUtils;
+import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.utils.IconUtils;
@@ -29,7 +31,7 @@ public class MainFrame extends JFrame {
         //设置图标
         // 使用Image.getScaledInstance()方法缩放图标
         //Image icon = IconUtils.getIcon("/ico/logo003.png");
-        ImageIcon icon = IconUtils.getSVGIcon("ico/colors.svg");
+        ImageIcon icon = IconUtils.getSVGIcon("icons/colors.svg");
         // 获取原始图标的宽度和高度
         int originalWidth = icon.getIconWidth();
         int originalHeight = icon.getIconHeight();
@@ -38,7 +40,8 @@ public class MainFrame extends JFrame {
         // 使用Image.getScaledInstance()方法缩放图标
         Image scaledIcon = icon.getImage().getScaledInstance((int) (originalWidth * scaleFactor), (int) (originalHeight * scaleFactor), Image.SCALE_SMOOTH);
         //setIconImage(scaledIcon);
-        setIconImage(IconUtils.getIcon("/ico/logo009.png"));
+        //setIconImage(IconUtils.getIcon("/icons/logo009.png"));
+        setIconImages( FlatSVGUtils.createWindowIconImages( "/icons/FlatLaf.svg" ) );
         // 初始化界面
         initUI(_this);
         setVisible(true);
@@ -67,6 +70,7 @@ public class MainFrame extends JFrame {
         // 底部版权区域
         JPanel panelBottom = PanelView.createPanelBottom();
 
+        frame.setJMenuBar(MenuBarBuilder.createMenuBar());
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(splitPane, BorderLayout.CENTER);
         frame.add(panelBottom, BorderLayout.SOUTH);

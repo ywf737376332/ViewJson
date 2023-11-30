@@ -1,9 +1,5 @@
 package com.ywf.component;
 
-import com.formdev.flatlaf.ui.FlatPasswordFieldUI;
-import com.formdev.flatlaf.ui.FlatToolBarUI;
-import com.sun.java.swing.plaf.windows.WindowsToolBarUI;
-import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.JsonFormatUtil;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -15,8 +11,6 @@ import javax.swing.plaf.basic.BasicToolBarUI;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -65,15 +59,15 @@ public class ToolBarBuilder {
         btnFindRepl.setEnabled(false);
         btnClean = new JButton("清空内容");
 
-        btnFormat.setIcon(IconUtils.getSVGIcon("ico/formatCode.svg"));
-        btnComp.setIcon(IconUtils.getSVGIcon("ico/Layers.svg"));
-        btnEscape.setIcon(IconUtils.getSVGIcon("ico/escapeCode.svg"));
-        btnUnescape.setIcon(IconUtils.getSVGIcon("ico/unEscapeCode.svg"));
-        btnCopy.setIcon(IconUtils.getSVGIcon("ico/copyCode.svg"));
-        btnSave.setIcon(IconUtils.getSVGIcon("ico/saveCode.svg"));
-        btnSavePict.setIcon(IconUtils.getSVGIcon("ico/cutPict.svg"));
-        btnFindRepl.setIcon(IconUtils.getSVGIcon("ico/findCode.svg"));
-        btnClean.setIcon(IconUtils.getSVGIcon("ico/Basket.svg"));
+        btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
+        btnComp.setIcon(IconUtils.getSVGIcon("icons/Layers.svg"));
+        btnEscape.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg"));
+        btnUnescape.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg"));
+        btnCopy.setIcon(IconUtils.getSVGIcon("icons/copyCode.svg"));
+        btnSave.setIcon(IconUtils.getSVGIcon("icons/saveCode.svg"));
+        btnSavePict.setIcon(IconUtils.getSVGIcon("icons/cutPict.svg"));
+        btnFindRepl.setIcon(IconUtils.getSVGIcon("icons/findCode.svg"));
+        btnClean.setIcon(IconUtils.getSVGIcon("icons/Basket.svg"));
         toolBar.add(btnFormat);
         toolBar.addSeparator();
 
@@ -213,4 +207,5 @@ public class ToolBarBuilder {
             }
         });
     }
+
 }
