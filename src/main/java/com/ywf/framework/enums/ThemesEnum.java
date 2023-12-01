@@ -1,5 +1,10 @@
 package com.ywf.framework.enums;
 
+import org.apache.commons.lang.enums.EnumUtils;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  * TODO
  *
@@ -20,6 +25,17 @@ public enum ThemesEnum {
         this.themesKey = themesKey;
         this.themesStyles = themesStyles;
     }
+
+    public static String findThemesBykey(String themesKey){
+        for (ThemesEnum value : ThemesEnum.values()) {
+            if (themesKey.equalsIgnoreCase(value.getThemesKey())){
+                return value.getThemesStyles();
+            }
+        }
+        return null;
+
+    }
+
 
     public String getThemesKey() {
         return themesKey;

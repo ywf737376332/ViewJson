@@ -189,6 +189,10 @@ public class ToolBarBuilder {
     public static void saveFileDialog(JFrame frame, JButton button){
         String fileExtension = ".json";
         button.addActionListener(e -> {
+            if ("".equals(TextAreaBuilder.getTextAreaSource().getText())) {
+                JOptionPane.showMessageDialog(frame, "保存的内容不能为空！");
+                return;
+            }
             JFileChooser fileChooser = new JFileChooser();
             FileFilter fileFilter = new FileNameExtensionFilter("JSON文件", "json");
             fileChooser.setFileFilter(fileFilter);

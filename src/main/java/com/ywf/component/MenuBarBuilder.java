@@ -2,13 +2,13 @@ package com.ywf.component;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.ywf.framework.enums.ThemesEnum;
+import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,7 +22,7 @@ import java.time.Year;
  */
 public class MenuBarBuilder{
 
-    public static JMenuBar createMenuBar(){
+    public static JMenuBar createMenuBar(JFrame frame){
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("文件");
@@ -86,8 +86,8 @@ public class MenuBarBuilder{
         themesMenu.add(darkThemesMenuItem);
         themesMenu.add(intelliJThemesMenuItem);
         themesMenu.add(darculaThemesMenuItem);
-        themesMenu.addActionListener(e -> themesActionPerformed(themesMenu));
-
+        //添加事件
+        themesActionPerformed(frame, themesMenu);
 
         JMenu helpMenu = new JMenu("帮助");
         JMenuItem updateVersionLogMenuItem = new JMenuItem("更新日志");
@@ -144,6 +144,7 @@ public class MenuBarBuilder{
     }
 
     private static void aboutActionPerformed() {
+        System.out.println("aboutActionPerformed");
         JLabel titleLabel = new JLabel( "FlatLaf Demo" );
         titleLabel.putClientProperty( FlatClientProperties.STYLE_CLASS, "h1" );
 
@@ -162,8 +163,6 @@ public class MenuBarBuilder{
                 }
             }
         } );
-
-
         JOptionPane.showMessageDialog( null,
                 new Object[] {
                         titleLabel,
@@ -176,8 +175,18 @@ public class MenuBarBuilder{
     }
 
 
-    private static void themesActionPerformed(JMenu themesMenu){
+    private static void themesActionPerformed(JFrame frame, JMenu themesMenu){
+        System.out.println("themesMenu: " + themesMenu.getMenuComponents());
         for (Component menuComponent : themesMenu.getMenuComponents()) {
+            if (menuComponent instanceof JRadioButtonMenuItem){
+                JRadioButtonMenuItem radioButtonMenuItem = (JRadioButtonMenuItem)menuComponent;
+                radioButtonMenuItem.addActionListener(e -> {
+                    String name = radioButtonMenuItem.getText();
+                    String themesStyles = ThemesEnum.findThemesBykey(name);
+                    ChangeUIUtils.changeUIStyle(frame, themesStyles);
+
+                });
+            }
         }
     }
 

@@ -70,7 +70,7 @@ public class MainFrame extends JFrame {
         // 底部版权区域
         JPanel panelBottom = PanelView.createPanelBottom();
 
-        frame.setJMenuBar(MenuBarBuilder.createMenuBar());
+        frame.setJMenuBar(MenuBarBuilder.createMenuBar(frame));
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(splitPane, BorderLayout.CENTER);
         frame.add(panelBottom, BorderLayout.SOUTH);
