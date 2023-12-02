@@ -14,8 +14,6 @@ import java.util.ResourceBundle;
  */
 public class PropertiesUtil {
 
-    private static final String CONFIG_FILE = "/config/config.properties";
-
     /**
      * 有该键值就覆盖，没有就添加
      * @param key
@@ -36,10 +34,10 @@ public class PropertiesUtil {
      * @param key
      * @param value
      */
-    public static void addValueToProperties(String key, String value) {
+    public static void addValueToProperties(String path, String key, String value) {
         try {
-            String path = getResourcePath(CONFIG_FILE);
-            PropertiesConfiguration propsConfig = new PropertiesConfiguration(path);
+            String resourcePathpath = getResourcePath(path);
+            PropertiesConfiguration propsConfig = new PropertiesConfiguration(resourcePathpath);
             // 修改属性之后自动保存，省去了propsConfig.save()过程
             propsConfig.setAutoSave(true);
             propsConfig.addProperty(key, value);

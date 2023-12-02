@@ -2,6 +2,8 @@ package com.ywf.component;
 
 import com.formdev.flatlaf.ui.FlatScrollPaneUI;
 import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.utils.PropertiesUtil;
+import com.ywf.framework.utils.SysConfigInfoUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -60,6 +62,9 @@ public class TextAreaBuilder {
         textArea.setAutoscrolls(true);
         // 启用了自动换行功能
         textArea.setLineWrap(false);
+
+        textArea.setEditable(Boolean.valueOf(PropertiesUtil.getValueFromProperties(SysConfigInfoUtils.configFileInit(), "inEnableEdit")));
+
         textArea.revalidate();
         try {
             Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));

@@ -1,5 +1,11 @@
 package com.ywf.framework.utils;
 
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.IntelliJTheme;
+import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.formdev.flatlaf.util.LoggingFacade;
+import com.ywf.component.MenuBarBuilder;
+import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -21,18 +27,25 @@ public class ChangeUIUtils {
      * @date 2023/12/2 15:35
      *
      * @param frame
-     * @param style
+     * @param themesStyles
      */
-    public static void changeUIStyle(JFrame frame, String style) {
+    public static void changeUIStyle(JFrame frame, SystemThemesEnum themesStyles) {
+
         try {
-            // 该表系统主题整体外观
-            UIManager.setLookAndFeel(style);
-            // 系统组件整体样式定义
-            uiStyleInit();
+            if (SystemConstant.THEMES_TYPE_SYSTEM == themesStyles.getThemeType()){
+                // 系统主题整体外观
+                UIManager.setLookAndFeel(themesStyles.getThemesStyles());
+            }else {
+                //第三方主题
+                IntelliJTheme.setup( MenuBarBuilder.class.getResourceAsStream(themesStyles.getThemesStyles()) );
+            }
         } catch (Exception ex) {
-            System.err.println("Failed to initialize LaF");
+            System.err.println("皮肤应用失败，请检查：" + ex.getMessage());
         }
+        //主题应用
         SwingUtilities.updateComponentTreeUI(frame);
+        // 过渡动画
+        FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 
     /**
@@ -58,7 +71,6 @@ public class ChangeUIUtils {
      *
      */
     public static void uiStyleInit(){
-        System.out.println("系统主题改变");
         //滚动条的默认宽度为 。要使它们更宽（或更小），请使用：10
         UIManager.put("ScrollBar.width", 0);
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));

@@ -3,8 +3,8 @@ package com.ywf.component;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.utils.ChangeUIUtils;
-import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.utils.*;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +44,7 @@ public class MenuBarBuilder{
 
         JMenu editMenu = new JMenu("编辑");
         JMenuItem compMenuItem = new JMenuItem("压缩");
-        compMenuItem.setIcon(IconUtils.getSVGIcon("icons/Layers.svg"));
+        compMenuItem.setIcon(IconUtils.getSVGIcon("icons/comp.svg"));
         JMenuItem escapeTabMenuItem = new JMenuItem("转义");
         escapeTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg"));
         JMenuItem unescapeMenuItem = new JMenuItem("去除转义");
@@ -65,9 +65,15 @@ public class MenuBarBuilder{
 
 
         JMenu setupMenu = new JMenu("设置");
-        JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("是否可编辑");
-        JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("是否换行");
-        JCheckBoxMenuItem replaceSpaceMenuItem = new JCheckBoxMenuItem("是否去除空格");
+        JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("可编辑");
+
+        boolean isEditable = Boolean.valueOf(PropertiesUtil.getValueFromProperties(SysConfigInfoUtils.configFileInit(), "inEnableEdit"));
+        editSetupMenuItem.setSelected(isEditable);
+
+        editSetupMenuItem.addActionListener(e -> editSwitchActionPerformed(frame));
+        JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("换行");
+        lineSetupMenuItem.addActionListener(e -> lineSetupActionPerformed(frame));
+        JCheckBoxMenuItem replaceSpaceMenuItem = new JCheckBoxMenuItem("去除空格");
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
         setupMenu.add(replaceSpaceMenuItem);
@@ -75,19 +81,27 @@ public class MenuBarBuilder{
         JMenu themesMenu = new JMenu("主题");
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
         lightThemesMenuItem.setSelected(true);
+        JRadioButtonMenuItem gitHubLightMenuItem = new JRadioButtonMenuItem("GitHub Light");
         JRadioButtonMenuItem darkThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Dark");
-        JRadioButtonMenuItem intelliJThemesMenuItem = new JRadioButtonMenuItem("FlatLaf IntelliJ");
-        JRadioButtonMenuItem darculaThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Darcula");
+        JRadioButtonMenuItem arcDarkOrangeMenuItem = new JRadioButtonMenuItem("Arc Dark Orange");
+        JRadioButtonMenuItem gruvboxDarkMediumMenuItem = new JRadioButtonMenuItem("Gruvbox Dark Medium");
+        JRadioButtonMenuItem solarizedLightMenuItem = new JRadioButtonMenuItem("Solarized Light");
+
         // 组装为单选
         ButtonGroup buttonGroupThemes = new ButtonGroup();
         buttonGroupThemes.add(lightThemesMenuItem);
+        buttonGroupThemes.add(gitHubLightMenuItem);
         buttonGroupThemes.add(darkThemesMenuItem);
-        buttonGroupThemes.add(intelliJThemesMenuItem);
-        buttonGroupThemes.add(darculaThemesMenuItem);
+        buttonGroupThemes.add(arcDarkOrangeMenuItem);
+        buttonGroupThemes.add(gruvboxDarkMediumMenuItem);
+        buttonGroupThemes.add(solarizedLightMenuItem);
         themesMenu.add(lightThemesMenuItem);
+        themesMenu.add(gitHubLightMenuItem);
         themesMenu.add(darkThemesMenuItem);
-        themesMenu.add(intelliJThemesMenuItem);
-        themesMenu.add(darculaThemesMenuItem);
+        themesMenu.add(arcDarkOrangeMenuItem);
+        themesMenu.add(gruvboxDarkMediumMenuItem);
+        themesMenu.add(solarizedLightMenuItem);
+
         //添加事件
         themesActionPerformed(frame, themesMenu);
 
@@ -147,11 +161,12 @@ public class MenuBarBuilder{
 
     private static void aboutActionPerformed() {
         System.out.println("aboutActionPerformed");
-        JLabel titleLabel = new JLabel( "FlatLaf Demo" );
-        titleLabel.putClientProperty( FlatClientProperties.STYLE_CLASS, "h1" );
+        JLabel titleLabel = new JLabel( "JSON格式化工具" );
+        titleLabel.setIcon(IconUtils.getSVGIcon("icons/FlatLaf.svg"));
+        titleLabel.putClientProperty( FlatClientProperties.STYLE_CLASS, "h2" );
 
-        String link = "https://www.formdev.com/flatlaf/";
-        JLabel linkLabel = new JLabel( "<html><a href=\"#\">" + link + "</a></html>" );
+        String link = "737376332@qq.com";
+        JLabel linkLabel = new JLabel( "<html><span>联系方式：</span><a href=737376332@qq.com>" + link + "</a></html>" );
         linkLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         linkLabel.addMouseListener( new MouseAdapter() {
             @Override
@@ -160,23 +175,30 @@ public class MenuBarBuilder{
                     Desktop.getDesktop().browse( new URI( link ) );
                 } catch( IOException | URISyntaxException ex ) {
                     JOptionPane.showMessageDialog( linkLabel,
-                            "Failed to open '" + link + "' in browser.",
-                            "About", JOptionPane.PLAIN_MESSAGE );
+                            "发送邮件到 '" + link + "' 邮箱，反馈问题、建议、或加入我们!",
+                            "提示", JOptionPane.PLAIN_MESSAGE );
                 }
             }
         } );
         JOptionPane.showMessageDialog( null,
                 new Object[] {
                         titleLabel,
-                        "Demonstrates FlatLaf Swing look and feel",
                         " ",
-                        "Copyright 2019-" + Year.now() + " FormDev Software GmbH",
+                        "作者：莫斐鱼",
+                        "座右铭：读万卷书，行万里路，阅无数人",
                         linkLabel,
+                        "Copyright 2023-" + Year.now() + ""
                 },
-                "About", JOptionPane.PLAIN_MESSAGE );
+                "关于", JOptionPane.PLAIN_MESSAGE );
     }
 
-
+    /**
+     * 修改主题事件
+     * @date 2023/12/2 21:30
+     *
+     * @param frame
+     * @param themesMenu
+     */
     private static void themesActionPerformed(JFrame frame, JMenu themesMenu){
         for (Component menuComponent : themesMenu.getMenuComponents()) {
             if (menuComponent instanceof JRadioButtonMenuItem){
@@ -184,7 +206,7 @@ public class MenuBarBuilder{
                 radioButtonMenuItem.addActionListener(e -> {
                     String name = radioButtonMenuItem.getText();
                     SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
-                    ChangeUIUtils.changeUIStyle(frame, themesStyles.getThemesStyles());
+                    ChangeUIUtils.changeUIStyle(frame, themesStyles);
                     // 改变多文本内容的主题
                     ChangeUIUtils.changeTextAreaThemes(frame,themesStyles.getTextAreaStyles());
                 });
@@ -192,4 +214,31 @@ public class MenuBarBuilder{
         }
     }
 
+    /**
+     * 使编辑框不能进行编辑
+     * @date 2023/12/2 21:44
+     *
+     * @param frame
+     */
+    private static void editSwitchActionPerformed(JFrame frame) {
+        RSyntaxTextArea rSyntaxTextArea = ComponentScanUtils.getComponentByType(frame, RSyntaxTextArea.class);
+        String configFilePath = SysConfigInfoUtils.configFileInit();
+        boolean isEditable = Boolean.valueOf(PropertiesUtil.getValueFromProperties(configFilePath, "inEnableEdit"));
+        rSyntaxTextArea.setEditable(isEditable);
+        rSyntaxTextArea.setEditable(!isEditable);
+        PropertiesUtil.setValueToProperties(configFilePath, "inEnableEdit",String.valueOf(!isEditable));
+
+    }
+
+    /**
+     * 使编辑框不能进行编辑
+     * @date 2023/12/2 21:44
+     *
+     * @param frame
+     */
+    private static void lineSetupActionPerformed(JFrame frame) {
+        RSyntaxTextArea rSyntaxTextArea = ComponentScanUtils.getComponentByType(frame, RSyntaxTextArea.class);
+        boolean breakLine = rSyntaxTextArea.getLineWrap();
+        rSyntaxTextArea.setLineWrap(!breakLine);
+    }
 }

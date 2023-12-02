@@ -1,5 +1,9 @@
 package com.ywf.framework.enums;
 
+import com.ywf.framework.constant.SystemConstant;
+
+import javax.print.attribute.standard.MediaSize;
+
 /**
  * TODO
  *
@@ -8,17 +12,26 @@ package com.ywf.framework.enums;
  */
 public enum SystemThemesEnum {
 
-    FlatLightLafThemesStyle("FlatLaf Light","com.formdev.flatlaf.FlatLightLaf","/themes/textAreaThemes/ideaLight.xml"),
-    FlatDarkLafThemesStyle("FlatLaf Dark","com.formdev.flatlaf.FlatDarkLaf","/themes/textAreaThemes/ideaDark.xml"),
-    FlatIntelliJLafThemesStyle("FlatLaf IntelliJ","com.formdev.flatlaf.FlatIntelliJLaf","/themes/textAreaThemes/ideaLight.xml"),
-    FlatDarculaLafThemesStyle("FlatLaf Darcula","com.formdev.flatlaf.FlatDarculaLaf","/themes/textAreaThemes/ideaDark.xml")
+    FlatLightLafThemesStyle("FlatLaf Light", SystemConstant.THEMES_TYPE_SYSTEM, "com.formdev.flatlaf.FlatLightLaf","/themes/textAreaThemes/ideaLight.xml"),
+    FlatDarkLafThemesStyle("FlatLaf Dark", SystemConstant.THEMES_TYPE_SYSTEM, "com.formdev.flatlaf.FlatDarkLaf","/themes/textAreaThemes/ideaDark.xml"),
+    OtherArcThemeDarkOrangeThemesStyle("Arc Dark Orange",SystemConstant.THEMES_TYPE_OTHER,"/themes/arcThemeDarkOrange.theme.json","/themes/textAreaThemes/arcDarkOrange.xml"),
+    OtherGruvboxDarkMediumThemesStyle("Gruvbox Dark Medium",SystemConstant.THEMES_TYPE_OTHER,"/themes/gruvboxDarkMedium.theme.json","/themes/textAreaThemes/gruvBoxDark.xml"),
+    OtherGitHubThemesStyle("GitHub Light",SystemConstant.THEMES_TYPE_OTHER,"/themes/gitHub.theme.json","/themes/textAreaThemes/gitHubLight.xml"),
+    OtherSolarizedLightThemesStyle("Solarized Light",SystemConstant.THEMES_TYPE_OTHER,"/themes/solarizedLight.theme.json","/themes/textAreaThemes/solarizedLight.xml")
+
     ;
+    //主題索引
     private String themesKey;
+    //主题应用类型(两种主题生肖方式不同) 1-系统主题 2-第三方主题
+    private int themeType;
+    //主题样式(系统主题为类的全路径，第三方主题为xml文件位置)
     private String themesStyles;
+    //主题对应的富文本编辑主题
     private String textAreaStyles;
 
-    SystemThemesEnum(String themesKey, String themesStyles, String textAreaStyles) {
+    SystemThemesEnum(String themesKey, int themeType, String themesStyles, String textAreaStyles) {
         this.themesKey = themesKey;
+        this.themeType = themeType;
         this.themesStyles = themesStyles;
         this.textAreaStyles = textAreaStyles;
     }
@@ -39,6 +52,14 @@ public enum SystemThemesEnum {
 
     public void setThemesKey(String themesKey) {
         this.themesKey = themesKey;
+    }
+
+    public int getThemeType() {
+        return themeType;
+    }
+
+    public void setThemeType(int themeType) {
+        this.themeType = themeType;
     }
 
     public String getThemesStyles() {
