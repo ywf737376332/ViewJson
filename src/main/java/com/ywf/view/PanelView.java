@@ -38,18 +38,10 @@ public class PanelView {
         return panelRight;
     }
 
-    public static JPanel createPanelFun(){
-        JPanel panelFun = new JPanel();
-        panelFun.setPreferredSize(new Dimension(0, 60));
-        //panelFun.setBorder(new TitledBorder(new EtchedBorder(), "功能区域", TitledBorder.LEFT, TitledBorder.TOP));
-        panelFun.setLayout(null);
-        return panelFun;
-    }
-
     public static JPanel createPanelBottom(){
         JPanel panelBottom = new BasePanel();
         // 设置上面框线
-        panelBottom.setBorder(BorderFactory.createMatteBorder(1,0,0,0,new Color(220,220,220))); // 设置边框颜色和宽度
+        panelBottom.setBorder(BorderFactory.createMatteBorder(1,0,0,0,new Color(130,128,128,130))); // 设置边框颜色和宽度
         // 设置边距
         JPanel panelBottomText = new BasePanel();
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距

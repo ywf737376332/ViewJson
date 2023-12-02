@@ -44,7 +44,7 @@ public class ToolBarBuilder {
         toolBar.setFloatable(true);
         // 鼠标悬停时高亮显示按钮
         toolBar.setRollover(true);
-        toolBar.setBorder(BorderFactory.createMatteBorder(1,0,1,0,new Color(220,220,220))); // 设置边框颜色和宽度
+        toolBar.setBorder(BorderFactory.createMatteBorder(1,0,1,0,new Color(130,128,128,130))); // 设置边框颜色和宽度
         toolBar.setMargin(new Insets(2,10,2,10));
 
         btnFormat = new JButton("格式化");
@@ -60,7 +60,7 @@ public class ToolBarBuilder {
         btnClean = new JButton("清空内容");
 
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
-        btnComp.setIcon(IconUtils.getSVGIcon("icons/Layers.svg"));
+        btnComp.setIcon(IconUtils.getSVGIcon("icons/comp.svg"));
         btnEscape.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg"));
         btnUnescape.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg"));
         btnCopy.setIcon(IconUtils.getSVGIcon("icons/copyCode.svg"));
@@ -98,7 +98,7 @@ public class ToolBarBuilder {
         toolBar.add(btnClean);
 
         // 绑定鼠标焦点事件
-        toolBarForButtonListener(toolBar);
+        //toolBarForButtonListener(toolBar);
         //绑定事件
         bindServiceEvent(frame, btnClean, btnFormat);
 

@@ -2,13 +2,15 @@ package com.ywf.component;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.ywf.framework.enums.ThemesEnum;
+import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -176,15 +178,15 @@ public class MenuBarBuilder{
 
 
     private static void themesActionPerformed(JFrame frame, JMenu themesMenu){
-        System.out.println("themesMenu: " + themesMenu.getMenuComponents());
         for (Component menuComponent : themesMenu.getMenuComponents()) {
             if (menuComponent instanceof JRadioButtonMenuItem){
                 JRadioButtonMenuItem radioButtonMenuItem = (JRadioButtonMenuItem)menuComponent;
                 radioButtonMenuItem.addActionListener(e -> {
                     String name = radioButtonMenuItem.getText();
-                    String themesStyles = ThemesEnum.findThemesBykey(name);
-                    ChangeUIUtils.changeUIStyle(frame, themesStyles);
-
+                    SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
+                    ChangeUIUtils.changeUIStyle(frame, themesStyles.getThemesStyles());
+                    // 改变多文本内容的主题
+                    ChangeUIUtils.changeTextAreaThemes(frame,themesStyles.getTextAreaStyles());
                 });
             }
         }

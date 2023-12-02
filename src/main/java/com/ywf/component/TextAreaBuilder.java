@@ -1,12 +1,14 @@
 package com.ywf.component;
 
+import com.formdev.flatlaf.ui.FlatScrollPaneUI;
+import com.ywf.framework.enums.SystemThemesEnum;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaUI;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollPaneUI;
 import java.awt.*;
 import java.io.IOException;
 
@@ -40,7 +42,7 @@ public class TextAreaBuilder {
      * Json编辑器
      */
     public static RTextScrollPane JsonScrollTextArea() {
-        String themesPath = "/themes/textAreaThemes.xml";
+        String themesPath = SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
         RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
         rTextScrollPane.setFoldIndicatorEnabled(true);

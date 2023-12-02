@@ -64,13 +64,15 @@ public class MainFrame extends JFrame {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelLeft, panelRight);
         splitPane.setDividerLocation(235); // 设置分隔线位置为窗口宽度的1/3处
 
+        // 创建菜单栏
+        JMenuBar menuBar = MenuBarBuilder.createMenuBar(frame);
         // 可拖动工具栏
         JToolBar toolBar = ToolBarBuilder.createToolBar(frame);
 
         // 底部版权区域
         JPanel panelBottom = PanelView.createPanelBottom();
 
-        frame.setJMenuBar(MenuBarBuilder.createMenuBar(frame));
+        frame.setJMenuBar(menuBar);
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(splitPane, BorderLayout.CENTER);
         frame.add(panelBottom, BorderLayout.SOUTH);
