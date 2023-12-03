@@ -1,9 +1,11 @@
 package com.ywf.component;
 
+import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.JsonFormatUtil;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -13,6 +15,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,8 +47,8 @@ public class ToolBarBuilder {
         toolBar.setFloatable(true);
         // 鼠标悬停时高亮显示按钮
         toolBar.setRollover(true);
-        toolBar.setBorder(BorderFactory.createMatteBorder(1,0,1,0,new Color(130,128,128,130))); // 设置边框颜色和宽度
-        toolBar.setMargin(new Insets(2,10,2,10));
+        toolBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
+        toolBar.setMargin(new Insets(2, 10, 2, 10));
 
         btnFormat = new JButton("格式化");
         btnComp = new JButton("压 缩");
@@ -54,7 +57,8 @@ public class ToolBarBuilder {
         btnCopy = new JButton("复制结果");
         btnSave = new JButton("保存本地");
         btnSavePict = new JButton("保存图片");
-        btnSavePict.setEnabled(false);
+        btnSavePict.addActionListener(e -> saveJsonToimageActionPerformed(frame));
+
         btnFindRepl = new JButton("查找替换");
         btnFindRepl.setEnabled(false);
         btnClean = new JButton("清空内容");
@@ -76,7 +80,7 @@ public class ToolBarBuilder {
 
         toolBar.add(btnEscape);
         // 将默认大小的分隔符添加到工具栏的末尾
-        toolBar.addSeparator(new Dimension(5,5));
+        toolBar.addSeparator(new Dimension(5, 5));
 
         toolBar.add(btnUnescape);
         toolBar.addSeparator();
@@ -102,12 +106,13 @@ public class ToolBarBuilder {
         //绑定事件
         bindServiceEvent(frame, btnClean, btnFormat);
 
-        saveFileDialog(frame,btnSave);
+        saveFileDialog(frame, btnSave);
         return toolBar;
     }
 
+
     // 绑定业务处理事件
-    private static void bindServiceEvent(JFrame frame, JButton buttonClean, JButton buttonformat){
+    private static void bindServiceEvent(JFrame frame, JButton buttonClean, JButton buttonformat) {
         JTextArea textAreaSource = TextAreaBuilder.getTextAreaSource();
         RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
         // 格式化JSON事件
@@ -154,23 +159,26 @@ public class ToolBarBuilder {
 
     /**
      * 按钮初始化事件
+     *
      * @param toolbar
      */
-    private static void toolBarForButtonListener(JToolBar toolbar){
+    private static void toolBarForButtonListener(JToolBar toolbar) {
         for (Component component : toolbar.getComponents()) {
             if (component instanceof JButton) {
                 component.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                component.addMouseListener(new MouseAdapter(){
+                component.addMouseListener(new MouseAdapter() {
                     JButton button = (JButton) component;
+
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         button.setForeground(Color.WHITE);
-                        if ("清空内容".equals(button.getText())){
-                            button.setBackground(new Color(255,87,34));
-                        }else {
+                        if ("清空内容".equals(button.getText())) {
+                            button.setBackground(new Color(255, 87, 34));
+                        } else {
                             button.setBackground(new Color(30, 173, 250));
                         }
                     }
+
                     @Override
                     public void mouseExited(MouseEvent e) {
                         button.setForeground(Color.BLACK);
@@ -183,13 +191,13 @@ public class ToolBarBuilder {
 
     /**
      * 保存文件
+     *
      * @param frame
      * @param button
      */
-    public static void saveFileDialog(JFrame frame, JButton button){
-        String fileExtension = ".json";
+    public static void saveFileDialog(JFrame frame, JButton button) {
         button.addActionListener(e -> {
-            if ("".equals(TextAreaBuilder.getTextAreaSource().getText())) {
+            if ("".equals(TextAreaBuilder.getSyntaxTextArea().getText())) {
                 JOptionPane.showMessageDialog(frame, "保存的内容不能为空！");
                 return;
             }
@@ -198,18 +206,52 @@ public class ToolBarBuilder {
             fileChooser.setFileFilter(fileFilter);
             fileChooser.setDialogTitle("保存文件");
             int userSelection = fileChooser.showSaveDialog(frame);
-            if (userSelection == JFileChooser.APPROVE_OPTION){
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File fileToSave = fileChooser.getSelectedFile();
                 try {
-                    FileWriter fileWriter = new FileWriter(fileToSave + fileExtension);
+                    FileWriter fileWriter = new FileWriter(fileToSave + SystemConstant.SAVE_JSON_EXTENSION);
                     fileWriter.write(TextAreaBuilder.getSyntaxTextArea().getText());
                     fileWriter.close();
-                    JOptionPane.showMessageDialog(frame, "文件已保存： " + fileToSave.getAbsolutePath() + fileExtension);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    JOptionPane.showMessageDialog(frame, "文件已保存： " + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION);
+                } catch (IOException ex) {
+                    throw new RuntimeException("Error saving file: " + ex.getMessage());
                 }
             }
         });
+    }
+
+    /**
+     * RSyntaxTextArea 内容按照相应的格式保存为图片
+     *
+     * @param frame
+     * @date 2023/12/3 22:00
+     */
+    private static void saveJsonToimageActionPerformed(JFrame frame) {
+        RSyntaxTextArea textArea = TextAreaBuilder.getSyntaxTextArea();
+        if ("".equals(textArea.getText())) {
+            JOptionPane.showMessageDialog(frame, "保存的内容不能为空！");
+            return;
+        }
+        JFileChooser fileChooser = new JFileChooser();
+        FileFilter fileFilter = new FileNameExtensionFilter("图片文件", "png");
+        fileChooser.setFileFilter(fileFilter);
+        fileChooser.setDialogTitle("保存文件");
+        int userSelection = fileChooser.showSaveDialog(frame);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            BufferedImage image = new BufferedImage(textArea.getWidth(), textArea.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2d = image.createGraphics();
+            textArea.print(g2d);
+            g2d.dispose();
+            try {
+                ImageIO.write(image, "png", new File(fileToSave.getPath() + SystemConstant.SAVE_IMAGE_EXTENSION));
+                JOptionPane.showMessageDialog(frame, "图片已保存： " + fileToSave.getAbsolutePath() + SystemConstant.SAVE_IMAGE_EXTENSION);
+            } catch (IOException e) {
+                throw new RuntimeException("Error saving image: " + e.getMessage());
+            }
+        }
+
+
     }
 
 }

@@ -2,8 +2,11 @@ package com.ywf.component;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.utils.*;
+import com.ywf.framework.utils.ChangeUIUtils;
+import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.utils.PropertiesUtil;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
@@ -22,9 +25,11 @@ import java.time.Year;
  * @Author YWF
  * @Date 2023/11/30 16:07
  */
-public class MenuBarBuilder{
+public class MenuBarBuilder {
 
-    public static JMenuBar createMenuBar(JFrame frame){
+    private static PropertiesUtil systemProperties = PropertiesUtil.instance();
+
+    public static JMenuBar createMenuBar(JFrame frame) {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("文件");
@@ -65,18 +70,18 @@ public class MenuBarBuilder{
 
 
         JMenu setupMenu = new JMenu("设置");
-        JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("可编辑");
-
-        boolean isEditable = Boolean.valueOf(PropertiesUtil.getValueFromProperties(SysConfigInfoUtils.configFileInit(), "inEnableEdit"));
-        editSetupMenuItem.setSelected(isEditable);
-
+        JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
+        editSetupMenuItem.setSelected(!Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY)));
         editSetupMenuItem.addActionListener(e -> editSwitchActionPerformed(frame));
-        JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("换行");
+
+        JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("自动换行");
+        lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
         lineSetupMenuItem.addActionListener(e -> lineSetupActionPerformed(frame));
+
         JCheckBoxMenuItem replaceSpaceMenuItem = new JCheckBoxMenuItem("去除空格");
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
-        setupMenu.add(replaceSpaceMenuItem);
+        //setupMenu.add(replaceSpaceMenuItem);
 
         JMenu themesMenu = new JMenu("主题");
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
@@ -109,17 +114,13 @@ public class MenuBarBuilder{
         JMenuItem updateVersionLogMenuItem = new JMenuItem("更新日志");
         JMenuItem privacyPolicyMenuItem = new JMenuItem("隐私条款");
         JMenuItem officialWebsiteMenuItem = new JMenuItem("官方网站");
-        JMenuItem expressThanksMenuItem = new JMenuItem("鸣谢");
-        JMenuItem feedbackMenuItem = new JMenuItem("反馈");
-        JMenuItem checkUodateMenuItem = new JMenuItem("检查更新");
+        JMenuItem expressThanksMenuItem = new JMenuItem("鸣谢反馈");
         JMenuItem aboutMenuItem = new JMenuItem("关于");
         aboutMenuItem.addActionListener(e -> aboutActionPerformed());
         helpMenu.add(updateVersionLogMenuItem);
         helpMenu.add(privacyPolicyMenuItem);
         helpMenu.add(officialWebsiteMenuItem);
         helpMenu.add(expressThanksMenuItem);
-        helpMenu.add(feedbackMenuItem);
-        helpMenu.add(checkUodateMenuItem);
         helpMenu.add(aboutMenuItem);
 
         JMenu viewMenu = new JMenu("Beat");
@@ -137,7 +138,7 @@ public class MenuBarBuilder{
         JMenuItem htmlMenuItem = new JMenuItem("<html>some <b color=\"red\">HTML</b> <i color=\"blue\">text</i></html>");
         htmlMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         htmlMenuItem.setMnemonic('O');
-        htmlMenuItem.setIcon( new FlatSVGIcon("icons/menu-cut.svg") );
+        htmlMenuItem.setIcon(new FlatSVGIcon("icons/menu-cut.svg"));
         JCheckBoxMenuItem checkBoxMenuItem1 = new JCheckBoxMenuItem("复选A");
         JCheckBoxMenuItem checkBoxMenuItem2 = new JCheckBoxMenuItem("复选B");
 
@@ -160,28 +161,26 @@ public class MenuBarBuilder{
     }
 
     private static void aboutActionPerformed() {
-        System.out.println("aboutActionPerformed");
-        JLabel titleLabel = new JLabel( "JSON格式化工具" );
+        JLabel titleLabel = new JLabel("JSON格式化工具");
         titleLabel.setIcon(IconUtils.getSVGIcon("icons/FlatLaf.svg"));
-        titleLabel.putClientProperty( FlatClientProperties.STYLE_CLASS, "h2" );
-
+        titleLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "H2");
         String link = "737376332@qq.com";
-        JLabel linkLabel = new JLabel( "<html><span>联系方式：</span><a href=737376332@qq.com>" + link + "</a></html>" );
-        linkLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        linkLabel.addMouseListener( new MouseAdapter() {
+        JLabel linkLabel = new JLabel("<html><span>联系方式：</span><a href=737376332@qq.com>" + link + "</a></html>");
+        linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        linkLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked( MouseEvent e ) {
+            public void mouseClicked(MouseEvent e) {
                 try {
-                    Desktop.getDesktop().browse( new URI( link ) );
-                } catch( IOException | URISyntaxException ex ) {
-                    JOptionPane.showMessageDialog( linkLabel,
+                    Desktop.getDesktop().browse(new URI(link));
+                } catch (IOException | URISyntaxException ex) {
+                    JOptionPane.showMessageDialog(linkLabel,
                             "发送邮件到 '" + link + "' 邮箱，反馈问题、建议、或加入我们!",
-                            "提示", JOptionPane.PLAIN_MESSAGE );
+                            "提示", JOptionPane.PLAIN_MESSAGE);
                 }
             }
-        } );
-        JOptionPane.showMessageDialog( null,
-                new Object[] {
+        });
+        JOptionPane.showMessageDialog(null,
+                new Object[]{
                         titleLabel,
                         " ",
                         "作者：莫斐鱼",
@@ -189,56 +188,54 @@ public class MenuBarBuilder{
                         linkLabel,
                         "Copyright 2023-" + Year.now() + ""
                 },
-                "关于", JOptionPane.PLAIN_MESSAGE );
+                "关于", JOptionPane.PLAIN_MESSAGE);
     }
 
     /**
      * 修改主题事件
-     * @date 2023/12/2 21:30
      *
      * @param frame
      * @param themesMenu
+     * @date 2023/12/2 21:30
      */
-    private static void themesActionPerformed(JFrame frame, JMenu themesMenu){
+    private static void themesActionPerformed(JFrame frame, JMenu themesMenu) {
         for (Component menuComponent : themesMenu.getMenuComponents()) {
-            if (menuComponent instanceof JRadioButtonMenuItem){
-                JRadioButtonMenuItem radioButtonMenuItem = (JRadioButtonMenuItem)menuComponent;
+            if (menuComponent instanceof JRadioButtonMenuItem) {
+                JRadioButtonMenuItem radioButtonMenuItem = (JRadioButtonMenuItem) menuComponent;
                 radioButtonMenuItem.addActionListener(e -> {
                     String name = radioButtonMenuItem.getText();
                     SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
                     ChangeUIUtils.changeUIStyle(frame, themesStyles);
                     // 改变多文本内容的主题
-                    ChangeUIUtils.changeTextAreaThemes(frame,themesStyles.getTextAreaStyles());
+                    ChangeUIUtils.changeTextAreaThemes(frame, themesStyles.getTextAreaStyles());
                 });
             }
         }
     }
 
     /**
-     * 使编辑框不能进行编辑
-     * @date 2023/12/2 21:44
+     * 对多文本框进行是否可编辑设置
      *
      * @param frame
+     * @date 2023/12/2 21:44
      */
     private static void editSwitchActionPerformed(JFrame frame) {
-        RSyntaxTextArea rSyntaxTextArea = ComponentScanUtils.getComponentByType(frame, RSyntaxTextArea.class);
-        String configFilePath = SysConfigInfoUtils.configFileInit();
-        boolean isEditable = Boolean.valueOf(PropertiesUtil.getValueFromProperties(configFilePath, "inEnableEdit"));
-        rSyntaxTextArea.setEditable(isEditable);
+        RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
+        boolean isEditable = rSyntaxTextArea.isEditable();
         rSyntaxTextArea.setEditable(!isEditable);
-        PropertiesUtil.setValueToProperties(configFilePath, "inEnableEdit",String.valueOf(!isEditable));
-
+        systemProperties.setValueToProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY, String.valueOf(!isEditable));
     }
 
     /**
-     * 使编辑框不能进行编辑
-     * @date 2023/12/2 21:44
+     * 对多文本框进行换行设置
      *
      * @param frame
+     * @date 2023/12/2 21:44
      */
     private static void lineSetupActionPerformed(JFrame frame) {
-        RSyntaxTextArea rSyntaxTextArea = ComponentScanUtils.getComponentByType(frame, RSyntaxTextArea.class);
+        RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
         boolean breakLine = rSyntaxTextArea.getLineWrap();
         rSyntaxTextArea.setLineWrap(!breakLine);
+        systemProperties.setValueToProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY, String.valueOf(!breakLine));
     }
 }

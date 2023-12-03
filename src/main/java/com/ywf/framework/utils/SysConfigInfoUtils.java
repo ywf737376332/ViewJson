@@ -1,5 +1,6 @@
 package com.ywf.framework.utils;
 
+import com.ywf.framework.constant.SystemConstant;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -12,39 +13,54 @@ import java.io.IOException;
  * @Date 2023/12/2 22:23
  */
 public class SysConfigInfoUtils {
+
+    private static PropertiesUtil systemProperties = PropertiesUtil.instance();
+
     public static void initSysConfig() {
-        String configFilePath = configFileInit();
-        configInitInit(configFilePath);
+        // 系统配置文件初始化
+        configFileInit(getSysConfigFilePath());
+        // 系统配置属性初始化
+        configInitInit();
     }
 
-    public static String configFileInit(){
-        // 获取用户目录
-        String userHome = System.getProperty("user.home");
-        // 创建文件夹路径
-        String folderPath = userHome + File.separator + "jsonView";
-        // 创建文件夹
-        File folder = new File(folderPath);
-        if (!folder.exists()) {
-            folder.mkdirs();
+    private static void configFileInit(String configFilePath) {
+        File file = new File(configFilePath);
+        //判断父路径是否存在，不存在，则创建
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
         }
-        // 创建配置文件路径
-        String configFilePath = folderPath + File.separator + "jsonView.properties";
         // 创建配置文件
         File configFile = new File(configFilePath);
         if (!configFile.exists()) {
             try {
                 configFile.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException("系统配置文件文件初始化失败");
             }
         }
-        return configFilePath;
     }
-    private static void configInitInit(String configFilePath){
+
+    /**
+     * 获取系统配置文件
+     *
+     * @date 2023/12/3 20:04
+     */
+    public static String getSysConfigFilePath() {
+        // 获取用户目录
+        String userHome = SystemConstant.SYSTEM_CONFIG_HOME;
+        // 创建文件夹路径
+        String folderPath = userHome + SystemConstant.SYSTEM_CONFIG_FOLDER_PATH;
+        // 创建配置文件路径
+        return folderPath + SystemConstant.SYSTEM_CONFIG_FILE_PATH;
+    }
+
+    private static void configInitInit() {
         // 首次启动时加载配置文件并设置组件的属性值
-        if (StringUtils.isEmpty(PropertiesUtil.getValueFromProperties(configFilePath, "inEnableEdit"))){
-            PropertiesUtil.setValueToProperties(configFilePath, "inEnableEdit","true");
+        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY))) {
+            systemProperties.setValueToProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY, "true");
         }
-        PropertiesUtil.setValueToProperties(configFilePath, "breakLineSetup","false");
+        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY))) {
+            systemProperties.setValueToProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY, "false");
+        }
     }
 }

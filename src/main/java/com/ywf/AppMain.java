@@ -13,10 +13,11 @@ import org.fife.ui.rtextarea.RTextScrollPane;
  */
 public class AppMain {
     public static void main(String[] args) {
+        // 首先初始化配置信息
+        SysConfigInfoUtils.initSysConfig();
+        // 创建界面
         MainFrame mainFrame = new MainFrame();
         ChangeUIUtils.changeUIStyle(mainFrame, SystemThemesEnum.FlatLightLafThemesStyle);
         mainFrame.createAndShowGUI("JSON格式化工具V2.0");
-        // 初始化配置信息
-        SysConfigInfoUtils.initSysConfig();
     }
 }

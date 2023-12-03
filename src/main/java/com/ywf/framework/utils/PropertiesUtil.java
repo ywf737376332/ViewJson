@@ -1,6 +1,7 @@
 package com.ywf.framework.utils;
 
 import cn.hutool.core.io.resource.ResourceUtil;
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import java.net.URL;
@@ -14,48 +15,55 @@ import java.util.ResourceBundle;
  */
 public class PropertiesUtil {
 
+    private static PropertiesUtil instance;
+    private PropertiesConfiguration propertiesConfiguration;
+
+    public PropertiesUtil() {
+    }
+
+    public static synchronized PropertiesUtil instance() {
+        if (instance == null) {
+            instance = new PropertiesUtil();
+        }
+        return instance;
+    }
+
     /**
      * 有该键值就覆盖，没有就添加
+     *
      * @param key
      * @param value
      */
-    public static void setValueToProperties(String path, String key, String value) {
+    public void setValueToProperties(String key, String value) {
         try {
-            PropertiesConfiguration propsConfig = new PropertiesConfiguration(path);
-            propsConfig.setAutoSave(true);
-            propsConfig.setProperty(key, value);
+            PropertiesConfiguration configuration = getPropertiesConfiguration();
+            configuration.setAutoSave(true);
+            configuration.setProperty(key, value);
         } catch (Exception e) {
             System.out.println("setValueToProperties error : " + e.getMessage());
         }
     }
 
-    /**
-     * 直接添加键值，不会覆盖旧值
-     * @param key
-     * @param value
-     */
-    public static void addValueToProperties(String path, String key, String value) {
-        try {
-            String resourcePathpath = getResourcePath(path);
-            PropertiesConfiguration propsConfig = new PropertiesConfiguration(resourcePathpath);
-            // 修改属性之后自动保存，省去了propsConfig.save()过程
-            propsConfig.setAutoSave(true);
-            propsConfig.addProperty(key, value);
-        } catch (Exception e) {
-            System.out.println("addValueToProperties error : " + e.getMessage());
-        }
-    }
-
-
-    public static String getValueFromProperties(String path, String key) {
+    public String getValueFromProperties(String key) {
         String res = null;
         try {
-            PropertiesConfiguration propsConfig = new PropertiesConfiguration(path);
-            res = propsConfig.getString(key);
+            PropertiesConfiguration configuration = getPropertiesConfiguration();
+            res = configuration.getString(key);
         } catch (Exception e) {
             System.out.println("getValueFromProperties error : " + e.getMessage());
         }
         return res;
+    }
+
+    private PropertiesConfiguration getPropertiesConfiguration() {
+        if (propertiesConfiguration == null) {
+            try {
+                propertiesConfiguration = new PropertiesConfiguration(SysConfigInfoUtils.getSysConfigFilePath());
+            } catch (ConfigurationException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return propertiesConfiguration;
     }
 
     public static String getResourcePath(String resourceName) {
@@ -67,16 +75,17 @@ public class PropertiesUtil {
             return null;
         }
     }
+
     public static void main(String[] args) {
         try {
             //String name2 = getValueFromProperties("name2");
             //System.out.println(name2);
             // 获取resource文件的路径
-            String property = System.getProperty("user.dir"+"application.properties");
-            System.out.println("resourcePath:"+property);
+            String property = System.getProperty("user.dir" + "application.properties");
+            System.out.println("resourcePath:" + property);
 
             String filePath2 = getResourcePath("/config/config.properties");
-            System.out.println("filePath2:"+filePath2);
+            System.out.println("filePath2:" + filePath2);
 
             ResourceBundle bundle = ResourceBundle.getBundle("/config/config.properties");
             System.out.printf("dsgfs:", bundle.getString("generateNumber"));

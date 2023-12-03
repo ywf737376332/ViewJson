@@ -1,10 +1,9 @@
 package com.ywf.framework.utils;
 
-import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.IntelliJTheme;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.formdev.flatlaf.util.LoggingFacade;
 import com.ywf.component.MenuBarBuilder;
+import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -24,20 +23,20 @@ public class ChangeUIUtils {
 
     /**
      * 主题改变工具类类
-     * @date 2023/12/2 15:35
      *
      * @param frame
      * @param themesStyles
+     * @date 2023/12/2 15:35
      */
     public static void changeUIStyle(JFrame frame, SystemThemesEnum themesStyles) {
 
         try {
-            if (SystemConstant.THEMES_TYPE_SYSTEM == themesStyles.getThemeType()){
+            if (SystemConstant.THEMES_TYPE_SYSTEM == themesStyles.getThemeType()) {
                 // 系统主题整体外观
                 UIManager.setLookAndFeel(themesStyles.getThemesStyles());
-            }else {
+            } else {
                 //第三方主题
-                IntelliJTheme.setup( MenuBarBuilder.class.getResourceAsStream(themesStyles.getThemesStyles()) );
+                IntelliJTheme.setup(MenuBarBuilder.class.getResourceAsStream(themesStyles.getThemesStyles()));
             }
         } catch (Exception ex) {
             System.err.println("皮肤应用失败，请检查：" + ex.getMessage());
@@ -50,13 +49,13 @@ public class ChangeUIUtils {
 
     /**
      * 富文本组件主题改变
-     * @date 2023/12/2 15:32
      *
      * @param frame
      * @param style
+     * @date 2023/12/2 15:32
      */
     public static void changeTextAreaThemes(JFrame frame, String style) {
-        RSyntaxTextArea rSyntaxTextArea = ComponentScanUtils.getComponentByType(frame, RSyntaxTextArea.class);
+        RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
         try {
             Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style));
             theme.apply(rSyntaxTextArea);
@@ -67,10 +66,10 @@ public class ChangeUIUtils {
 
     /**
      * 系统组件整体样式定义
-     * @date 2023/12/2 15:35
      *
+     * @date 2023/12/2 15:35
      */
-    public static void uiStyleInit(){
+    public static void uiStyleInit() {
         //滚动条的默认宽度为 。要使它们更宽（或更小），请使用：10
         UIManager.put("ScrollBar.width", 0);
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));

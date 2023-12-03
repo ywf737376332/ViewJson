@@ -1,16 +1,14 @@
 package com.ywf.component;
 
-import com.formdev.flatlaf.ui.FlatScrollPaneUI;
+import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.PropertiesUtil;
-import com.ywf.framework.utils.SysConfigInfoUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollPaneUI;
 import java.awt.*;
 import java.io.IOException;
 
@@ -25,6 +23,8 @@ public class TextAreaBuilder {
     private static JTextArea textAreaSource;
 
     private static RSyntaxTextArea syntaxTextArea;
+
+    private static PropertiesUtil systemProperties = PropertiesUtil.instance();
 
     /**
      * 带滚动条的多文本框
@@ -63,7 +63,9 @@ public class TextAreaBuilder {
         // 启用了自动换行功能
         textArea.setLineWrap(false);
 
-        textArea.setEditable(Boolean.valueOf(PropertiesUtil.getValueFromProperties(SysConfigInfoUtils.configFileInit(), "inEnableEdit")));
+        // 读取配置信息中的数据
+        textArea.setEditable(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY)));
+        textArea.setLineWrap(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
 
         textArea.revalidate();
         try {
