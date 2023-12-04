@@ -1,14 +1,11 @@
 package com.ywf;
 
-import com.formdev.flatlaf.IntelliJTheme;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.PropertiesUtil;
-import com.ywf.framework.utils.SysConfigInfoUtils;
+import com.ywf.framework.init.SysConfigInit;
 import com.ywf.view.MainFrame;
-import org.apache.commons.lang.StringUtils;
-import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
  * Hello world!
@@ -21,7 +18,7 @@ public class AppMain {
     public static void main(String[] args) {
 
         // 首先初始化配置信息
-        SysConfigInfoUtils.initSysConfig();
+        SysConfigInit.initSysConfig();
         // 创建界面
         MainFrame mainFrame = new MainFrame();
         SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));

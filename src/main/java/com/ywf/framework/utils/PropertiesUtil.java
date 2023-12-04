@@ -1,6 +1,7 @@
 package com.ywf.framework.utils;
 
 import cn.hutool.core.io.resource.ResourceUtil;
+import com.ywf.framework.init.SysConfigInit;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -58,7 +59,7 @@ public class PropertiesUtil {
     private PropertiesConfiguration getPropertiesConfiguration() {
         if (propertiesConfiguration == null) {
             try {
-                propertiesConfiguration = new PropertiesConfiguration(SysConfigInfoUtils.getSysConfigFilePath());
+                propertiesConfiguration = new PropertiesConfiguration(SysConfigInit.getSysConfigFilePath());
             } catch (ConfigurationException e) {
                 throw new RuntimeException(e);
             }

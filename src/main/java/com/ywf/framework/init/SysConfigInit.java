@@ -1,8 +1,7 @@
-package com.ywf.framework.utils;
+package com.ywf.framework.init;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.utils.PropertiesUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -14,7 +13,7 @@ import java.io.IOException;
  * @Author YWF
  * @Date 2023/12/2 22:23
  */
-public class SysConfigInfoUtils {
+public class SysConfigInit {
 
     private static PropertiesUtil systemProperties = PropertiesUtil.instance();
 
