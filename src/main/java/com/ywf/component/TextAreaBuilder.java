@@ -2,6 +2,7 @@ package com.ywf.component;
 
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.PropertiesUtil;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -44,7 +45,8 @@ public class TextAreaBuilder {
      * Json编辑器
      */
     public static RTextScrollPane JsonScrollTextArea() {
-        String themesPath = SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
+        SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
+        String themesPath = themesStyles!=null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
         RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
         rTextScrollPane.setFoldIndicatorEnabled(true);

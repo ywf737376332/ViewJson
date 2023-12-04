@@ -34,5 +34,14 @@ public class SystemConstant {
      */
     public static final String TEXTAREA_EDIT_STATE_KEY = "textAreaEditState"; // 文本编辑器是否可编辑状态KEY
     public static final String TEXTAREA_BREAK_LINE_KEY = "textAreaBreakLineState"; // 文本编辑器是否可换行KEY
+    public static final String SCREEN_SIZE_WIDTH_KEY = "screenSizeKey.width"; // 屏幕大小记录KEY
+    public static final String SCREEN_SIZE_HEIGHT_KEY = "screenSizeKey.height"; // 屏幕大小记录KEY
+
+
+    /**
+     * 最后选定的主题
+     */
+    public static final String SYSTEM_THEMES_KEY = "lastSystemThemes"; // 最后一次选定的系统主题KEY
+    public static final String TEXTAREA_THEMES_KEY = "lastTextAreaThemes"; // 最后一次选定的文本框主题的KEY
 
 }

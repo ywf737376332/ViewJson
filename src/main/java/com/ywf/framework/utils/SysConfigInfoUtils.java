@@ -1,6 +1,8 @@
 package com.ywf.framework.utils;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.enums.SystemThemesEnum;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -57,10 +59,19 @@ public class SysConfigInfoUtils {
     private static void configInitInit() {
         // 首次启动时加载配置文件并设置组件的属性值
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY))) {
+            // 是否可编辑
             systemProperties.setValueToProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY, "true");
         }
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY))) {
+            // 是否换行
             systemProperties.setValueToProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY, "false");
+        }
+        // 屏幕尺寸大小初始化
+        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY))) {
+            systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY, "800");
+        }
+        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY))) {
+            systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY, "600");
         }
     }
 }

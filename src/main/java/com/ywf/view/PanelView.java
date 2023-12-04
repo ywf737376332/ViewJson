@@ -19,7 +19,7 @@ public class PanelView {
     public static JPanel createPanelLeft(){
         JPanel panelLeft = new BasePanel();
         //panelLeft.setPreferredSize(new Dimension(300, 0));
-        panelLeft.setMinimumSize(new Dimension(235,0));
+        panelLeft.setMinimumSize(new Dimension(235,600));
         //panelLeft.setBorder(new TitledBorder(new EtchedBorder(), "源数据区域", TitledBorder.LEFT, TitledBorder.TOP));
         panelLeft.setOpaque(false); // 设置为透明，以便边框可见
         panelLeft.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
@@ -30,7 +30,7 @@ public class PanelView {
     public static JPanel createPanelRight(){
         JPanel panelRight = new BasePanel();
         //panelRight.setPreferredSize(new Dimension(600, 0));
-        panelRight.setMinimumSize(new Dimension(235,0));
+        panelRight.setMinimumSize(new Dimension(235,600));
         //panelRight.setBorder(new TitledBorder(new EtchedBorder(), "JSON区域", TitledBorder.LEFT, TitledBorder.TOP));
         panelRight.setOpaque(false); // 设置为透明，以便边框可见
         panelRight.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距

@@ -4,11 +4,17 @@ import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.component.ToolBarBuilder;
+import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.utils.PropertiesUtil;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * TODO
@@ -19,13 +25,17 @@ import java.awt.*;
 public class MainFrame extends JFrame {
     private JFrame _this = this;
 
+    private static PropertiesUtil systemProperties = PropertiesUtil.instance();
+
     public void createAndShowGUI(String title) {
         setTitle(title);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLayout(new BorderLayout());
         int w = Toolkit.getDefaultToolkit().getScreenSize().width;
         int h = Toolkit.getDefaultToolkit().getScreenSize().height;
-        setSize(800, 600);
+        //setSize(800, 600);
+        setSize(Integer.parseInt(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY)), Integer.parseInt(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY)));
         setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
         setMinimumSize(new Dimension(800, 600));
         //设置图标
@@ -41,7 +51,7 @@ public class MainFrame extends JFrame {
         Image scaledIcon = icon.getImage().getScaledInstance((int) (originalWidth * scaleFactor), (int) (originalHeight * scaleFactor), Image.SCALE_SMOOTH);
         //setIconImage(scaledIcon);
         //setIconImage(IconUtils.getIcon("/icons/logo009.png"));
-        setIconImages( FlatSVGUtils.createWindowIconImages( "/icons/FlatLaf.svg" ) );
+        setIconImages(FlatSVGUtils.createWindowIconImages("/icons/FlatLaf.svg"));
         // 初始化界面
         initUI(_this);
         setVisible(true);
@@ -76,6 +86,21 @@ public class MainFrame extends JFrame {
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(splitPane, BorderLayout.CENTER);
         frame.add(panelBottom, BorderLayout.SOUTH);
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirmed = JOptionPane.showConfirmDialog(frame,
+                        "您是否想关闭当前应用？", "关闭确认",
+                        JOptionPane.YES_NO_OPTION);
+                if (confirmed == JOptionPane.YES_OPTION) {
+                    // 屏幕尺寸大小保存
+                    systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY, String.valueOf(frame.getWidth()));
+                    systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY, String.valueOf(frame.getHeight()));
+                    frame.dispose();
+                }
+            }
+        });
     }
 
 

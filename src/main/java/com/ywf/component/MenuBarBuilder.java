@@ -1,5 +1,6 @@
 package com.ywf.component;
 
+import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.framework.constant.SystemConstant;
@@ -202,12 +203,21 @@ public class MenuBarBuilder {
         for (Component menuComponent : themesMenu.getMenuComponents()) {
             if (menuComponent instanceof JRadioButtonMenuItem) {
                 JRadioButtonMenuItem radioButtonMenuItem = (JRadioButtonMenuItem) menuComponent;
+
+                // 主题按钮选中
+                SystemThemesEnum themesCss = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
+                if (themesCss.getThemesKey().equals(radioButtonMenuItem.getText())){
+                    radioButtonMenuItem.setSelected(true);
+                }
+
                 radioButtonMenuItem.addActionListener(e -> {
                     String name = radioButtonMenuItem.getText();
                     SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
                     ChangeUIUtils.changeUIStyle(frame, themesStyles);
                     // 改变多文本内容的主题
                     ChangeUIUtils.changeTextAreaThemes(frame, themesStyles.getTextAreaStyles());
+                    // 保存上一次选定的主题
+                    systemProperties.setValueToProperties(SystemConstant.SYSTEM_THEMES_KEY, themesStyles.getThemesKey());
                 });
             }
         }
