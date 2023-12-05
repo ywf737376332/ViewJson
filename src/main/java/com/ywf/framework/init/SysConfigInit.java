@@ -1,6 +1,7 @@
 package com.ywf.framework.init;
 
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.PropertiesUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -71,6 +72,11 @@ public class SysConfigInit {
         }
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY))) {
             systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY, "600");
+        }
+
+        // 主题初始化
+        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY))) {
+            systemProperties.setValueToProperties(SystemConstant.SYSTEM_THEMES_KEY, SystemThemesEnum.FlatLightLafThemesStyle.getThemesKey());
         }
     }
 }
