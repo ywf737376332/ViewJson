@@ -119,13 +119,7 @@ public class MenuEventService {
         JOptionPane.showMessageDialog(frame, "已将格式化后的JSON结果复制到剪贴板！");
     }
 
-    /**
-     * json分享为二维码
-     * @param frame
-     */
-    public void shareJsonToQrcodeActionPerformed(JFrame frame){
 
-    }
 
     /**
      * json复制为图片

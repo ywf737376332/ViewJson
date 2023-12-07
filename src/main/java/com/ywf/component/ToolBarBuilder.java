@@ -1,6 +1,7 @@
 package com.ywf.component;
 
 import com.ywf.action.MenuEventService;
+import com.ywf.action.QRCodeEventService;
 import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
@@ -50,7 +51,7 @@ public class ToolBarBuilder {
         btnCopyPict = new JButton("复制图片");
         btnCopyPict.addActionListener(e -> MenuEventService.getInstance().copyJsonToPictActionPerformed(frame));
         btnShowQrcode = new JButton("二维码分享");
-        btnShowQrcode.addActionListener(e -> MenuEventService.getInstance().shareJsonToQrcodeActionPerformed(frame));
+        btnShowQrcode.addActionListener(e -> QRCodeEventService.getInstance().showQrcodeActionPerformed(frame));
 
         btnFindRepl = new JButton("查找替换");
         btnFindRepl.setEnabled(false);
