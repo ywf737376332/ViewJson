@@ -3,6 +3,7 @@ package com.ywf.component;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.ywf.action.MenuEventService;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.ChangeUIUtils;
@@ -35,16 +36,16 @@ public class MenuBarBuilder {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("文件");
         JMenuItem newTabMenuItem = new JMenuItem("新建");
-        JMenuItem newFrameMenuItem = new JMenuItem("新建窗口");
-        JMenuItem copyMenuItem = new JMenuItem("复制内容");
-        copyMenuItem.setIcon(IconUtils.getSVGIcon("icons/copyCode.svg"));
+        newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/open.svg"));
         JMenuItem savePictMenuItem = new JMenuItem("导出图片");
         savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/cutPict.svg"));
+        savePictMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToImageActionPerformed(frame));
+
         JMenuItem saveFileMenuItem = new JMenuItem("导出文件");
         saveFileMenuItem.setIcon(IconUtils.getSVGIcon("icons/saveCode.svg"));
+        saveFileMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToFileActionPerformed(frame));
+
         fileMenu.add(newTabMenuItem);
-        fileMenu.add(newFrameMenuItem);
-        fileMenu.add(copyMenuItem);
         fileMenu.add(savePictMenuItem);
         fileMenu.add(saveFileMenuItem);
 
@@ -65,7 +66,6 @@ public class MenuBarBuilder {
         editMenu.add(escapeTabMenuItem);
         editMenu.add(unescapeMenuItem);
         editMenu.add(formatMenuItem);
-        editMenu.add(copyMenuItem);
         editMenu.add(cleanMenuItem);
         editMenu.add(findRepMenuItem);
 

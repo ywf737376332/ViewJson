@@ -34,7 +34,6 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
         int w = Toolkit.getDefaultToolkit().getScreenSize().width;
         int h = Toolkit.getDefaultToolkit().getScreenSize().height;
-        //setSize(800, 600);
         setSize(Integer.parseInt(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY)), Integer.parseInt(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY)));
         setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
         setMinimumSize(new Dimension(800, 600));
@@ -55,15 +54,16 @@ public class MainFrame extends JFrame {
         // 初始化界面
         initUI(_this);
         setVisible(true);
-        pack();
+        //pack();
     }
 
     private void initUI(JFrame frame) {
+        JPanel mainPanel = PanelView.createPanelLeft();
         // 左侧多文本框
         JPanel panelLeft = PanelView.createPanelLeft();
         JScrollPane scrollTextArea = TextAreaBuilder.scrollTextArea();
         panelLeft.add(scrollTextArea, BorderLayout.CENTER);
-        frame.add(panelLeft, BorderLayout.WEST);
+        mainPanel.add(panelLeft, BorderLayout.WEST);
 
         // 右侧JSON格式化区域
         JPanel panelRight = PanelView.createPanelRight();
@@ -82,11 +82,11 @@ public class MainFrame extends JFrame {
         // 底部版权区域
         JPanel panelBottom = PanelView.createPanelBottom();
 
+        mainPanel.add(splitPane, BorderLayout.CENTER);
+        mainPanel.add(panelBottom, BorderLayout.SOUTH);
         frame.setJMenuBar(menuBar);
         frame.add(toolBar, BorderLayout.NORTH);
-        frame.add(splitPane, BorderLayout.CENTER);
-        frame.add(panelBottom, BorderLayout.SOUTH);
-
+        frame.add(mainPanel);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
