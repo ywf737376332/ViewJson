@@ -14,11 +14,11 @@ public enum SystemThemesEnum {
 
     FlatLightLafThemesStyle("FlatLaf Light", SystemConstant.THEMES_TYPE_SYSTEM, "com.formdev.flatlaf.FlatLightLaf","/themes/textAreaThemes/ideaLight.xml"),
     FlatDarkLafThemesStyle("FlatLaf Dark", SystemConstant.THEMES_TYPE_SYSTEM, "com.formdev.flatlaf.FlatDarkLaf","/themes/textAreaThemes/ideaDark.xml"),
+    OtherArcThemeOrangeThemesStyle("Arc Light Orange",SystemConstant.THEMES_TYPE_OTHER,"/themes/arcThemeOrange.theme.json","/themes/textAreaThemes/arcLightOrange.xml"),
+    OtherSolarizedLightThemesStyle("Solarized Light",SystemConstant.THEMES_TYPE_OTHER,"/themes/solarizedLight.theme.json","/themes/textAreaThemes/solarizedLight.xml"),
     OtherArcThemeDarkOrangeThemesStyle("Arc Dark Orange",SystemConstant.THEMES_TYPE_OTHER,"/themes/arcThemeDarkOrange.theme.json","/themes/textAreaThemes/arcDarkOrange.xml"),
     OtherGruvboxDarkMediumThemesStyle("Gruvbox Dark Medium",SystemConstant.THEMES_TYPE_OTHER,"/themes/gruvboxDarkMedium.theme.json","/themes/textAreaThemes/gruvBoxDark.xml"),
-    OtherGitHubThemesStyle("GitHub Light",SystemConstant.THEMES_TYPE_OTHER,"/themes/gitHub.theme.json","/themes/textAreaThemes/gitHubLight.xml"),
-    OtherSolarizedLightThemesStyle("Solarized Light",SystemConstant.THEMES_TYPE_OTHER,"/themes/solarizedLight.theme.json","/themes/textAreaThemes/solarizedLight.xml")
-
+    OtherGitHubThemesStyle("GitHub Light",SystemConstant.THEMES_TYPE_OTHER,"/themes/gitHub.theme.json","/themes/textAreaThemes/gitHubLight.xml")
     ;
     //主題索引
     private String themesKey;

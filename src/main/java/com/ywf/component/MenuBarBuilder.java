@@ -80,25 +80,29 @@ public class MenuBarBuilder {
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
         lightThemesMenuItem.setSelected(true);
         JRadioButtonMenuItem gitHubLightMenuItem = new JRadioButtonMenuItem("GitHub Light");
+        JRadioButtonMenuItem arcLightOrangeMenuItem = new JRadioButtonMenuItem("Arc Light Orange");
+        JRadioButtonMenuItem solarizedLightMenuItem = new JRadioButtonMenuItem("Solarized Light");
         JRadioButtonMenuItem darkThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Dark");
         JRadioButtonMenuItem arcDarkOrangeMenuItem = new JRadioButtonMenuItem("Arc Dark Orange");
         JRadioButtonMenuItem gruvboxDarkMediumMenuItem = new JRadioButtonMenuItem("Gruvbox Dark Medium");
-        JRadioButtonMenuItem solarizedLightMenuItem = new JRadioButtonMenuItem("Solarized Light");
 
         // 组装为单选
         ButtonGroup buttonGroupThemes = new ButtonGroup();
         buttonGroupThemes.add(lightThemesMenuItem);
         buttonGroupThemes.add(gitHubLightMenuItem);
+        buttonGroupThemes.add(arcLightOrangeMenuItem);
+        buttonGroupThemes.add(solarizedLightMenuItem);
         buttonGroupThemes.add(darkThemesMenuItem);
         buttonGroupThemes.add(arcDarkOrangeMenuItem);
         buttonGroupThemes.add(gruvboxDarkMediumMenuItem);
-        buttonGroupThemes.add(solarizedLightMenuItem);
+
         themesMenu.add(lightThemesMenuItem);
         themesMenu.add(gitHubLightMenuItem);
+        themesMenu.add(arcLightOrangeMenuItem);
+        themesMenu.add(solarizedLightMenuItem);
         themesMenu.add(darkThemesMenuItem);
         themesMenu.add(arcDarkOrangeMenuItem);
         themesMenu.add(gruvboxDarkMediumMenuItem);
-        themesMenu.add(solarizedLightMenuItem);
         //添加事件
         MenuEventService.getInstance().setupThemesActionPerformed(frame, themesMenu);
 
