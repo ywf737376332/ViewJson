@@ -1,19 +1,10 @@
 package com.ywf.action;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.utils.JsonFormatUtil;
+import com.ywf.framework.utils.QRCodeUtils;
 
 import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * TODO
@@ -56,19 +47,8 @@ public class QRCodeEventService {
             JOptionPane.showMessageDialog(frame, "请输入json字符串", "提示", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        try {
-            QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            Map<EncodeHintType, Object> hints = new HashMap<>();
-            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-            hints.put(EncodeHintType.MARGIN, 1);// 边距值
-            BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 580, 580, hints);
-            BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
-            ImageIcon icon = new ImageIcon(image);
-            JOptionPane.showMessageDialog(frame, null, "二维码展示", JOptionPane.INFORMATION_MESSAGE, icon);
-        } catch (WriterException ex) {
-            ex.printStackTrace();
-        }
+        ImageIcon icon = QRCodeUtils.GeneratorQRCode(text);
+        JOptionPane.showMessageDialog(frame, null, "二维码展示", JOptionPane.INFORMATION_MESSAGE, icon);
     }
 
 }

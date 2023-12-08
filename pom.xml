@@ -127,6 +127,17 @@
       <version>3.4.1</version>
     </dependency>
 
+    <!--国密算法-->
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>1.69</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15to18</artifactId>
+      <version>1.69</version>
+    </dependency>
   </dependencies>
 
 

@@ -1,25 +1,14 @@
 package com.ywf.component;
 
-import cn.hutool.core.util.StrUtil;
-import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.PropertiesUtil;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.Year;
 
 /**
  * TODO
@@ -73,16 +62,19 @@ public class MenuBarBuilder {
         JMenu setupMenu = new JMenu("设置");
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
         editSetupMenuItem.setSelected(!Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY)));
-        editSetupMenuItem.addActionListener(e -> editSwitchActionPerformed(frame));
+        editSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().editSwitchActionPerformed(frame));
 
         JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("自动换行");
         lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
-        lineSetupMenuItem.addActionListener(e -> lineSetupActionPerformed(frame));
+        lineSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().lineSetupActionPerformed(frame));
 
         JCheckBoxMenuItem replaceSpaceMenuItem = new JCheckBoxMenuItem("去除空格");
+        replaceSpaceMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY)));
+        replaceSpaceMenuItem.addActionListener(e -> MenuEventService.getInstance().replaceBlankSpaceActionPerformed(frame, replaceSpaceMenuItem));
+
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
-        //setupMenu.add(replaceSpaceMenuItem);
+        setupMenu.add(replaceSpaceMenuItem);
 
         JMenu themesMenu = new JMenu("主题");
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
@@ -107,9 +99,8 @@ public class MenuBarBuilder {
         themesMenu.add(arcDarkOrangeMenuItem);
         themesMenu.add(gruvboxDarkMediumMenuItem);
         themesMenu.add(solarizedLightMenuItem);
-
         //添加事件
-        themesActionPerformed(frame, themesMenu);
+        MenuEventService.getInstance().setupThemesActionPerformed(frame, themesMenu);
 
         JMenu helpMenu = new JMenu("帮助");
         JMenuItem updateVersionLogMenuItem = new JMenuItem("更新日志");
@@ -117,7 +108,7 @@ public class MenuBarBuilder {
         JMenuItem officialWebsiteMenuItem = new JMenuItem("官方网站");
         JMenuItem expressThanksMenuItem = new JMenuItem("鸣谢反馈");
         JMenuItem aboutMenuItem = new JMenuItem("关于");
-        aboutMenuItem.addActionListener(e -> aboutActionPerformed());
+        aboutMenuItem.addActionListener(e -> MenuEventService.getInstance().aboutActionPerformed());
         helpMenu.add(updateVersionLogMenuItem);
         helpMenu.add(privacyPolicyMenuItem);
         helpMenu.add(officialWebsiteMenuItem);
@@ -161,91 +152,4 @@ public class MenuBarBuilder {
         return menuBar;
     }
 
-    private static void aboutActionPerformed() {
-        JLabel titleLabel = new JLabel("JSON格式化工具");
-        titleLabel.setIcon(IconUtils.getSVGIcon("icons/FlatLaf.svg"));
-        titleLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "H2");
-        String link = "737376332@qq.com";
-        JLabel linkLabel = new JLabel("<html><span>联系方式：</span><a href=737376332@qq.com>" + link + "</a></html>");
-        linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        linkLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    Desktop.getDesktop().browse(new URI(link));
-                } catch (IOException | URISyntaxException ex) {
-                    JOptionPane.showMessageDialog(linkLabel,
-                            "发送邮件到 '" + link + "' 邮箱，反馈问题、建议、或加入我们!",
-                            "提示", JOptionPane.PLAIN_MESSAGE);
-                }
-            }
-        });
-        JOptionPane.showMessageDialog(null,
-                new Object[]{
-                        titleLabel,
-                        " ",
-                        "作者：莫斐鱼",
-                        "座右铭：读万卷书，行万里路，阅无数人",
-                        linkLabel,
-                        "Copyright 2023-" + Year.now() + ""
-                },
-                "关于", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    /**
-     * 修改主题事件
-     *
-     * @param frame
-     * @param themesMenu
-     * @date 2023/12/2 21:30
-     */
-    private static void themesActionPerformed(JFrame frame, JMenu themesMenu) {
-        for (Component menuComponent : themesMenu.getMenuComponents()) {
-            if (menuComponent instanceof JRadioButtonMenuItem) {
-                JRadioButtonMenuItem radioButtonMenuItem = (JRadioButtonMenuItem) menuComponent;
-
-                // 主题按钮选中
-                SystemThemesEnum themesCss = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
-                if (themesCss.getThemesKey().equals(radioButtonMenuItem.getText())){
-                    radioButtonMenuItem.setSelected(true);
-                }
-
-                radioButtonMenuItem.addActionListener(e -> {
-                    String name = radioButtonMenuItem.getText();
-                    SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
-                    ChangeUIUtils.changeUIStyle(frame, themesStyles);
-                    // 改变多文本内容的主题
-                    ChangeUIUtils.changeTextAreaThemes(frame, themesStyles.getTextAreaStyles());
-                    // 保存上一次选定的主题
-                    systemProperties.setValueToProperties(SystemConstant.SYSTEM_THEMES_KEY, themesStyles.getThemesKey());
-                });
-            }
-        }
-    }
-
-    /**
-     * 对多文本框进行是否可编辑设置
-     *
-     * @param frame
-     * @date 2023/12/2 21:44
-     */
-    private static void editSwitchActionPerformed(JFrame frame) {
-        RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
-        boolean isEditable = rSyntaxTextArea.isEditable();
-        rSyntaxTextArea.setEditable(!isEditable);
-        systemProperties.setValueToProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY, String.valueOf(!isEditable));
-    }
-
-    /**
-     * 对多文本框进行换行设置
-     *
-     * @param frame
-     * @date 2023/12/2 21:44
-     */
-    private static void lineSetupActionPerformed(JFrame frame) {
-        RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
-        boolean breakLine = rSyntaxTextArea.getLineWrap();
-        rSyntaxTextArea.setLineWrap(!breakLine);
-        systemProperties.setValueToProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY, String.valueOf(!breakLine));
-    }
 }

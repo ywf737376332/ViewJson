@@ -2,9 +2,7 @@ package com.ywf.component;
 
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.PropertiesUtil;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -23,7 +21,7 @@ public class TextAreaBuilder {
 
     private static JTextArea textAreaSource;
 
-    private static RSyntaxTextArea syntaxTextArea;
+    private static JSONRSyntaxTextArea syntaxTextArea;
 
     private static PropertiesUtil systemProperties = PropertiesUtil.instance();
 
@@ -53,8 +51,8 @@ public class TextAreaBuilder {
         return rTextScrollPane;
     }
 
-    private static RSyntaxTextArea createTextArea(String styleKey, String themesPath) {
-        RSyntaxTextArea textArea = new RSyntaxTextArea();
+    private static JSONRSyntaxTextArea createTextArea(String styleKey, String themesPath) {
+        JSONRSyntaxTextArea textArea = new JSONRSyntaxTextArea();
         textArea.setSyntaxEditingStyle(styleKey);
         // 这行代码启用了代码折叠功能
         textArea.setCodeFoldingEnabled(true);
@@ -68,7 +66,7 @@ public class TextAreaBuilder {
         // 读取配置信息中的数据
         textArea.setEditable(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY)));
         textArea.setLineWrap(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
-
+        textArea.setReplaceSpaceBlank(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY)));
         textArea.revalidate();
         try {
             Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));
@@ -87,11 +85,11 @@ public class TextAreaBuilder {
         TextAreaBuilder.textAreaSource = textAreaSource;
     }
 
-    public static RSyntaxTextArea getSyntaxTextArea() {
+    public static JSONRSyntaxTextArea getSyntaxTextArea() {
         return syntaxTextArea;
     }
 
-    public static void setSyntaxTextArea(RSyntaxTextArea syntaxTextArea) {
+    public static void setSyntaxTextArea(JSONRSyntaxTextArea syntaxTextArea) {
         TextAreaBuilder.syntaxTextArea = syntaxTextArea;
     }
 }

@@ -1,13 +1,17 @@
 package com.ywf.framework.utils;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * TODO
@@ -24,10 +28,14 @@ public class QRCodeUtils {
      * @param qrcodeStr
      */
     public static ImageIcon GeneratorQRCode(String qrcodeStr){
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
         ImageIcon icon;
         try {
-            BitMatrix bitMatrix = qrCodeWriter.encode(qrcodeStr, BarcodeFormat.QR_CODE, 550, 550);
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            Map<EncodeHintType, Object> hints = new HashMap<>();
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+            hints.put(EncodeHintType.MARGIN, 1);// 边距值
+            BitMatrix bitMatrix = qrCodeWriter.encode(qrcodeStr, BarcodeFormat.QR_CODE, 580, 580, hints);
             BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
             icon = new ImageIcon(image);
         } catch (WriterException e) {
