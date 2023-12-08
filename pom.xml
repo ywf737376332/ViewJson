@@ -128,7 +128,7 @@
     </dependency>
 
     <!--国密算法-->
-    <dependency>
+    <!--<dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
       <version>1.69</version>
@@ -137,7 +137,7 @@
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15to18</artifactId>
       <version>1.69</version>
-    </dependency>
+    </dependency>-->
   </dependencies>
 
 
