@@ -1,7 +1,6 @@
 package com.ywf.action;
 
 import com.ywf.component.TextAreaBuilder;
-import com.ywf.framework.utils.JsonFormatUtil;
 import com.ywf.framework.utils.QRCodeUtils;
 
 import javax.swing.*;

@@ -3,12 +3,14 @@ package com.ywf.action;
 import cn.hutool.core.swing.clipboard.ImageSelection;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.JSONRSyntaxTextArea;
-import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.utils.*;
+import com.ywf.framework.utils.ChangeUIUtils;
+import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.utils.JsonFormatUtil;
+import com.ywf.framework.utils.PropertiesUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -92,7 +94,6 @@ public class MenuEventService {
 
     /**
      * 清空文本内容
-     *
      */
     public void cleanJsonActionPerformed() {
         textAreaSource.setText("");
@@ -103,7 +104,6 @@ public class MenuEventService {
 
     /**
      * 压缩内容
-     *
      */
     public void compressionJsonActionPerformed() {
         String sourceText = textAreaSource.getText();
@@ -112,7 +112,6 @@ public class MenuEventService {
 
     /**
      * 转义
-     *
      */
     public void escapeJsonActionPerformed() {
         String sourceText = textAreaSource.getText();
@@ -121,7 +120,6 @@ public class MenuEventService {
 
     /**
      * 去除转义
-     *
      */
     public void unEscapeJsonActionPerformed() {
         String sourceText = textAreaSource.getText();
@@ -402,10 +400,10 @@ public class MenuEventService {
 
     /**
      * 是否显示工具栏
-     * @date 2023/12/9 21:40
      *
+     * @date 2023/12/9 21:40
      */
-    public static void showToolBarActionPerformed(){
+    public static void showToolBarActionPerformed() {
         JToolBar toolBar = ToolBarBuilder.getToolBar();
         boolean showToolBar = toolBar.isVisible();
         toolBar.setVisible(!showToolBar);
