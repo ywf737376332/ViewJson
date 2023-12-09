@@ -23,11 +23,11 @@ public class QRCodeUtils {
 
     /**
      * 二维码生成
-     * @date 2023/12/7 22:34
      *
      * @param qrcodeStr
+     * @date 2023/12/7 22:34
      */
-    public static ImageIcon GeneratorQRCode(String qrcodeStr){
+    public static ImageIcon GeneratorQRCode(String qrcodeStr) {
         ImageIcon icon;
         try {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
@@ -39,7 +39,8 @@ public class QRCodeUtils {
             BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
             icon = new ImageIcon(image);
         } catch (WriterException e) {
-            throw new RuntimeException("二维码生成失败！"+ e);
+            JOptionPane.showMessageDialog(null, "二维码生成失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            throw new RuntimeException("二维码生成失败！" + e);
         }
         return icon;
     }

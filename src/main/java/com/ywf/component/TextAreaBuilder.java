@@ -8,11 +8,12 @@ import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.io.IOException;
 
 /**
- * TODO
+ * 文本框组件
  *
  * @Author YWF
  * @Date 2023/11/25 18:58
@@ -30,9 +31,12 @@ public class TextAreaBuilder {
      */
     public static JScrollPane scrollTextArea(){
         textAreaSource = new JTextArea();
+        UndoManager manager = new UndoManager();
+        textAreaSource.getDocument().addUndoableEditListener(manager);
         textAreaSource.setLineWrap(true);
         textAreaSource.setBorder(null);
         textAreaSource.setForeground(new Color(200,96,17));
+        textAreaSource.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置边框为10像素的空白边框
         JScrollPane jScrollPane = new JScrollPane();
         jScrollPane.setViewportView(textAreaSource);
         return jScrollPane;

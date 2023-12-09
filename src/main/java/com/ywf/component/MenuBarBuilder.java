@@ -20,12 +20,15 @@ public class MenuBarBuilder {
 
     private static PropertiesUtil systemProperties = PropertiesUtil.instance();
 
+    private static JMenuBar menuBar;
+
     public static JMenuBar createMenuBar(JFrame frame) {
 
-        JMenuBar menuBar = new JMenuBar();
+        menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("文件");
         JMenuItem newTabMenuItem = new JMenuItem("新建");
         newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/open.svg"));
+        newTabMenuItem.setEnabled(false);
         JMenuItem savePictMenuItem = new JMenuItem("导出图片");
         savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/cutPict.svg"));
         savePictMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToImageActionPerformed(frame));
@@ -41,16 +44,22 @@ public class MenuBarBuilder {
         JMenu editMenu = new JMenu("编辑");
         JMenuItem compMenuItem = new JMenuItem("压缩");
         compMenuItem.setIcon(IconUtils.getSVGIcon("icons/comp.svg"));
+        compMenuItem.addActionListener(e -> MenuEventService.getInstance().compressionJsonActionPerformed());
         JMenuItem escapeTabMenuItem = new JMenuItem("转义");
         escapeTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg"));
+        escapeTabMenuItem.addActionListener(e -> MenuEventService.getInstance().escapeJsonActionPerformed());
         JMenuItem unescapeMenuItem = new JMenuItem("去除转义");
         unescapeMenuItem.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg"));
+        unescapeMenuItem.addActionListener(e -> MenuEventService.getInstance().unEscapeJsonActionPerformed());
         JMenuItem formatMenuItem = new JMenuItem("格式化");
         formatMenuItem.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
+        formatMenuItem.addActionListener(e -> MenuEventService.getInstance().formatJsonActionPerformed(frame));
         JMenuItem cleanMenuItem = new JMenuItem("清空");
         cleanMenuItem.setIcon(IconUtils.getSVGIcon("icons/Basket.svg"));
+        cleanMenuItem.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
         JMenuItem findRepMenuItem = new JMenuItem("查找替换");
         findRepMenuItem.setIcon(IconUtils.getSVGIcon("icons/findCode.svg"));
+        findRepMenuItem.setEnabled(false);
         editMenu.add(compMenuItem);
         editMenu.add(escapeTabMenuItem);
         editMenu.add(unescapeMenuItem);
@@ -62,19 +71,24 @@ public class MenuBarBuilder {
         JMenu setupMenu = new JMenu("设置");
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
         editSetupMenuItem.setSelected(!Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY)));
-        editSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().editSwitchActionPerformed(frame));
+        editSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().editSwitchActionPerformed());
 
         JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("自动换行");
         lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
-        lineSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().lineSetupActionPerformed(frame));
+        lineSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().lineSetupActionPerformed());
 
         JCheckBoxMenuItem replaceSpaceMenuItem = new JCheckBoxMenuItem("去除空格");
         replaceSpaceMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY)));
-        replaceSpaceMenuItem.addActionListener(e -> MenuEventService.getInstance().replaceBlankSpaceActionPerformed(frame, replaceSpaceMenuItem));
+        replaceSpaceMenuItem.addActionListener(e -> MenuEventService.getInstance().replaceBlankSpaceActionPerformed(replaceSpaceMenuItem));
+
+        JCheckBoxMenuItem showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
+        showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY)));
+        showToolBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
 
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
         setupMenu.add(replaceSpaceMenuItem);
+        setupMenu.add(showToolBarMenuItem);
 
         JMenu themesMenu = new JMenu("主题");
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
@@ -108,9 +122,13 @@ public class MenuBarBuilder {
 
         JMenu helpMenu = new JMenu("帮助");
         JMenuItem updateVersionLogMenuItem = new JMenuItem("更新日志");
+        updateVersionLogMenuItem.addActionListener(e -> MenuEventService.getInstance().updateLogActionPerformed());
         JMenuItem privacyPolicyMenuItem = new JMenuItem("隐私条款");
+        privacyPolicyMenuItem.setEnabled(false);
         JMenuItem officialWebsiteMenuItem = new JMenuItem("官方网站");
+        officialWebsiteMenuItem.setEnabled(false);
         JMenuItem expressThanksMenuItem = new JMenuItem("鸣谢反馈");
+        expressThanksMenuItem.setEnabled(false);
         JMenuItem aboutMenuItem = new JMenuItem("关于");
         aboutMenuItem.addActionListener(e -> MenuEventService.getInstance().aboutActionPerformed());
         helpMenu.add(updateVersionLogMenuItem);
@@ -120,31 +138,13 @@ public class MenuBarBuilder {
         helpMenu.add(aboutMenuItem);
 
         JMenu viewMenu = new JMenu("Beat");
-        JRadioButtonMenuItem radioButtonMenuItem1 = new JRadioButtonMenuItem("单选一");
-        radioButtonMenuItem1.setSelected(true);
-        radioButtonMenuItem1.setMnemonic('D');
-        JRadioButtonMenuItem radioButtonMenuItem2 = new JRadioButtonMenuItem("单选二");
-        JRadioButtonMenuItem radioButtonMenuItem3 = new JRadioButtonMenuItem("单选三");
-        // 组装为单选
-        ButtonGroup buttonGroup1 = new ButtonGroup();
-        buttonGroup1.add(radioButtonMenuItem1);
-        buttonGroup1.add(radioButtonMenuItem2);
-        buttonGroup1.add(radioButtonMenuItem3);
-
         JMenuItem htmlMenuItem = new JMenuItem("<html>some <b color=\"red\">HTML</b> <i color=\"blue\">text</i></html>");
         htmlMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         htmlMenuItem.setMnemonic('O');
         htmlMenuItem.setIcon(new FlatSVGIcon("icons/menu-cut.svg"));
-        JCheckBoxMenuItem checkBoxMenuItem1 = new JCheckBoxMenuItem("复选A");
-        JCheckBoxMenuItem checkBoxMenuItem2 = new JCheckBoxMenuItem("复选B");
 
         //添加组件
-        viewMenu.add(radioButtonMenuItem1);
-        viewMenu.add(radioButtonMenuItem2);
-        viewMenu.add(radioButtonMenuItem3);
         viewMenu.add(htmlMenuItem);
-        viewMenu.add(checkBoxMenuItem1);
-        viewMenu.add(checkBoxMenuItem2);
 
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
@@ -156,4 +156,11 @@ public class MenuBarBuilder {
         return menuBar;
     }
 
+    public static JMenuBar getMenuBar() {
+        return menuBar;
+    }
+
+    public static void setMenuBar(JMenuBar menuBar) {
+        MenuBarBuilder.menuBar = menuBar;
+    }
 }

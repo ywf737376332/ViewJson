@@ -1,14 +1,14 @@
 package com.ywf.action;
 
+import cn.hutool.core.swing.clipboard.ImageSelection;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.JSONRSyntaxTextArea;
+import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.TextAreaBuilder;
+import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.utils.ChangeUIUtils;
-import com.ywf.framework.utils.IconUtils;
-import com.ywf.framework.utils.JsonFormatUtil;
-import com.ywf.framework.utils.PropertiesUtil;
+import com.ywf.framework.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -45,6 +46,12 @@ public class MenuEventService {
     private static PropertiesUtil systemProperties;
     private static JTextArea textAreaSource;
     private static JSONRSyntaxTextArea rSyntaxTextArea;
+
+    /**
+     * 保存图片放大倍数
+     */
+    private final static int scaleX = 2;
+    private final static int scaleY = 2;
 
     volatile private static MenuEventService instance = null;
 
@@ -86,9 +93,8 @@ public class MenuEventService {
     /**
      * 清空文本内容
      *
-     * @param frame
      */
-    public void cleanJsonActionPerformed(JFrame frame) {
+    public void cleanJsonActionPerformed() {
         textAreaSource.setText("");
         rSyntaxTextArea.setText("");
         // 保持光标的焦点
@@ -98,9 +104,8 @@ public class MenuEventService {
     /**
      * 压缩内容
      *
-     * @param frame
      */
-    public void compressionJsonActionPerformed(JFrame frame) {
+    public void compressionJsonActionPerformed() {
         String sourceText = textAreaSource.getText();
         textAreaSource.setText(JsonFormatUtil.compressingStr(sourceText));
     }
@@ -108,9 +113,8 @@ public class MenuEventService {
     /**
      * 转义
      *
-     * @param frame
      */
-    public void escapeJsonActionPerformed(JFrame frame) {
+    public void escapeJsonActionPerformed() {
         String sourceText = textAreaSource.getText();
         textAreaSource.setText(JsonFormatUtil.escapeJSON(sourceText));
     }
@@ -118,9 +122,8 @@ public class MenuEventService {
     /**
      * 去除转义
      *
-     * @param frame
      */
-    public void unEscapeJsonActionPerformed(JFrame frame) {
+    public void unEscapeJsonActionPerformed() {
         String sourceText = textAreaSource.getText();
         textAreaSource.setText(JsonFormatUtil.unescapeJSON(sourceText));
     }
@@ -131,10 +134,19 @@ public class MenuEventService {
      * @param frame
      */
     public void copyJsonActionPerformed(JFrame frame) {
-        StringSelection stringSelection = new StringSelection(rSyntaxTextArea.getText());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        JOptionPane.showMessageDialog(frame, "已将格式化后的JSON结果复制到剪贴板！");
+        if ("".equals(rSyntaxTextArea.getText())) {
+            JOptionPane.showMessageDialog(frame, "内容不能为空！");
+            return;
+        }
+        try {
+            StringSelection stringSelection = new StringSelection(rSyntaxTextArea.getText());
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelection, null);
+            JOptionPane.showMessageDialog(frame, "已将格式化后的JSON结果复制到剪贴板！");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "呢欧容复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            throw new RuntimeException("呢欧容复制失败: " + e.getMessage());
+        }
     }
 
 
@@ -144,9 +156,28 @@ public class MenuEventService {
      * @param frame
      */
     public void copyJsonToPictActionPerformed(JFrame frame) {
-
+        if ("".equals(rSyntaxTextArea.getText())) {
+            JOptionPane.showMessageDialog(frame, "内容不能为空！");
+            return;
+        }
+        try {
+            //绘制图片
+            BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * scaleX, rSyntaxTextArea.getHeight() * scaleY, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2d = image.createGraphics();
+            g2d.scale(scaleX, scaleY); // 根据画布大小调整缩放比例
+            rSyntaxTextArea.print(g2d);
+            g2d.dispose();
+            // 保存图片到剪贴板
+            // ImageSelection 类糊涂工具类里面的实现，如果要自己实现，复制糊涂代码，写内部类或者单独的类也可以
+            Transferable transferable = new ImageSelection(image);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(transferable, null);
+            JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "图片复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            throw new RuntimeException("图片复制失败: " + e.getMessage());
+        }
     }
-
 
     /**
      * 按钮初始化事件,改变焦点颜色（没用）
@@ -202,8 +233,9 @@ public class MenuEventService {
                 fileWriter.write(TextAreaBuilder.getSyntaxTextArea().getText());
                 fileWriter.close();
                 JOptionPane.showMessageDialog(frame, "文件已保存： " + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION);
-            } catch (IOException ex) {
-                throw new RuntimeException("Error saving file: " + ex.getMessage());
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "文件保存失败" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+                throw new RuntimeException("Error saving file: " + e.getMessage());
             }
         }
     }
@@ -216,7 +248,7 @@ public class MenuEventService {
      */
     public void saveJsonToImageActionPerformed(JFrame frame) {
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, "保存的内容不能为空！");
+            JOptionPane.showMessageDialog(frame, "内容不能为空！");
             return;
         }
         JFileChooser fileChooser = new JFileChooser();
@@ -226,8 +258,9 @@ public class MenuEventService {
         int userSelection = fileChooser.showSaveDialog(frame);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
-            BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth(), rSyntaxTextArea.getHeight(), BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * scaleX, rSyntaxTextArea.getHeight() * scaleY, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = image.createGraphics();
+            g2d.scale(scaleX, scaleY); // 根据画布大小调整缩放比例
             rSyntaxTextArea.print(g2d);
             g2d.dispose();
             try {
@@ -274,6 +307,34 @@ public class MenuEventService {
     }
 
     /**
+     * 更新日志对话框
+     */
+    public static void updateLogActionPerformed() {
+        JLabel linkLabel = new JLabel(
+                "<html>" +
+                        "<span>最新更新：</span>" +
+                        "<ol type=\"1\" style=\"float:left\">" +
+                        "<li>工具条新增新建按钮，点击新建时，增加新的选项卡.</li>" +
+                        "<li>删除左侧富文本框，增加JSON树显示.</li>" +
+                        "<li>系统托盘驻留功能.</li>" +
+                        "<li>最下方显示，工具格式化次数.</li>" +
+                        "<li>系统托盘驻留功能.</li>" +
+                        "<li>搜索功能.</li>" +
+                        "<li>窗口大小本地文件记录.</li>" +
+                        "<li>增加记录上一次选定的主题颜色.</li>" +
+                        "<li>报文分享为二维码.</li>" +
+                        "<li>增加按钮栏工具是否显示，某个按钮是否显示功能.</li>" +
+                        "<li>增加复制图片功能.</li>" +
+                        "</ol>" +
+                        "</html>");
+        JOptionPane.showMessageDialog(null,
+                new Object[]{
+                        linkLabel
+                },
+                "更新日志", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    /**
      * 修改主题事件
      *
      * @param frame
@@ -307,10 +368,9 @@ public class MenuEventService {
     /**
      * 对多文本框进行是否可编辑设置
      *
-     * @param frame
      * @date 2023/12/2 21:44
      */
-    public static void editSwitchActionPerformed(JFrame frame) {
+    public static void editSwitchActionPerformed() {
         boolean isEditable = rSyntaxTextArea.isEditable();
         rSyntaxTextArea.setEditable(!isEditable);
         systemProperties.setValueToProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY, String.valueOf(!isEditable));
@@ -319,10 +379,9 @@ public class MenuEventService {
     /**
      * 对多文本框进行换行设置
      *
-     * @param frame
      * @date 2023/12/2 21:44
      */
-    public static void lineSetupActionPerformed(JFrame frame) {
+    public static void lineSetupActionPerformed() {
         boolean breakLine = rSyntaxTextArea.getLineWrap();
         rSyntaxTextArea.setLineWrap(!breakLine);
         systemProperties.setValueToProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY, String.valueOf(!breakLine));
@@ -331,14 +390,25 @@ public class MenuEventService {
     /**
      * 是否替换空格
      *
-     * @param frame
      * @param checkBoxMenuItem
      */
-    public static void replaceBlankSpaceActionPerformed(JFrame frame, JCheckBoxMenuItem checkBoxMenuItem) {
+    public static void replaceBlankSpaceActionPerformed(JCheckBoxMenuItem checkBoxMenuItem) {
         String text = rSyntaxTextArea.getText();
         boolean replaceBlankSpace = checkBoxMenuItem.isSelected();
         rSyntaxTextArea.setText(replaceBlankSpace ? JsonFormatUtil.compressingStr(text) : JsonFormatUtil.formatJson(text));
         rSyntaxTextArea.setReplaceSpaceBlank(replaceBlankSpace ? true : false);
         systemProperties.setValueToProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY, String.valueOf(replaceBlankSpace));
+    }
+
+    /**
+     * 是否显示工具栏
+     * @date 2023/12/9 21:40
+     *
+     */
+    public static void showToolBarActionPerformed(){
+        JToolBar toolBar = ToolBarBuilder.getToolBar();
+        boolean showToolBar = toolBar.isVisible();
+        toolBar.setVisible(!showToolBar);
+        systemProperties.setValueToProperties(SystemConstant.SHOW_TOOL_BAR_KEY, String.valueOf(!showToolBar));
     }
 }

@@ -78,7 +78,6 @@ public class MainFrame extends JFrame {
         JMenuBar menuBar = MenuBarBuilder.createMenuBar(frame);
         // 可拖动工具栏
         JToolBar toolBar = ToolBarBuilder.createToolBar(frame);
-
         // 底部版权区域
         JPanel panelBottom = PanelView.createPanelBottom();
 
@@ -91,7 +90,7 @@ public class MainFrame extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 int confirmed = JOptionPane.showConfirmDialog(frame,
-                        "您是否想关闭当前应用？", "关闭确认",
+                        "您是否想退出当前应用？", "确认关闭",
                         JOptionPane.YES_NO_OPTION);
                 if (confirmed == JOptionPane.YES_OPTION) {
                     // 屏幕尺寸大小保存

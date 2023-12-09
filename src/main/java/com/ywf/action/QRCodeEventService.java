@@ -44,7 +44,7 @@ public class QRCodeEventService {
     public void showQrcodeActionPerformed(JFrame frame) {
         String text = rSyntaxTextArea.getText();
         if ("".equals(text)) {
-            JOptionPane.showMessageDialog(frame, "请输入json字符串", "提示", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "内容不能为空！");
             return;
         }
         ImageIcon icon = QRCodeUtils.GeneratorQRCode(text);

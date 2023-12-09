@@ -70,6 +70,10 @@ public class SysConfigInit {
             // 是否替换空格
             systemProperties.setValueToProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY, "false");
         }
+        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY))) {
+            // 显示工具栏
+            systemProperties.setValueToProperties(SystemConstant.SHOW_TOOL_BAR_KEY, "true");
+        }
         // 屏幕尺寸大小初始化
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY))) {
             systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY, "800");

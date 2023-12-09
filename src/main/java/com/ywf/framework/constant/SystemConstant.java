@@ -35,6 +35,7 @@ public class SystemConstant {
     public static final String TEXTAREA_EDIT_STATE_KEY = "textAreaEditState"; // 文本编辑器是否可编辑状态KEY
     public static final String TEXTAREA_BREAK_LINE_KEY = "textAreaBreakLineState"; // 文本编辑器是否可换行KEY
     public static final String TEXTAREA_REPLACE_BLANKSPACE_KEY = "textAreaReplaceBlankSpaceState"; // 文本编辑器是否可换行KEY
+    public static final String SHOW_TOOL_BAR_KEY = "showToolBarState"; // 文本编辑器是否可换行KEY
     public static final String SCREEN_SIZE_WIDTH_KEY = "screenSizeKey.width"; // 屏幕大小记录KEY
     public static final String SCREEN_SIZE_HEIGHT_KEY = "screenSizeKey.height"; // 屏幕大小记录KEY
 
