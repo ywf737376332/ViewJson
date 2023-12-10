@@ -46,7 +46,6 @@ import java.time.Year;
 public class MenuEventService {
 
     private static PropertiesUtil systemProperties;
-    private static JTextArea textAreaSource;
     private static JSONRSyntaxTextArea rSyntaxTextArea;
 
     /**
@@ -59,7 +58,6 @@ public class MenuEventService {
 
     static {
         systemProperties = PropertiesUtil.instance();
-        textAreaSource = TextAreaBuilder.getTextAreaSource();
         rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
     }
 
@@ -83,11 +81,11 @@ public class MenuEventService {
      * @param frame
      */
     public void formatJsonActionPerformed(JFrame frame) {
-        if ("".equals(textAreaSource.getText())) {
+        if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "请输入json字符串！");
             return;
         }
-        String text = textAreaSource.getText();
+        String text = rSyntaxTextArea.getText();
         boolean replaceSpaceBlank = rSyntaxTextArea.isReplaceSpaceBlank();
         rSyntaxTextArea.setText(replaceSpaceBlank ? JsonFormatUtil.compressingStr(text) : JsonFormatUtil.formatJson(text));
     }
@@ -96,34 +94,33 @@ public class MenuEventService {
      * 清空文本内容
      */
     public void cleanJsonActionPerformed() {
-        textAreaSource.setText("");
         rSyntaxTextArea.setText("");
         // 保持光标的焦点
-        textAreaSource.requestFocusInWindow();
+        rSyntaxTextArea.requestFocusInWindow();
     }
 
     /**
      * 压缩内容
      */
     public void compressionJsonActionPerformed() {
-        String sourceText = textAreaSource.getText();
-        textAreaSource.setText(JsonFormatUtil.compressingStr(sourceText));
+        String sourceText = rSyntaxTextArea.getText();
+        rSyntaxTextArea.setText(JsonFormatUtil.compressingStr(sourceText));
     }
 
     /**
      * 转义
      */
     public void escapeJsonActionPerformed() {
-        String sourceText = textAreaSource.getText();
-        textAreaSource.setText(JsonFormatUtil.escapeJSON(sourceText));
+        String sourceText = rSyntaxTextArea.getText();
+        rSyntaxTextArea.setText(JsonFormatUtil.escapeJSON(sourceText));
     }
 
     /**
      * 去除转义
      */
     public void unEscapeJsonActionPerformed() {
-        String sourceText = textAreaSource.getText();
-        textAreaSource.setText(JsonFormatUtil.unescapeJSON(sourceText));
+        String sourceText = rSyntaxTextArea.getText();
+        rSyntaxTextArea.setText(JsonFormatUtil.unescapeJSON(sourceText));
     }
 
     /**

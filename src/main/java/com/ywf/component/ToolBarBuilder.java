@@ -96,8 +96,6 @@ public class ToolBarBuilder {
         toolBar.add(btnFindRepl);
         // 将默认大小的分隔符添加到工具栏的末尾
         toolBar.addSeparator();
-
-        //btnClean.setIcon(UIManager.getIcon("FileChooser.newFolderIcon"));
         toolBar.add(btnClean);
         toolBar.setVisible(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY)));
         return toolBar;

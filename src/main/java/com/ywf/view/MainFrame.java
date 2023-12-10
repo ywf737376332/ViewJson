@@ -1,6 +1,7 @@
 package com.ywf.view;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
+import com.ywf.action.FrameEventService;
 import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.component.ToolBarBuilder;
@@ -57,20 +58,11 @@ public class MainFrame extends JFrame {
 
     private void initUI(JFrame frame) {
         JPanel mainPanel = PanelView.createPanelLeft();
-        // 左侧多文本框
-        JPanel panelLeft = PanelView.createPanelLeft();
-        JScrollPane scrollTextArea = TextAreaBuilder.scrollTextArea();
-        panelLeft.add(scrollTextArea, BorderLayout.CENTER);
-        mainPanel.add(panelLeft, BorderLayout.WEST);
 
         // 右侧JSON格式化区域
-        JPanel panelRight = PanelView.createPanelRight();
+        JPanel editPanel = PanelView.createEditPanel();
         RTextScrollPane rTextScrollPane = TextAreaBuilder.JsonScrollTextArea();
-        panelRight.add(rTextScrollPane, BorderLayout.CENTER);
-
-        // 左右布局可变工具条
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelLeft, panelRight);
-        splitPane.setDividerLocation(235); // 设置分隔线位置为窗口宽度的1/3处
+        editPanel.add(rTextScrollPane, BorderLayout.CENTER);
 
         // 创建菜单栏
         JMenuBar menuBar = MenuBarBuilder.createMenuBar(frame);
@@ -79,25 +71,12 @@ public class MainFrame extends JFrame {
         // 底部版权区域
         JPanel panelBottom = PanelView.createPanelBottom();
 
-        mainPanel.add(splitPane, BorderLayout.CENTER);
+        mainPanel.add(editPanel, BorderLayout.CENTER);
         mainPanel.add(panelBottom, BorderLayout.SOUTH);
         frame.setJMenuBar(menuBar);
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(mainPanel);
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                int confirmed = JOptionPane.showConfirmDialog(frame,
-                        "您是否想退出当前应用？", "确认关闭",
-                        JOptionPane.YES_NO_OPTION);
-                if (confirmed == JOptionPane.YES_OPTION) {
-                    // 屏幕尺寸大小保存
-                    systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY, String.valueOf(frame.getWidth()));
-                    systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY, String.valueOf(frame.getHeight()));
-                    frame.dispose();
-                }
-            }
-        });
+        frame.addWindowListener(new FrameEventService(frame));
     }
 
 

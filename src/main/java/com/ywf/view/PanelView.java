@@ -25,13 +25,13 @@ public class PanelView {
         return panelLeft;
     }
 
-    public static JPanel createPanelRight() {
-        JPanel panelRight = new BasePanel();
-        panelRight.setMinimumSize(new Dimension(235, 600));
-        panelRight.setOpaque(false); // 设置为透明，以便边框可见
-        panelRight.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
-        panelRight.setLayout(new BorderLayout());
-        return panelRight;
+    public static JPanel createEditPanel() {
+        JPanel editPanel = new BasePanel();
+        editPanel.setMinimumSize(new Dimension(235, 600));
+        editPanel.setOpaque(false); // 设置为透明，以便边框可见
+        editPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
+        editPanel.setLayout(new BorderLayout());
+        return editPanel;
     }
 
     public static JPanel createPanelBottom() {
