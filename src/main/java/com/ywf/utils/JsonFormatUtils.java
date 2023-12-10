@@ -1,12 +1,31 @@
-package com.ywf.framework.utils;
+package com.ywf.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
 
-public class JsonFormatUtil {
-    private static String space = "    ";
-    private static boolean existLeft = false;
+public class JsonFormatUtils {
+    private String space = "    ";
+    private boolean existLeft = false;
+    private final static String TAG = "\r\n";
+
+    public static void main(String[] args) {
+//        JsonFormatTool tool = new JsonFormatTool();
+//        String path = FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath()+"\\json.txt";
+//        String text = tool.readFile(path).replaceAll("\r\n","");
+//        String json = tool.formatJson(text);
+//        tool.writeFile(path,json);
+
+        JsonFormatUtils tool = new JsonFormatUtils();
+        String text = "{\"info\":[{\"code\":\"C\",\"key\":\"028\",\"nearest\":\"NO\",\"value\":\"好冷\"},{\"code\":\"N\",\"key\":\"0771\",\"nearest\":\"NO,\",\"value\":\"好{冷}\"},{\"code\":\"L\",\"key\":\"07[72\",\"nearest\":\"N]O\",\"value\":\"好冷\"},{\"code\":\"G\",\"key\":\"0773\",\"nearest\":\"NO\",\"value\":\"好冷\"}],\"resultCode\":\"0\",\"resultInfo\":\"SUCCESS\"}";
+        String json = tool.formatJson(2, text);
+        System.out.println("json" + json);
+    }
 
     //写入文件
     private void writeFile(String filePath, String text) throws Exception {
@@ -34,11 +53,8 @@ public class JsonFormatUtil {
     }
 
     //格式化json
-    public static String formatJson(String jsonStr) {
-        // 替换空格、制表符和换行符，并在':'后面加空格
-        String json = compressingStr(jsonStr).replaceAll(":(?!\\s)", ":  ");
-        //json = json.replaceAll("\\s", "").replaceAll(":(?!\\s)", ":  ");
-        //json = StringEscapeUtils.unescapeJava(json);
+    public String formatJson(String json) {
+        json = json.replaceAll("\\r?\\n", "").replace(" ", "");
         StringBuffer result = new StringBuffer();
         int length = json.length();
         int number = 0;
@@ -75,8 +91,46 @@ public class JsonFormatUtil {
         return result.toString();
     }
 
+    private String formatJson(int formatType, String text) {
+        //格式化字符串
+        Object ret = null;
+        JSONArray retArr = null;
+        String jsonStr = null;
+        if (StringUtils.isBlank(text)) {
+            return "";
+        }
+        try {
+
+            if (formatType == 1) {
+                ret = JSON.parse(text);
+            } else if (formatType == 2 || formatType == 3) {
+                ret = JSON.parse(text, Feature.OrderedField);
+            }
+            if (formatType == 1) {
+                jsonStr = JSON.toJSONString(ret, SerializerFeature.PrettyFormat, SerializerFeature.MapSortField);
+            } else if (formatType == 2) {
+                jsonStr = JSON.toJSONString(ret, SerializerFeature.PrettyFormat);
+            } else if (formatType == 3) {
+                jsonStr = JSON.toJSONString(ret);
+            }
+
+            if (jsonStr != null) {
+                jsonStr = StringEscapeUtils.unescapeJava(jsonStr);
+                if (formatType == 3) {
+                    jsonStr = "";
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println("非法JSON字符串！" + ex.getMessage());
+        }
+        //System.gc();
+        System.gc();
+        return jsonStr;
+    }
+
     //过滤有效的特殊字符
-    private static boolean isEffectSpecChr(int index, char key, String json) {
+    private boolean isEffectSpecChr(int index, char key, String json) {
         boolean flag = false;
 
         if (isDouMark(index, String.valueOf(key), json)) {
@@ -100,7 +154,7 @@ public class JsonFormatUtil {
     }
 
     //判断当前双引号是否为特殊字符
-    private static boolean isDouMark(int index, String key, String json) {
+    private boolean isDouMark(int index, String key, String json) {
         if (key.equals("\"") && index >= 0) {
             if (index == 0) {
                 return true;
@@ -115,39 +169,12 @@ public class JsonFormatUtil {
     }
 
     //补充tab空格
-    private static String indent(int number) {
+    private String indent(int number) {
         StringBuffer result = new StringBuffer();
         for (int i = 0; i < number; i++) {
             result.append(space);
         }
         return result.toString();
-    }
-
-    /**
-     * 压缩字符串
-     * @param jsonStr
-     * @return
-     */
-    public static String compressingStr(String jsonStr){
-        return jsonStr.replaceAll("\\s", "");
-    }
-
-    /**
-     * 取出转义
-     * @param jsonStr
-     * @return
-     */
-    public static String unescapeJSON(String jsonStr){
-        return StringEscapeUtils.unescapeJavaScript(jsonStr);
-    }
-
-    /**
-     * 转义
-     * @param jsonStr
-     * @return
-     */
-    public static String escapeJSON(String jsonStr){
-        return StringEscapeUtils.escapeJavaScript(jsonStr);
     }
 }
 
