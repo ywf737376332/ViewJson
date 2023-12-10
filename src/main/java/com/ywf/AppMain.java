@@ -1,7 +1,7 @@
 package com.ywf;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.ywf.view.JsonGUI;
+import com.ywf.view.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ public class AppMain {
 
     public static void main(String[] args) {
         initSystemUI();
-        new JsonGUI().createAndShowGUI();
+        new MainFrame().createAndShowGUI();
     }
 
     private static void initSystemUI() {

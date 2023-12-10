@@ -11,9 +11,7 @@
 	<!--<baseFont family="..." size="13"/>-->
 
 	<!--  General editor colors. -->
-	<!--IBMPlexMono, 'Courier New', monospace, 微软雅黑-->
-	<baseFont family="IBMPlexMono, 'Courier New', monospace, 微软雅黑" size="14"/>
-	<background color="46494B" />
+	<background color="293134" />
 	<caret color="c1cbc2" />
 	<selection useFG="false" bg="404E51" roundedEdges="false" />
 	<currentLineHighlight color="2F393C" fade="false" />
@@ -49,11 +47,10 @@
 		<style token="FUNCTION" fg="E0E2E4" />
 		<style token="DATA_TYPE" fg="678CB1" bold="true" />
 		<style token="LITERAL_BOOLEAN" fg="93C763" bold="true" />
-		<style token="LITERAL_NUMBER_DECIMAL_INT" fg="FFCD22" bold="true"/>
-		<style token="LITERAL_NUMBER_FLOAT" fg="FFCD22" bold="true"/>
-		<style token="LITERAL_NUMBER_HEXADECIMAL" fg="FFCD22" bold="true"/>
-		<!--定义了双引号字符串字面量的样式,对应JOSN的值-->
-		<style token="LITERAL_STRING_DOUBLE_QUOTE" fg="9AD560"  bold="true" />
+		<style token="LITERAL_NUMBER_DECIMAL_INT" fg="FFCD22" />
+		<style token="LITERAL_NUMBER_FLOAT" fg="FFCD22" />
+		<style token="LITERAL_NUMBER_HEXADECIMAL" fg="FFCD22" />
+		<style token="LITERAL_STRING_DOUBLE_QUOTE" fg="EC7600" />
 		<style token="LITERAL_CHAR" fg="EC7600" />
 		<style token="LITERAL_BACKQUOTE" fg="EC7600" />
 		<style token="MARKUP_TAG_DELIMITER" fg="678CB1" />
@@ -69,12 +66,10 @@
 		<style token="OPERATOR" fg="E8E2B7" />
 		<style token="PREPROCESSOR" fg="A082BD" />
 		<style token="REGEX" fg="d39745" />
-		<!--定义了分隔符的样式, JSON括号颜色-->
-		<style token="SEPARATOR" fg="DCDCDC" bold="true" />
-		<!--定义了变量的样式,对应JOSN的键-->
-		<style token="VARIABLE" fg="B579F9" bold="true" />
-
+		<style token="SEPARATOR" fg="E8E2B7" />
+		<style token="VARIABLE" fg="ae9fbf" bold="true" />
 		<style token="WHITESPACE" fg="E0E2E4" />
+
 		<style token="ERROR_IDENTIFIER" fg="E0E2E4" bg="04790e" />
 		<style token="ERROR_NUMBER_FORMAT" fg="E0E2E4" bg="04790e" />
 		<style token="ERROR_STRING_DOUBLE" fg="E0E2E4" bg="04790e" />

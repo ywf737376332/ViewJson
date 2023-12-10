@@ -1,6 +1,7 @@
 package com.ywf.component;
 
-import com.ywf.component.textAreaEditor.JavaCodeEditor;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -15,43 +16,30 @@ import java.awt.*;
  */
 public class JPanelRight extends JPanel {
 
-    private JEditorPane editorPane;
+    private static RSyntaxTextArea textAreaEditor;
 
-    public JPanelRight(JPanel parentPanel) {
-        this.initUI(parentPanel);
+    public static JPanel createPanelRight() {
+        return initUI();
     }
 
     // 面板组件组装
-    public void initUI(JPanel parentPanel) {
-
-        // 创建面板
-        JPanel panelLeft = new JPanel();
-        panelLeft.setLayout(null);
-        panelLeft.setBounds(440, 10, 660, 740);
-        panelLeft.setBorder(new TitledBorder(new EtchedBorder(), "JSON数据", TitledBorder.LEFT, TitledBorder.TOP));
-
-        // 创建多文本框
-        editorPane = new JEditorPane();
-        editorPane.setBounds(15, 20, 630, 705);
-        editorPane.setEditorKit(new JavaCodeEditor());
-        editorPane.setFont(new Font(null, Font.PLAIN, 18));
-        //editorPane.setText(  new JsonFormatTool().formatJson("{\"header\":{\"channelId\":\"tar\",\"requestTime\":\"2021-03-17 16:56:52.316\",\"requestBranchCode\":538530,\"termNo\":\"0000000000\",\"operationOrg\":\"003\",\"ip\":\"162.16.52.10\",\"mac\":\"93DAFBA2-B573-477B-9780-629D7F385609\",\"infSeqNum \":\"111112111\",\"serviceCode\":\"DCP2000\",},\"body\":{\"userId\":\"103099091\",\"cerType\":\"1111\",\"certNo\":\"150202199304079035\",\"chCustName\":\"明四八\",\"phoneNo\":\"18221211098\"}}"));
-        JScrollPane jScrollPane = new JScrollPane();
-        jScrollPane.setBounds(15, 20, 630, 705);
-        jScrollPane.setViewportView(editorPane);
-        panelLeft.add(jScrollPane);
-        //panelLeft.add(editorPane);
-        // 将左侧原始数据面板添加到父组件
-        parentPanel.add(panelLeft);
+    private static JPanel initUI() {
+        JPanel panelRight = new JPanel();
+        panelRight.setPreferredSize(new Dimension(600, 0));
+        panelRight.setBorder(new TitledBorder(new EtchedBorder(), "JSON数据", TitledBorder.LEFT, TitledBorder.TOP));
+        panelRight.setLayout(new BorderLayout());
+        textAreaEditor = RSyntaxTextAreaEditor.createPanelLeft();
+        RTextScrollPane rTextScrollPane = new RTextScrollPane(textAreaEditor);
+        rTextScrollPane.setFoldIndicatorEnabled(true);
+        panelRight.add(rTextScrollPane, BorderLayout.CENTER);
+        return panelRight;
     }
 
-    public JEditorPane getEditorPane() {
-        return editorPane;
+    public static RSyntaxTextArea getTextAreaEditor() {
+        return textAreaEditor;
     }
 
-    public void setEditorPane(JEditorPane editorPane) {
-        this.editorPane = editorPane;
+    public static void setTextAreaEditor(RSyntaxTextArea textAreaEditor) {
+        JPanelRight.textAreaEditor = textAreaEditor;
     }
-
-
 }
