@@ -3,6 +3,7 @@ package com.ywf.framework.utils;
 import com.formdev.flatlaf.IntelliJTheme;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.ywf.component.MenuBarBuilder;
+import com.ywf.component.PopupMenuBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
@@ -43,6 +44,10 @@ public class ChangeUIUtils {
         }
         //主题应用
         SwingUtilities.updateComponentTreeUI(frame);
+        if (PopupMenuBuilder.getContextMenu() != null){
+            // 菜单主题应用
+            SwingUtilities.updateComponentTreeUI(PopupMenuBuilder.getContextMenu());
+        }
         // 过渡动画
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }

@@ -35,7 +35,7 @@ public class QRCodeUtils {
             hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
             hints.put(EncodeHintType.MARGIN, 1);// 边距值
-            BitMatrix bitMatrix = qrCodeWriter.encode(qrcodeStr, BarcodeFormat.QR_CODE, 580, 580, hints);
+            BitMatrix bitMatrix = qrCodeWriter.encode(qrcodeStr, BarcodeFormat.QR_CODE, 500, 500, hints);
             BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
             icon = new ImageIcon(image);
         } catch (WriterException e) {

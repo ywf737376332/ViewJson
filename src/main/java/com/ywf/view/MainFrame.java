@@ -1,8 +1,10 @@
 package com.ywf.view;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
-import com.ywf.action.FrameEventService;
+import com.ywf.action.FrameMouseEventService;
+import com.ywf.action.FrameWindowEventService;
 import com.ywf.component.MenuBarBuilder;
+import com.ywf.component.PopupMenuBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.constant.SystemConstant;
@@ -12,8 +14,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 /**
  * TODO
@@ -76,7 +77,8 @@ public class MainFrame extends JFrame {
         frame.setJMenuBar(menuBar);
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(mainPanel);
-        frame.addWindowListener(new FrameEventService(frame));
+        frame.addWindowListener(new FrameWindowEventService(frame));
+        frame.addMouseListener(new FrameMouseEventService(frame));
     }
 
 

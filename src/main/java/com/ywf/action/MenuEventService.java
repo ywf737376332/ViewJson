@@ -390,7 +390,7 @@ public class MenuEventService {
     public static void replaceBlankSpaceActionPerformed(JCheckBoxMenuItem checkBoxMenuItem) {
         String text = rSyntaxTextArea.getText();
         boolean replaceBlankSpace = checkBoxMenuItem.isSelected();
-        rSyntaxTextArea.setText(replaceBlankSpace ? JsonFormatUtil.compressingStr(text) : JsonFormatUtil.formatJson(text));
+        //rSyntaxTextArea.setText(replaceBlankSpace ? JsonFormatUtil.compressingStr(text) : JsonFormatUtil.formatJson(text));
         rSyntaxTextArea.setReplaceSpaceBlank(replaceBlankSpace ? true : false);
         systemProperties.setValueToProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY, String.valueOf(replaceBlankSpace));
     }

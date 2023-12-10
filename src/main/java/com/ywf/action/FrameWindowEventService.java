@@ -13,12 +13,12 @@ import java.awt.event.WindowEvent;
  * @Author YWF
  * @Date 2023/12/10 13:17
  */
-public class FrameEventService extends WindowAdapter {
+public class FrameWindowEventService extends WindowAdapter {
 
     private PropertiesUtil systemProperties;
     private JFrame frame;
 
-    public FrameEventService(JFrame frame) {
+    public FrameWindowEventService(JFrame frame) {
         this.frame = frame;
         this.systemProperties = PropertiesUtil.instance();
     }

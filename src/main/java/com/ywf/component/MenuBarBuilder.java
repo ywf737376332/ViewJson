@@ -99,6 +99,9 @@ public class MenuBarBuilder {
         JRadioButtonMenuItem darkThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Dark");
         JRadioButtonMenuItem arcDarkOrangeMenuItem = new JRadioButtonMenuItem("Arc Dark Orange");
         JRadioButtonMenuItem gruvboxDarkMediumMenuItem = new JRadioButtonMenuItem("Gruvbox Dark Medium");
+        JRadioButtonMenuItem materialDarkerMenuItem = new JRadioButtonMenuItem("Material Darker");
+        JRadioButtonMenuItem materialDeepOceanMenuItem = new JRadioButtonMenuItem("Material Deep Ocean");
+        JRadioButtonMenuItem nightOwlMenuItem = new JRadioButtonMenuItem("Night Owl");
 
         // 组装为单选
         ButtonGroup buttonGroupThemes = new ButtonGroup();
@@ -109,6 +112,9 @@ public class MenuBarBuilder {
         buttonGroupThemes.add(darkThemesMenuItem);
         buttonGroupThemes.add(arcDarkOrangeMenuItem);
         buttonGroupThemes.add(gruvboxDarkMediumMenuItem);
+        buttonGroupThemes.add(materialDarkerMenuItem);
+        buttonGroupThemes.add(materialDeepOceanMenuItem);
+        buttonGroupThemes.add(nightOwlMenuItem);
 
         themesMenu.add(lightThemesMenuItem);
         themesMenu.add(gitHubLightMenuItem);
@@ -117,6 +123,9 @@ public class MenuBarBuilder {
         themesMenu.add(darkThemesMenuItem);
         themesMenu.add(arcDarkOrangeMenuItem);
         themesMenu.add(gruvboxDarkMediumMenuItem);
+        themesMenu.add(materialDarkerMenuItem);
+        themesMenu.add(materialDeepOceanMenuItem);
+        themesMenu.add(nightOwlMenuItem);
         //添加事件
         MenuEventService.getInstance().setupThemesActionPerformed(frame, themesMenu);
 
@@ -142,7 +151,6 @@ public class MenuBarBuilder {
         htmlMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         htmlMenuItem.setMnemonic('O');
         htmlMenuItem.setIcon(new FlatSVGIcon("icons/menu-cut.svg"));
-
         //添加组件
         viewMenu.add(htmlMenuItem);
 
@@ -151,7 +159,6 @@ public class MenuBarBuilder {
         menuBar.add(setupMenu);
         menuBar.add(themesMenu);
         menuBar.add(helpMenu);
-        menuBar.add(viewMenu);
 
         return menuBar;
     }
