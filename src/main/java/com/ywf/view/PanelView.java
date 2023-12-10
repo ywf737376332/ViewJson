@@ -16,37 +16,33 @@ import java.awt.*;
 public class PanelView {
 
 
-    public static JPanel createPanelLeft(){
+    public static JPanel createPanelLeft() {
         JPanel panelLeft = new BasePanel();
-        //panelLeft.setPreferredSize(new Dimension(300, 0));
-        panelLeft.setMinimumSize(new Dimension(235,600));
-        //panelLeft.setBorder(new TitledBorder(new EtchedBorder(), "源数据区域", TitledBorder.LEFT, TitledBorder.TOP));
+        panelLeft.setMinimumSize(new Dimension(235, 600));
         panelLeft.setOpaque(false); // 设置为透明，以便边框可见
         panelLeft.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
         panelLeft.setLayout(new BorderLayout());
         return panelLeft;
     }
 
-    public static JPanel createPanelRight(){
+    public static JPanel createPanelRight() {
         JPanel panelRight = new BasePanel();
-        //panelRight.setPreferredSize(new Dimension(600, 0));
-        panelRight.setMinimumSize(new Dimension(235,600));
-        //panelRight.setBorder(new TitledBorder(new EtchedBorder(), "JSON区域", TitledBorder.LEFT, TitledBorder.TOP));
+        panelRight.setMinimumSize(new Dimension(235, 600));
         panelRight.setOpaque(false); // 设置为透明，以便边框可见
         panelRight.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
         panelRight.setLayout(new BorderLayout());
         return panelRight;
     }
 
-    public static JPanel createPanelBottom(){
+    public static JPanel createPanelBottom() {
         JPanel panelBottom = new BasePanel();
         // 设置上面框线
-        panelBottom.setBorder(BorderFactory.createMatteBorder(1,0,0,0,new Color(130,128,128,130))); // 设置边框颜色和宽度
+        panelBottom.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
         // 设置边距
         JPanel panelBottomText = new BasePanel();
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        JLabel labelCopyright = new JLabel("作者：莫斐鱼  日期：2023/11/25", IconUtils.getSVGIcon("icons/banner02.svg"),SwingConstants.LEFT);
-        labelCopyright.setForeground(new Color(156,170,207));
+        JLabel labelCopyright = new JLabel("作者：莫斐鱼  日期：2023/11/25", IconUtils.getSVGIcon("icons/banner02.svg"), SwingConstants.LEFT);
+        labelCopyright.setForeground(new Color(156, 170, 207));
         labelCopyright.setUI(new BasicLabelUI());
 
         // 状态栏
@@ -56,7 +52,7 @@ public class PanelView {
         panelBottomText.add(labelCopyright, BorderLayout.EAST);
 
         panelBottom.setLayout(new BorderLayout());
-        panelBottom.add(panelBottomText,BorderLayout.CENTER);
+        panelBottom.add(panelBottomText, BorderLayout.CENTER);
 
         return panelBottom;
     }
