@@ -3,6 +3,7 @@ package com.ywf.action;
 import cn.hutool.core.swing.clipboard.ImageSelection;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.JSONRSyntaxTextArea;
+import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.constant.SystemConstant;
@@ -217,11 +218,11 @@ public class MenuEventService {
             return;
         }
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         FileFilter fileFilter = new FileNameExtensionFilter("JSON文件", "json");
         fileChooser.setFileFilter(fileFilter);
         fileChooser.setDialogTitle("保存文件");
-        int userSelection = fileChooser.showSaveDialog(frame);
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
+        if (fileChooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             try {
                 FileWriter fileWriter = new FileWriter(fileToSave + SystemConstant.SAVE_JSON_EXTENSION);
@@ -388,9 +389,7 @@ public class MenuEventService {
      * @param checkBoxMenuItem
      */
     public static void replaceBlankSpaceActionPerformed(JCheckBoxMenuItem checkBoxMenuItem) {
-        String text = rSyntaxTextArea.getText();
         boolean replaceBlankSpace = checkBoxMenuItem.isSelected();
-        //rSyntaxTextArea.setText(replaceBlankSpace ? JsonFormatUtil.compressingStr(text) : JsonFormatUtil.formatJson(text));
         rSyntaxTextArea.setReplaceSpaceBlank(replaceBlankSpace ? true : false);
         systemProperties.setValueToProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY, String.valueOf(replaceBlankSpace));
     }
@@ -406,4 +405,16 @@ public class MenuEventService {
         toolBar.setVisible(!showToolBar);
         systemProperties.setValueToProperties(SystemConstant.SHOW_TOOL_BAR_KEY, String.valueOf(!showToolBar));
     }
+
+    /**
+     * 是否显示菜单栏
+     *
+     * @date 2023/12/9 21:40
+     */
+    public static void showMenuBarActionPerformed() {
+        JMenuBar menuBar = MenuBarBuilder.getMenuBar();
+        boolean showToolBar = menuBar.isVisible();
+        menuBar.setVisible(!showToolBar);
+    }
+
 }

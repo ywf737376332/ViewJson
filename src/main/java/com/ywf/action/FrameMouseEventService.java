@@ -25,7 +25,6 @@ public class FrameMouseEventService extends MouseAdapter {
         JPopupMenu contextMenu = PopupMenuBuilder.createPopupMenu();
         if (SwingUtilities.isRightMouseButton(e)) {
             contextMenu.show(frame, e.getX(), e.getY());
-            System.out.println("mouse");
         }
     }
 }

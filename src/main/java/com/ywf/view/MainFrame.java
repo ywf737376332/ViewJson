@@ -4,7 +4,6 @@ import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.ywf.action.FrameMouseEventService;
 import com.ywf.action.FrameWindowEventService;
 import com.ywf.component.MenuBarBuilder;
-import com.ywf.component.PopupMenuBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.constant.SystemConstant;
@@ -14,7 +13,6 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 /**
  * TODO

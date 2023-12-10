@@ -44,7 +44,7 @@ public class ChangeUIUtils {
         }
         //主题应用
         SwingUtilities.updateComponentTreeUI(frame);
-        if (PopupMenuBuilder.getContextMenu() != null){
+        if (PopupMenuBuilder.getContextMenu() != null) {
             // 菜单主题应用
             SwingUtilities.updateComponentTreeUI(PopupMenuBuilder.getContextMenu());
         }
