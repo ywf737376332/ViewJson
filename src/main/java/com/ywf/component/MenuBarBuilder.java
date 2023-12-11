@@ -21,7 +21,8 @@ public class MenuBarBuilder {
     private static PropertiesUtil systemProperties = PropertiesUtil.instance();
 
     private static JMenuBar menuBar;
-
+    private static JCheckBoxMenuItem showToolBarMenuItem;
+    private static JCheckBoxMenuItem showMenuBarMenuItem;
     public static JMenuBar createMenuBar(JFrame frame) {
 
         menuBar = new JMenuBar();
@@ -81,14 +82,19 @@ public class MenuBarBuilder {
         replaceSpaceMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY)));
         replaceSpaceMenuItem.addActionListener(e -> MenuEventService.getInstance().replaceBlankSpaceActionPerformed(replaceSpaceMenuItem));
 
-        JCheckBoxMenuItem showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
+        showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
         showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY)));
         showToolBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
+
+        showMenuBarMenuItem = new JCheckBoxMenuItem("显示菜单栏");
+        showMenuBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_MENU_BAR_KEY)));
+        showMenuBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
 
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
         setupMenu.add(replaceSpaceMenuItem);
         setupMenu.add(showToolBarMenuItem);
+        setupMenu.add(showMenuBarMenuItem);
 
         JMenu themesMenu = new JMenu("主题");
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
@@ -159,7 +165,7 @@ public class MenuBarBuilder {
         menuBar.add(setupMenu);
         menuBar.add(themesMenu);
         menuBar.add(helpMenu);
-
+        menuBar.setVisible(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_MENU_BAR_KEY)));
         return menuBar;
     }
 
@@ -169,5 +175,21 @@ public class MenuBarBuilder {
 
     public static void setMenuBar(JMenuBar menuBar) {
         MenuBarBuilder.menuBar = menuBar;
+    }
+
+    public static JCheckBoxMenuItem getShowToolBarMenuItem() {
+        return showToolBarMenuItem;
+    }
+
+    public static void setShowToolBarMenuItem(JCheckBoxMenuItem showToolBarMenuItem) {
+        MenuBarBuilder.showToolBarMenuItem = showToolBarMenuItem;
+    }
+
+    public static JCheckBoxMenuItem getShowMenuBarMenuItem() {
+        return showMenuBarMenuItem;
+    }
+
+    public static void setShowMenuBarMenuItem(JCheckBoxMenuItem showMenuBarMenuItem) {
+        MenuBarBuilder.showMenuBarMenuItem = showMenuBarMenuItem;
     }
 }

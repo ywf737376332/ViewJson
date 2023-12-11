@@ -2,10 +2,7 @@ package com.ywf.action;
 
 import cn.hutool.core.swing.clipboard.ImageSelection;
 import com.formdev.flatlaf.FlatClientProperties;
-import com.ywf.component.JSONRSyntaxTextArea;
-import com.ywf.component.MenuBarBuilder;
-import com.ywf.component.TextAreaBuilder;
-import com.ywf.component.ToolBarBuilder;
+import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.ChangeUIUtils;
@@ -403,6 +400,9 @@ public class MenuEventService {
         JToolBar toolBar = ToolBarBuilder.getToolBar();
         boolean showToolBar = toolBar.isVisible();
         toolBar.setVisible(!showToolBar);
+        // 菜单栏和工具按钮联动修改状态
+        MenuBarBuilder.getShowToolBarMenuItem().setSelected(!showToolBar);
+        PopupMenuBuilder.getInstance().getToolBarShowState().setSelected(!showToolBar);
         systemProperties.setValueToProperties(SystemConstant.SHOW_TOOL_BAR_KEY, String.valueOf(!showToolBar));
     }
 
@@ -413,8 +413,12 @@ public class MenuEventService {
      */
     public static void showMenuBarActionPerformed() {
         JMenuBar menuBar = MenuBarBuilder.getMenuBar();
-        boolean showToolBar = menuBar.isVisible();
-        menuBar.setVisible(!showToolBar);
+        boolean showMenuBar = menuBar.isVisible();
+        menuBar.setVisible(!showMenuBar);
+        // 菜单栏和工具按钮联动修改状态
+        MenuBarBuilder.getShowMenuBarMenuItem().setSelected(!showMenuBar);
+        PopupMenuBuilder.getInstance().getMenuBarShowState().setSelected(!showMenuBar);
+        systemProperties.setValueToProperties(SystemConstant.SHOW_MENU_BAR_KEY, String.valueOf(!showMenuBar));
     }
 
 }

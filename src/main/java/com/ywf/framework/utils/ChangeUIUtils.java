@@ -44,9 +44,9 @@ public class ChangeUIUtils {
         }
         //主题应用
         SwingUtilities.updateComponentTreeUI(frame);
-        if (PopupMenuBuilder.getContextMenu() != null) {
+        if (PopupMenuBuilder.getInstance().getContextMenu() != null) {
             // 菜单主题应用
-            SwingUtilities.updateComponentTreeUI(PopupMenuBuilder.getContextMenu());
+            SwingUtilities.updateComponentTreeUI(PopupMenuBuilder.getInstance().getContextMenu());
         }
         // 过渡动画
         FlatAnimatedLafChange.hideSnapshotWithAnimation();

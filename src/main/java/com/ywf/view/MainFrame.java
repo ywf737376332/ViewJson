@@ -1,13 +1,12 @@
 package com.ywf.view;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
-import com.ywf.action.FrameMouseEventService;
 import com.ywf.action.FrameWindowEventService;
 import com.ywf.component.MenuBarBuilder;
+import com.ywf.component.PopupMenuBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.PropertiesUtil;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -36,18 +35,6 @@ public class MainFrame extends JFrame {
         setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
         setMinimumSize(new Dimension(800, 600));
         //设置图标
-        // 使用Image.getScaledInstance()方法缩放图标
-        //Image icon = IconUtils.getIcon("/ico/logo003.png");
-        ImageIcon icon = IconUtils.getSVGIcon("icons/colors.svg");
-        // 获取原始图标的宽度和高度
-        int originalWidth = icon.getIconWidth();
-        int originalHeight = icon.getIconHeight();
-        // 计算缩放比例
-        double scaleFactor = 200; // 例如，将图标大小缩小为原来的50%
-        // 使用Image.getScaledInstance()方法缩放图标
-        Image scaledIcon = icon.getImage().getScaledInstance((int) (originalWidth * scaleFactor), (int) (originalHeight * scaleFactor), Image.SCALE_SMOOTH);
-        //setIconImage(scaledIcon);
-        //setIconImage(IconUtils.getIcon("/icons/logo009.png"));
         setIconImages(FlatSVGUtils.createWindowIconImages("/icons/FlatLaf.svg"));
         // 初始化界面
         initUI(_this);
@@ -76,7 +63,8 @@ public class MainFrame extends JFrame {
         frame.add(toolBar, BorderLayout.NORTH);
         frame.add(mainPanel);
         frame.addWindowListener(new FrameWindowEventService(frame));
-        frame.addMouseListener(new FrameMouseEventService(frame));
+        frame.addMouseListener(PopupMenuBuilder.getInstance().getPopupListener());
+
     }
 
 
