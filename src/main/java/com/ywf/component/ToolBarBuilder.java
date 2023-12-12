@@ -54,7 +54,7 @@ public class ToolBarBuilder {
         btnCopy.addActionListener(e -> MenuEventService.getInstance().copyJsonActionPerformed(frame));
         btnCopyPict = new JButton("复制图片");
         btnCopyPict.addActionListener(e -> MenuEventService.getInstance().copyJsonToPictActionPerformed(frame));
-        btnShowQrcode = new JButton("二维码分享");
+        btnShowQrcode = new JButton("内容分享");
         btnShowQrcode.addActionListener(e -> QRCodeEventService.getInstance().showQrcodeActionPerformed(frame));
 
         btnFindRepl = new JButton("查找替换");
