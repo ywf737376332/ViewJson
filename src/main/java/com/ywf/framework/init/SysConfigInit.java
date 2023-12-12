@@ -66,10 +66,10 @@ public class SysConfigInit {
             // 是否换行
             systemProperties.setValueToProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY, "false");
         }
-        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY))) {
-            // 是否替换空格
-            systemProperties.setValueToProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY, "false");
-        }
+        //if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY))) {
+        //    // 是否替换空格
+        //    systemProperties.setValueToProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY, "false");
+        //}
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY))) {
             // 显示工具栏
             systemProperties.setValueToProperties(SystemConstant.SHOW_TOOL_BAR_KEY, "true");

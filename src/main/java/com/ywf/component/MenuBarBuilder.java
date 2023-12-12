@@ -78,9 +78,9 @@ public class MenuBarBuilder {
         lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
         lineSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().lineSetupActionPerformed());
 
-        JCheckBoxMenuItem replaceSpaceMenuItem = new JCheckBoxMenuItem("去除空格");
-        replaceSpaceMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY)));
-        replaceSpaceMenuItem.addActionListener(e -> MenuEventService.getInstance().replaceBlankSpaceActionPerformed(replaceSpaceMenuItem));
+        //JCheckBoxMenuItem replaceSpaceMenuItem = new JCheckBoxMenuItem("去除空格");
+        //replaceSpaceMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY)));
+        //replaceSpaceMenuItem.addActionListener(e -> MenuEventService.getInstance().replaceBlankSpaceActionPerformed(replaceSpaceMenuItem));
 
         showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
         showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY)));
@@ -92,7 +92,7 @@ public class MenuBarBuilder {
 
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
-        setupMenu.add(replaceSpaceMenuItem);
+        //setupMenu.add(replaceSpaceMenuItem);
         setupMenu.add(showToolBarMenuItem);
         setupMenu.add(showMenuBarMenuItem);
 

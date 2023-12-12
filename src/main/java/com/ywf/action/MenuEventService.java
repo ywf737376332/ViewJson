@@ -165,7 +165,10 @@ public class MenuEventService {
             Transferable transferable = new ImageSelection(image);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(transferable, null);
-            JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
+
+            DialogBuilder.ShowImageDialog(frame, "预览图片", new ImageIcon(image));
+
+            //JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "图片复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("图片复制失败: " + e.getMessage());

@@ -1,5 +1,7 @@
 package com.ywf.action;
 
+import com.ywf.component.DialogBuilder;
+import com.ywf.component.ShowImageDialog;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.utils.QRCodeUtils;
 
@@ -47,7 +49,9 @@ public class QRCodeEventService {
             return;
         }
         ImageIcon icon = QRCodeUtils.GeneratorQRCode(text);
-        JOptionPane.showMessageDialog(frame, null, "二维码展示", JOptionPane.INFORMATION_MESSAGE, icon);
+        //JOptionPane.showMessageDialog(frame, null, "二维码展示", JOptionPane.INFORMATION_MESSAGE, icon);
+        //new ShowImageDialog(frame, "二维码展示", icon);
+        DialogBuilder.ShowImageDialog(frame, "二维码展示", icon);
     }
 
 }

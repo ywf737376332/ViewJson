@@ -37,4 +37,8 @@ public class IconUtils {
         return flatSVGIcon;
     }
 
+    public static ImageIcon getImageIcon(String imagePath) {
+        return new ImageIcon(imagePath);
+    }
+
 }
