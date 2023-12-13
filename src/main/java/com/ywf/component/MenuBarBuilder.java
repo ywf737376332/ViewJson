@@ -90,11 +90,14 @@ public class MenuBarBuilder {
         showMenuBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_MENU_BAR_KEY)));
         showMenuBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
 
+        JMenu toolBarMenuItem = new JMenu("外观菜单");
+        toolBarMenuItem.add(showToolBarMenuItem);
+        toolBarMenuItem.add(showMenuBarMenuItem);
+
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
         //setupMenu.add(replaceSpaceMenuItem);
-        setupMenu.add(showToolBarMenuItem);
-        setupMenu.add(showMenuBarMenuItem);
+        setupMenu.add(toolBarMenuItem);
 
         JMenu themesMenu = new JMenu("主题");
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
