@@ -44,9 +44,14 @@ public class DialogBuilder {
 
     private static JDialog createDialog(JFrame parentFrame, String title, ImageIcon image){
         JDialog dialog = new JDialog(parentFrame, title, true);
-        JLabel imageLabel = new JLabel(image);
+        //JLabel imageLabel = new JLabel(image);
+        JLabel imageLabel = new LabelWithToolBox(image);
+
+        imageLabel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(0xDE_DE_DE)),
+                BorderFactory.createLineBorder(Color.white, 4)));
         dialog.add(imageLabel, BorderLayout.CENTER);
-        dialog.setSize(image.getIconWidth() + 40, image.getIconHeight() + 40);
+        dialog.setSize(image.getIconWidth(), image.getIconHeight());
         dialog.setLayout(new BorderLayout());
         dialog.add(imageLabel, BorderLayout.CENTER);
         dialog.setLocationRelativeTo(parentFrame);

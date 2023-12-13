@@ -1,6 +1,7 @@
 package com.ywf.view;
 
 import com.ywf.component.BasePanel;
+import com.ywf.component.LoadingLabel;
 import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ import java.awt.*;
  */
 public class PanelView {
 
+    private static LoadingLabel loadingLabel;
 
     public static JPanel createPanelLeft() {
         JPanel panelLeft = new BasePanel();
@@ -48,7 +50,11 @@ public class PanelView {
         // 状态栏
         JLabel labelStateBar = new JLabel("");
         panelBottomText.setLayout(new BorderLayout());
-
+        Box box = Box.createHorizontalBox();
+        loadingLabel = new LoadingLabel();
+        box.add(loadingLabel);
+        box.add(Box.createHorizontalGlue());
+        panelBottomText.add(box, BorderLayout.CENTER);
         panelBottomText.add(labelStateBar, BorderLayout.WEST);
         panelBottomText.add(labelCopyright, BorderLayout.EAST);
 
@@ -58,4 +64,11 @@ public class PanelView {
         return panelBottom;
     }
 
+    public static LoadingLabel getLoadingLabel() {
+        return loadingLabel;
+    }
+
+    public static void setLoadingLabel(LoadingLabel loadingLabel) {
+        PanelView.loadingLabel = loadingLabel;
+    }
 }

@@ -5,6 +5,7 @@ import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.*;
+import com.ywf.view.PanelView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -158,8 +159,11 @@ public class MenuEventService {
             rSyntaxTextArea.print(g2d);
             g2d.dispose();
             // 保存图片到剪贴板
+            LoadingLabel loadingLabel = PanelView.getLoadingLabel();
+            loadingLabel.startAnimation();
             ImageUtils.imageToClipboard(image);
             JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
+            loadingLabel.stopAnimation();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "图片复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("图片复制失败: " + e.getMessage());
