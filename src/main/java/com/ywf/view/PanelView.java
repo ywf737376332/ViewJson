@@ -48,6 +48,7 @@ public class PanelView {
         // 状态栏
         JLabel labelStateBar = new JLabel("");
         panelBottomText.setLayout(new BorderLayout());
+
         panelBottomText.add(labelStateBar, BorderLayout.WEST);
         panelBottomText.add(labelCopyright, BorderLayout.EAST);
 

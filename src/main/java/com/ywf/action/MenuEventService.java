@@ -1,14 +1,10 @@
 package com.ywf.action;
 
-import cn.hutool.core.swing.clipboard.ImageSelection;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.utils.ChangeUIUtils;
-import com.ywf.framework.utils.IconUtils;
-import com.ywf.framework.utils.JsonFormatUtil;
-import com.ywf.framework.utils.PropertiesUtil;
+import com.ywf.framework.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,7 +13,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -27,6 +22,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 菜单事件
@@ -161,14 +158,8 @@ public class MenuEventService {
             rSyntaxTextArea.print(g2d);
             g2d.dispose();
             // 保存图片到剪贴板
-            // ImageSelection 类糊涂工具类里面的实现，如果要自己实现，复制糊涂代码，写内部类或者单独的类也可以
-            Transferable transferable = new ImageSelection(image);
-            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(transferable, null);
-
-            DialogBuilder.ShowImageDialog(frame, "预览图片", new ImageIcon(image));
-
-            //JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
+            ImageUtils.imageToClipboard(image);
+            JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "图片复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("图片复制失败: " + e.getMessage());
@@ -422,6 +413,24 @@ public class MenuEventService {
         MenuBarBuilder.getShowMenuBarMenuItem().setSelected(!showMenuBar);
         PopupMenuBuilder.getInstance().getMenuBarShowState().setSelected(!showMenuBar);
         systemProperties.setValueToProperties(SystemConstant.SHOW_MENU_BAR_KEY, String.valueOf(!showMenuBar));
+    }
+
+    public void updateProgressBarActionPerformed(JProgressBar progressBar) {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int progress = 0;
+
+            @Override
+            public void run() {
+                if (progress < 100) {
+                    System.out.println("进度条：" + progress);
+                    progress++;
+                    progressBar.setValue(progress);
+                } else {
+                    timer.cancel();
+                }
+            }
+        }, 0, 50); // 每隔50毫秒更新一次进度条
     }
 
 }
