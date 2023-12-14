@@ -22,8 +22,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 /**
  * 菜单事件
@@ -382,24 +381,6 @@ public class MenuEventService {
         MenuBarBuilder.getShowMenuBarMenuItem().setSelected(!showMenuBar);
         PopupMenuBuilder.getInstance().getMenuBarShowState().setSelected(!showMenuBar);
         systemProperties.setValueToProperties(SystemConstant.SHOW_MENU_BAR_KEY, String.valueOf(!showMenuBar));
-    }
-
-    public void updateProgressBarActionPerformed(JProgressBar progressBar) {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int progress = 0;
-
-            @Override
-            public void run() {
-                if (progress < 100) {
-                    System.out.println("进度条：" + progress);
-                    progress++;
-                    progressBar.setValue(progress);
-                } else {
-                    timer.cancel();
-                }
-            }
-        }, 0, 50); // 每隔50毫秒更新一次进度条
     }
 
 }
