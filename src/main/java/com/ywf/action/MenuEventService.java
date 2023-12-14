@@ -5,7 +5,6 @@ import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.*;
-import com.ywf.view.PanelView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -159,11 +158,8 @@ public class MenuEventService {
             rSyntaxTextArea.print(g2d);
             g2d.dispose();
             // 保存图片到剪贴板
-            LoadingLabel loadingLabel = PanelView.getLoadingLabel();
-            loadingLabel.startAnimation();
             ImageUtils.imageToClipboard(image);
             JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
-            loadingLabel.stopAnimation();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "图片复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("图片复制失败: " + e.getMessage());
@@ -279,50 +275,19 @@ public class MenuEventService {
                 try {
                     Desktop.getDesktop().browse(new URI(link));
                 } catch (IOException | URISyntaxException ex) {
-                    JOptionPane.showMessageDialog(linkLabel,
-                            "发送邮件到 '" + link + "' 邮箱，反馈问题、建议、或加入我们!",
-                            "提示", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(linkLabel, "发送邮件到 '" + link + "' 邮箱，反馈问题、建议、或加入我们!", "提示", JOptionPane.PLAIN_MESSAGE);
                 }
             }
         });
-        JOptionPane.showMessageDialog(null,
-                new Object[]{
-                        titleLabel,
-                        " ",
-                        "作者：莫斐鱼",
-                        "座右铭：读万卷书，行万里路，阅无数人",
-                        linkLabel,
-                        "Copyright 2023-" + Year.now() + ""
-                },
-                "关于", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, new Object[]{titleLabel, " ", "作者：莫斐鱼", "座右铭：读万卷书，行万里路，阅无数人", linkLabel, "Copyright 2023-" + Year.now() + ""}, "关于", JOptionPane.PLAIN_MESSAGE);
     }
 
     /**
      * 更新日志对话框
      */
     public static void updateLogActionPerformed() {
-        JLabel linkLabel = new JLabel(
-                "<html>" +
-                        "<span>最新更新：</span>" +
-                        "<ol type=\"1\" style=\"float:left\">" +
-                        "<li>工具条新增新建按钮，点击新建时，增加新的选项卡.</li>" +
-                        "<li>删除左侧富文本框，增加JSON树显示.</li>" +
-                        "<li>系统托盘驻留功能.</li>" +
-                        "<li>最下方显示，工具格式化次数.</li>" +
-                        "<li>系统托盘驻留功能.</li>" +
-                        "<li>搜索功能.</li>" +
-                        "<li>窗口大小本地文件记录.</li>" +
-                        "<li>增加记录上一次选定的主题颜色.</li>" +
-                        "<li>报文分享为二维码.</li>" +
-                        "<li>增加按钮栏工具是否显示，某个按钮是否显示功能.</li>" +
-                        "<li>增加复制图片功能.</li>" +
-                        "</ol>" +
-                        "</html>");
-        JOptionPane.showMessageDialog(null,
-                new Object[]{
-                        linkLabel
-                },
-                "更新日志", JOptionPane.PLAIN_MESSAGE);
+        JLabel linkLabel = new JLabel("<html>" + "<span>最新更新：</span>" + "<ol type=\"1\" style=\"float:left\">" + "<li>工具条新增新建按钮，点击新建时，增加新的选项卡.</li>" + "<li>删除左侧富文本框，增加JSON树显示.</li>" + "<li>系统托盘驻留功能.</li>" + "<li>最下方显示，工具格式化次数.</li>" + "<li>系统托盘驻留功能.</li>" + "<li>搜索功能.</li>" + "<li>窗口大小本地文件记录.</li>" + "<li>增加记录上一次选定的主题颜色.</li>" + "<li>报文分享为二维码.</li>" + "<li>增加按钮栏工具是否显示，某个按钮是否显示功能.</li>" + "<li>增加复制图片功能.</li>" + "</ol>" + "</html>");
+        JOptionPane.showMessageDialog(null, new Object[]{linkLabel}, "更新日志", JOptionPane.PLAIN_MESSAGE);
     }
 
     /**
