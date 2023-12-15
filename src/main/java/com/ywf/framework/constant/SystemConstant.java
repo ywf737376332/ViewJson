@@ -34,7 +34,7 @@ public class SystemConstant {
      */
     public static final String TEXTAREA_EDIT_STATE_KEY = "textAreaEditState"; // 文本编辑器是否可编辑状态KEY
     public static final String TEXTAREA_BREAK_LINE_KEY = "textAreaBreakLineState"; // 文本编辑器是否可换行KEY
-    public static final String TEXTAREA_REPLACE_BLANKSPACE_KEY = "textAreaReplaceBlankSpaceState"; // 文本编辑器是否可换行KEY
+    public static final String TEXTAREA_SHOW_LINE_NUM_KEY = "textAreaShowlineNumState"; // 文本编辑器是否可换行KEY
     public static final String SHOW_TOOL_BAR_KEY = "showToolBarState"; // 是否显示工具栏KEY
     public static final String SHOW_MENU_BAR_KEY = "showMenuBarState"; // 是否显示菜单栏KEY
     public static final String SCREEN_SIZE_WIDTH_KEY = "screenSizeKey.width"; // 屏幕大小记录KEY
@@ -52,7 +52,6 @@ public class SystemConstant {
      */
     public final static String publicKey = "0489f68e0e9a4ff7cc5a664ff842813132d09931d80a4d7e40390b6a9754f5d5413cca075ac2d0a37613c151cd1ee82c81b20c6d9106f5f449a9333a02aa95b303";
     public final static String privateKey = "514762ec15c4f0d61970a213501c3cb31ad2efa13d00f4615fe55f9b2dc10d36";
-
 
 
 }

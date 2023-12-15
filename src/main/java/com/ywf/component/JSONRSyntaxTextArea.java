@@ -15,7 +15,7 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
     private boolean isReplaceSpaceBlank = false;
 
     // 是否中文转Unicode
-    private int chineseConverState = TextConvertEnum.CONVERT_CLOSED.getConverType();
+    private int chineseConverState;
 
     public JSONRSyntaxTextArea(){
         super();

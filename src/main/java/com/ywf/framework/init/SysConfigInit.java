@@ -66,10 +66,14 @@ public class SysConfigInit {
             // 是否换行
             systemProperties.setValueToProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY, "false");
         }
-        //if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY))) {
-        //    // 是否替换空格
-        //    systemProperties.setValueToProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY, "false");
-        //}
+        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY))) {
+            // 中文转码状态 默认关闭
+            systemProperties.setValueToProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY, "0");
+        }
+        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY))) {
+            // 是否显示行号
+            systemProperties.setValueToProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY, "false");
+        }
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY))) {
             // 显示工具栏
             systemProperties.setValueToProperties(SystemConstant.SHOW_TOOL_BAR_KEY, "true");

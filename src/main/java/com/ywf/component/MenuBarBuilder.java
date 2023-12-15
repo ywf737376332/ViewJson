@@ -1,5 +1,6 @@
 package com.ywf.component;
 
+import cn.hutool.core.util.NumberUtil;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
 import com.ywf.framework.constant.SystemConstant;
@@ -80,9 +81,9 @@ public class MenuBarBuilder {
         lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
         lineSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().lineSetupActionPerformed());
 
-        //JCheckBoxMenuItem replaceSpaceMenuItem = new JCheckBoxMenuItem("去除空格");
-        //replaceSpaceMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY)));
-        //replaceSpaceMenuItem.addActionListener(e -> MenuEventService.getInstance().replaceBlankSpaceActionPerformed(replaceSpaceMenuItem));
+        JCheckBoxMenuItem showlineNumMenuItem = new JCheckBoxMenuItem("显示行号");
+        showlineNumMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY)));
+        showlineNumMenuItem.addActionListener(e -> MenuEventService.getInstance().showLineNumActionPerformed());
 
         showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
         showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY)));
@@ -97,12 +98,14 @@ public class MenuBarBuilder {
         toolBarMenuItem.add(showMenuBarMenuItem);
 
         JMenu chineseConverMenuItem = new JMenu("中文转码");
-        JRadioButtonMenuItem chineseConverUnicodeMenuItem = new JRadioButtonMenuItem("中文转Unicode");
+        int chineseConverState = NumberUtil.parseInt(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY));
+        JRadioButtonMenuItem chineseConverUnicodeMenuItem = new JRadioButtonMenuItem("中文转Unicode", chineseConverState == 1 ? true : false);
         chineseConverUnicodeMenuItem.addActionListener(e -> MenuEventService.getInstance().chineseConverActionPerformed(TextConvertEnum.CH_TO_UN));
-        JRadioButtonMenuItem unicodeConverChineseMenuItem = new JRadioButtonMenuItem("Unicode转中文");
+        JRadioButtonMenuItem unicodeConverChineseMenuItem = new JRadioButtonMenuItem("Unicode转中文", chineseConverState == 2 ? true : false);
         unicodeConverChineseMenuItem.addActionListener(e -> MenuEventService.getInstance().chineseConverActionPerformed(TextConvertEnum.UN_TO_CH));
-        JRadioButtonMenuItem unConverMenuItem = new JRadioButtonMenuItem("转码功能关闭");
+        JRadioButtonMenuItem unConverMenuItem = new JRadioButtonMenuItem("转码功能关闭", chineseConverState == 0 ? true : false);
         unConverMenuItem.addActionListener(e -> MenuEventService.getInstance().chineseConverActionPerformed(TextConvertEnum.CONVERT_CLOSED));
+
         ButtonGroup chineseConverButtonGroup = new ButtonGroup();
         chineseConverButtonGroup.add(unConverMenuItem);
         chineseConverButtonGroup.add(chineseConverUnicodeMenuItem);
@@ -110,12 +113,10 @@ public class MenuBarBuilder {
         chineseConverMenuItem.add(unConverMenuItem);
         chineseConverMenuItem.add(chineseConverUnicodeMenuItem);
         chineseConverMenuItem.add(unicodeConverChineseMenuItem);
-        //添加事件
-        MenuEventService.getInstance().converFocusActionPerformed(chineseConverMenuItem);
 
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
-        //setupMenu.add(replaceSpaceMenuItem);
+        setupMenu.add(showlineNumMenuItem);
         setupMenu.add(toolBarMenuItem);
         setupMenu.add(chineseConverMenuItem);
 

@@ -1,5 +1,6 @@
 package com.ywf.component;
 
+import cn.hutool.core.util.NumberUtil;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.PropertiesUtil;
@@ -24,18 +25,20 @@ public class TextAreaBuilder {
 
     private static JSONRSyntaxTextArea syntaxTextArea;
 
+    private static RTextScrollPane rTextScrollPane;
+
     private static PropertiesUtil systemProperties = PropertiesUtil.instance();
 
     /**
      * 带滚动条的多文本框
      */
-    public static JScrollPane scrollTextArea(){
+    public static JScrollPane scrollTextArea() {
         textAreaSource = new JTextArea();
         UndoManager manager = new UndoManager();
         textAreaSource.getDocument().addUndoableEditListener(manager);
         textAreaSource.setLineWrap(true);
         textAreaSource.setBorder(null);
-        textAreaSource.setForeground(new Color(200,96,17));
+        textAreaSource.setForeground(new Color(200, 96, 17));
         textAreaSource.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置边框为10像素的空白边框
         JScrollPane jScrollPane = new JScrollPane();
         jScrollPane.setViewportView(textAreaSource);
@@ -48,9 +51,11 @@ public class TextAreaBuilder {
      */
     public static RTextScrollPane JsonScrollTextArea() {
         SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
-        String themesPath = themesStyles!=null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
+        String themesPath = themesStyles != null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
-        RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
+        rTextScrollPane = new RTextScrollPane(syntaxTextArea);
+        // 显示行号
+        rTextScrollPane.setLineNumbersEnabled(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY)));
         rTextScrollPane.setFoldIndicatorEnabled(true);
         return rTextScrollPane;
     }
@@ -64,13 +69,11 @@ public class TextAreaBuilder {
         textArea.setAntiAliasingEnabled(true);
         // 启用了自动滚动功能
         textArea.setAutoscrolls(true);
-        // 启用了自动换行功能
-        textArea.setLineWrap(false);
-
         // 读取配置信息中的数据
         textArea.setEditable(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY)));
+        // 自动换行功能
         textArea.setLineWrap(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
-        //textArea.setReplaceSpaceBlank(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY)));
+        textArea.setChineseConverState(NumberUtil.parseInt(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY)));
         textArea.revalidate();
         try {
             Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));
@@ -95,5 +98,13 @@ public class TextAreaBuilder {
 
     public static void setSyntaxTextArea(JSONRSyntaxTextArea syntaxTextArea) {
         TextAreaBuilder.syntaxTextArea = syntaxTextArea;
+    }
+
+    public static RTextScrollPane getrTextScrollPane() {
+        return rTextScrollPane;
+    }
+
+    public static void setrTextScrollPane(RTextScrollPane rTextScrollPane) {
+        TextAreaBuilder.rTextScrollPane = rTextScrollPane;
     }
 }

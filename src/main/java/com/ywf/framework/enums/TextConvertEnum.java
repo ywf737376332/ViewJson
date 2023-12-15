@@ -20,6 +20,15 @@ public enum TextConvertEnum {
         this.converDesc = converDesc;
     }
 
+    public static TextConvertEnum findConverEnumByState(int state){
+        for (TextConvertEnum value : TextConvertEnum.values()) {
+            if (state==value.converType){
+                return value;
+            }
+        }
+        return null;
+    }
+
     public int getConverType() {
         return converType;
     }

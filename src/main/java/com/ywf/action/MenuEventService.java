@@ -7,6 +7,7 @@ import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.utils.*;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -43,6 +44,7 @@ public class MenuEventService {
 
     private static PropertiesUtil systemProperties;
     private static JSONRSyntaxTextArea rSyntaxTextArea;
+    private static RTextScrollPane rTextScrollPane;
 
     /**
      * 保存图片放大倍数
@@ -55,6 +57,7 @@ public class MenuEventService {
     static {
         systemProperties = PropertiesUtil.instance();
         rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
+        rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
     }
 
     private MenuEventService() {
@@ -82,12 +85,12 @@ public class MenuEventService {
             return;
         }
         String text = JsonFormatUtil.compressingStr(rSyntaxTextArea.getText());
-        int chineseConverState = rSyntaxTextArea.getChineseConverState();
-        switch (chineseConverState) {
-            case 1:
+        int converState = rSyntaxTextArea.getChineseConverState();
+        switch (TextConvertEnum.findConverEnumByState(converState)) {
+            case CH_TO_UN:
                 rSyntaxTextArea.setText(JsonFormatUtil.formatJson(UnicodeUtil.toUnicode(text)));
                 break;
-            case 2:
+            case UN_TO_CH:
                 rSyntaxTextArea.setText(JsonFormatUtil.formatJson(UnicodeUtil.toString(text)));
                 break;
             default:
@@ -354,14 +357,14 @@ public class MenuEventService {
     }
 
     /**
-     * 是否替换空格
+     * 显示行号
      *
-     * @param checkBoxMenuItem
+     * @param
      */
-    public static void replaceBlankSpaceActionPerformed(JCheckBoxMenuItem checkBoxMenuItem) {
-        boolean replaceBlankSpace = checkBoxMenuItem.isSelected();
-        rSyntaxTextArea.setReplaceSpaceBlank(replaceBlankSpace ? true : false);
-        systemProperties.setValueToProperties(SystemConstant.TEXTAREA_REPLACE_BLANKSPACE_KEY, String.valueOf(replaceBlankSpace));
+    public static void showLineNumActionPerformed() {
+        boolean lineNumbersEnabled = rTextScrollPane.getLineNumbersEnabled();
+        rTextScrollPane.setLineNumbersEnabled(!lineNumbersEnabled);
+        systemProperties.setValueToProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY, String.valueOf(!lineNumbersEnabled));
     }
 
     /**
@@ -401,23 +404,7 @@ public class MenuEventService {
      */
     public static void chineseConverActionPerformed(TextConvertEnum converType) {
         rSyntaxTextArea.setChineseConverState(converType.getConverType());
-    }
-
-    public static void converFocusActionPerformed(JMenu chineseConverMenuItem) {
-        for (Component menuComponent : chineseConverMenuItem.getMenuComponents()) {
-            if (menuComponent instanceof JRadioButtonMenuItem){
-                JRadioButtonMenuItem menuItem = (JRadioButtonMenuItem) menuComponent;
-                System.out.println("menu:"+menuComponent.getName()+" is" +menuItem.getText());
-                if (TextConvertEnum.CONVERT_CLOSED.getConverDesc().equals(menuItem.getText()) && menuItem.isSelected()){
-                    System.out.println("guanbi");
-                }else if (TextConvertEnum.CH_TO_UN.getConverDesc().equals(menuItem.getText()) && menuItem.isSelected()){
-                    System.out.println("CH_TO_UN");
-                }else{
-                    System.out.println("UN_TO_CN");
-
-                }
-            }
-        }
+        systemProperties.setValueToProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY, String.valueOf(converType.getConverType()));
     }
 
 }
