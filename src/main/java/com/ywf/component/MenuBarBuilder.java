@@ -24,6 +24,7 @@ public class MenuBarBuilder {
     private static JMenuBar menuBar;
     private static JCheckBoxMenuItem showToolBarMenuItem;
     private static JCheckBoxMenuItem showMenuBarMenuItem;
+
     public static JMenuBar createMenuBar(JFrame frame) {
 
         menuBar = new JMenuBar();

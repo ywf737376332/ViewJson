@@ -8,9 +8,9 @@ package com.ywf.framework.enums;
  */
 public enum TextConvertEnum {
 
-    CONVERT_CLOSED(0,"转码功能关闭"),
-    CH_TO_UN(1,"中文转Unicode"),
-    UN_TO_CH(2,"Unicode转中文");
+    CONVERT_CLOSED(0, "转码功能关闭"),
+    CH_TO_UN(1, "中文转Unicode"),
+    UN_TO_CH(2, "Unicode转中文");
 
     private int converType;
     private String converDesc;
