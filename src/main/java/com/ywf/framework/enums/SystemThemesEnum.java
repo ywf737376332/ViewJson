@@ -2,8 +2,6 @@ package com.ywf.framework.enums;
 
 import com.ywf.framework.constant.SystemConstant;
 
-import javax.print.attribute.standard.MediaSize;
-
 /**
  * TODO
  *
@@ -40,9 +38,9 @@ public enum SystemThemesEnum {
         this.textAreaStyles = textAreaStyles;
     }
 
-    public static SystemThemesEnum findThemesBykey(String themesKey){
+    public static SystemThemesEnum findThemesBykey(String themesKey) {
         for (SystemThemesEnum value : SystemThemesEnum.values()) {
-            if (themesKey.equalsIgnoreCase(value.getThemesKey())){
+            if (themesKey.equalsIgnoreCase(value.getThemesKey())) {
                 return value;
             }
         }

@@ -1,6 +1,5 @@
 package com.ywf.component;
 
-import com.ywf.framework.enums.TextConvertEnum;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 /**
@@ -17,7 +16,7 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
     // 是否中文转Unicode
     private int chineseConverState;
 
-    public JSONRSyntaxTextArea(){
+    public JSONRSyntaxTextArea() {
         super();
     }
 
