@@ -1,15 +1,18 @@
 package com.ywf.action;
 
+import cn.hutool.core.text.UnicodeUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -19,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
@@ -79,9 +83,18 @@ public class MenuEventService {
             JOptionPane.showMessageDialog(frame, "请输入json字符串！");
             return;
         }
-        String text = rSyntaxTextArea.getText();
-        boolean replaceSpaceBlank = rSyntaxTextArea.isReplaceSpaceBlank();
-        rSyntaxTextArea.setText(replaceSpaceBlank ? JsonFormatUtil.compressingStr(text) : JsonFormatUtil.formatJson(text));
+        String text = JsonFormatUtil.compressingStr(rSyntaxTextArea.getText());
+        int chineseConverState = rSyntaxTextArea.getChineseConverState();
+        switch (chineseConverState) {
+            case 1:
+                rSyntaxTextArea.setText(JsonFormatUtil.formatJson(UnicodeUtil.toUnicode(text)));
+                break;
+            case 2:
+                rSyntaxTextArea.setText(JsonFormatUtil.formatJson(UnicodeUtil.toString(text)));
+                break;
+            default:
+                rSyntaxTextArea.setText(JsonFormatUtil.formatJson(text));
+        }
     }
 
     /**
@@ -381,6 +394,32 @@ public class MenuEventService {
         MenuBarBuilder.getShowMenuBarMenuItem().setSelected(!showMenuBar);
         PopupMenuBuilder.getInstance().getMenuBarShowState().setSelected(!showMenuBar);
         systemProperties.setValueToProperties(SystemConstant.SHOW_MENU_BAR_KEY, String.valueOf(!showMenuBar));
+    }
+
+    /**
+     * 中文转码
+     *
+     * @param converType
+     */
+    public static void chineseConverActionPerformed(TextConvertEnum converType) {
+        rSyntaxTextArea.setChineseConverState(converType.getConverType());
+    }
+
+    public static void converFocusActionPerformed(JMenu chineseConverMenuItem) {
+        for (Component menuComponent : chineseConverMenuItem.getMenuComponents()) {
+            if (menuComponent instanceof JRadioButtonMenuItem){
+                JRadioButtonMenuItem menuItem = (JRadioButtonMenuItem) menuComponent;
+                System.out.println("menu:"+menuComponent.getName()+" is" +menuItem.getText());
+                if (TextConvertEnum.CONVERT_CLOSED.getConverDesc().equals(menuItem.getText()) && menuItem.isSelected()){
+                    System.out.println("guanbi");
+                }else if (TextConvertEnum.CH_TO_UN.getConverDesc().equals(menuItem.getText()) && menuItem.isSelected()){
+                    System.out.println("CH_TO_UN");
+                }else{
+                    System.out.println("UN_TO_CN");
+
+                }
+            }
+        }
     }
 
 }

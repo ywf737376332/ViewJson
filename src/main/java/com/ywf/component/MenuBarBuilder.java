@@ -3,6 +3,7 @@ package com.ywf.component;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.PropertiesUtil;
 
@@ -94,10 +95,28 @@ public class MenuBarBuilder {
         toolBarMenuItem.add(showToolBarMenuItem);
         toolBarMenuItem.add(showMenuBarMenuItem);
 
+        JMenu chineseConverMenuItem = new JMenu("中文转码");
+        JRadioButtonMenuItem chineseConverUnicodeMenuItem = new JRadioButtonMenuItem("中文转Unicode");
+        chineseConverUnicodeMenuItem.addActionListener(e -> MenuEventService.getInstance().chineseConverActionPerformed(TextConvertEnum.CH_TO_UN));
+        JRadioButtonMenuItem unicodeConverChineseMenuItem = new JRadioButtonMenuItem("Unicode转中文");
+        unicodeConverChineseMenuItem.addActionListener(e -> MenuEventService.getInstance().chineseConverActionPerformed(TextConvertEnum.UN_TO_CH));
+        JRadioButtonMenuItem unConverMenuItem = new JRadioButtonMenuItem("转码功能关闭");
+        unConverMenuItem.addActionListener(e -> MenuEventService.getInstance().chineseConverActionPerformed(TextConvertEnum.CONVERT_CLOSED));
+        ButtonGroup chineseConverButtonGroup = new ButtonGroup();
+        chineseConverButtonGroup.add(unConverMenuItem);
+        chineseConverButtonGroup.add(chineseConverUnicodeMenuItem);
+        chineseConverButtonGroup.add(unicodeConverChineseMenuItem);
+        chineseConverMenuItem.add(unConverMenuItem);
+        chineseConverMenuItem.add(chineseConverUnicodeMenuItem);
+        chineseConverMenuItem.add(unicodeConverChineseMenuItem);
+        //添加事件
+        MenuEventService.getInstance().converFocusActionPerformed(chineseConverMenuItem);
+
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
         //setupMenu.add(replaceSpaceMenuItem);
         setupMenu.add(toolBarMenuItem);
+        setupMenu.add(chineseConverMenuItem);
 
         JMenu themesMenu = new JMenu("主题");
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
