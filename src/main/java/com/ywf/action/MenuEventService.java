@@ -1,6 +1,7 @@
 package com.ywf.action;
 
 import cn.hutool.core.text.UnicodeUtil;
+import cn.hutool.core.util.NumberUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
@@ -49,8 +50,7 @@ public class MenuEventService {
     /**
      * 保存图片放大倍数
      */
-    private final static int scaleX = 2;
-    private final static int scaleY = 2;
+    private static int pictureScale;
 
     volatile private static MenuEventService instance = null;
 
@@ -58,6 +58,7 @@ public class MenuEventService {
         systemProperties = PropertiesUtil.instance();
         rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
         rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
+        pictureScale = NumberUtil.parseInt(systemProperties.getValueFromProperties(SystemConstant.SHARE_PICTURE_QUALITY_STATE_KEY));
     }
 
     private MenuEventService() {
@@ -165,9 +166,9 @@ public class MenuEventService {
         }
         try {
             //绘制图片
-            BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * scaleX, rSyntaxTextArea.getHeight() * scaleY, BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * pictureScale, rSyntaxTextArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = image.createGraphics();
-            g2d.scale(scaleX, scaleY); // 根据画布大小调整缩放比例
+            g2d.scale(pictureScale, pictureScale); // 根据画布大小调整缩放比例
             rSyntaxTextArea.print(g2d);
             g2d.dispose();
             // 保存图片到剪贴板
@@ -258,9 +259,9 @@ public class MenuEventService {
         int userSelection = fileChooser.showSaveDialog(frame);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
-            BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * scaleX, rSyntaxTextArea.getHeight() * scaleY, BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * pictureScale, rSyntaxTextArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = image.createGraphics();
-            g2d.scale(scaleX, scaleY); // 根据画布大小调整缩放比例
+            g2d.scale(pictureScale, pictureScale); // 根据画布大小调整缩放比例
             rSyntaxTextArea.print(g2d);
             g2d.dispose();
             try {
@@ -304,23 +305,21 @@ public class MenuEventService {
     }
 
     /**
-     * 修改主题事件
+     * 修改主题按钮组事件注册
      *
      * @param frame
      * @param themesMenu
      * @date 2023/12/2 21:30
      */
     public static void setupThemesActionPerformed(JFrame frame, JMenu themesMenu) {
+        // 主题按钮选中
+        SystemThemesEnum themesCss = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
         for (Component menuComponent : themesMenu.getMenuComponents()) {
             if (menuComponent instanceof JRadioButtonMenuItem) {
                 JRadioButtonMenuItem radioButtonMenuItem = (JRadioButtonMenuItem) menuComponent;
-
-                // 主题按钮选中
-                SystemThemesEnum themesCss = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
                 if (themesCss.getThemesKey().equals(radioButtonMenuItem.getText())) {
                     radioButtonMenuItem.setSelected(true);
                 }
-
                 radioButtonMenuItem.addActionListener(e -> {
                     String name = radioButtonMenuItem.getText();
                     SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
@@ -398,13 +397,46 @@ public class MenuEventService {
     }
 
     /**
-     * 中文转码
+     * 中文转码按钮组事件注册
      *
-     * @param converType
+     * @param chineseConverMenu
      */
-    public static void chineseConverActionPerformed(TextConvertEnum converType) {
-        rSyntaxTextArea.setChineseConverState(converType.getConverType());
-        systemProperties.setValueToProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY, String.valueOf(converType.getConverType()));
+    public static void chineseConverActionPerformed(JMenu chineseConverMenu) {
+        int chineseConverState = NumberUtil.parseInt(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY));
+        for (Component menuComponent : chineseConverMenu.getMenuComponents()) {
+            if (menuComponent instanceof CHToCNRadioButtonMenuItem) {
+                CHToCNRadioButtonMenuItem chineseConverMenuItem = (CHToCNRadioButtonMenuItem) menuComponent;
+                if (chineseConverMenuItem.getChineseConverState() == chineseConverState) {
+                    chineseConverMenuItem.setSelected(true);
+                }
+                chineseConverMenuItem.addActionListener(e -> {
+                    systemProperties.setValueToProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY, String.valueOf(chineseConverMenuItem.getChineseConverState()));
+                    rSyntaxTextArea.setChineseConverState(chineseConverMenuItem.getChineseConverState());
+                });
+            }
+        }
+    }
+
+    /**
+     * 图片质量按钮组事件注册
+     *
+     * @param pictureQualityMenu
+     * @date 2023/12/16 22:13
+     */
+    public static void pictureQualityActionPerformed(JMenu pictureQualityMenu) {
+        int pictureQuality = NumberUtil.parseInt(systemProperties.getValueFromProperties(SystemConstant.SHARE_PICTURE_QUALITY_STATE_KEY));
+        for (Component menuComponent : pictureQualityMenu.getMenuComponents()) {
+            if (menuComponent instanceof JSONRadioButtonMenuItem) {
+                JSONRadioButtonMenuItem pictureQualityMenuitem = (JSONRadioButtonMenuItem) menuComponent;
+                if (pictureQualityMenuitem.getPictureQualityState() == pictureQuality) {
+                    pictureQualityMenuitem.setSelected(true);
+                }
+                pictureQualityMenuitem.addActionListener(e -> {
+                    systemProperties.setValueToProperties(SystemConstant.SHARE_PICTURE_QUALITY_STATE_KEY, String.valueOf(pictureQualityMenuitem.getPictureQualityState()));
+                    pictureScale = pictureQualityMenuitem.getPictureQualityState();
+                });
+            }
+        }
     }
 
 }

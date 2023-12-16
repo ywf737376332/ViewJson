@@ -1,7 +1,10 @@
 package com.ywf.framework.init;
 
+import cn.hutool.core.util.StrUtil;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.utils.PropertiesUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -68,7 +71,11 @@ public class SysConfigInit {
         }
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY))) {
             // 中文转码状态 默认关闭
-            systemProperties.setValueToProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY, "0");
+            systemProperties.setValueToProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY, StrUtil.toString(TextConvertEnum.CONVERT_CLOSED.getConverType()));
+        }
+        if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SHARE_PICTURE_QUALITY_STATE_KEY))) {
+            // 图片质量
+            systemProperties.setValueToProperties(SystemConstant.SHARE_PICTURE_QUALITY_STATE_KEY, StrUtil.toString(PictureQualityEnum.MIDDLE_PICTURE_QUALITY.getPictureQualityState()));
         }
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY))) {
             // 是否显示行号

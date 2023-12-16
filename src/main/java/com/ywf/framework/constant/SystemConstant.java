@@ -40,6 +40,7 @@ public class SystemConstant {
     public static final String SCREEN_SIZE_WIDTH_KEY = "screenSizeKey.width"; // 屏幕大小记录KEY
     public static final String SCREEN_SIZE_HEIGHT_KEY = "screenSizeKey.height"; // 屏幕大小记录KEY
     public static final String TEXTAREA_CHINESE_CONVERT_STATE_KEY = "chineseConverState"; // 中文转Unicode
+    public static final String SHARE_PICTURE_QUALITY_STATE_KEY = "pictureQualityState"; // 图片质量
 
 
     /**

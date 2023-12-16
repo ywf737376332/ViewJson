@@ -1,9 +1,9 @@
 package com.ywf.component;
 
-import cn.hutool.core.util.NumberUtil;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.PropertiesUtil;
@@ -85,6 +85,19 @@ public class MenuBarBuilder {
         showlineNumMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY)));
         showlineNumMenuItem.addActionListener(e -> MenuEventService.getInstance().showLineNumActionPerformed());
 
+        JMenu pictureQualityMenu = new JMenu("图片质量");
+        JSONRadioButtonMenuItem lowPictureQualityMenuItem = new JSONRadioButtonMenuItem("低", PictureQualityEnum.LOW_PICTURE_QUALITY.getPictureQualityState());
+        JSONRadioButtonMenuItem middlePictureQualityMenuItem = new JSONRadioButtonMenuItem("中", PictureQualityEnum.MIDDLE_PICTURE_QUALITY.getPictureQualityState());
+        JSONRadioButtonMenuItem hightPictureQualityMenuItem = new JSONRadioButtonMenuItem("高", PictureQualityEnum.HEIGHT_PICTURE_QUALITY.getPictureQualityState());
+        ButtonGroup pictureQualityBtn = new ButtonGroup();
+        pictureQualityBtn.add(lowPictureQualityMenuItem);
+        pictureQualityBtn.add(middlePictureQualityMenuItem);
+        pictureQualityBtn.add(hightPictureQualityMenuItem);
+        pictureQualityMenu.add(lowPictureQualityMenuItem);
+        pictureQualityMenu.add(middlePictureQualityMenuItem);
+        pictureQualityMenu.add(hightPictureQualityMenuItem);
+        MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);
+
         showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
         showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY)));
         showToolBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
@@ -93,36 +106,33 @@ public class MenuBarBuilder {
         showMenuBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_MENU_BAR_KEY)));
         showMenuBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
 
-        JMenu toolBarMenuItem = new JMenu("外观菜单");
-        toolBarMenuItem.add(showToolBarMenuItem);
-        toolBarMenuItem.add(showMenuBarMenuItem);
+        JMenu facadeMenu = new JMenu("外观菜单");
+        facadeMenu.add(showToolBarMenuItem);
+        facadeMenu.add(showMenuBarMenuItem);
 
-        JMenu chineseConverMenuItem = new JMenu("中文转码");
-        int chineseConverState = NumberUtil.parseInt(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY));
-        JRadioButtonMenuItem chineseConverUnicodeMenuItem = new JRadioButtonMenuItem("中文转Unicode", chineseConverState == 1 ? true : false);
-        chineseConverUnicodeMenuItem.addActionListener(e -> MenuEventService.getInstance().chineseConverActionPerformed(TextConvertEnum.CH_TO_UN));
-        JRadioButtonMenuItem unicodeConverChineseMenuItem = new JRadioButtonMenuItem("Unicode转中文", chineseConverState == 2 ? true : false);
-        unicodeConverChineseMenuItem.addActionListener(e -> MenuEventService.getInstance().chineseConverActionPerformed(TextConvertEnum.UN_TO_CH));
-        JRadioButtonMenuItem unConverMenuItem = new JRadioButtonMenuItem("转码功能关闭", chineseConverState == 0 ? true : false);
-        unConverMenuItem.addActionListener(e -> MenuEventService.getInstance().chineseConverActionPerformed(TextConvertEnum.CONVERT_CLOSED));
+        JMenu chineseConverMenu = new JMenu("中文转码");
+        CHToCNRadioButtonMenuItem chineseConverUnicodeMenuItem = new CHToCNRadioButtonMenuItem("中文转Unicode", TextConvertEnum.CH_TO_UN.getConverType());
+        CHToCNRadioButtonMenuItem unicodeConverChineseMenuItem = new CHToCNRadioButtonMenuItem("Unicode转中文", TextConvertEnum.UN_TO_CH.getConverType());
+        CHToCNRadioButtonMenuItem unConverMenuItem = new CHToCNRadioButtonMenuItem("转码功能关闭", TextConvertEnum.CONVERT_CLOSED.getConverType());
 
         ButtonGroup chineseConverButtonGroup = new ButtonGroup();
         chineseConverButtonGroup.add(unConverMenuItem);
         chineseConverButtonGroup.add(chineseConverUnicodeMenuItem);
         chineseConverButtonGroup.add(unicodeConverChineseMenuItem);
-        chineseConverMenuItem.add(unConverMenuItem);
-        chineseConverMenuItem.add(chineseConverUnicodeMenuItem);
-        chineseConverMenuItem.add(unicodeConverChineseMenuItem);
+        chineseConverMenu.add(unConverMenuItem);
+        chineseConverMenu.add(chineseConverUnicodeMenuItem);
+        chineseConverMenu.add(unicodeConverChineseMenuItem);
+        MenuEventService.getInstance().chineseConverActionPerformed(chineseConverMenu);
 
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
         setupMenu.add(showlineNumMenuItem);
-        setupMenu.add(toolBarMenuItem);
-        setupMenu.add(chineseConverMenuItem);
+        setupMenu.add(pictureQualityMenu);
+        setupMenu.add(facadeMenu);
+        setupMenu.add(chineseConverMenu);
 
         JMenu themesMenu = new JMenu("主题");
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
-        lightThemesMenuItem.setSelected(true);
         JRadioButtonMenuItem gitHubLightMenuItem = new JRadioButtonMenuItem("GitHub Light");
         JRadioButtonMenuItem arcLightOrangeMenuItem = new JRadioButtonMenuItem("Arc Light Orange");
         JRadioButtonMenuItem solarizedLightMenuItem = new JRadioButtonMenuItem("Solarized Light");
