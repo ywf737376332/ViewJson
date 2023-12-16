@@ -43,10 +43,8 @@ public class DialogBuilder {
     private static JDialog createDialog(JFrame parentFrame, String title, ImageIcon image) {
         JDialog dialog = new JDialog(parentFrame, title, true);
         JLabel imageLabel = new JLabel(image);
-        imageLabel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(0xDE_DE_DE)),
-                BorderFactory.createLineBorder(Color.white, 4)));
-        dialog.setSize(image.getIconWidth(), image.getIconHeight());
+        // 设置标签的首选大小为图片的大小
+        dialog.setSize(image.getIconWidth() + 50, image.getIconHeight() + 50);
         dialog.setLayout(new BorderLayout());
         dialog.add(imageLabel, BorderLayout.CENTER);
         dialog.setLocationRelativeTo(parentFrame);
