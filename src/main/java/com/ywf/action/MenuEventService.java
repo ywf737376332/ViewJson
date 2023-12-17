@@ -85,17 +85,17 @@ public class MenuEventService {
             JOptionPane.showMessageDialog(frame, "请输入json字符串！");
             return;
         }
-        String text = JsonFormatUtil.compressingStr(rSyntaxTextArea.getText());
+        String text = JsonUtil.compressingStr(rSyntaxTextArea.getText());
         int converState = rSyntaxTextArea.getChineseConverState();
         switch (TextConvertEnum.findConverEnumByState(converState)) {
             case CH_TO_UN:
-                rSyntaxTextArea.setText(JsonFormatUtil.formatJson(UnicodeUtil.toUnicode(text)));
+                rSyntaxTextArea.setText(JsonUtil.formatJson(UnicodeUtil.toUnicode(text)));
                 break;
             case UN_TO_CH:
-                rSyntaxTextArea.setText(JsonFormatUtil.formatJson(UnicodeUtil.toString(text)));
+                rSyntaxTextArea.setText(JsonUtil.formatJson(UnicodeUtil.toString(text)));
                 break;
             default:
-                rSyntaxTextArea.setText(JsonFormatUtil.formatJson(text));
+                rSyntaxTextArea.setText(JsonUtil.formatJson(text));
         }
     }
 
@@ -113,7 +113,7 @@ public class MenuEventService {
      */
     public void compressionJsonActionPerformed() {
         String sourceText = rSyntaxTextArea.getText();
-        rSyntaxTextArea.setText(JsonFormatUtil.compressingStr(sourceText));
+        rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText));
     }
 
     /**
@@ -121,7 +121,7 @@ public class MenuEventService {
      */
     public void escapeJsonActionPerformed() {
         String sourceText = rSyntaxTextArea.getText();
-        rSyntaxTextArea.setText(JsonFormatUtil.escapeJSON(sourceText));
+        rSyntaxTextArea.setText(JsonUtil.escapeJSON(sourceText));
     }
 
     /**
@@ -129,7 +129,7 @@ public class MenuEventService {
      */
     public void unEscapeJsonActionPerformed() {
         String sourceText = rSyntaxTextArea.getText();
-        rSyntaxTextArea.setText(JsonFormatUtil.unescapeJSON(sourceText));
+        rSyntaxTextArea.setText(JsonUtil.unescapeJSON(sourceText));
     }
 
     /**

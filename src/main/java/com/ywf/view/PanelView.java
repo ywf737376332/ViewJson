@@ -1,6 +1,7 @@
 package com.ywf.view;
 
 import com.formdev.flatlaf.extras.components.FlatLabel;
+import com.ywf.action.StateBarEventService;
 import com.ywf.component.BasePanel;
 import com.ywf.framework.utils.IconUtils;
 
@@ -38,7 +39,7 @@ public class PanelView {
         return editPanel;
     }
 
-    public static JPanel createPanelBottom() {
+    public static JPanel createPanelBottom(JFrame frame) {
         JPanel panelBottom = new BasePanel();
         // 设置上面框线
         //panelBottom.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
@@ -52,21 +53,22 @@ public class PanelView {
         // 状态栏
         JPanel panelStateBar = new JPanel();
         panelStateBar.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        panelStateBar.setPreferredSize(new Dimension(500,20));
+        panelStateBar.setPreferredSize(new Dimension(500, 20));
         panelStateBar.setLayout(null);
 
         runTimeLabel = new FlatLabel();
-        runTimeLabel.setText("<html><span color=\"#A7B3D3\">运行时长：</span>3天20小时36分钟35秒</html>");
         runTimeLabel.setLabelType(FlatLabel.LabelType.medium);
-        runTimeLabel.setBounds(0,0,200,20);
+        runTimeLabel.setBounds(0, 0, 200, 20);
+        Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeLabel));
+        StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
 
         fileTypeLabel = new FlatLabel();
         fileTypeLabel.setLabelType(FlatLabel.LabelType.medium);
-        fileTypeLabel.setBounds(220,0,120,20);
+        fileTypeLabel.setBounds(220, 0, 120, 20);
 
         fileLengthLabel = new FlatLabel();
         fileLengthLabel.setLabelType(FlatLabel.LabelType.medium);
-        fileLengthLabel.setBounds(360,0,120,20);
+        fileLengthLabel.setBounds(360, 0, 120, 20);
 
         panelStateBar.add(runTimeLabel);
         panelStateBar.add(fileTypeLabel);

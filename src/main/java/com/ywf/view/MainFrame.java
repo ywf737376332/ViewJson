@@ -54,7 +54,7 @@ public class MainFrame extends JFrame {
         // 可拖动工具栏
         JToolBar toolBar = ToolBarBuilder.createToolBar(frame);
         // 底部版权区域
-        JPanel panelBottom = PanelView.createPanelBottom();
+        JPanel panelBottom = PanelView.createPanelBottom(frame);
 
         mainPanel.add(editPanel, BorderLayout.CENTER);
         mainPanel.add(panelBottom, BorderLayout.SOUTH);

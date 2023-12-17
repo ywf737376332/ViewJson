@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * TODO
@@ -20,6 +21,7 @@ import java.io.IOException;
 public class SysConfigInit {
 
     private static PropertiesUtil systemProperties = PropertiesUtil.instance();
+    public final static Date startTime = new Date();
 
     public static void initSysConfig() {
         // 系统配置文件初始化
