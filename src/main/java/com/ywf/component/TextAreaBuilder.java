@@ -1,6 +1,7 @@
 package com.ywf.component;
 
 import cn.hutool.core.util.NumberUtil;
+import com.ywf.action.StateBarEventService;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.PropertiesUtil;
@@ -57,6 +58,8 @@ public class TextAreaBuilder {
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY)));
         rTextScrollPane.setFoldIndicatorEnabled(true);
+        //监听文档变化
+        StateBarEventService.getInstance().textAreaDocumentActionPerformed(syntaxTextArea);
         return rTextScrollPane;
     }
 

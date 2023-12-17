@@ -26,7 +26,6 @@ public class MainFrame extends JFrame {
 
     public void createAndShowGUI(String title) {
         setTitle(title);
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLayout(new BorderLayout());
         int w = Toolkit.getDefaultToolkit().getScreenSize().width;

@@ -1,5 +1,6 @@
 package com.ywf.view;
 
+import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.BasePanel;
 import com.ywf.framework.utils.IconUtils;
 
@@ -14,6 +15,10 @@ import java.awt.*;
  * @Date 2023/11/25 20:46
  */
 public class PanelView {
+
+    private static FlatLabel runTimeLabel;
+    private static FlatLabel fileTypeLabel;
+    private static FlatLabel fileLengthLabel;
 
     public static JPanel createPanelLeft() {
         JPanel panelLeft = new BasePanel();
@@ -36,18 +41,39 @@ public class PanelView {
     public static JPanel createPanelBottom() {
         JPanel panelBottom = new BasePanel();
         // 设置上面框线
-        panelBottom.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
+        //panelBottom.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
         // 设置边距
         JPanel panelBottomText = new BasePanel();
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        JLabel labelCopyright = new JLabel("作者：莫斐鱼  日期：2023/11/25", IconUtils.getSVGIcon("icons/banner02.svg"), SwingConstants.LEFT);
+        JLabel labelCopyright = new JLabel("作者：莫斐鱼  开发日期：2023/11/25", IconUtils.getSVGIcon("icons/banner02.svg"), SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156, 170, 207));
         labelCopyright.setUI(new BasicLabelUI());
 
         // 状态栏
-        JLabel labelStateBar = new JLabel("");
+        JPanel panelStateBar = new JPanel();
+        panelStateBar.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
+        panelStateBar.setPreferredSize(new Dimension(500,20));
+        panelStateBar.setLayout(null);
+
+        runTimeLabel = new FlatLabel();
+        runTimeLabel.setText("<html><span color=\"#A7B3D3\">运行时长：</span>3天20小时36分钟35秒</html>");
+        runTimeLabel.setLabelType(FlatLabel.LabelType.medium);
+        runTimeLabel.setBounds(0,0,200,20);
+
+        fileTypeLabel = new FlatLabel();
+        fileTypeLabel.setLabelType(FlatLabel.LabelType.medium);
+        fileTypeLabel.setBounds(220,0,120,20);
+
+        fileLengthLabel = new FlatLabel();
+        fileLengthLabel.setLabelType(FlatLabel.LabelType.medium);
+        fileLengthLabel.setBounds(360,0,120,20);
+
+        panelStateBar.add(runTimeLabel);
+        panelStateBar.add(fileTypeLabel);
+        panelStateBar.add(fileLengthLabel);
+
         panelBottomText.setLayout(new BorderLayout());
-        panelBottomText.add(labelStateBar, BorderLayout.WEST);
+        panelBottomText.add(panelStateBar, BorderLayout.WEST);
         panelBottomText.add(labelCopyright, BorderLayout.EAST);
 
         panelBottom.setLayout(new BorderLayout());
@@ -56,4 +82,19 @@ public class PanelView {
         return panelBottom;
     }
 
+    public static FlatLabel getFileTypeLabel() {
+        return fileTypeLabel;
+    }
+
+    public static void setFileTypeLabel(FlatLabel fileTypeLabel) {
+        PanelView.fileTypeLabel = fileTypeLabel;
+    }
+
+    public static FlatLabel getFileLengthLabel() {
+        return fileLengthLabel;
+    }
+
+    public static void setFileLengthLabel(FlatLabel fileLengthLabel) {
+        PanelView.fileLengthLabel = fileLengthLabel;
+    }
 }
