@@ -91,8 +91,7 @@ public class StateBarEventService {
     }
 
     private String viewTime(long millseconds) {
-        // millseconds = millseconds + 86390000L + 50000 + 3540000 + 82800000L +15000;
-        millseconds = millseconds + 50000 + 3540000 + 82800000L + 1036800000L * 10;
+        //millseconds = millseconds + 50000 + 3540000 + 82800000L + 1036800000L * 10;
         long seconds, minutes, hours, days;
         StringBuilder sb = new StringBuilder();
         seconds = millseconds / 1000;
