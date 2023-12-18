@@ -6,7 +6,6 @@ import com.ywf.component.BasePanel;
 import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicLabelUI;
 import java.awt.*;
 
 /**
@@ -42,33 +41,32 @@ public class PanelView {
     public static JPanel createPanelBottom(JFrame frame) {
         JPanel panelBottom = new BasePanel();
         // 设置上面框线
-        //panelBottom.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
+        // panelBottom.setBorder(BorderFactory.createMatteBorder(10, 0, 0, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
         // 设置边距
         JPanel panelBottomText = new BasePanel();
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
         JLabel labelCopyright = new JLabel("作者：莫斐鱼  开发日期：2023/11/25", IconUtils.getSVGIcon("icons/banner02.svg"), SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156, 170, 207));
-        labelCopyright.setUI(new BasicLabelUI());
 
         // 状态栏
         JPanel panelStateBar = new JPanel();
-        panelStateBar.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        panelStateBar.setPreferredSize(new Dimension(500, 20));
+        panelStateBar.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0)); // 设置外边距
+        panelStateBar.setPreferredSize(new Dimension(560, 20));
         panelStateBar.setLayout(null);
 
         runTimeLabel = new FlatLabel();
         runTimeLabel.setLabelType(FlatLabel.LabelType.medium);
-        runTimeLabel.setBounds(0, 0, 200, 20);
+        runTimeLabel.setBounds(0, 0, 255, 20);
         Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeLabel));
         StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
 
         fileTypeLabel = new FlatLabel();
         fileTypeLabel.setLabelType(FlatLabel.LabelType.medium);
-        fileTypeLabel.setBounds(220, 0, 120, 20);
+        fileTypeLabel.setBounds(260, 0, 140, 20);
 
         fileLengthLabel = new FlatLabel();
         fileLengthLabel.setLabelType(FlatLabel.LabelType.medium);
-        fileLengthLabel.setBounds(360, 0, 120, 20);
+        fileLengthLabel.setBounds(410, 0, 140, 20);
 
         panelStateBar.add(runTimeLabel);
         panelStateBar.add(fileTypeLabel);
@@ -83,6 +81,7 @@ public class PanelView {
 
         return panelBottom;
     }
+
 
     public static FlatLabel getFileTypeLabel() {
         return fileTypeLabel;

@@ -2,16 +2,15 @@ package com.ywf;
 
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.PropertiesUtil;
-import com.ywf.framework.init.SysConfigInit;
 import com.ywf.view.MainFrame;
 
 import javax.swing.*;
 
 /**
  * Hello world!
- *
  */
 public class AppMain {
 
@@ -26,12 +25,9 @@ public class AppMain {
         SwingUtilities.invokeLater(() -> {
             mainFrame = new MainFrame();
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
-            ChangeUIUtils.changeUIStyle(mainFrame, themesStyles!=null ? themesStyles : SystemThemesEnum.FlatLightLafThemesStyle);
-            mainFrame.createAndShowGUI("JSON格式化工具V2.0");
+            ChangeUIUtils.changeUIStyle(mainFrame, themesStyles != null ? themesStyles : SystemThemesEnum.FlatLightLafThemesStyle);
+            mainFrame.createAndShowGUI(SystemConstant.WINDOWS_TITLE + SystemConstant.WINDOWS_VERSION);
         });
-
-
-
 
 
     }

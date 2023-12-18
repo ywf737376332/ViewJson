@@ -90,10 +90,10 @@ public class SysConfigInit {
         }
         // 屏幕尺寸大小初始化
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY))) {
-            systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY, "800");
+            systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY, StrUtil.toString(SystemConstant.WINDOWS_MIN_WIDTH));
         }
         if (StringUtils.isEmpty(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY))) {
-            systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY, "600");
+            systemProperties.setValueToProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY, StrUtil.toString(SystemConstant.WINDOWS_MIN_HEIGHT));
         }
 
         // 主题初始化

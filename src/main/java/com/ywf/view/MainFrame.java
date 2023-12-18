@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
         int h = Toolkit.getDefaultToolkit().getScreenSize().height;
         setSize(Integer.parseInt(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY)), Integer.parseInt(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY)));
         setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
-        setMinimumSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(SystemConstant.WINDOWS_MIN_WIDTH, SystemConstant.WINDOWS_MIN_HEIGHT));
         //设置图标
         setIconImages(FlatSVGUtils.createWindowIconImages("/icons/FlatLaf.svg"));
         // 初始化界面
