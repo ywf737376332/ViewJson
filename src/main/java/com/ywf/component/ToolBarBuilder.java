@@ -58,7 +58,8 @@ public class ToolBarBuilder {
         btnShowQrcode.addActionListener(e -> QRCodeEventService.getInstance().showQrcodeActionPerformed(frame));
 
         btnFindRepl = new JButton("查找替换");
-        btnFindRepl.setEnabled(false);
+        btnFindRepl.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame,"查找"));
+        //btnFindRepl.setEnabled(false);
         btnClean = new JButton("清空内容");
         btnClean.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
 

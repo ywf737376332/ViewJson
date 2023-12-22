@@ -49,7 +49,7 @@ public class QRCodeEventService {
         }
         ImageIcon icon = ImageUtils.generatorQRCode(text);
         //JOptionPane.showMessageDialog(frame, null, "二维码展示", JOptionPane.INFORMATION_MESSAGE, icon);
-        DialogBuilder.ShowImageDialog(frame, "二维码展示", icon);
+        DialogBuilder.ShowImageDialog(frame, "二维码展示", icon).setVisible(true);
     }
 
 }

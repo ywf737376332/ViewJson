@@ -293,7 +293,7 @@ public class MenuEventService {
                 }
             }
         });
-        JOptionPane.showMessageDialog(null, new Object[]{titleLabel, " ", "作者：莫斐鱼", "座右铭：读万卷书，行万里路，阅无数人", linkLabel, "开发日期：2023年11月25日","Copyright 2023-" + Year.now() + ""}, "关于", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, new Object[]{titleLabel, " ", "作者：莫斐鱼", "座右铭：读万卷书，行万里路，阅无数人", linkLabel, "开发日期：2023年11月25日", "Copyright 2023-" + Year.now() + ""}, "关于", JOptionPane.PLAIN_MESSAGE);
     }
 
     /**
@@ -438,5 +438,16 @@ public class MenuEventService {
             }
         }
     }
+
+
+    /**
+     * 打开查找对话框
+     *
+     * @param title 打开的窗口标题名称
+     */
+    public static void showFindDialogActionPerformed(JFrame frame, String title) {
+        DialogBuilder.showFindDialog(frame, rSyntaxTextArea, title).setVisible(true);
+    }
+
 
 }

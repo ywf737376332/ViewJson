@@ -63,7 +63,7 @@ public class MenuBarBuilder {
         cleanMenuItem.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
         JMenuItem findRepMenuItem = new JMenuItem("查找替换");
         findRepMenuItem.setIcon(IconUtils.getSVGIcon("icons/findCode.svg"));
-        findRepMenuItem.setEnabled(false);
+        findRepMenuItem.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame,"查找"));
         editMenu.add(compMenuItem);
         editMenu.add(escapeTabMenuItem);
         editMenu.add(unescapeMenuItem);
