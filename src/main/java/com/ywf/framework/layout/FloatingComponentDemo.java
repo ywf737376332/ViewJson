@@ -8,13 +8,18 @@ public class FloatingComponentDemo {
         // 创建 JFrame
         JFrame frame = new JFrame("Floating Component Demo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(400, 340);
         frame.setLayout(null);
 
         // 创建 JTextArea
         JTextArea textArea = new JTextArea();
         textArea.setBounds(50, 50, 300, 200);
-        frame.add(textArea);
+        JButton button = new JButton("搜索框");
+        button.setBounds(50, 260, 300, 30);
+        JScrollPane jScrollPane = new JScrollPane();
+        jScrollPane.setViewportView(textArea);
+        frame.add(jScrollPane);
+        frame.add(button);
 
         // 创建要浮动的组件（例如 JLabel）
         //JLabel floatingLabel = new JLabel("Floating Label");
@@ -31,8 +36,10 @@ public class FloatingComponentDemo {
         layeredPane.add(floatingLabel, JLayeredPane.PALETTE_LAYER);
 
         // 设置组件的初始位置
-        floatingLabel.setLocation(textArea.getX() + 50, textArea.getY() + 50);
-
+        floatingLabel.setLocation(textArea.getX(), textArea.getY());
+        button.addActionListener(e -> {
+            floatingLabel.setVisible(!floatingLabel.isVisible());
+        });
         // 显示窗口
         frame.setVisible(true);
     }
