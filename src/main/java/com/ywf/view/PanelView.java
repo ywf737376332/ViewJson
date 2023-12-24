@@ -20,13 +20,13 @@ public class PanelView {
     private static FlatLabel fileTypeLabel;
     private static FlatLabel fileLengthLabel;
 
-    public static JPanel createPanelLeft() {
-        JPanel panelLeft = new BasePanel();
-        panelLeft.setMinimumSize(new Dimension(235, 600));
-        panelLeft.setOpaque(false); // 设置为透明，以便边框可见
-        panelLeft.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
-        panelLeft.setLayout(new BorderLayout());
-        return panelLeft;
+    public static JPanel createPanelMain() {
+        JPanel panelMain = new BasePanel();
+        panelMain.setMinimumSize(new Dimension(235, 600));
+        panelMain.setOpaque(false); // 设置为透明，以便边框可见
+        panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
+        panelMain.setLayout(new BorderLayout());
+        return panelMain;
     }
 
     public static JPanel createEditPanel() {

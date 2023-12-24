@@ -2,6 +2,7 @@ package com.ywf.framework.utils;
 
 import com.formdev.flatlaf.IntelliJTheme;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.ywf.component.DialogBuilder;
 import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.PopupMenuBuilder;
 import com.ywf.component.TextAreaBuilder;
@@ -47,6 +48,10 @@ public class ChangeUIUtils {
         if (PopupMenuBuilder.getInstance().getContextMenu() != null) {
             // 菜单主题应用
             SwingUtilities.updateComponentTreeUI(PopupMenuBuilder.getInstance().getContextMenu());
+        }
+        if (DialogBuilder.getFindDialog() != null){
+            // 查找对话框主题应用
+            SwingUtilities.updateComponentTreeUI(DialogBuilder.getFindDialog());
         }
         // 过渡动画
         FlatAnimatedLafChange.hideSnapshotWithAnimation();

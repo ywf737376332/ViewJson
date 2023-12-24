@@ -4,10 +4,12 @@ import com.ywf.framework.utils.IconUtils;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.text.Document;
 import javax.swing.text.Segment;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -68,18 +70,17 @@ public class DialogBuilder {
      * @return
      */
     public static JDialog showFindDialog(JFrame frame, JSONRSyntaxTextArea rSyntaxTextArea, String title) {
-        RTextScrollPane rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
-        System.out.println("frame位置："+frame.getLocation());
-        System.out.println("rTextScrollPane位置："+rTextScrollPane.getLocation());
 
         if (findDialog == null) {
             findDialog = createFindDialog(frame, title);
         }
+        //findDialog.setAlwaysOnTop(true);
         // 不管是否是新的对话框，都重新设置位置，避免父窗口移动后，子窗口位置不变
         // 居中贴上边
-        //findDialog.setLocation(frame.getX() + frame.getWidth() / 2 - findDialog.getWidth() / 2, frame.getY() + 88);
         // 贴右边贴上边
-        findDialog.setLocation(frame.getX() + frame.getWidth() - findDialog.getWidth()-19, frame.getY() + 88);
+        RTextScrollPane rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
+        Point tslPoint = rTextScrollPane.getLocationOnScreen();
+        findDialog.setLocation((int) (tslPoint.getX() + rTextScrollPane.getWidth() - findDialog.getWidth() - 11), (int) (tslPoint.getY()) + 1);
         //从头开始查找
         btnFind.addActionListener(e -> findActionPerformed(rSyntaxTextArea));
         //向下查找
@@ -87,10 +88,9 @@ public class DialogBuilder {
         //向上查找
         btnPrev.addActionListener(e -> prevFindActionPerformed(rSyntaxTextArea));
         // 窗口监听
-        findDialog.addWindowListener(new FindDialogListener());
+        //findDialog.addWindowListener(new FindDialogListener());
         return findDialog;
     }
-
 
     private static JDialog createFindDialog(JFrame frame, String title) {
         final JDialog openDlg = new JDialog();
@@ -98,23 +98,46 @@ public class DialogBuilder {
         openDlg.setUndecorated(true);
         openDlg.setTitle(title);
         openDlg.setModal(false);
-        openDlg.setSize(535, 45);
+        openDlg.setSize(565, 35);
         openDlg.setResizable(false);
-        // openDlg.setLocationRelativeTo(frame); // 相对主窗口居中
         panelRoot.setLayout(null);
-        panelRoot.setBorder(new LineBorder(new Color(130, 128, 128, 130)));
+        panelRoot.setBorder(new MatteBorder(0, 1, 1, 0, new Color(130, 128, 128, 130))); // 设置立体边框
         textFieldFind = new JTextField();
-        textFieldFind.setBounds(5, 5, 230, 35);
+        textFieldFind.setBounds(5, 5, 230, 25);
         btnFind = new JButton("查找");
-        btnFind.setBounds(240, 5, 80, 35);
+        btnFind.setBounds(240, 5, 80, 25);
         btnNext = new JButton("下一个");
-        btnNext.setBounds(325, 5, 100, 35);
+        btnNext.setBounds(325, 5, 100, 25);
         btnPrev = new JButton("上一个");
-        btnPrev.setBounds(430, 5, 100, 35);
+        btnPrev.setBounds(430, 5, 100, 25);
+
+        JLabel btnClose = new JLabel(IconUtils.getSVGIcon("icons/close.svg"));
+        btnClose.setBounds(535, 5, 25, 25);
+        btnClose.addMouseListener(new MouseListener(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                findDialog.setVisible(false);
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnClose.setIcon(IconUtils.getSVGIcon("icons/closeRed.svg"));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnClose.setIcon(IconUtils.getSVGIcon("icons/close.svg"));
+            }
+        });
         panelRoot.add(textFieldFind);
         panelRoot.add(btnFind);
-        panelRoot.add(btnPrev);
         panelRoot.add(btnNext);
+        panelRoot.add(btnPrev);
+        panelRoot.add(btnClose);
         openDlg.getContentPane().add(panelRoot);
         return openDlg;
     }
@@ -153,8 +176,8 @@ public class DialogBuilder {
                 doc.getText(offset, length, text);
                 if ((ignoreCase == true && text.toString().equalsIgnoreCase(key))
                         || (ignoreCase == false && text.toString().equals(key))) {
-                    textArea.requestFocus();////焦点,才能能看到效果
-                    textArea.setForeground(Color.BLUE);
+                    //textArea.requestFocus();////焦点,才能能看到效果
+                    textArea.setForeground(new Color(248, 201, 171));
                     textArea.setSelectionStart(offset);
                     textArea.setSelectionEnd(offset + length);
                     return true;
@@ -239,4 +262,11 @@ public class DialogBuilder {
     private static JButton btnPrev;
     private static JTextField textFieldFind;
 
+    public static JDialog getFindDialog() {
+        return findDialog;
+    }
+
+    public static void setFindDialog(JDialog findDialog) {
+        DialogBuilder.findDialog = findDialog;
+    }
 }

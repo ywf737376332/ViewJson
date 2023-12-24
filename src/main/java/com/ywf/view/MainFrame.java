@@ -1,17 +1,17 @@
 package com.ywf.view;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
-import com.ywf.action.FrameWindowEventService;
-import com.ywf.component.MenuBarBuilder;
-import com.ywf.component.PopupMenuBuilder;
-import com.ywf.component.TextAreaBuilder;
-import com.ywf.component.ToolBarBuilder;
+import com.ywf.action.FrameWindowCloseEventService;
+import com.ywf.action.WindowResizedEventService;
+import com.ywf.action.WindowStateEventService;
+import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.PropertiesUtil;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /**
  * TODO
@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initUI(JFrame frame) {
-        JPanel mainPanel = PanelView.createPanelLeft();
+        JPanel mainPanel = PanelView.createPanelMain();
 
         // 右侧JSON格式化区域
         JPanel editPanel = PanelView.createEditPanel();
@@ -59,10 +59,16 @@ public class MainFrame extends JFrame {
         mainPanel.add(editPanel, BorderLayout.CENTER);
         mainPanel.add(panelBottom, BorderLayout.SOUTH);
         frame.setJMenuBar(menuBar);
-        frame.add(toolBar, BorderLayout.NORTH);
-        frame.add(mainPanel);
-        frame.addWindowListener(new FrameWindowEventService(frame));
+        frame.getContentPane().add(toolBar, BorderLayout.NORTH);
+        frame.getContentPane().add(mainPanel);
+        // 窗口关闭事件监听
+        frame.addWindowListener(new FrameWindowCloseEventService(frame));
+        // 窗口右键菜单
         frame.addMouseListener(PopupMenuBuilder.getInstance().getPopupListener());
+        // 窗口改变大小事件监听
+        frame.addComponentListener(new WindowResizedEventService(frame));
+        // 窗口激活状态事件监听
+        frame.addWindowStateListener(new WindowStateEventService(frame));
 
     }
 
