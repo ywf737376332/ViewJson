@@ -30,6 +30,7 @@ public class FloatingComponentDemo {
 
         // 创建 JLayeredPane 并将 JTextArea 和要浮动的组件添加到其中
         JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setMinimumSize(new Dimension(235, 600));
         layeredPane.setBounds(0, 0, frame.getWidth(), frame.getHeight());
         frame.add(layeredPane);
         layeredPane.add(textArea, JLayeredPane.DEFAULT_LAYER);

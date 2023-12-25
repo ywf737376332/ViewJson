@@ -446,7 +446,12 @@ public class MenuEventService {
      * @param title 打开的窗口标题名称
      */
     public static void showFindDialogActionPerformed(JFrame frame, String title) {
-        DialogBuilder.showFindDialog(frame, rSyntaxTextArea, title).setVisible(true);
+        //DialogBuilder.showFindDialog(frame, rSyntaxTextArea, title).setVisible(true);
+
+        RTextScrollPane rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
+        Point tslPoint = rTextScrollPane.getLocationOnScreen();
+        //findLayeredPane.setLocation((int) (tslPoint.getX() + rTextScrollPane.getWidth() - findPanel.getWidth() - 11), (int) (tslPoint.getY()) + 1);
+        //frame.add(findLayeredPane);
     }
 
 

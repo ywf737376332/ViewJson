@@ -31,7 +31,6 @@ public class PanelView {
 
     public static JPanel createEditPanel() {
         JPanel editPanel = new BasePanel();
-        editPanel.setMinimumSize(new Dimension(235, 600));
         editPanel.setOpaque(false); // 设置为透明，以便边框可见
         editPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
         editPanel.setLayout(new BorderLayout());
