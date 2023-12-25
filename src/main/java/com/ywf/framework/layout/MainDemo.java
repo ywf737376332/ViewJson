@@ -1,0 +1,82 @@
+package com.ywf.framework.layout;
+
+import com.formdev.flatlaf.extras.FlatSVGUtils;
+import com.ywf.framework.constant.SystemConstant;
+
+import javax.swing.*;
+import java.awt.*;
+
+/**
+ * TODO
+ *
+ * @Author YWF
+ * @Date 2023/12/25 15:33
+ */
+public class MainDemo extends JFrame{
+
+    private JFrame _this = this;
+
+    private static JToolBar toolBar;
+
+    private static JTextArea textArea;
+
+    public static void main(String[] args) {
+        new MainDemo().createAndShowGUI(SystemConstant.WINDOWS_TITLE + SystemConstant.WINDOWS_VERSION);
+    }
+
+    public void createAndShowGUI(String title) {
+        setTitle(title);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        int w = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int h = Toolkit.getDefaultToolkit().getScreenSize().height;
+        setMinimumSize(new Dimension(235, 600));
+        setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
+        setMinimumSize(new Dimension(SystemConstant.WINDOWS_MIN_WIDTH, SystemConstant.WINDOWS_MIN_HEIGHT));
+        //设置图标
+        setIconImages(FlatSVGUtils.createWindowIconImages("/icons/FlatLaf.svg"));
+        // 初始化界面
+        initUI(_this);
+        setVisible(true);
+    }
+
+    private void initUI(JFrame frame) {
+        JPanel mainPanel =new JPanel();
+        mainPanel.setBackground(Color.BLUE);
+        mainPanel.setLayout(new BorderLayout());
+
+        JPanel editPanel =new JPanel();
+        editPanel.setBackground(Color.RED);
+        editPanel.setLayout(new BorderLayout());
+
+        textArea =new JTextArea("3224234234");
+        textArea.setLineWrap(true);
+        textArea.setBorder(null);
+        textArea.setForeground(new Color(200, 96, 17));
+        textArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置边框为10像素的空白边框
+        JScrollPane jScrollPane = new JScrollPane();
+        jScrollPane.setViewportView(textArea);
+        editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 设置外边距
+        editPanel.add(jScrollPane,BorderLayout.CENTER);
+
+        toolBar = new JToolBar("工具栏");
+        JButton btnFindRepl = new JButton("查找替换");
+        toolBar.add(btnFindRepl);
+
+        mainPanel.add(toolBar,BorderLayout.NORTH);
+        mainPanel.add(editPanel,BorderLayout.CENTER);
+        frame.add(mainPanel);
+        createPopup();
+
+    }
+
+    private static void createPopup(){
+        JTextField textField = new JTextField("搜索框");
+        textField.setPreferredSize(new Dimension(260,30));
+        PopupFactory popupFactory = PopupFactory.getSharedInstance();
+        Point point = textArea.getLocation();
+        SwingUtilities.convertPointToScreen(point,textArea);
+        Popup popup = popupFactory.getPopup(textArea, textField, point.x, point.y+40);
+        popup.show();
+    }
+}
