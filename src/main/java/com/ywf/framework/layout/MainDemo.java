@@ -1,10 +1,15 @@
 package com.ywf.framework.layout;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
+import com.ywf.component.PoPupFindPanel;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * TODO
@@ -12,13 +17,18 @@ import java.awt.*;
  * @Author YWF
  * @Date 2023/12/25 15:33
  */
-public class MainDemo extends JFrame{
+public class MainDemo extends JFrame {
 
     private JFrame _this = this;
 
     private static JToolBar toolBar;
 
     private static JTextArea textArea;
+
+    private static JScrollPane jScrollPane;
+    private static Popup popup;
+
+    private static JButton btnFindRepl;
 
     public static void main(String[] args) {
         new MainDemo().createAndShowGUI(SystemConstant.WINDOWS_TITLE + SystemConstant.WINDOWS_VERSION);
@@ -41,42 +51,44 @@ public class MainDemo extends JFrame{
     }
 
     private void initUI(JFrame frame) {
-        JPanel mainPanel =new JPanel();
+        JPanel mainPanel = new JPanel();
         mainPanel.setBackground(Color.BLUE);
         mainPanel.setLayout(new BorderLayout());
 
-        JPanel editPanel =new JPanel();
-        editPanel.setBackground(Color.RED);
+        JPanel editPanel = new JPanel();
+        //editPanel.setBackground(Color.RED);
         editPanel.setLayout(new BorderLayout());
 
-        textArea =new JTextArea("3224234234");
+        textArea = new JTextArea("3224234234");
         textArea.setLineWrap(true);
         textArea.setBorder(null);
         textArea.setForeground(new Color(200, 96, 17));
         textArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置边框为10像素的空白边框
-        JScrollPane jScrollPane = new JScrollPane();
+        jScrollPane = new JScrollPane();
         jScrollPane.setViewportView(textArea);
-        editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 设置外边距
-        editPanel.add(jScrollPane,BorderLayout.CENTER);
+        editPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40)); // 设置外边距
+        editPanel.add(jScrollPane, BorderLayout.CENTER);
 
         toolBar = new JToolBar("工具栏");
-        JButton btnFindRepl = new JButton("查找替换");
+        btnFindRepl = new JButton("查找替换");
+        btnFindRepl.addActionListener(e -> PoPupFindPanel.getInstance().showPopup(textArea));
         toolBar.add(btnFindRepl);
 
-        mainPanel.add(toolBar,BorderLayout.NORTH);
-        mainPanel.add(editPanel,BorderLayout.CENTER);
+        mainPanel.add(toolBar, BorderLayout.NORTH);
+        mainPanel.add(editPanel, BorderLayout.CENTER);
         frame.add(mainPanel);
-        createPopup();
-
     }
 
-    private static void createPopup(){
-        JTextField textField = new JTextField("搜索框");
-        textField.setPreferredSize(new Dimension(260,30));
-        PopupFactory popupFactory = PopupFactory.getSharedInstance();
-        Point point = textArea.getLocation();
-        SwingUtilities.convertPointToScreen(point,textArea);
-        Popup popup = popupFactory.getPopup(textArea, textField, point.x, point.y+40);
+/*
+    private void showPopup(){
+        Point point = new Point(0,btnFindRepl.getHeight());
+        SwingUtilities.convertPointToScreen(point,btnFindRepl);
+        PopupFactory sharedInstance = PopupFactory.getSharedInstance();
+        PoPupFindPanel popupContent = new PoPupFindPanel();
+        Popup popup = sharedInstance.getPopup(btnFindRepl, popupContent, point.x, point.y);
+        popupContent.popup = popup;
         popup.show();
-    }
+    }*/
+
+
 }

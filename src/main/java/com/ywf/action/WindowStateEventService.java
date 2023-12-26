@@ -31,15 +31,9 @@ public class WindowStateEventService implements WindowStateListener {
     @Override
     public void windowStateChanged(WindowEvent e) {
         if ((e.getNewState() & Frame.ICONIFIED) == Frame.ICONIFIED) {
-            JDialog findDialog = DialogBuilder.getFindDialog();
-            if (findDialog != null) {
-                findDialog.setVisible(false);
-            }
+
         } else if (e.getNewState() == Frame.NORMAL) {
-            JDialog findDialog = DialogBuilder.getFindDialog();
-            if (findDialog != null) {
-                findDialog.setVisible(true);
-            }
+
         }
     }
 }
