@@ -93,7 +93,7 @@ public class DialogBuilder {
     }
 
     private static JDialog createFindDialog(JFrame frame, String title) {
-        final JDialog openDlg = new JDialog();
+        final JDialog openDlg = new JDialog(frame);
         JPanel panelRoot = new JPanel();
         openDlg.setUndecorated(true);
         openDlg.setTitle(title);
