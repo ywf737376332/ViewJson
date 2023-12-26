@@ -84,13 +84,13 @@ public class MainDemo extends JFrame {
         mainPanel.add(editPanel, BorderLayout.CENTER);
         frame.add(mainPanel);
 
-        frame.addComponentListener(new ComponentAdapter() {
+       /* frame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 System.out.println("textArea大小已改变，新尺寸为：" + textArea.getWidth());
                 PoPupFindPanel.getInstance().setPreferredSize(new Dimension(textArea.getWidth(), 35));
             }
-        });
+        });*/
     }
 
 
