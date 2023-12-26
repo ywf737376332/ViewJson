@@ -8,6 +8,8 @@ import com.ywf.framework.utils.IconUtils;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -71,24 +73,25 @@ public class MainDemo extends JFrame {
 
         toolBar = new JToolBar("工具栏");
         btnFindRepl = new JButton("查找替换");
-        btnFindRepl.addActionListener(e -> PoPupFindPanel.getInstance().showPopup(textArea));
+        btnFindRepl.addActionListener(e -> {
+            PoPupFindPanel.getInstance().showPopup(jScrollPane);
+            JScrollBar verticalScrollBar = jScrollPane.getVerticalScrollBar();
+            verticalScrollBar.setValue(-100);
+        });
         toolBar.add(btnFindRepl);
 
         mainPanel.add(toolBar, BorderLayout.NORTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
         frame.add(mainPanel);
-    }
 
-/*
-    private void showPopup(){
-        Point point = new Point(0,btnFindRepl.getHeight());
-        SwingUtilities.convertPointToScreen(point,btnFindRepl);
-        PopupFactory sharedInstance = PopupFactory.getSharedInstance();
-        PoPupFindPanel popupContent = new PoPupFindPanel();
-        Popup popup = sharedInstance.getPopup(btnFindRepl, popupContent, point.x, point.y);
-        popupContent.popup = popup;
-        popup.show();
-    }*/
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                System.out.println("textArea大小已改变，新尺寸为：" + textArea.getWidth());
+                PoPupFindPanel.getInstance().setPreferredSize(new Dimension(textArea.getWidth(), 35));
+            }
+        });
+    }
 
 
 }

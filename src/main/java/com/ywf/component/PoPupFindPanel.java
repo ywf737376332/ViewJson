@@ -86,8 +86,8 @@ public class PoPupFindPanel extends JPanel {
 
     private void createPopup(Component owner) {
         //Point point = new Point(0, owner.getHeight());
-        //Point point = new Point(0, 0);
-        Point point = new Point(owner.getX(), owner.getY());
+        Point point = new Point(0, 0);
+        //Point point = new Point(owner.getX(), owner.getY());
         SwingUtilities.convertPointToScreen(point, owner);
         PopupFactory sharedInstance = PopupFactory.getSharedInstance();
         PoPupFindPanel popupContent = PoPupFindPanel.getInstance();
