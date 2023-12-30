@@ -44,7 +44,7 @@ public class WindowResizedEventService extends ComponentAdapter {
         Point tslPoint = rTextScrollPane.getLocationOnScreen();
         JDialog findDialog = DialogBuilder.getFindDialog();
         if (findDialog != null) {
-            findDialog.setLocation((int) (tslPoint.getX() + rTextScrollPane.getWidth() - findDialog.getWidth() - 11), (int) (tslPoint.getY()) + 1);
+            findDialog.setLocation(tslPoint.x + rTextScrollPane.getWidth() - findDialog.getWidth() - 11, tslPoint.y + 1);
         }
     }
 }

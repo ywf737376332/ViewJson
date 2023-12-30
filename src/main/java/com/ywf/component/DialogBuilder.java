@@ -72,7 +72,7 @@ public class DialogBuilder {
     public static JDialog showFindDialog(JFrame frame, JSONRSyntaxTextArea rSyntaxTextArea, String title) {
 
         if (findDialog == null) {
-            findDialog = createFindDialog(frame, title);
+            findDialog = createFindDialog(frame, rSyntaxTextArea, title);
         }
         //findDialog.setAlwaysOnTop(true);
         // 不管是否是新的对话框，都重新设置位置，避免父窗口移动后，子窗口位置不变
@@ -80,7 +80,7 @@ public class DialogBuilder {
         // 贴右边贴上边
         RTextScrollPane rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
         Point tslPoint = rTextScrollPane.getLocationOnScreen();
-        findDialog.setLocation((int) (tslPoint.getX() + rTextScrollPane.getWidth() - findDialog.getWidth() - 11), (int) (tslPoint.getY()) + 1);
+        findDialog.setLocation(tslPoint.x + rTextScrollPane.getWidth() - findDialog.getWidth() - 11, tslPoint.y + 1);
         //从头开始查找
         btnFind.addActionListener(e -> findActionPerformed(rSyntaxTextArea));
         //向下查找
@@ -92,7 +92,7 @@ public class DialogBuilder {
         return findDialog;
     }
 
-    private static JDialog createFindDialog(JFrame frame, String title) {
+    private static JDialog createFindDialog(JFrame frame, JSONRSyntaxTextArea rSyntaxTextArea, String title) {
         final JDialog openDlg = new JDialog(frame);
         JPanel panelRoot = new JPanel();
         openDlg.setUndecorated(true);
@@ -101,7 +101,7 @@ public class DialogBuilder {
         openDlg.setSize(565, 35);
         openDlg.setResizable(false);
         panelRoot.setLayout(null);
-        panelRoot.setBorder(new MatteBorder(0, 1, 1, 0, new Color(130, 128, 128, 130))); // 设置立体边框
+        panelRoot.setBorder(new MatteBorder(0, 0, 0, 0, new Color(130, 128, 128, 130))); // 设置立体边框
         textFieldFind = new JTextField();
         textFieldFind.setBounds(5, 5, 230, 25);
         btnFind = new JButton("查找");
