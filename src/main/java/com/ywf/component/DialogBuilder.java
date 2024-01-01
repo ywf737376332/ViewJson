@@ -215,7 +215,7 @@ public class DialogBuilder {
         modifyDialgTitle(findDialog, flag, 1);
     }
 
-    private static void nextFindActionPerformed(JSONRSyntaxTextArea rSyntaxTextArea) {
+    protected static void nextFindActionPerformed(JSONRSyntaxTextArea rSyntaxTextArea) {
         boolean flag = false;
         modifyDialgTitle(findDialog, flag, -1);
         flag = startSegmentFindOrReplaceOperation(rSyntaxTextArea, textFieldFind.getText(), true, true, false);

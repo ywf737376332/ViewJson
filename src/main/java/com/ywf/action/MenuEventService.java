@@ -7,7 +7,6 @@ import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
-import com.ywf.framework.layout.FindPanelBuilder;
 import com.ywf.framework.utils.*;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
