@@ -4,14 +4,17 @@ import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.ywf.action.FrameWindowCloseEventService;
 import com.ywf.action.WindowResizedEventService;
 import com.ywf.action.WindowStateEventService;
-import com.ywf.component.*;
+import com.ywf.component.MenuBarBuilder;
+import com.ywf.component.PopupMenuBuilder;
+import com.ywf.component.TextAreaBuilder;
+import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.layout.FindPanelBuilder;
 import com.ywf.framework.utils.PropertiesUtil;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 /**
  * TODO
@@ -57,6 +60,7 @@ public class MainFrame extends JFrame {
         JPanel panelBottom = PanelView.createPanelBottom(frame);
 
         mainPanel.add(editPanel, BorderLayout.CENTER);
+        editPanel.add(FindPanelBuilder.createFindPanel(), BorderLayout.SOUTH);
         mainPanel.add(panelBottom, BorderLayout.SOUTH);
         frame.setJMenuBar(menuBar);
         frame.getContentPane().add(toolBar, BorderLayout.NORTH);

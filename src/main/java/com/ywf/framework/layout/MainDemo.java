@@ -31,6 +31,9 @@ public class MainDemo extends JFrame {
     private static Popup popup;
 
     private static JButton btnFindRepl;
+    private static JButton btnFindRepl2;
+
+    private static FindPanelLayout layout;
 
     public static void main(String[] args) {
         new MainDemo().createAndShowGUI(SystemConstant.WINDOWS_TITLE + SystemConstant.WINDOWS_VERSION);
@@ -68,7 +71,7 @@ public class MainDemo extends JFrame {
         textArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置边框为10像素的空白边框
         jScrollPane = new JScrollPane();
         jScrollPane.setViewportView(textArea);
-        editPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40)); // 设置外边距
+        editPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 20, 40)); // 设置外边距
         editPanel.add(jScrollPane, BorderLayout.CENTER);
 
         toolBar = new JToolBar("工具栏");
@@ -80,18 +83,32 @@ public class MainDemo extends JFrame {
         });
         toolBar.add(btnFindRepl);
 
+        btnFindRepl2 = new JButton("查找替换2");
+        toolBar.add(btnFindRepl2);
+
+        JPanel findPanels = createFindPanel();
+
+        btnFindRepl2.addActionListener(e -> layout.showHideActionPerformed());
+
         mainPanel.add(toolBar, BorderLayout.NORTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
+        mainPanel.add(findPanels, BorderLayout.SOUTH);
         frame.add(mainPanel);
 
-       /* frame.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                System.out.println("textArea大小已改变，新尺寸为：" + textArea.getWidth());
-                PoPupFindPanel.getInstance().setPreferredSize(new Dimension(textArea.getWidth(), 35));
-            }
-        });*/
     }
 
+    private JPanel createFindPanel() {
+        JPanel findPanel = new JPanel();
+        layout = new FindPanelLayout(findPanel, 5, 5);
+        findPanel.setLayout(layout);
+        findPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 20, 40)); // 设置外边距
+        findPanel.setBackground(Color.GREEN);
+        findPanel.add(new JLabel("Find what:"), BorderLayout.WEST);
+        JTextField field = new JTextField("asd", 10);
+        JButton button = new JButton("下一个");
+        findPanel.add(field);
+        findPanel.add(button, BorderLayout.EAST);
+        return findPanel;
+    }
 
 }

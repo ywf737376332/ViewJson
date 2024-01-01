@@ -7,6 +7,7 @@ import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
+import com.ywf.framework.layout.FindPanelBuilder;
 import com.ywf.framework.utils.*;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -446,8 +447,9 @@ public class MenuEventService {
      * @param title 打开的窗口标题名称
      */
     public static void showFindDialogActionPerformed(JFrame frame, String title) {
-        DialogBuilder.showFindDialog(frame, rSyntaxTextArea, title).setVisible(true);
+        //DialogBuilder.showFindDialog(frame, rSyntaxTextArea, title).setVisible(true);
         //PoPupFindPanel.getInstance().showPopup(rSyntaxTextArea);
+        FindPanelBuilder.getLayout().showHideActionPerformed();
     }
 
 

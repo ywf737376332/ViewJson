@@ -7,6 +7,9 @@ import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Random;
 
 /**
  * TODO
@@ -15,6 +18,8 @@ import java.awt.*;
  * @Date 2023/11/25 20:46
  */
 public class PanelView {
+
+    private static JLabel labelCopyright;
 
     private static FlatLabel runTimeLabel;
     private static FlatLabel fileTypeLabel;
@@ -44,8 +49,9 @@ public class PanelView {
         // 设置边距
         JPanel panelBottomText = new BasePanel();
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        JLabel labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/banner02.svg"), SwingConstants.LEFT);
+        labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/banner02.svg"), SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156, 170, 207));
+        labelCopyright.addMouseListener(new CopyrightMouseListener());
 
         // 状态栏
         JPanel panelStateBar = new JPanel();
@@ -96,5 +102,44 @@ public class PanelView {
 
     public static void setFileLengthLabel(FlatLabel fileLengthLabel) {
         PanelView.fileLengthLabel = fileLengthLabel;
+    }
+
+
+    /**
+     * 多彩版权显示效果
+     */
+    static class CopyrightMouseListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            labelCopyright.setForeground(updateRandomColor());
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            labelCopyright.setForeground(updateRandomColor());
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            labelCopyright.setForeground(updateRandomColor());
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            labelCopyright.setForeground(updateRandomColor());
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            labelCopyright.setForeground(updateRandomColor());
+        }
+
+        private Color updateRandomColor() {
+            Random random = new Random();
+            int r = random.nextInt(256);
+            int g = random.nextInt(256);
+            int b = random.nextInt(256);
+            return new Color(r, g, b);
+        }
     }
 }

@@ -16,6 +16,12 @@ public class FindPanelLayout extends BorderLayout {
     private final Timer animator = new Timer(5, null);
     private int controlsHeight;
 
+    /**
+     * @param controls
+     * @param hgap     水平间距
+     * @param vgap     垂直间距
+     * @date 2023/12/31 23:41
+     */
     public FindPanelLayout(Container controls, int hgap, int vgap) {
         super(hgap, vgap);
         this.controls = Objects.requireNonNull(controls, "controls must not be null");
@@ -24,8 +30,8 @@ public class FindPanelLayout extends BorderLayout {
 
     /**
      * 控制窗口的显示隐藏动画事件
-     * @date 2023/12/23 16:29
      *
+     * @date 2023/12/23 16:29
      */
     public void showHideActionPerformed() {
         if (!animator.isRunning()) {
@@ -36,7 +42,6 @@ public class FindPanelLayout extends BorderLayout {
 
     @Override
     public Dimension preferredLayoutSize(Container target) {
-        System.out.println("================================");
         Dimension ps = super.preferredLayoutSize(target);
         int defaultHeight = ps.height;
         if (animator.isRunning()) {
