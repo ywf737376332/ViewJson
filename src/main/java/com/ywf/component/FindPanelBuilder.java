@@ -5,13 +5,16 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.extras.components.FlatTextField;
 import com.ywf.framework.layout.FindPanelLayout;
 import com.ywf.framework.utils.IconUtils;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
-import javax.swing.text.Document;
-import javax.swing.text.Segment;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * TODO
@@ -22,6 +25,7 @@ import java.awt.event.MouseListener;
 public class FindPanelBuilder {
 
     private static FindPanelLayout layout;
+    private static JButton buttonHighLight;
     private static JLabel btnClose;
     private static FlatTextField fieldFind;
 
@@ -57,16 +61,17 @@ public class FindPanelBuilder {
         searchToolbar.addSeparator();
         searchToolbar.add(regexButton);
         fieldFind.putClientProperty(FlatClientProperties.TEXT_FIELD_TRAILING_COMPONENT, searchToolbar);
-
-
         findPanel.add(fieldFind, BorderLayout.CENTER);
 
         JPanel findBtnPanel = new JPanel(new FlowLayout(5, 5, FlowLayout.RIGHT));
         JButton buttonNext = new JButton("下一个");
         buttonNext.addActionListener(e -> nextFindActionPerformed());
-        JButton buttonHighLight = new JButton("全部高亮显示");
+        buttonHighLight = new JButton("全部高亮显示");
         findBtnPanel.add(buttonNext);
         findBtnPanel.add(buttonHighLight);
+        buttonHighLight.addActionListener(e -> {
+            setTextAreaContentHighlight();
+        });
 
         JPanel findRight = new JPanel(new BorderLayout());
         findRight.setPreferredSize(new Dimension(100, 20));
@@ -92,6 +97,8 @@ public class FindPanelBuilder {
         @Override
         public void mouseClicked(MouseEvent e) {
             layout.showHideActionPerformed();
+            fieldFind.setText("");
+            buttonHighLight.setBackground(UIManager.getColor("control"));
         }
 
         @Override
@@ -180,4 +187,53 @@ public class FindPanelBuilder {
     public static void setLayout(FindPanelLayout layout) {
         FindPanelBuilder.layout = layout;
     }
+
+
+    private static final Highlighter.HighlightPainter HIGHLIGHT = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+    private static boolean isHighlight = false;
+
+
+    /**
+     * 查找内容高亮显示
+     *
+     * @date 2024/1/2 23:03
+     */
+    private static void setTextAreaContentHighlight() {
+        JSONRSyntaxTextArea syntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
+        RTextScrollPane rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
+        if (!isHighlight) {
+            buttonHighLight.setBackground(new Color(204, 232, 255));
+            setHighlight(syntaxTextArea, fieldFind.getText());
+            syntaxTextArea.repaint();
+            isHighlight = true;
+        } else {
+            buttonHighLight.setBackground(UIManager.getColor("control"));
+            syntaxTextArea.getHighlighter().removeAllHighlights();
+            rTextScrollPane.repaint();
+            isHighlight = false;
+        }
+    }
+
+    private static int setHighlight(JTextComponent jtc, String pattern) {
+        Highlighter highlighter = jtc.getHighlighter();
+        highlighter.removeAllHighlights();
+        Document doc = jtc.getDocument();
+        int counts = 0;
+        try {
+            String text = doc.getText(0, doc.getLength());
+            Matcher matcher = Pattern.compile(pattern).matcher(text);
+            int pos = 0;
+            while (matcher.find(pos) && !matcher.group().isEmpty()) {
+                int start = matcher.start();
+                int end = matcher.end();
+                highlighter.addHighlight(start, end, HIGHLIGHT);
+                pos = end;
+                counts++;
+            }
+        } catch (BadLocationException | PatternSyntaxException ex) {
+            UIManager.getLookAndFeel().provideErrorFeedback(jtc);
+        }
+        return counts;
+    }
+
 }
