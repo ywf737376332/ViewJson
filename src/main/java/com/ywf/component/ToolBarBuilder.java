@@ -54,13 +54,13 @@ public class ToolBarBuilder {
         btnCopy.addActionListener(e -> MenuEventService.getInstance().copyJsonActionPerformed(frame));
         btnCopyPict = new JButton("复制图片");
         btnCopyPict.addActionListener(e -> MenuEventService.getInstance().copyJsonToPictActionPerformed(frame));
-        btnShowQrcode = new JButton("内容分享");
+        btnShowQrcode = new JButton("分享");
         btnShowQrcode.addActionListener(e -> QRCodeEventService.getInstance().showQrcodeActionPerformed(frame));
 
-        btnFindRepl = new JButton("查找替换");
+        btnFindRepl = new JButton("查找");
         btnFindRepl.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame,"查找"));
 
-        btnClean = new JButton("清空内容");
+        btnClean = new JButton("清空");
         btnClean.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
 
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
