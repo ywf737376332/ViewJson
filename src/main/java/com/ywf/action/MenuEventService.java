@@ -85,18 +85,25 @@ public class MenuEventService {
             JOptionPane.showMessageDialog(frame, "请输入json字符串！");
             return;
         }
-        String text = JsonUtil.compressingStr(rSyntaxTextArea.getText());
-        int converState = rSyntaxTextArea.getChineseConverState();
-        switch (TextConvertEnum.findConverEnumByState(converState)) {
-            case CH_TO_UN:
-                rSyntaxTextArea.setText(JsonUtil.formatJson(UnicodeUtil.toUnicode(text)));
-                break;
-            case UN_TO_CH:
-                rSyntaxTextArea.setText(JsonUtil.formatJson(UnicodeUtil.toString(text)));
-                break;
-            default:
-                rSyntaxTextArea.setText(JsonUtil.formatJson(text));
-        }
+        SwingWorker<Boolean, Boolean> swingWorker = new SwingWorker<Boolean, Boolean>() {
+            @Override
+            protected Boolean doInBackground() {
+                String text = JsonUtil.compressingStr(rSyntaxTextArea.getText());
+                int converState = rSyntaxTextArea.getChineseConverState();
+                switch (TextConvertEnum.findConverEnumByState(converState)) {
+                    case CH_TO_UN:
+                        rSyntaxTextArea.setText(JsonUtil.formatJson(UnicodeUtil.toUnicode(text)));
+                        break;
+                    case UN_TO_CH:
+                        rSyntaxTextArea.setText(JsonUtil.formatJson(UnicodeUtil.toString(text)));
+                        break;
+                    default:
+                        rSyntaxTextArea.setText(JsonUtil.formatJson(text));
+                }
+                return true;
+            }
+        };
+        swingWorker.execute();
     }
 
     /**
@@ -112,8 +119,15 @@ public class MenuEventService {
      * 压缩内容
      */
     public void compressionJsonActionPerformed() {
-        String sourceText = rSyntaxTextArea.getText();
-        rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText));
+        SwingWorker<Boolean, Boolean> swingWorker = new SwingWorker<Boolean, Boolean>() {
+            @Override
+            protected Boolean doInBackground() {
+                String sourceText = rSyntaxTextArea.getText();
+                rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText));
+                return true;
+            }
+        };
+        swingWorker.execute();
     }
 
     /**

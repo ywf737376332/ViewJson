@@ -48,34 +48,39 @@ public class StateBarEventService {
      * @date 2023/12/17 14:35
      */
     public void textAreaDocumentActionPerformed(JSONRSyntaxTextArea rSyntaxTextArea) {
-        rSyntaxTextArea.getDocument().addDocumentListener(new DocumentListener() {
+        SwingWorker<Boolean, Boolean> swingWorker = new SwingWorker<Boolean, Boolean>() {
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                String text = rSyntaxTextArea.getText();
-                boolean typeJSON = JsonUtil.isJsonString(text);
-                boolean isUrl = JsonUtil.isURL(text);
-                FlatLabel labelTypeLabel = PanelView.getFileTypeLabel();
-                FlatLabel fileLengthLabel = PanelView.getFileLengthLabel();
-                labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：</span>" + (typeJSON == true ? "<span color=\"#21901C\">JSON类型</span></html>" : (isUrl == true ? "<span color=\"#1541F8\">网址类型</span></html>" : "<span color=\"#389FD6\">文本类型</span></html>")));
-                fileLengthLabel.setText("<html><span color=\"#A7B3D3\">字数统计：</span>" + text.length() + "词");
-            }
+            protected Boolean doInBackground() throws Exception {
+                rSyntaxTextArea.getDocument().addDocumentListener(new DocumentListener() {
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        updateStateUI(rSyntaxTextArea);
+                    }
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                String text = rSyntaxTextArea.getText();
-                boolean typeJSON = JsonUtil.isJsonString(text);
-                boolean isUrl = JsonUtil.isURL(text);
-                FlatLabel labelTypeLabel = PanelView.getFileTypeLabel();
-                FlatLabel fileLengthLabel = PanelView.getFileLengthLabel();
-                labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：</span>" + (typeJSON == true ? "<span color=\"#21901C\">JSON类型</span></html>" : (isUrl == true ? "<span color=\"#1541F8\">网址类型</span></html>" : "<span color=\"#389FD6\">文本类型</span></html>")));
-                fileLengthLabel.setText("<html><span color=\"#A7B3D3\">字数统计：</span>" + text.length() + "词");
-            }
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        updateStateUI(rSyntaxTextArea);
+                    }
 
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                // 不需要处理文档更改事件
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        // 不需要处理文档更改事件
+                    }
+                });
+                return true;
             }
-        });
+        };
+        swingWorker.execute();
+    }
+
+    private void updateStateUI(JSONRSyntaxTextArea rSyntaxTextArea){
+        String text = rSyntaxTextArea.getText();
+        boolean typeJSON = JsonUtil.isJsonString(text);
+        boolean isUrl = JsonUtil.isURL(text);
+        FlatLabel labelTypeLabel = PanelView.getFileTypeLabel();
+        FlatLabel fileLengthLabel = PanelView.getFileLengthLabel();
+        labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：</span>" + (typeJSON == true ? "<span color=\"#21901C\">JSON类型</span></html>" : (isUrl == true ? "<span color=\"#1541F8\">网址类型</span></html>" : "<span color=\"#389FD6\">文本类型</span></html>")));
+        fileLengthLabel.setText("<html><span color=\"#A7B3D3\">字数统计：</span>" + text.length() + "词");
     }
 
     /**
