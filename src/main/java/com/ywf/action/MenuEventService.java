@@ -88,17 +88,18 @@ public class MenuEventService {
         SwingWorker<Boolean, Boolean> swingWorker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() {
-                String text = JsonUtil.compressingStr(rSyntaxTextArea.getText());
+                //String text = JsonUtil.compressingStr(rSyntaxTextArea.getText());
+                String text = rSyntaxTextArea.getText();
                 int converState = rSyntaxTextArea.getChineseConverState();
                 switch (TextConvertEnum.findConverEnumByState(converState)) {
                     case CH_TO_UN:
-                        rSyntaxTextArea.setText(JsonUtil.formatJson(UnicodeUtil.toUnicode(text)));
+                        rSyntaxTextArea.setText(JsonUtil.contentFormat(UnicodeUtil.toUnicode(text)));
                         break;
                     case UN_TO_CH:
-                        rSyntaxTextArea.setText(JsonUtil.formatJson(UnicodeUtil.toString(text)));
+                        rSyntaxTextArea.setText(JsonUtil.contentFormat(UnicodeUtil.toString(text)));
                         break;
                     default:
-                        rSyntaxTextArea.setText(JsonUtil.formatJson(text));
+                        rSyntaxTextArea.setText(JsonUtil.contentFormat(text));
                 }
                 return true;
             }

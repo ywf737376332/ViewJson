@@ -1,9 +1,23 @@
 package com.ywf.framework.utils;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.XmlUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.ywf.framework.enums.TextTypeEnum;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -29,7 +43,6 @@ public class JsonUtil {
         char key = 0;
         for (int i = 0; i < length; i++) {
             key = json.charAt(i);
-
             if (isEffectSpecChr(i, key, json)) {
                 if ((key == '[') || (key == '{')) {
                     result.append(key);
@@ -38,7 +51,6 @@ public class JsonUtil {
                     result.append(indent(number));
                     continue;
                 }
-
                 if ((key == ']') || (key == '}')) {
                     result.append("\r\n");
                     number--;
@@ -46,7 +58,6 @@ public class JsonUtil {
                     result.append(key);
                     continue;
                 }
-
                 if ((key == ',')) {
                     result.append(key);
                     result.append("\r\n");
@@ -156,30 +167,79 @@ public class JsonUtil {
         return StringEscapeUtils.escapeJavaScript(jsonStr);
     }
 
+    public static String contentFormat(String content){
+        String result = null;
+        TextTypeEnum type = isType(content);
+        switch (type) {
+            case JSON:
+                result = formatJson(content);
+                break;
+            case XML:
+                result = prettyPrintByTransformer(content, 4, true);
+                break;
+            default:
+        }
+        return result;
+    }
+
     /**
-     * 判断是否为String类型
+     * 格式化xml
      *
-     * @param obj obj
-     * @return obj
+     * @param xmlString xml内容
+     * @param indent 向前缩进多少空格
+     * @param ignoreDeclaration 是否忽略描述
+     * @return 格式化后的xml
      */
-    private static boolean isStringType(Object obj) {
-        return obj instanceof String;
+    public static String prettyPrintByTransformer(String xmlString, int indent, boolean ignoreDeclaration) {
+        try {
+            InputSource src = new InputSource(new StringReader(xmlString));
+            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(src);
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setAttribute("indent-number", indent);
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, ignoreDeclaration ? "yes" : "no");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            Writer out = new StringWriter();
+            transformer.transform(new DOMSource(document), new StreamResult(out));
+            return out.toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurs when pretty-printing xml:\n" + xmlString, e);
+        }
     }
 
 
     /**
+     * 判断内容类型
+     * @date 2024/1/21 19:55
+     *
+     * @param content
+     */
+    public static TextTypeEnum isType(String content){
+        if (isJsonString(content)){
+            return TextTypeEnum.JSON;
+        } else if (isURL(content)) {
+            return TextTypeEnum.URL;
+        } else if (isXML(content)) {
+            return TextTypeEnum.XML;
+        }
+        return TextTypeEnum.TEXT;
+    }
+
+    /**
      * 判断是否为json字符串
      *
-     * @param str 字符串
+     * @param content 字符串
      * @return 是否为json字符串
      */
-    public static boolean isJsonString(String str) {
-        if (StrUtil.isEmpty(str)) {
+    private static boolean isJsonString(String content) {
+        if (StrUtil.isEmpty(content)) {
             return false;
         }
-
         try {
-            JSONObject.parse(str);
+            JSONObject.parse(content);
             return true;
         } catch (Exception e) {
             return false;
@@ -190,16 +250,33 @@ public class JsonUtil {
     /**
      * 判断一个字符是否为网址
      *
-     * @param urlStr
+     * @param content
      * @date 2023/12/17 13:46
      */
-    public static boolean isURL(String urlStr) {
+    private static boolean isURL(String content) {
         try {
-            new URL(urlStr);
+            new URL(content);
             return true;
         } catch (MalformedURLException e) {
             return false;
         }
     }
+
+    /**
+     * 判断一个字符是否为XML
+     *
+     * @param content
+     * @date 2023/12/17 13:46
+     */
+    private static boolean isXML(String content) {
+        try {
+            XmlUtil.format(content);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
 }
 

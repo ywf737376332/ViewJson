@@ -31,14 +31,14 @@ public class MenuBarBuilder {
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("文件");
         JMenuItem newTabMenuItem = new JMenuItem("新建");
-        newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/open.svg"));
+        newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/open.svg",12,12));
         newTabMenuItem.setEnabled(false);
         JMenuItem savePictMenuItem = new JMenuItem("导出图片");
-        savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/cutPict.svg"));
+        savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/exportPict.svg",12,12));
         savePictMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToImageActionPerformed(frame));
 
         JMenuItem saveFileMenuItem = new JMenuItem("导出文件");
-        saveFileMenuItem.setIcon(IconUtils.getSVGIcon("icons/saveCode.svg"));
+        saveFileMenuItem.setIcon(IconUtils.getSVGIcon("icons/saveCode.svg",12,12));
         saveFileMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToFileActionPerformed(frame));
 
         fileMenu.add(newTabMenuItem);
@@ -47,22 +47,22 @@ public class MenuBarBuilder {
 
         JMenu editMenu = new JMenu("编辑");
         JMenuItem compMenuItem = new JMenuItem("压缩");
-        compMenuItem.setIcon(IconUtils.getSVGIcon("icons/comp.svg"));
+        compMenuItem.setIcon(IconUtils.getSVGIcon("icons/comp.svg",12,12));
         compMenuItem.addActionListener(e -> MenuEventService.getInstance().compressionJsonActionPerformed());
         JMenuItem escapeTabMenuItem = new JMenuItem("转义");
-        escapeTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg"));
+        escapeTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg",12,12));
         escapeTabMenuItem.addActionListener(e -> MenuEventService.getInstance().escapeJsonActionPerformed());
         JMenuItem unescapeMenuItem = new JMenuItem("去除转义");
-        unescapeMenuItem.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg"));
+        unescapeMenuItem.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg",12,12));
         unescapeMenuItem.addActionListener(e -> MenuEventService.getInstance().unEscapeJsonActionPerformed());
         JMenuItem formatMenuItem = new JMenuItem("格式化");
-        formatMenuItem.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
+        formatMenuItem.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg",12,12));
         formatMenuItem.addActionListener(e -> MenuEventService.getInstance().formatJsonActionPerformed(frame));
         JMenuItem cleanMenuItem = new JMenuItem("清空");
-        cleanMenuItem.setIcon(IconUtils.getSVGIcon("icons/Basket.svg"));
+        cleanMenuItem.setIcon(IconUtils.getSVGIcon("icons/delete.svg",12,12));
         cleanMenuItem.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
         JMenuItem findRepMenuItem = new JMenuItem("查找替换");
-        findRepMenuItem.setIcon(IconUtils.getSVGIcon("icons/findCode.svg"));
+        findRepMenuItem.setIcon(IconUtils.getSVGIcon("icons/find.svg",12,12));
         findRepMenuItem.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame,"查找"));
         editMenu.add(compMenuItem);
         editMenu.add(escapeTabMenuItem);

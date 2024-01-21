@@ -38,7 +38,7 @@ public class FindPanelBuilder {
 
         JPanel findPanel = new JPanel(new BorderLayout());
         findPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // 设置边框为10像素的空白边框
-        JLabel findLabel = new JLabel("查找:  ", IconUtils.getSVGIcon("icons/search.svg", 16, 16), SwingConstants.RIGHT);
+        JLabel findLabel = new JLabel("查找:  ", IconUtils.getSVGIcon("icons/find.svg", 16, 16), SwingConstants.RIGHT);
         findPanel.add(findLabel, BorderLayout.WEST);
         fieldFind = new FlatTextField();
         fieldFind.setPlaceholderText("请输入您要查找的内容...");

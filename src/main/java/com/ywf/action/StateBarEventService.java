@@ -1,10 +1,13 @@
 package com.ywf.action;
 
+import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.JSONRSyntaxTextArea;
+import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.JsonUtil;
 import com.ywf.view.PanelView;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -73,14 +76,23 @@ public class StateBarEventService {
         swingWorker.execute();
     }
 
-    private void updateStateUI(JSONRSyntaxTextArea rSyntaxTextArea){
-        String text = rSyntaxTextArea.getText();
-        boolean typeJSON = JsonUtil.isJsonString(text);
-        boolean isUrl = JsonUtil.isURL(text);
-        FlatLabel labelTypeLabel = PanelView.getFileTypeLabel();
-        FlatLabel fileLengthLabel = PanelView.getFileLengthLabel();
-        labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：</span>" + (typeJSON == true ? "<span color=\"#21901C\">JSON类型</span></html>" : (isUrl == true ? "<span color=\"#1541F8\">网址类型</span></html>" : "<span color=\"#389FD6\">文本类型</span></html>")));
-        fileLengthLabel.setText("<html><span color=\"#A7B3D3\">字数统计：</span>" + text.length() + "词");
+    private void updateStateUI(JSONRSyntaxTextArea rSyntaxTextArea) {
+        SwingWorker<Boolean, Boolean> swingWorker = new SwingWorker<Boolean, Boolean>() {
+            @Override
+            protected Boolean doInBackground() {
+                String text = rSyntaxTextArea.getText();
+                if (StrUtil.isNotBlank(text)){
+                    TextTypeEnum contentType = JsonUtil.isType(text);
+                    FlatLabel labelTypeLabel = PanelView.getFileTypeLabel();
+                    FlatLabel fileLengthLabel = PanelView.getFileLengthLabel();
+                    labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：<span color=\"#389FD6\">" + contentType.getDiscription() + "</span></span></html>");
+                    fileLengthLabel.setText("<html><span color=\"#A7B3D3\">字数统计：</span>" + text.length() + "词");
+                    rSyntaxTextArea.setSyntaxEditingStyle(TextTypeEnum.JSON.equals(contentType)?SyntaxConstants.SYNTAX_STYLE_JSON:SyntaxConstants.SYNTAX_STYLE_XML);
+                }
+                return true;
+            }
+        };
+        swingWorker.execute();
     }
 
     /**
@@ -92,7 +104,7 @@ public class StateBarEventService {
         long nowTime = new Date().getTime();
         long nowStart = SysConfigInit.startTime.getTime();
         long runTime = nowTime - nowStart;
-        runTimeLabel.setText("<html><span color=\"#A7B3D3\">运行时长：</span>" + viewTime(runTime) + "</html>");
+        runTimeLabel.setText(viewTime(runTime));
     }
 
     private String viewTime(long millseconds) {

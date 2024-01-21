@@ -67,11 +67,11 @@ public class ToolBarBuilder {
         btnComp.setIcon(IconUtils.getSVGIcon("icons/comp.svg"));
         btnEscape.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg"));
         btnUnescape.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg"));
-        btnCopy.setIcon(IconUtils.getSVGIcon("icons/copyCode.svg"));
-        btnCopyPict.setIcon(IconUtils.getSVGIcon("icons/cutPict.svg"));
-        btnShowQrcode.setIcon(IconUtils.getSVGIcon("icons/Banner.svg"));
-        btnFindRepl.setIcon(IconUtils.getSVGIcon("icons/findCode.svg"));
-        btnClean.setIcon(IconUtils.getSVGIcon("icons/Basket.svg"));
+        btnCopy.setIcon(IconUtils.getSVGIcon("icons/copyContent.svg"));
+        btnCopyPict.setIcon(IconUtils.getSVGIcon("icons/sharePict.svg"));
+        btnShowQrcode.setIcon(IconUtils.getSVGIcon("icons/shareQrcode.svg"));
+        btnFindRepl.setIcon(IconUtils.getSVGIcon("icons/find.svg"));
+        btnClean.setIcon(IconUtils.getSVGIcon("icons/delete.svg"));
         toolBar.add(btnFormat);
         toolBar.addSeparator();
 

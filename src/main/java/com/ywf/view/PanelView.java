@@ -49,7 +49,7 @@ public class PanelView {
         // 设置边距
         JPanel panelBottomText = new BasePanel();
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/banner02.svg"), SwingConstants.LEFT);
+        labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/auth.svg",14,14), SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156, 170, 207));
         labelCopyright.addMouseListener(new CopyrightMouseListener());
 
@@ -59,9 +59,13 @@ public class PanelView {
         panelStateBar.setPreferredSize(new Dimension(560, 20));
         panelStateBar.setLayout(null);
 
+        FlatLabel runTimeText = new FlatLabel();
+        runTimeText.setText("<html><span color=\"#A7B3D3\">运行时长：</span></html>");
+        runTimeText.setBounds(0, 0, 60, 20);
         runTimeLabel = new FlatLabel();
+        //runTimeLabel.setText("<html><span color=\"#A7B3D3\">运行时长：</span></html>");
         runTimeLabel.setLabelType(FlatLabel.LabelType.medium);
-        runTimeLabel.setBounds(0, 0, 255, 20);
+        runTimeLabel.setBounds(60, 0, 255, 20);
         Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeLabel));
         StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
 
@@ -73,6 +77,7 @@ public class PanelView {
         fileLengthLabel.setLabelType(FlatLabel.LabelType.medium);
         fileLengthLabel.setBounds(410, 0, 140, 20);
 
+        panelStateBar.add(runTimeText);
         panelStateBar.add(runTimeLabel);
         panelStateBar.add(fileTypeLabel);
         panelStateBar.add(fileLengthLabel);
