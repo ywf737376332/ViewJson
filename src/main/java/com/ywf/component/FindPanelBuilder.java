@@ -72,8 +72,9 @@ public class FindPanelBuilder {
         JButton buttonNext = new JButton("下一个");
         buttonNext.addActionListener(e -> nextFindActionPerformed());
         JButton buttonUp = new JButton("上一个");
+        buttonUp.addActionListener(e -> prevFindActionPerformed());
         searchResultLabel = new FlatLabel();
-        searchResultLabel.setText("<html><span color=\"#A7B3D3\">"+ 0 +" 个匹配项</span>");
+        searchResultLabel.setText(updateSearchResultCounts(0));
         searchResultLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         findBtnPanel.add(buttonNext);
         findBtnPanel.add(buttonUp);
@@ -81,7 +82,7 @@ public class FindPanelBuilder {
 
         JPanel findRight = new JPanel(new BorderLayout());
         findRight.setPreferredSize(new Dimension(100, 20));
-        JCheckBox checkBox = new JCheckBox("替换");
+        //JCheckBox checkBox = new JCheckBox("替换");
         //findRight.add(checkBox, BorderLayout.EAST);
         findBtnPanel.add(findRight);
 
@@ -129,6 +130,13 @@ public class FindPanelBuilder {
      */
     private static void nextFindActionPerformed() {
         startSegmentFindOrReplaceOperation(TextAreaBuilder.getSyntaxTextArea(), fieldFind.getText(), true, true, false);
+    }
+
+    /**
+     * 查找上一个
+     */
+    private static void prevFindActionPerformed() {
+        startSegmentFindOrReplaceOperation(TextAreaBuilder.getSyntaxTextArea(), fieldFind.getText(), true, false, false);
     }
 
     /**
@@ -193,7 +201,7 @@ public class FindPanelBuilder {
     }
 
 
-    private static final Highlighter.HighlightPainter HIGHLIGHT = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+    private static final Highlighter.HighlightPainter HIGHLIGHT = new DefaultHighlighter.DefaultHighlightPainter(new Color(255,150,50));
     private static boolean isHighlight = false;
 
 
@@ -207,12 +215,12 @@ public class FindPanelBuilder {
             JSONRSyntaxTextArea syntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
             if (!isHighlight) {
                 int result = setHighlight(syntaxTextArea, fieldFind.getText());
-                searchResultLabel.setText("<html><span color=\"#A7B3D3\">"+ result +" 个匹配项</span>");
+                searchResultLabel.setText(updateSearchResultCounts(result));
                 syntaxTextArea.repaint();
                 isHighlight = true;
             } else {
                 syntaxTextArea.getHighlighter().removeAllHighlights();
-                searchResultLabel.setText("<html><span color=\"#A7B3D3\">"+ 0 +" 个匹配项</span>");
+                searchResultLabel.setText(updateSearchResultCounts(0));
                 syntaxTextArea.repaint();
                 isHighlight = false;
             }
@@ -241,6 +249,12 @@ public class FindPanelBuilder {
         return counts;
     }
 
+    /**
+     * 搜索结果状态栏显示文本
+     */
+    private static String updateSearchResultCounts(int searchResultCount){
+        return "<html><span color=\"#849BD9\">"+ searchResultCount +" 个匹配项</span>";
+    }
 
     /**
      * 文本框内容监听

@@ -302,16 +302,19 @@ public class JsonUtil {
      * @date 2023/12/17 13:46
      */
     private static boolean isXML(String content) {
+        String text = compressingStr(content);
         try {
-            content = compressingStr(content);
-            // 防止XXE攻击，禁用DTD加载
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            dbFactory.setNamespaceAware(false);
-            dbFactory.setValidating(false);
-            // 尝试解析字符串为XML文档
-            dbFactory.newDocumentBuilder().parse(new InputSource(new StringReader(content)));
-            // 如果没有抛出异常，则字符串是有效的XML格式
-            return true;
+            if(text.startsWith("<") && text.endsWith(">")){
+                // 防止XXE攻击，禁用DTD加载
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                dbFactory.setNamespaceAware(false);
+                dbFactory.setValidating(false);
+                // 尝试解析字符串为XML文档
+                dbFactory.newDocumentBuilder().parse(new InputSource(new StringReader(text)));
+                // 如果没有抛出异常，则字符串是有效的XML格式
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             // 解析过程中出现异常则认为不是有效的XML
             return false;

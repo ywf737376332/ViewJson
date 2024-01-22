@@ -36,7 +36,7 @@ public class MainDemo extends JFrame {
     private static FindPanelLayout layout;
 
     public static void main(String[] args) {
-        new MainDemo().createAndShowGUI(SystemConstant.WINDOWS_TITLE + SystemConstant.WINDOWS_VERSION);
+        new MainDemo().createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
     }
 
     public void createAndShowGUI(String title) {

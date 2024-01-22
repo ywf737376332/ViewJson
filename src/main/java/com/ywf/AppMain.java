@@ -26,7 +26,7 @@ public class AppMain {
             mainFrame = new MainFrame();
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
             ChangeUIUtils.changeUIStyle(mainFrame, themesStyles != null ? themesStyles : SystemThemesEnum.FlatLightLafThemesStyle);
-            mainFrame.createAndShowGUI(SystemConstant.WINDOWS_TITLE + SystemConstant.WINDOWS_VERSION);
+            mainFrame.createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
         });
 
 

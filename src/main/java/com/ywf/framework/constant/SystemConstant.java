@@ -13,8 +13,9 @@ public class SystemConstant {
     /**
      * 窗口标题及版本号
      */
-    public static final String WINDOWS_TITLE = "JSON格式化工具";   // 窗口最小宽度
-    public static final String WINDOWS_VERSION = "V3.0";   // 窗口最小宽度
+    public static final String SYSTEM_LOGO = "/icons/logo01.svg";
+    public static final String SYSTEM_TITLE = "JSON格式化工具";   // 窗口最小宽度
+    public static final String SYSTEM_VERSION = "V3.0";   // 窗口最小宽度
 
     /**
      * 窗口大小最小值

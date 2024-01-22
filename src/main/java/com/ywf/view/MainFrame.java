@@ -33,7 +33,7 @@ public class MainFrame extends JFrame {
         setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
         setMinimumSize(new Dimension(SystemConstant.WINDOWS_MIN_WIDTH, SystemConstant.WINDOWS_MIN_HEIGHT));
         //设置图标
-        setIconImages(FlatSVGUtils.createWindowIconImages("/icons/logo.svg"));
+        setIconImages(FlatSVGUtils.createWindowIconImages(SystemConstant.SYSTEM_LOGO));
         // 初始化界面
         initUI(_this);
         setVisible(true);
