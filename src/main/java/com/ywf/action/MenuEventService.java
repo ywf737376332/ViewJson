@@ -85,26 +85,20 @@ public class MenuEventService {
             JOptionPane.showMessageDialog(frame, "请输入json字符串！");
             return;
         }
-        SwingWorker<Boolean, Boolean> swingWorker = new SwingWorker<Boolean, Boolean>() {
-            @Override
-            protected Boolean doInBackground() {
-                //String text = JsonUtil.compressingStr(rSyntaxTextArea.getText());
-                String text = rSyntaxTextArea.getText();
-                int converState = rSyntaxTextArea.getChineseConverState();
-                switch (TextConvertEnum.findConverEnumByState(converState)) {
-                    case CH_TO_UN:
-                        rSyntaxTextArea.setText(JsonUtil.contentFormat(UnicodeUtil.toUnicode(text)));
-                        break;
-                    case UN_TO_CH:
-                        rSyntaxTextArea.setText(JsonUtil.contentFormat(UnicodeUtil.toString(text)));
-                        break;
-                    default:
-                        rSyntaxTextArea.setText(JsonUtil.contentFormat(text));
-                }
-                return true;
+        SwingUtilities.invokeLater(() -> {
+            String text = rSyntaxTextArea.getText();
+            int converState = rSyntaxTextArea.getChineseConverState();
+            switch (TextConvertEnum.findConverEnumByState(converState)) {
+                case CH_TO_UN:
+                    rSyntaxTextArea.setText(JsonUtil.contentFormat(rSyntaxTextArea.getTextType(), UnicodeUtil.toUnicode(text)));
+                    break;
+                case UN_TO_CH:
+                    rSyntaxTextArea.setText(JsonUtil.contentFormat(rSyntaxTextArea.getTextType(), UnicodeUtil.toString(text)));
+                    break;
+                default:
+                    rSyntaxTextArea.setText(JsonUtil.contentFormat(rSyntaxTextArea.getTextType(), text));
             }
-        };
-        swingWorker.execute();
+        });
     }
 
     /**
@@ -120,15 +114,10 @@ public class MenuEventService {
      * 压缩内容
      */
     public void compressionJsonActionPerformed() {
-        SwingWorker<Boolean, Boolean> swingWorker = new SwingWorker<Boolean, Boolean>() {
-            @Override
-            protected Boolean doInBackground() {
-                String sourceText = rSyntaxTextArea.getText();
-                rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText));
-                return true;
-            }
-        };
-        swingWorker.execute();
+        SwingUtilities.invokeLater(() -> {
+            String sourceText = rSyntaxTextArea.getText();
+            rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText));
+        });
     }
 
     /**
@@ -136,7 +125,9 @@ public class MenuEventService {
      */
     public void escapeJsonActionPerformed() {
         String sourceText = rSyntaxTextArea.getText();
-        rSyntaxTextArea.setText(JsonUtil.escapeJSON(sourceText));
+        SwingUtilities.invokeLater(() -> {
+            rSyntaxTextArea.setText(JsonUtil.escapeJSON(sourceText));
+        });
     }
 
     /**
@@ -144,7 +135,9 @@ public class MenuEventService {
      */
     public void unEscapeJsonActionPerformed() {
         String sourceText = rSyntaxTextArea.getText();
-        rSyntaxTextArea.setText(JsonUtil.unescapeJSON(sourceText));
+        SwingUtilities.invokeLater(() -> {
+            rSyntaxTextArea.setText(JsonUtil.unescapeJSON(sourceText));
+        });
     }
 
     /**
@@ -158,10 +151,12 @@ public class MenuEventService {
             return;
         }
         try {
-            StringSelection stringSelection = new StringSelection(rSyntaxTextArea.getText());
-            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(stringSelection, null);
-            JOptionPane.showMessageDialog(frame, "已将格式化后的JSON结果复制到剪贴板！");
+            SwingUtilities.invokeLater(() -> {
+                StringSelection stringSelection = new StringSelection(rSyntaxTextArea.getText());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(stringSelection, null);
+                JOptionPane.showMessageDialog(frame, "已将格式化后的JSON结果复制到剪贴板！");
+            });
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "呢欧容复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("呢欧容复制失败: " + e.getMessage());
@@ -180,15 +175,17 @@ public class MenuEventService {
             return;
         }
         try {
-            //绘制图片
-            BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * pictureScale, rSyntaxTextArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2d = image.createGraphics();
-            g2d.scale(pictureScale, pictureScale); // 根据画布大小调整缩放比例
-            rSyntaxTextArea.print(g2d);
-            g2d.dispose();
-            // 保存图片到剪贴板
-            ImageUtils.imageToClipboard(image);
-            JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
+            SwingUtilities.invokeLater(() -> {
+                //绘制图片
+                BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * pictureScale, rSyntaxTextArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
+                Graphics2D g2d = image.createGraphics();
+                g2d.scale(pictureScale, pictureScale); // 根据画布大小调整缩放比例
+                rSyntaxTextArea.print(g2d);
+                g2d.dispose();
+                // 保存图片到剪贴板
+                ImageUtils.imageToClipboard(image);
+                JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
+            });
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "图片复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("图片复制失败: " + e.getMessage());

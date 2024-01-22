@@ -25,7 +25,8 @@ public class MenuBarBuilder {
     private static JMenuBar menuBar;
     private static JCheckBoxMenuItem showToolBarMenuItem;
     private static JCheckBoxMenuItem showMenuBarMenuItem;
-
+    private static JMenuItem unescapeMenuItem;
+    private static JMenuItem escapeTabMenuItem;
     public static JMenuBar createMenuBar(JFrame frame) {
 
         menuBar = new JMenuBar();
@@ -49,10 +50,10 @@ public class MenuBarBuilder {
         JMenuItem compMenuItem = new JMenuItem("压缩");
         compMenuItem.setIcon(IconUtils.getSVGIcon("icons/comp.svg",12,12));
         compMenuItem.addActionListener(e -> MenuEventService.getInstance().compressionJsonActionPerformed());
-        JMenuItem escapeTabMenuItem = new JMenuItem("转义");
+        escapeTabMenuItem = new JMenuItem("转义");
         escapeTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg",12,12));
         escapeTabMenuItem.addActionListener(e -> MenuEventService.getInstance().escapeJsonActionPerformed());
-        JMenuItem unescapeMenuItem = new JMenuItem("去除转义");
+        unescapeMenuItem = new JMenuItem("去除转义");
         unescapeMenuItem.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg",12,12));
         unescapeMenuItem.addActionListener(e -> MenuEventService.getInstance().unEscapeJsonActionPerformed());
         JMenuItem formatMenuItem = new JMenuItem("格式化");
@@ -225,5 +226,21 @@ public class MenuBarBuilder {
 
     public static void setShowMenuBarMenuItem(JCheckBoxMenuItem showMenuBarMenuItem) {
         MenuBarBuilder.showMenuBarMenuItem = showMenuBarMenuItem;
+    }
+
+    public static JMenuItem getUnescapeMenuItem() {
+        return unescapeMenuItem;
+    }
+
+    public static void setUnescapeMenuItem(JMenuItem unescapeMenuItem) {
+        MenuBarBuilder.unescapeMenuItem = unescapeMenuItem;
+    }
+
+    public static JMenuItem getEscapeTabMenuItem() {
+        return escapeTabMenuItem;
+    }
+
+    public static void setEscapeTabMenuItem(JMenuItem escapeTabMenuItem) {
+        MenuBarBuilder.escapeTabMenuItem = escapeTabMenuItem;
     }
 }

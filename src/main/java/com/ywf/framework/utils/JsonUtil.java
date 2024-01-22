@@ -144,7 +144,8 @@ public class JsonUtil {
      * @return
      */
     public static String compressingStr(String jsonStr) {
-        return jsonStr.replaceAll("\\s", "");
+        //return jsonStr.replaceAll("\\s", "");
+        return jsonStr.replaceAll("\\s*\\n\\s*", "").trim();
     }
 
     /**
@@ -164,18 +165,23 @@ public class JsonUtil {
      * @return
      */
     public static String escapeJSON(String jsonStr) {
-        return StringEscapeUtils.escapeJavaScript(jsonStr);
+        return StringEscapeUtils.escapeJavaScript(compressingStr(jsonStr));
     }
 
-    public static String contentFormat(String content){
+    public static String contentFormat(TextTypeEnum type,String content){
         String result = null;
-        TextTypeEnum type = isType(content);
         switch (type) {
             case JSON:
                 result = formatJson(content);
                 break;
             case XML:
-                result = prettyPrintByTransformer(content, 4, true);
+                result = prettyPrintByTransformer(content, 4, false);
+                break;
+            case URL:
+                result = compressingStr(content);
+                break;
+            case TEXT:
+                result = formatJson(content);
                 break;
             default:
         }
@@ -191,17 +197,16 @@ public class JsonUtil {
      * @return 格式化后的xml
      */
     public static String prettyPrintByTransformer(String xmlString, int indent, boolean ignoreDeclaration) {
+        xmlString = compressingStr(xmlString);
         try {
             InputSource src = new InputSource(new StringReader(xmlString));
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(src);
-
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             transformerFactory.setAttribute("indent-number", indent);
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, ignoreDeclaration ? "yes" : "no");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
             Writer out = new StringWriter();
             transformer.transform(new DOMSource(document), new StreamResult(out));
             return out.toString();
@@ -222,10 +227,38 @@ public class JsonUtil {
             return TextTypeEnum.JSON;
         } else if (isURL(content)) {
             return TextTypeEnum.URL;
-        } else if (isXML(content)) {
+        } else if (isText(content)) {
+            return TextTypeEnum.TEXT;
+        }else if (isXML(content)) {
             return TextTypeEnum.XML;
         }
         return TextTypeEnum.TEXT;
+    }
+
+    /**
+     * 判断是否为普通字符串
+     *
+     * @param content 字符串
+     * @return 是否为json字符串
+     */
+    private static boolean isText(String content) {
+        String text = compressingStr(content);
+        if (StrUtil.isBlank(content)) {
+            return true;
+        }
+        if(text.contains("\\")){
+            return true;
+        }
+        if(text.startsWith("<") && text.endsWith(">")){
+            return false;
+        }
+        if(text.startsWith("{") && text.endsWith("}")){
+            return false;
+        }
+        if(text.startsWith("http")){
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -270,9 +303,17 @@ public class JsonUtil {
      */
     private static boolean isXML(String content) {
         try {
-            XmlUtil.format(content);
+            content = compressingStr(content);
+            // 防止XXE攻击，禁用DTD加载
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setNamespaceAware(false);
+            dbFactory.setValidating(false);
+            // 尝试解析字符串为XML文档
+            dbFactory.newDocumentBuilder().parse(new InputSource(new StringReader(content)));
+            // 如果没有抛出异常，则字符串是有效的XML格式
             return true;
         } catch (Exception e) {
+            // 解析过程中出现异常则认为不是有效的XML
             return false;
         }
     }

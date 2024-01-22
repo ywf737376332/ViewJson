@@ -2,16 +2,20 @@ package com.ywf.component;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.formdev.flatlaf.extras.components.FlatTextField;
 import com.ywf.framework.layout.FindPanelLayout;
 import com.ywf.framework.utils.IconUtils;
-import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -25,9 +29,9 @@ import java.util.regex.PatternSyntaxException;
 public class FindPanelBuilder {
 
     private static FindPanelLayout layout;
-    private static JButton buttonHighLight;
     private static JLabel btnClose;
     private static FlatTextField fieldFind;
+    private static FlatLabel searchResultLabel;
 
 
     public static JPanel createFindPanel() {
@@ -45,6 +49,7 @@ public class FindPanelBuilder {
         fieldFind.setPadding(new Insets(0, 5, 0, 5));
         fieldFind.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, new Color(130, 128, 128, 130)));
         fieldFind.setShowClearButton(true);
+        fieldFind.getDocument().addDocumentListener(new HighlightDocumentListener());
 
         // search toolbar
         JToolBar searchToolbar = new JToolBar();
@@ -66,12 +71,13 @@ public class FindPanelBuilder {
         JPanel findBtnPanel = new JPanel(new FlowLayout(5, 5, FlowLayout.RIGHT));
         JButton buttonNext = new JButton("下一个");
         buttonNext.addActionListener(e -> nextFindActionPerformed());
-        buttonHighLight = new JButton("全部高亮显示");
+        JButton buttonUp = new JButton("上一个");
+        searchResultLabel = new FlatLabel();
+        searchResultLabel.setText("<html><span color=\"#A7B3D3\">"+ 0 +" 个匹配项</span>");
+        searchResultLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         findBtnPanel.add(buttonNext);
-        findBtnPanel.add(buttonHighLight);
-        buttonHighLight.addActionListener(e -> {
-            setTextAreaContentHighlight();
-        });
+        findBtnPanel.add(buttonUp);
+        findBtnPanel.add(searchResultLabel);
 
         JPanel findRight = new JPanel(new BorderLayout());
         findRight.setPreferredSize(new Dimension(100, 20));
@@ -83,7 +89,6 @@ public class FindPanelBuilder {
         btnClose.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 7)); // 设置边框为10像素的空白边框
         btnClose.setBounds(535, 5, 25, 25);
         btnClose.addMouseListener(new ClosePopupMouseListener());
-        //rootFindPanel.add(btnClose, BorderLayout.WEST);
         findRight.add(btnClose, BorderLayout.EAST);
         rootFindPanel.add(findPanel, BorderLayout.CENTER);
         rootFindPanel.add(findBtnPanel, BorderLayout.EAST);
@@ -98,7 +103,6 @@ public class FindPanelBuilder {
         public void mouseClicked(MouseEvent e) {
             layout.showHideActionPerformed();
             fieldFind.setText("");
-            buttonHighLight.setBackground(UIManager.getColor("control"));
         }
 
         @Override
@@ -199,19 +203,20 @@ public class FindPanelBuilder {
      * @date 2024/1/2 23:03
      */
     private static void setTextAreaContentHighlight() {
-        JSONRSyntaxTextArea syntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
-        RTextScrollPane rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
-        if (!isHighlight) {
-            buttonHighLight.setBackground(new Color(204, 232, 255));
-            setHighlight(syntaxTextArea, fieldFind.getText());
-            syntaxTextArea.repaint();
-            isHighlight = true;
-        } else {
-            buttonHighLight.setBackground(UIManager.getColor("control"));
-            syntaxTextArea.getHighlighter().removeAllHighlights();
-            rTextScrollPane.repaint();
-            isHighlight = false;
-        }
+        SwingUtilities.invokeLater(() -> {
+            JSONRSyntaxTextArea syntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
+            if (!isHighlight) {
+                int result = setHighlight(syntaxTextArea, fieldFind.getText());
+                searchResultLabel.setText("<html><span color=\"#A7B3D3\">"+ result +" 个匹配项</span>");
+                syntaxTextArea.repaint();
+                isHighlight = true;
+            } else {
+                syntaxTextArea.getHighlighter().removeAllHighlights();
+                searchResultLabel.setText("<html><span color=\"#A7B3D3\">"+ 0 +" 个匹配项</span>");
+                syntaxTextArea.repaint();
+                isHighlight = false;
+            }
+        });
     }
 
     private static int setHighlight(JTextComponent jtc, String pattern) {
@@ -236,4 +241,23 @@ public class FindPanelBuilder {
         return counts;
     }
 
+
+    /**
+     * 文本框内容监听
+     */
+    static class HighlightDocumentListener implements DocumentListener {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            setTextAreaContentHighlight();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            setTextAreaContentHighlight();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        }
+    }
 }
