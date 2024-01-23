@@ -44,7 +44,7 @@ public class IconUtils {
     }
 
     public static ImageIcon getImageIcon(String imagePath) {
-        return new ImageIcon(imagePath);
+        return new ImageIcon(Toolkit.getDefaultToolkit().getImage(IconUtils.class.getResource(imagePath)));
     }
 
 }
