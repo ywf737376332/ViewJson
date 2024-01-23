@@ -15,6 +15,7 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.util.Date;
@@ -92,7 +93,7 @@ public class StateBarEventService {
                     FlatLabel fileLengthLabel = PanelView.getFileLengthLabel();
                     TextTypeEnum contentType = stateBarEntity.getContentType();
                     labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：<span color=\"#389FD6\">" + contentType.getDiscription() + "</span></span></html>");
-                    fileLengthLabel.setText("<html><span color=\"#A7B3D3\">字数统计：</span>" + stateBarEntity.getTextLength() + "词");
+                    fileLengthLabel.setText("字数统计：" + stateBarEntity.getTextLength() + "词");
                     rSyntaxTextArea.setSyntaxEditingStyle(TextTypeEnum.XML.equals(contentType) ? SyntaxConstants.SYNTAX_STYLE_XML : SyntaxConstants.SYNTAX_STYLE_JSON);
                     rSyntaxTextArea.setTextType(contentType);
                     setBtnEnableState(contentType);

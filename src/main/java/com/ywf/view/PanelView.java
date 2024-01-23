@@ -60,21 +60,27 @@ public class PanelView {
         panelStateBar.setLayout(null);
 
         FlatLabel runTimeText = new FlatLabel();
-        runTimeText.setText("<html><span color=\"#A7B3D3\">运行时长：</span></html>");
-        runTimeText.setBounds(0, 0, 62, 20);
+        runTimeText.setText("运行时长：");
+        runTimeText.setForeground(new Color(167,179,211));
+        runTimeText.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
+        runTimeText.setBounds(0, 0, 65, 20);
         runTimeLabel = new FlatLabel();
-        //runTimeLabel.setText("<html><span color=\"#A7B3D3\">运行时长：</span></html>");
         runTimeLabel.setLabelType(FlatLabel.LabelType.medium);
-        runTimeLabel.setBounds(62, 0, 255, 20);
+        runTimeLabel.setBounds(60, 0, 255, 20);
+        runTimeLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
         Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeLabel));
         StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
 
         fileTypeLabel = new FlatLabel();
         fileTypeLabel.setLabelType(FlatLabel.LabelType.medium);
         fileTypeLabel.setBounds(260, 0, 140, 20);
+        fileTypeLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
+        fileTypeLabel.setForeground(new Color(167,179,211));
 
         fileLengthLabel = new FlatLabel();
         fileLengthLabel.setLabelType(FlatLabel.LabelType.medium);
+        fileLengthLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
+        fileLengthLabel.setForeground(new Color(167,179,211));
         fileLengthLabel.setBounds(410, 0, 140, 20);
 
         panelStateBar.add(runTimeText);
