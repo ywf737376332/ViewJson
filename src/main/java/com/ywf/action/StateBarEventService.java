@@ -108,10 +108,23 @@ public class StateBarEventService {
      * @date 2023/12/17 14:38
      */
     public void stateBarTimeActionPerformed(FlatLabel runTimeLabel) {
-        long nowTime = new Date().getTime();
-        long nowStart = SysConfigInit.startTime.getTime();
-        long runTime = nowTime - nowStart;
-        runTimeLabel.setText(viewTime(runTime));
+        SwingWorker<Boolean, String> swingWorker = new SwingWorker<Boolean, String>() {
+            @Override
+            protected Boolean doInBackground() {
+                long nowTime = new Date().getTime();
+                long nowStart = SysConfigInit.startTime.getTime();
+                long runTime = nowTime - nowStart;
+                publish(viewTime(runTime));
+                return true;
+            }
+
+            @Override
+            protected void process(List<String> chunks) {
+                String countTime = chunks.get(chunks.size() - 1);
+                runTimeLabel.setText(countTime);
+            }
+        };
+        swingWorker.execute();
     }
 
     private String viewTime(long millseconds) {
