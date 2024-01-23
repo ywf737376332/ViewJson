@@ -308,9 +308,9 @@ public class MenuEventService {
      * 关于对话框
      */
     public static void aboutActionPerformed() {
-        JLabel titleLabel = new JLabel(SystemConstant.SYSTEM_TITLE);
-        titleLabel.setIcon(IconUtils.getSVGIcon("icons/logo01.svg"));
-        titleLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "H2");
+        JLabel titleLabel = new JLabel(SystemConstant.SYSTEM_TITLE+SystemConstant.SYSTEM_VERSION);
+        titleLabel.setIcon(IconUtils.getSVGIcon("icons/logo01.svg",50,50));
+        titleLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "H1");
         String link = "737376332@qq.com";
         JLabel linkLabel = new JLabel("<html><span>联系方式：</span><a href=737376332@qq.com>" + link + "</a></html>");
         linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
