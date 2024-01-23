@@ -61,11 +61,11 @@ public class PanelView {
 
         FlatLabel runTimeText = new FlatLabel();
         runTimeText.setText("<html><span color=\"#A7B3D3\">运行时长：</span></html>");
-        runTimeText.setBounds(0, 0, 60, 20);
+        runTimeText.setBounds(0, 0, 62, 20);
         runTimeLabel = new FlatLabel();
         //runTimeLabel.setText("<html><span color=\"#A7B3D3\">运行时长：</span></html>");
         runTimeLabel.setLabelType(FlatLabel.LabelType.medium);
-        runTimeLabel.setBounds(60, 0, 255, 20);
+        runTimeLabel.setBounds(62, 0, 255, 20);
         Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeLabel));
         StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
 
