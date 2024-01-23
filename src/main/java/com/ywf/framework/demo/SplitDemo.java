@@ -1,17 +1,11 @@
-package com.ywf.framework.layout;
+package com.ywf.framework.demo;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
-import com.ywf.component.PoPupFindPanel;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.layout.FindPanelLayout;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * TODO
@@ -19,24 +13,18 @@ import java.awt.event.MouseListener;
  * @Author YWF
  * @Date 2023/12/25 15:33
  */
-public class MainDemo extends JFrame {
+public class SplitDemo extends JFrame {
 
     private JFrame _this = this;
 
     private static JToolBar toolBar;
-
-    private static JTextArea textArea;
-
-    private static JScrollPane jScrollPane;
-    private static Popup popup;
-
     private static JButton btnFindRepl;
     private static JButton btnFindRepl2;
 
     private static FindPanelLayout layout;
 
     public static void main(String[] args) {
-        new MainDemo().createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
+        new SplitDemo().createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
     }
 
     public void createAndShowGUI(String title) {
@@ -64,22 +52,14 @@ public class MainDemo extends JFrame {
         //editPanel.setBackground(Color.RED);
         editPanel.setLayout(new BorderLayout());
 
-        textArea = new JTextArea("3224234234");
-        textArea.setLineWrap(true);
-        textArea.setBorder(null);
-        textArea.setForeground(new Color(200, 96, 17));
-        textArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置边框为10像素的空白边框
-        jScrollPane = new JScrollPane();
-        jScrollPane.setViewportView(textArea);
         editPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 20, 40)); // 设置外边距
-        editPanel.add(jScrollPane, BorderLayout.CENTER);
+
+        editPanel.add(createMainEditorPanel(2), BorderLayout.CENTER);
 
         toolBar = new JToolBar("工具栏");
-        btnFindRepl = new JButton("查找替换");
+        btnFindRepl = new JButton("两列布局");
         btnFindRepl.addActionListener(e -> {
-            PoPupFindPanel.getInstance().showPopup(jScrollPane);
-            JScrollBar verticalScrollBar = jScrollPane.getVerticalScrollBar();
-            verticalScrollBar.setValue(-100);
+            editPanel.add(createMainEditorPanel(2), BorderLayout.CENTER);
         });
         toolBar.add(btnFindRepl);
 
@@ -97,6 +77,17 @@ public class MainDemo extends JFrame {
 
     }
 
+    private JScrollPane createScrollPane() {
+        JTextArea textArea = new JTextArea("3224234234");
+        textArea.setLineWrap(true);
+        textArea.setBorder(null);
+        textArea.setForeground(new Color(200, 96, 17));
+        textArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置边框为10像素的空白边框
+        JScrollPane jScrollPane = new JScrollPane();
+        jScrollPane.setViewportView(textArea);
+        return jScrollPane;
+    }
+
     private JPanel createFindPanel() {
         JPanel findPanel = new JPanel();
         layout = new FindPanelLayout(findPanel, 5, 5);
@@ -109,6 +100,23 @@ public class MainDemo extends JFrame {
         findPanel.add(field);
         findPanel.add(button, BorderLayout.EAST);
         return findPanel;
+    }
+
+    private JPanel createMainEditorPanel(int type) {
+        JPanel editorPanel = new JPanel();
+        editorPanel.setLayout(new BorderLayout());
+        if (type == 1){
+            JScrollPane scrollPane1 = createScrollPane();
+            editorPanel.add(scrollPane1,BorderLayout.CENTER);
+        } else if (type == 2) {
+            JSplitPane splitPane = new JSplitPane();
+            JScrollPane scrollPane1 = createScrollPane();
+            JScrollPane scrollPane2 = createScrollPane();
+            splitPane.setLeftComponent(scrollPane1);
+            splitPane.setRightComponent(scrollPane2);
+            editorPanel.add(splitPane,BorderLayout.CENTER);
+        }
+        return editorPanel;
     }
 
 }
