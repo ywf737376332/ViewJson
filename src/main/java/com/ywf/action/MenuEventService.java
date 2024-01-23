@@ -2,11 +2,13 @@ package com.ywf.action;
 
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
+import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.utils.*;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
+import java.util.List;
 
 
 /**
@@ -85,20 +88,36 @@ public class MenuEventService {
             JOptionPane.showMessageDialog(frame, "请输入json字符串！");
             return;
         }
-        SwingUtilities.invokeLater(() -> {
-            String text = rSyntaxTextArea.getText();
-            int converState = rSyntaxTextArea.getChineseConverState();
-            switch (TextConvertEnum.findConverEnumByState(converState)) {
-                case CH_TO_UN:
-                    rSyntaxTextArea.setText(JsonUtil.contentFormat(rSyntaxTextArea.getTextType(), UnicodeUtil.toUnicode(text)));
-                    break;
-                case UN_TO_CH:
-                    rSyntaxTextArea.setText(JsonUtil.contentFormat(rSyntaxTextArea.getTextType(), UnicodeUtil.toString(text)));
-                    break;
-                default:
-                    rSyntaxTextArea.setText(JsonUtil.contentFormat(rSyntaxTextArea.getTextType(), text));
+        SwingWorker<Boolean, String> swingWorker = new SwingWorker<Boolean, String>() {
+            @Override
+            protected Boolean doInBackground() {
+                String text = rSyntaxTextArea.getText();
+                TextTypeEnum textType = rSyntaxTextArea.getTextType();
+                int converState = rSyntaxTextArea.getChineseConverState();
+                String formatAfterText = null;
+                switch (TextConvertEnum.findConverEnumByState(converState)) {
+                    case CH_TO_UN:
+                        formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toUnicode(text));
+                        break;
+                    case UN_TO_CH:
+                        formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toString(text));
+                        break;
+                    default:
+                        formatAfterText = JsonUtil.contentFormat(textType, text);
+                }
+                publish(formatAfterText);
+                return true;
             }
-        });
+
+            @Override
+            protected void process(List<String> chunks) {
+                String formatAfterText = chunks.get(chunks.size() - 1);
+                if (StrUtil.isNotBlank(formatAfterText)) {
+                    rSyntaxTextArea.setText(formatAfterText);
+                }
+            }
+        };
+        swingWorker.execute();
     }
 
     /**

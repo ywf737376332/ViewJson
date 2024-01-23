@@ -8,14 +8,12 @@ import com.ywf.framework.layout.FindPanelLayout;
 import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -201,7 +199,7 @@ public class FindPanelBuilder {
     }
 
 
-    private static final Highlighter.HighlightPainter HIGHLIGHT = new DefaultHighlighter.DefaultHighlightPainter(new Color(255,150,50));
+    private static final Highlighter.HighlightPainter HIGHLIGHT = new DefaultHighlighter.DefaultHighlightPainter(new Color(255, 150, 50));
     private static boolean isHighlight = false;
 
 
@@ -252,8 +250,8 @@ public class FindPanelBuilder {
     /**
      * 搜索结果状态栏显示文本
      */
-    private static String updateSearchResultCounts(int searchResultCount){
-        return "<html><span color=\"#849BD9\">"+ searchResultCount +" 个匹配项</span>";
+    private static String updateSearchResultCounts(int searchResultCount) {
+        return "<html><span color=\"#849BD9\">" + searchResultCount + " 个匹配项</span>";
     }
 
     /**
@@ -273,5 +271,9 @@ public class FindPanelBuilder {
         @Override
         public void changedUpdate(DocumentEvent e) {
         }
+    }
+
+    public static FlatTextField getFieldFind() {
+        return fieldFind;
     }
 }

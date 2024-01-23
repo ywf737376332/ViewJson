@@ -1,6 +1,6 @@
 package com.ywf.action;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.MenuBarBuilder;
@@ -8,6 +8,7 @@ import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.JsonUtil;
+import com.ywf.pojo.StateBarEntity;
 import com.ywf.view.PanelView;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
@@ -17,6 +18,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.util.Date;
+import java.util.List;
 
 /**
  * TODO
@@ -53,38 +55,51 @@ public class StateBarEventService {
      * @date 2023/12/17 14:35
      */
     public void textAreaDocumentActionPerformed(JSONRSyntaxTextArea rSyntaxTextArea) {
-        SwingUtilities.invokeLater(() -> {
-            rSyntaxTextArea.getDocument().addDocumentListener(new DocumentListener() {
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    updateStateUI(rSyntaxTextArea);
-                }
+        rSyntaxTextArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateStateUI(rSyntaxTextArea);
+            }
 
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    updateStateUI(rSyntaxTextArea);
-                }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateStateUI(rSyntaxTextArea);
+            }
 
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    // 不需要处理文档更改事件
-                }
-            });
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // 不需要处理文档更改事件
+            }
         });
     }
 
     private void updateStateUI(JSONRSyntaxTextArea rSyntaxTextArea) {
-        String text = rSyntaxTextArea.getText();
-        if (StrUtil.isNotBlank(text)){
-            TextTypeEnum contentType = JsonUtil.isType(text);
-            FlatLabel labelTypeLabel = PanelView.getFileTypeLabel();
-            FlatLabel fileLengthLabel = PanelView.getFileLengthLabel();
-            labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：<span color=\"#389FD6\">" + contentType.getDiscription() + "</span></span></html>");
-            fileLengthLabel.setText("<html><span color=\"#A7B3D3\">字数统计：</span>" + text.length() + "词");
-            rSyntaxTextArea.setSyntaxEditingStyle(TextTypeEnum.JSON.equals(contentType)?SyntaxConstants.SYNTAX_STYLE_JSON:SyntaxConstants.SYNTAX_STYLE_XML);
-            rSyntaxTextArea.setTextType(contentType);
-            setBtnEnableState(contentType);
-        }
+        SwingWorker<Boolean, StateBarEntity> swingWorker = new SwingWorker<Boolean, StateBarEntity>() {
+            @Override
+            protected Boolean doInBackground() {
+                String text = rSyntaxTextArea.getText();
+                TextTypeEnum contentType = JsonUtil.isType(text);
+                StateBarEntity stateBarEntity = new StateBarEntity(contentType, text.length());
+                publish(stateBarEntity);
+                return true;
+            }
+
+            @Override
+            protected void process(List<StateBarEntity> chunks) {
+                StateBarEntity stateBarEntity = chunks.get(chunks.size() - 1);
+                if (ObjectUtil.isNotNull(stateBarEntity)) {
+                    FlatLabel labelTypeLabel = PanelView.getFileTypeLabel();
+                    FlatLabel fileLengthLabel = PanelView.getFileLengthLabel();
+                    TextTypeEnum contentType = stateBarEntity.getContentType();
+                    labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：<span color=\"#389FD6\">" + contentType.getDiscription() + "</span></span></html>");
+                    fileLengthLabel.setText("<html><span color=\"#A7B3D3\">字数统计：</span>" + stateBarEntity.getTextLength() + "词");
+                    rSyntaxTextArea.setSyntaxEditingStyle(TextTypeEnum.XML.equals(contentType) ? SyntaxConstants.SYNTAX_STYLE_XML : SyntaxConstants.SYNTAX_STYLE_JSON);
+                    rSyntaxTextArea.setTextType(contentType);
+                    setBtnEnableState(contentType);
+                }
+            }
+        };
+        swingWorker.execute();
     }
 
     /**
@@ -134,6 +149,7 @@ public class StateBarEventService {
                 // 窗口获得焦点时的操作
                 timer.start();
             }
+
             @Override
             public void windowLostFocus(WindowEvent e) {
                 timer.stop();
@@ -143,15 +159,16 @@ public class StateBarEventService {
 
     /**
      * xml状态此按钮功能禁用
+     *
      * @param contentType
      */
-    private void setBtnEnableState(TextTypeEnum contentType){
-        if (contentType.equals(TextTypeEnum.XML)){
+    private void setBtnEnableState(TextTypeEnum contentType) {
+        if (contentType.equals(TextTypeEnum.XML)) {
             ToolBarBuilder.getBtnEscape().setEnabled(false);
             ToolBarBuilder.getBtnUnescape().setEnabled(false);
             MenuBarBuilder.getEscapeTabMenuItem().setEnabled(false);
             MenuBarBuilder.getUnescapeMenuItem().setEnabled(false);
-        }else{
+        } else {
             ToolBarBuilder.getBtnEscape().setEnabled(true);
             ToolBarBuilder.getBtnUnescape().setEnabled(true);
             MenuBarBuilder.getEscapeTabMenuItem().setEnabled(true);
