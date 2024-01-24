@@ -5,6 +5,8 @@ import com.formdev.flatlaf.ui.FlatScrollPaneUI;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.layout.FindPanelLayout;
+import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.utils.JsonUtil;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -69,7 +71,9 @@ public class SplitDemo extends JFrame {
 
         toolBar = new JToolBar("工具栏");
         btnLayoutTwo = new JButton("两列布局");
+        btnLayoutTwo.setIcon(IconUtils.getSVGIcon("icons/layoutTwo.svg"));
         btnLayoutOne = new JButton("单列布局");
+        btnLayoutOne.setIcon(IconUtils.getSVGIcon("icons/layoutOne.svg"));
         btnLayoutOne.addActionListener(e -> {
             removeComponents(mainEditorPanel);
             mainEditorPanel = createMainEditorPanel(1);
@@ -88,13 +92,29 @@ public class SplitDemo extends JFrame {
         });
 
 
+        JButton btnFormat = new JButton("格式化");
+        btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
+        btnFormat.addActionListener(e ->{
+            // 获取当前具有焦点的组件
+            Component focusOwner = frame.getFocusOwner();
+            if (focusOwner instanceof JTextArea) {
+                RSyntaxTextArea activeTextArea = (RSyntaxTextArea) focusOwner;
+                activeTextArea.setText(JsonUtil.formatJson(activeTextArea.getText()));
+            }
+            for (JScrollPane jScrollPane : scrollAreaList) {
+                System.out.println("组件名称:"+jScrollPane.getName());
+            }
+        });
         btnFindSraech = new JButton("搜索栏");
+        btnFindSraech.setIcon(IconUtils.getSVGIcon("icons/find.svg"));
         btnFindSraech.addActionListener(e -> layout.showHideActionPerformed());
         toolBar.add(btnLayoutOne);
         toolBar.addSeparator();
         toolBar.add(btnLayoutTwo);
         toolBar.addSeparator();
         toolBar.add(btnFindSraech);
+        toolBar.addSeparator();
+        toolBar.add(btnFormat);
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
 
         JPanel findPanels = createFindPanel();
@@ -165,8 +185,11 @@ public class SplitDemo extends JFrame {
 
     private static void addAreaTextList() {
         if (scrollAreaList.size() < 3) {
-            //scrollAreaList.add(createScrollPane());
             scrollAreaList.add(createJsonScrollTextArea());
+        }
+        for (JScrollPane jScrollPane : scrollAreaList) {
+            System.out.println("组件:"+jScrollPane.hashCode());
+            jScrollPane.setName(String.valueOf(jScrollPane.hashCode()));
         }
         System.out.println("最多允许创建三个组件");
     }
@@ -204,7 +227,7 @@ public class SplitDemo extends JFrame {
         // 读取配置信息中的数据
         textArea.setEditable(true);
         // 自动换行功能
-        textArea.setLineWrap(true);
+        textArea.setLineWrap(false);
         textArea.revalidate();
         try {
             Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));
