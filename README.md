@@ -51,7 +51,9 @@ swing + flatlaf + rsyntaxtextarea
 10. 增加复制图片功能⭐⭐⭐⭐⭐
 11. 格式化后的json保存图片功能✌️(Bug，1200行以上json报错图片报错)
 12. 打包exe⭐⭐⭐⭐⭐
-
+![输入图片说明](src/main/resources/images/1.0.png)
+![输入图片说明](src/main/resources/images/3.0.png)
+![输入图片说明](src/main/resources/images/5.0.png)
 
 
 >作者：莫斐鱼
