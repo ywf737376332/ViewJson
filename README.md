@@ -96,7 +96,11 @@ swing + flatlaf + rsyntaxtextarea
 6. 按钮点击等待处理状态。（也可以通过短消息的内容变化来提示处理）
 7. 格式化历史记录（根据压缩后的md5值，确定是否保存历史记录）
 8. 优化xml格式化，压缩功能
-
+![输入图片说明](src/main/resources/images/1.0.png)
+![输入图片说明](src/main/resources/images/2.0.png)
+![输入图片说明](src/main/resources/images/3.0.png)
+![输入图片说明](src/main/resources/images/4.0.png)
+![输入图片说明](src/main/resources/images/5.0.png)
 
 >作者：莫斐鱼
 > 
