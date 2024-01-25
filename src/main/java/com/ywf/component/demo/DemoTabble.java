@@ -17,7 +17,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * TODO
@@ -170,8 +170,8 @@ public class DemoTabble extends JFrame {
 
     }
 
-    public <T> java.util.List<T> findComponentsByType(Container container) {
-        java.util.List<T> rstList = new ArrayList<>();
+    public <T> List<T> findComponentsByType(Container container) {
+        List<T> rstList = new ArrayList<>();
         // 遍历当前容器的所有组件
         for (Component component : container.getComponents()) {
             if (component instanceof RSyntaxTextArea) {
@@ -180,14 +180,13 @@ public class DemoTabble extends JFrame {
                 rstList.add((T) component);
             } else if (component instanceof Container) {
                 // 如果组件本身也是一个容器（如 JPanel、JScrollPane 等），递归搜索其内部组件
-                java.util.List<T> foundTextAreaList = findComponentsByType((Container) component);
+                List<T> foundTextAreaList = findComponentsByType((Container) component);
                 if (foundTextAreaList != null && foundTextAreaList.size() > 0) {
                     System.out.println("找到组件：2");
                     rstList.addAll(foundTextAreaList);
                 }
             }
         }
-        // 当前容器及其子组件中没有找到目标JTextArea，返回null
         return rstList;
     }
 
