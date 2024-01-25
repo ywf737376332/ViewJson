@@ -1,5 +1,6 @@
 package com.ywf.component.demo;
 
+import javax.accessibility.Accessible;
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -11,7 +12,7 @@ import java.util.Random;
  * @Author YWF
  * @Date 2024/1/24 22:50
  */
-public class JTabbedSplitPane extends JFrame {
+public class JTabbedSplitPane extends JComponent implements Accessible {
 
     private LinkedList<JScrollPane> componentList = new LinkedList<>();
 
@@ -26,7 +27,7 @@ public class JTabbedSplitPane extends JFrame {
         this.parentFrame = parentFrame;
     }
 
-    public JPanel add(JScrollPane component) {
+    public JPanel addComponent(JScrollPane component) {
         if (component == null) {
             return null;
         }
@@ -38,29 +39,59 @@ public class JTabbedSplitPane extends JFrame {
         container.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(130, 128, 128, 130)));
         container.setLayout(new BorderLayout());
         int componentCount = getComponentCount();
-        for (int i = 0; i < componentCount; i++) {
-            switch (componentCount) {
-                case 1:
-                    container.add(getComment(1), BorderLayout.CENTER);
-                    break;
-                case 2:
-                    disposeSplitPane(splitPane);
-                    splitPane = new JSplitPane();
-                    splitPane.setLeftComponent(getComment(1));
-                    splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 30);
-                    splitPane.setRightComponent(getComment(2));
-                    container.add(splitPane, BorderLayout.CENTER);
-                    System.out.println("组件大小：" + (parentFrame.getWidth() / 2 - 30));
-                    break;
-                default:
-            }
+        //for (int i = componentCount; i <= componentCount; i++) {
+        switch (componentCount) {
+            case 1:
+                container.add(getComment(1), BorderLayout.CENTER);
+                System.out.println("组件大小1：" + (parentFrame.getWidth() / 2 - 30));
+                break;
+            case 2:
+                //disposeSplitPane(splitPane);
+                splitPane = new JSplitPane();
+                splitPane.setLeftComponent(getComment(1));
+                splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 20);
+                splitPane.setRightComponent(getComment(2));
+                container.add(splitPane, BorderLayout.CENTER);
+                System.out.println("组件大小2：" + (parentFrame.getWidth() / 2 - 30));
+                break;
+            case 3:
+                //disposeSplitPane(splitPane);
+                JSplitPane splitPane3 = new JSplitPane();
+                splitPane3.setLeftComponent(getComment(2));
+                splitPane3.setRightComponent(getComment(3));
+                splitPane3.setDividerLocation(parentFrame.getWidth() / 3 - 15);
+                splitPane3.setContinuousLayout(true);
+
+                // 添加左侧面板
+                splitPane.setLeftComponent(getComment(1));
+                // 添加右侧面板
+                splitPane.setRightComponent(splitPane3);
+                splitPane.setDividerLocation(parentFrame.getWidth() / 3 - 15);
+                splitPane.setContinuousLayout(true);
+                splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+                splitPane.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, evt -> {
+                    if (JSplitPane.DIVIDER_LOCATION_PROPERTY.equals(evt.getPropertyName())) {
+                        int newLocation = (int) evt.getNewValue();
+                        System.out.println("Divider location changed to: " + newLocation);
+                        // 在这里执行宽度调整后的相关操作
+                        splitPane3.setDividerLocation((parentFrame.getWidth() - newLocation) / 2 - 10);
+
+                    }
+                });
+                container.add(splitPane, BorderLayout.CENTER);
+                System.out.println("组件大小3：" + (parentFrame.getWidth() / 3 - 30));
+                break;
+            default:
         }
+        //}
         return container;
     }
 
     public void removeComponents(JComponent container) {
         if (container != null) {
             container.removeAll();
+            revalidate();
+            repaint();
             System.out.println("组件移除成功");
         }
     }
@@ -77,11 +108,12 @@ public class JTabbedSplitPane extends JFrame {
     }
 
     private JComponent cacheComment(JScrollPane component) {
-        if (getComponentCount() == 2) {
-            System.out.println("目前支持最多两个组件");
+        if (getComponentCount() == 3) {
+            System.out.println("目前支持最多3个组件");
             return component;
         }
         componentList.add(component);
+        System.out.println("组件数量：" + getComponentCount());
         component.setName(String.valueOf(component.hashCode()));
         return component;
     }
@@ -103,5 +135,6 @@ public class JTabbedSplitPane extends JFrame {
         return new Color(r, g, b);
     }
 
+    //获取当前激活组件的宽度
 }
 
