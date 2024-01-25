@@ -52,7 +52,6 @@ public class JTabbedSplitPane extends JComponent implements Accessible {
                 splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 20);
                 splitPane.setRightComponent(getComment(2));
                 container.add(splitPane, BorderLayout.CENTER);
-                System.out.println("组件大小2：" + (parentFrame.getWidth() / 2 - 30));
                 break;
             case 3:
                 //disposeSplitPane(splitPane);
@@ -69,22 +68,29 @@ public class JTabbedSplitPane extends JComponent implements Accessible {
                 splitPane.setDividerLocation(parentFrame.getWidth() / 3 - 15);
                 splitPane.setContinuousLayout(true);
                 splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-                splitPane.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, evt -> {
-                    if (JSplitPane.DIVIDER_LOCATION_PROPERTY.equals(evt.getPropertyName())) {
-                        int newLocation = (int) evt.getNewValue();
-                        System.out.println("Divider location changed to: " + newLocation);
-                        // 在这里执行宽度调整后的相关操作
-                        splitPane3.setDividerLocation((parentFrame.getWidth() - newLocation) / 2 - 10);
-
-                    }
-                });
+                addSplitWidthChangeListener(parentFrame,splitPane,splitPane3);
                 container.add(splitPane, BorderLayout.CENTER);
-                System.out.println("组件大小3：" + (parentFrame.getWidth() / 3 - 30));
                 break;
             default:
         }
         //}
         return container;
+    }
+
+    /**
+     * 鼠标拖动窗口大小，优化子组件大小改变速率
+     * @param mainFrame 窗口主面板
+     * @param slpParent 父组件
+     * @param slpChild 子组件
+     */
+    private void addSplitWidthChangeListener(JFrame mainFrame,JSplitPane slpParent,JSplitPane slpChild) {
+        slpParent.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, evt -> {
+            if (JSplitPane.DIVIDER_LOCATION_PROPERTY.equals(evt.getPropertyName())) {
+                int newLocation = (int) evt.getNewValue();
+                // 在这里执行宽度调整后的相关操作
+                slpChild.setDividerLocation((mainFrame.getWidth() - newLocation) / 2-25);
+            }
+        });
     }
 
     public void removeComponents(JComponent container) {

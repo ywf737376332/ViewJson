@@ -119,7 +119,11 @@ swing + flatlaf + rsyntaxtextarea
 5. 单个并排窗口大小变化时,其他窗口缓慢渐进按比例变化宽度✅
 6. 窗口大小变化时,并排窗口的大小比例变化宽度
 7. 并排窗口的关闭功能，关闭按钮界面
-并排窗口菜单名称：水平分割 垂直分割 向右分割 向下分割
+8. 增加菜单：语言类别，自动识别 json xml java JavaScript sql 等等，供用户选择
+   ```
+   底座类：存放所有初始化及动态变化的参数
+   并排窗口菜单名称：水平分割 垂直分割 向右分割 向下分割
+   ```
 
 ![输入图片说明](src/main/resources/images/1.0.png)
 ![输入图片说明](src/main/resources/images/2.0.png)

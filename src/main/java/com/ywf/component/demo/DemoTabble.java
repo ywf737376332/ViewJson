@@ -70,12 +70,25 @@ public class DemoTabble extends JFrame {
         JButton btnFormat = new JButton("格式化");
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
         btnFormat.addActionListener(e -> formatActionPerformed());
+
+        JButton btnComp = new JButton("压 缩");
+        btnComp.setIcon(IconUtils.getSVGIcon("icons/comp.svg"));
+        btnComp.addActionListener(e -> compressionJsonActionPerformed());
+
+        JButton btnClean = new JButton("清空");
+        btnClean.setIcon(IconUtils.getSVGIcon("icons/delete.svg"));
+        btnClean.addActionListener(e -> cleanJsonActionPerformed());
+
         JButton btnClose = new JButton("关闭");
         btnClose.setIcon(IconUtils.getSVGIcon("icons/closeTab.svg"));
         btnClose.addActionListener(e -> closeActionPerformed());
         toolBar.add(btnNew);
         toolBar.addSeparator();
         toolBar.add(btnFormat);
+        toolBar.addSeparator();
+        toolBar.add(btnComp);
+        toolBar.addSeparator();
+        toolBar.add(btnClean);
         toolBar.addSeparator();
         toolBar.add(btnClose);
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
@@ -114,6 +127,7 @@ public class DemoTabble extends JFrame {
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(true);
         rTextScrollPane.setFoldIndicatorEnabled(true);
+        syntaxTextArea.setName(String.valueOf(syntaxTextArea.hashCode()));
         return rTextScrollPane;
     }
 
@@ -147,16 +161,38 @@ public class DemoTabble extends JFrame {
         if (focusArea != null) {
             focusArea.setText(JsonUtil.formatJson(focusArea.getText()));
         }
-        /*if (focusOwner instanceof RSyntaxTextArea) {
-            RSyntaxTextArea activeTextArea = (RSyntaxTextArea) focusOwner;
-            activeTextArea.setText(JsonUtil.formatJson(activeTextArea.getText()));
-            System.out.println("父组件宽度：" + activeTextArea.getParent().getParent().getWidth());
-            java.util.List<RSyntaxTextArea> rstList = findComponentsByType(_this.getContentPane());
-            for (RSyntaxTextArea rSyntaxTextArea : rstList) {
-                rSyntaxTextArea.setText("哈哈哈哈哈");
-                System.out.println("获取到的组件："+rSyntaxTextArea);
+
+        //遍历寻找组件测试
+        List<RSyntaxTextArea> rstList = findComponentsByType(_this.getContentPane());
+        System.out.println("获取到RSyntaxTextArea的组件数量：" + rstList.size());
+        for (RSyntaxTextArea rSyntaxTextArea : rstList) {
+            System.out.println("获取到的组件名称：" + rSyntaxTextArea.getName());
+        }
+    }
+
+    /**
+     * 清空文本内容
+     */
+    public void cleanJsonActionPerformed() {
+        Component focusOwner = _this.getFocusOwner();
+        JTextArea focusArea = findComponentsByFocus(focusOwner, JTextArea.class);
+        if (focusArea != null) {
+            focusArea.setText("");
+            focusArea.requestFocusInWindow();
+        }
+    }
+
+    /**
+     * 压缩内容
+     */
+    public void compressionJsonActionPerformed() {
+        SwingUtilities.invokeLater(() -> {
+            Component focusOwner = _this.getFocusOwner();
+            JTextArea focusArea = findComponentsByFocus(focusOwner, JTextArea.class);
+            if (focusArea != null) {
+                focusArea.setText(JsonUtil.compressingStr(focusArea.getText()));
             }
-        }*/
+        });
     }
 
     private void createNewTabActionPerformed(JTabbedSplitPane tabbedSplitPane, JPanel editPanel) {
@@ -176,13 +212,11 @@ public class DemoTabble extends JFrame {
         for (Component component : container.getComponents()) {
             if (component instanceof RSyntaxTextArea) {
                 // 如果找到名称匹配的JTextArea，直接返回
-                System.out.println("找到组件：1");
                 rstList.add((T) component);
             } else if (component instanceof Container) {
                 // 如果组件本身也是一个容器（如 JPanel、JScrollPane 等），递归搜索其内部组件
                 List<T> foundTextAreaList = findComponentsByType((Container) component);
                 if (foundTextAreaList != null && foundTextAreaList.size() > 0) {
-                    System.out.println("找到组件：2");
                     rstList.addAll(foundTextAreaList);
                 }
             }
@@ -190,16 +224,12 @@ public class DemoTabble extends JFrame {
         return rstList;
     }
 
-    public <T> T findComponentsByFocus(Component focusOwner,Class<T> clazz){
-        if (focusOwner == null){
-            System.out.println("没有找到焦点组件");
+    public <T> T findComponentsByFocus(Component focusOwner, Class<T> clazz) {
+        if (focusOwner == null) {
             return null;
+        } else {
+            return clazz.isInstance(focusOwner) ? (T) focusOwner : null;
         }
-        if (clazz.isInstance(focusOwner)) {
-            T focusComponent = (T) focusOwner;
-            return focusComponent;
-        }
-        return null;
     }
 
 }
