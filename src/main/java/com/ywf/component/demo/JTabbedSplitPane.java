@@ -1,11 +1,15 @@
 package com.ywf.component.demo;
 
+import com.ywf.component.TextAreaPopupMenuBuilder;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+
 import javax.accessibility.Accessible;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
-
 /**
  * 多排并列可调整宽度组件
  *
@@ -31,7 +35,10 @@ public class JTabbedSplitPane extends JComponent implements Accessible {
         if (component == null) {
             return null;
         }
+        // 缓存SyntaxTextArea组件
         cacheComment(component);
+        // 给SyntaxTextArea组件添加右键菜单
+        addSyntaxTextAreaPopupMenu(component);
         removeComponents(container);
         if (container == null) {
             container = new JPanel();
@@ -43,14 +50,13 @@ public class JTabbedSplitPane extends JComponent implements Accessible {
         switch (componentCount) {
             case 1:
                 container.add(getComment(1), BorderLayout.CENTER);
-                System.out.println("组件大小1：" + (parentFrame.getWidth() / 2 - 30));
                 break;
             case 2:
                 //disposeSplitPane(splitPane);
                 splitPane = new JSplitPane();
                 splitPane.setLeftComponent(getComment(1));
-                splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 20);
                 splitPane.setRightComponent(getComment(2));
+                splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 21);
                 container.add(splitPane, BorderLayout.CENTER);
                 break;
             case 3:
@@ -133,12 +139,47 @@ public class JTabbedSplitPane extends JComponent implements Accessible {
         }
     }
 
+    /**
+     * 获取相应容器中所有的相应类型组件及子组件
+     * @param container
+     */
+    public <T> List<T> findComponentsByType(Container container) {
+        List<T> rstList = new ArrayList<>();
+        // 遍历当前容器的所有组件
+        for (Component component : container.getComponents()) {
+            if (component instanceof RSyntaxTextArea) {
+                // 如果找到名称匹配的JTextArea，直接返回
+                rstList.add((T) component);
+            } else if (component instanceof Container) {
+                // 如果组件本身也是一个容器（如 JPanel、JScrollPane 等），递归搜索其内部组件
+                List<T> foundTextAreaList = findComponentsByType((Container) component);
+                if (foundTextAreaList != null && foundTextAreaList.size() > 0) {
+                    rstList.addAll(foundTextAreaList);
+                }
+            }
+        }
+        return rstList;
+    }
+
     private Color updateRandomColor() {
         Random random = new Random();
         int r = random.nextInt(256);
         int g = random.nextInt(256);
         int b = random.nextInt(256);
         return new Color(r, g, b);
+    }
+
+    private void addSyntaxTextAreaPopupMenu(JScrollPane component){
+        if (component == null){
+            return;
+        }
+        try {
+            RSyntaxTextArea rSyntaxTextArea = (RSyntaxTextArea) component.getViewport().getView();
+            rSyntaxTextArea.addMouseListener(TextAreaPopupMenuBuilder.getInstance().getPopupListener());
+            System.out.println("获取到的组件名称：" + rSyntaxTextArea.getName());
+        }catch (RuntimeException e){
+            System.out.println("获取到的组件失败：" + e);
+        }
     }
 
     //获取当前激活组件的宽度

@@ -104,7 +104,7 @@ public class DemoTabble extends JFrame {
         return new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                System.out.println("窗口大小改变了");
+                //System.out.println("窗口大小改变了");
             }
         };
     }
@@ -159,15 +159,16 @@ public class DemoTabble extends JFrame {
         Component focusOwner = _this.getFocusOwner();
         JTextArea focusArea = findComponentsByFocus(focusOwner, JTextArea.class);
         if (focusArea != null) {
+            System.out.println("组件宽度："+focusArea.getWidth());
             focusArea.setText(JsonUtil.formatJson(focusArea.getText()));
         }
 
         //遍历寻找组件测试
-        List<RSyntaxTextArea> rstList = findComponentsByType(_this.getContentPane());
+        /*List<RSyntaxTextArea> rstList = findComponentsByType(_this.getContentPane());
         System.out.println("获取到RSyntaxTextArea的组件数量：" + rstList.size());
         for (RSyntaxTextArea rSyntaxTextArea : rstList) {
             System.out.println("获取到的组件名称：" + rSyntaxTextArea.getName());
-        }
+        }*/
     }
 
     /**
@@ -204,24 +205,6 @@ public class DemoTabble extends JFrame {
 
     private void closeActionPerformed() {
 
-    }
-
-    public <T> List<T> findComponentsByType(Container container) {
-        List<T> rstList = new ArrayList<>();
-        // 遍历当前容器的所有组件
-        for (Component component : container.getComponents()) {
-            if (component instanceof RSyntaxTextArea) {
-                // 如果找到名称匹配的JTextArea，直接返回
-                rstList.add((T) component);
-            } else if (component instanceof Container) {
-                // 如果组件本身也是一个容器（如 JPanel、JScrollPane 等），递归搜索其内部组件
-                List<T> foundTextAreaList = findComponentsByType((Container) component);
-                if (foundTextAreaList != null && foundTextAreaList.size() > 0) {
-                    rstList.addAll(foundTextAreaList);
-                }
-            }
-        }
-        return rstList;
     }
 
     public <T> T findComponentsByFocus(Component focusOwner, Class<T> clazz) {
