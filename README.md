@@ -126,7 +126,7 @@ setRightComponent属性创建新的JSplitPane组件，放入右侧，计算宽�
 ![输入图片说明](src/main/resources/images/3.0.png)
 ![输入图片说明](src/main/resources/images/4.0.png)
 ![输入图片说明](src/main/resources/images/5.0.png)
-
+![输入图片说明](src/main/resources/images/6.0.png)
 >作者：莫斐鱼
 > 
 >2023年11月23日
