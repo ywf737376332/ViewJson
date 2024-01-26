@@ -1,8 +1,9 @@
-package com.ywf.component.demo;
+package com.ywf.component.demo2;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.formdev.flatlaf.ui.FlatScrollPaneUI;
 import com.ywf.component.TextAreaBuilder;
+import com.ywf.component.demo.JTabbedSplitPane;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.JsonUtil;
@@ -25,13 +26,15 @@ import java.util.List;
  * @Author YWF
  * @Date 2024/1/24 22:52
  */
-public class DemoTabble extends JFrame {
+public class DemoTabble002 extends JFrame {
 
     private JFrame _this = this;
 
+    private static JTabbedSplitPane002 tabbedSplitPane;
+
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
-        new DemoTabble().createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
+        new DemoTabble002().createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
     }
 
     public void createAndShowGUI(String title) {
@@ -60,13 +63,15 @@ public class DemoTabble extends JFrame {
         editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // 设置外边距
 
         //初始化可创建多个的多文本编辑区
-        JTabbedSplitPane tabbedSplitPane = new JTabbedSplitPane(_this);
-        editPanel.add(tabbedSplitPane.addTab(createJsonScrollTextArea()), BorderLayout.CENTER);
+        tabbedSplitPane = new JTabbedSplitPane002(_this);
+        //editPanel.add(tabbedSplitPane.addTab(createJsonScrollTextArea()), BorderLayout.CENTER);
+        JPanel editMy = tabbedSplitPane.addTab(createJsonScrollTextArea());
+        editPanel.add(editMy, BorderLayout.CENTER);
 
         JToolBar toolBar = new JToolBar("工具栏");
         JButton btnNew = new JButton("新建");
         btnNew.setIcon(IconUtils.getSVGIcon("icons/layoutOne.svg"));
-        btnNew.addActionListener(e -> createNewTabActionPerformed(tabbedSplitPane, null));
+        btnNew.addActionListener(e -> createNewTabActionPerformed(tabbedSplitPane));
 
         JButton btnFormat = new JButton("格式化");
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
@@ -82,7 +87,7 @@ public class DemoTabble extends JFrame {
 
         JButton btnClose = new JButton("关闭");
         btnClose.setIcon(IconUtils.getSVGIcon("icons/closeTab.svg"));
-        btnClose.addActionListener(e -> closeActionPerformed());
+        btnClose.addActionListener(e -> closeActionPerformed(tabbedSplitPane));
         toolBar.add(btnNew);
         toolBar.addSeparator();
         toolBar.add(btnFormat);
@@ -96,6 +101,7 @@ public class DemoTabble extends JFrame {
 
         mainPanel.add(toolBar, BorderLayout.NORTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
+
         frame.addComponentListener(frameResizedEventService());
         frame.add(mainPanel);
 
@@ -128,7 +134,7 @@ public class DemoTabble extends JFrame {
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(true);
         rTextScrollPane.setFoldIndicatorEnabled(true);
-        syntaxTextArea.setName(String.valueOf(syntaxTextArea.hashCode()));
+        rTextScrollPane.setName(String.valueOf(syntaxTextArea.hashCode()));
         return rTextScrollPane;
     }
 
@@ -157,8 +163,7 @@ public class DemoTabble extends JFrame {
 
     private void formatActionPerformed() {
         // 获取当前具有焦点的组件
-        Component focusOwner = _this.getFocusOwner();
-        JTextArea focusArea = findComponentsByFocus(focusOwner, JTextArea.class);
+        JTextArea focusArea = findComponentsByFocus(_this, JTextArea.class);
         if (focusArea != null) {
             System.out.println("组件宽度："+focusArea.getWidth());
             focusArea.setText(JsonUtil.formatJson(focusArea.getText()));
@@ -176,8 +181,7 @@ public class DemoTabble extends JFrame {
      * 清空文本内容
      */
     public void cleanJsonActionPerformed() {
-        Component focusOwner = _this.getFocusOwner();
-        JTextArea focusArea = findComponentsByFocus(focusOwner, JTextArea.class);
+        JTextArea focusArea = findComponentsByFocus(_this, JTextArea.class);
         if (focusArea != null) {
             focusArea.setText("");
             focusArea.requestFocusInWindow();
@@ -189,30 +193,34 @@ public class DemoTabble extends JFrame {
      */
     public void compressionJsonActionPerformed() {
         SwingUtilities.invokeLater(() -> {
-            Component focusOwner = _this.getFocusOwner();
-            JTextArea focusArea = findComponentsByFocus(focusOwner, JTextArea.class);
+            JTextArea focusArea = findComponentsByFocus(_this, JTextArea.class);
             if (focusArea != null) {
                 focusArea.setText(JsonUtil.compressingStr(focusArea.getText()));
             }
         });
     }
 
-    private void createNewTabActionPerformed(JTabbedSplitPane tabbedSplitPane, JPanel editPanel) {
+    private void createNewTabActionPerformed(JTabbedSplitPane002 tabbedSplitPane) {
         tabbedSplitPane.addTab(createJsonScrollTextArea());
-        //editPanel.add(tabbedSplitPane.addTab(createJsonScrollTextArea()), BorderLayout.CENTER);
+        System.out.println("组件添加成功");
     }
 
 
-    private void closeActionPerformed() {
-
+    private void closeActionPerformed(JTabbedSplitPane002 tabbedSplitPane) {
+        tabbedSplitPane.closeAbleTabbedSplitPane();
     }
 
-    public <T> T findComponentsByFocus(Component focusOwner, Class<T> clazz) {
+    public <T> T findComponentsByFocus(JFrame frame, Class<T> clazz) {
+        Component focusOwner = frame.getFocusOwner();
         if (focusOwner == null) {
             return null;
         } else {
             return clazz.isInstance(focusOwner) ? (T) focusOwner : null;
         }
+    }
+
+    public static void closeAbleTabbedSplitPane(){
+        tabbedSplitPane.closeAbleTabbedSplitPane();
     }
 
 }

@@ -2,6 +2,8 @@ package com.ywf.component;
 
 import com.ywf.action.MenuEventService;
 import com.ywf.action.QRCodeEventService;
+import com.ywf.component.demo.DemoTabble;
+import com.ywf.component.demo2.DemoTabble002;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.PropertiesUtil;
 
@@ -24,7 +26,6 @@ public class TextAreaPopupMenuBuilder {
      * 新建、关闭 | 撤销、重做 | 剪切、复制、粘贴、删除 | 全选、切换折叠 | 菜单栏、工具栏
      */
     private JMenuItem menuBarNewEdit, menuBarTabClose,menuBarUndo, menuBarRedo, menuBarCut, menuBarCopy, menuBarPaste, menuBarDelete, menuBarSelectAll, menuBarCollapse;
-    private JCheckBoxMenuItem menuBarShowMenuBar, menuBarShowToolBar;
 
     volatile private static TextAreaPopupMenuBuilder instance = null;
 
@@ -36,6 +37,7 @@ public class TextAreaPopupMenuBuilder {
         contextMenu.setPopupSize(150,310);
         menuBarNewEdit = new JMenuItem("新建");
         menuBarTabClose = new JMenuItem("关闭");
+        menuBarTabClose.addActionListener(e -> DemoTabble002.closeAbleTabbedSplitPane());
         menuBarUndo = new JMenuItem("撤销");
         menuBarRedo = new JMenuItem("重做");
         menuBarCut = new JMenuItem("剪切");
@@ -44,10 +46,6 @@ public class TextAreaPopupMenuBuilder {
         menuBarDelete = new JMenuItem("删除");
         menuBarSelectAll = new JMenuItem("全选");
         menuBarCollapse = new JMenuItem("切换折叠");
-        menuBarShowMenuBar = new JCheckBoxMenuItem("菜单栏");
-        menuBarShowMenuBar.addActionListener(e -> menuActionPerformed());
-        menuBarShowToolBar = new JCheckBoxMenuItem("工具栏");
-        menuBarShowToolBar.addActionListener(e -> menuActionPerformed());
 
         contextMenu.add(menuBarNewEdit);
         contextMenu.add(menuBarTabClose);
@@ -62,9 +60,6 @@ public class TextAreaPopupMenuBuilder {
         contextMenu.addSeparator();
         contextMenu.add(menuBarSelectAll);
         contextMenu.add(menuBarCollapse);
-        contextMenu.addSeparator();
-        contextMenu.add(menuBarShowMenuBar);
-        contextMenu.add(menuBarShowToolBar);
         popupListener = new PopupListener(contextMenu);
     }
 
@@ -123,4 +118,11 @@ public class TextAreaPopupMenuBuilder {
         this.popupListener = popupListener;
     }
 
+    public JMenuItem getMenuBarTabClose() {
+        return menuBarTabClose;
+    }
+
+    public void setMenuBarTabClose(JMenuItem menuBarTabClose) {
+        this.menuBarTabClose = menuBarTabClose;
+    }
 }
