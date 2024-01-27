@@ -1,5 +1,6 @@
 package com.ywf.component.demo2;
 
+import com.ywf.framework.utils.IconUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextAreaEditorKit;
@@ -35,7 +36,8 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
 
     public static class NewEditorAction extends RecordableTextAction {
         public NewEditorAction() {
-            super(RsTextAreaEditorKit.newEditorAction);
+            //super(RsTextAreaEditorKit.newEditorAction);
+            super(RsTextAreaEditorKit.newEditorAction,IconUtils.getSVGIcon("icons/layoutOne.svg"), null, null, null);
         }
         @Override
         public void actionPerformedImpl(ActionEvent e, RTextArea textArea) {
@@ -50,7 +52,8 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
 
     public static class CloseEditorAction extends RecordableTextAction {
         public CloseEditorAction() {
-            super(RsTextAreaEditorKit.newEditorAction);
+            //super(RsTextAreaEditorKit.newEditorAction);
+            super(RsTextAreaEditorKit.newEditorAction,IconUtils.getSVGIcon("icons/closeTab.svg"), null, null, null);
         }
         @Override
         public void actionPerformedImpl(ActionEvent e, RTextArea textArea) {

@@ -2,6 +2,7 @@ package com.ywf.component;
 
 import com.ywf.component.demo2.RsTextAreaEditorKit;
 import com.ywf.framework.enums.TextTypeEnum;
+import com.ywf.framework.utils.IconUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit;
 import org.fife.ui.rtextarea.RTextArea;
@@ -84,7 +85,7 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
      */
     private JPopupMenu initPopupMenu(JSONRSyntaxTextArea syntaxTextArea) {
         JPopupMenu menu = new JPopupMenu();
-        menu.setPopupSize(150, 289);
+        menu.setPopupSize(160, 289);
         menu.add(newEditorMenuItem = createPopupMenuItem(newEditorAction));
         menu.add(closeEditorMenuItem = createPopupMenuItem(closeEditorAction));
         menu.addSeparator();
@@ -109,7 +110,7 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
             }
         };
         // 不显示菜单的快捷键
-        item.setAccelerator(null);
+        //item.setAccelerator(null);
         return item;
     }
 
@@ -153,12 +154,6 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
         selectAllAction = new RTextAreaEditorKit.SelectAllAction();
         selectAllAction.setProperties(msg, "Action.SelectAll");
         selectAllAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, mod));
-
-        if (collapseAllFoldsAction == null) {
-            foldingMenu = new JMenu(msg.getString("ContextMenu.Folding"));
-            collapseAllFoldsAction = new RSyntaxTextAreaEditorKit.CollapseAllFoldsAction(true);
-            expandAllFoldsAction = new RSyntaxTextAreaEditorKit.ExpandAllFoldsAction(true);
-        }
     }
 
     @Override
@@ -166,6 +161,7 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
         ResourceBundle msg = getResourceBundle();
         popup.addSeparator();
         foldingMenu = new JMenu(msg.getString("ContextMenu.Folding"));
+        foldingMenu.setIcon(IconUtils.getSVGIcon("icons/collapseCode.svg"));
         foldingMenu.add(createPopupMenuItem(collapseAllFoldsAction));
         foldingMenu.add(createPopupMenuItem(expandAllFoldsAction));
         popup.add(foldingMenu);
