@@ -44,7 +44,7 @@ public class JTabbedSplitPane002 extends JPanel implements Serializable {
         // 缓存SyntaxTextArea组件
         cacheComment(component);
         // 给SyntaxTextArea组件添加右键菜单
-        addSyntaxTextAreaPopupMenu(component);
+        // addSyntaxTextAreaPopupMenu(component);
         removeComponents(page);
         if (page == null) {
             page = new JPanel(new BorderLayout());
@@ -125,7 +125,7 @@ public class JTabbedSplitPane002 extends JPanel implements Serializable {
     }
 
     private void cacheComment(JScrollPane component) {
-        if (component == null){
+        if (component == null) {
             return;
         }
         if (getComponentCount() == 3) {
@@ -193,8 +193,8 @@ public class JTabbedSplitPane002 extends JPanel implements Serializable {
         }
         try {
             Component comp = component.getViewport().getView();
-            if (comp instanceof RSyntaxTextArea){
-                RSyntaxTextArea rSyntaxTextArea = (RSyntaxTextArea)comp;
+            if (comp instanceof RSyntaxTextArea) {
+                RSyntaxTextArea rSyntaxTextArea = (RSyntaxTextArea) comp;
                 rSyntaxTextArea.addMouseListener(TextAreaPopupMenuBuilder.getInstance().getPopupListener());
             }
         } catch (RuntimeException e) {
@@ -202,23 +202,28 @@ public class JTabbedSplitPane002 extends JPanel implements Serializable {
         }
     }
 
+    public void createNewTabbed(RTextScrollPane rTextScrollPane) {
+        addTab(rTextScrollPane);
+    }
+
     /**
      * 关闭最后一次打开的组件
      */
-    public void closeAbleTabbedSplitPane() {
+    public void closeAbleTabbed(RSyntaxTextArea rSyntaxTextArea) {
         System.out.println("执行关闭操作");
-        RSyntaxTextArea rSyntaxTextArea = findComponentsByFocus(parentFrame, RSyntaxTextArea.class);
-        if (rSyntaxTextArea == null){
+        rSyntaxTextArea = rSyntaxTextArea == null ? findComponentsByFocus(parentFrame, RSyntaxTextArea.class) : rSyntaxTextArea;
+        if (rSyntaxTextArea == null) {
             return;
         }
-        RTextScrollPane rTextScrollPane = (RTextScrollPane)rSyntaxTextArea.getParent().getParent();
+        System.out.println("当前组件：" + rSyntaxTextArea.getName());
+        RTextScrollPane rTextScrollPane = (RTextScrollPane) rSyntaxTextArea.getParent().getParent();
         int componentCount = getComponentCount();
-        System.out.println("当前激活的:"+rTextScrollPane.getName());
+        System.out.println("当前激活的:" + rTextScrollPane.getName());
         for (int i = 0; i < pages.size(); i++) {
-            if (rTextScrollPane.equals(pages.get(i))){
-                System.out.println("找到相同的:"+pages.get(i).getName());
-                if (componentCount>1){
-                    System.out.println("关闭了:"+pages.get(i).getName());
+            if (rTextScrollPane.equals(pages.get(i))) {
+                System.out.println("找到相同的:" + pages.get(i).getName());
+                if (componentCount > 1) {
+                    System.out.println("关闭了:" + pages.get(i).getName());
                     pages.remove(i);
                     // 刷新组件布局
                     insertTab(null);

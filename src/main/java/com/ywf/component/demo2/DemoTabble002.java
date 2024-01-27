@@ -2,8 +2,8 @@ package com.ywf.component.demo2;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.formdev.flatlaf.ui.FlatScrollPaneUI;
+import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.TextAreaBuilder;
-import com.ywf.component.demo.JTabbedSplitPane;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.JsonUtil;
@@ -17,8 +17,6 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * TODO
@@ -71,7 +69,7 @@ public class DemoTabble002 extends JFrame {
         JToolBar toolBar = new JToolBar("工具栏");
         JButton btnNew = new JButton("新建");
         btnNew.setIcon(IconUtils.getSVGIcon("icons/layoutOne.svg"));
-        btnNew.addActionListener(e -> createNewTabActionPerformed(tabbedSplitPane));
+        btnNew.addActionListener(e -> createNewTabActionPerformed());
 
         JButton btnFormat = new JButton("格式化");
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
@@ -134,12 +132,11 @@ public class DemoTabble002 extends JFrame {
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(true);
         rTextScrollPane.setFoldIndicatorEnabled(true);
-        rTextScrollPane.setName(String.valueOf(syntaxTextArea.hashCode()));
         return rTextScrollPane;
     }
 
     private static RSyntaxTextArea createTextArea(String styleKey, String themesPath) {
-        RSyntaxTextArea textArea = new RSyntaxTextArea();
+        JSONRSyntaxTextArea textArea = new JSONRSyntaxTextArea();
         textArea.setSyntaxEditingStyle(styleKey);
         // 这行代码启用了代码折叠功能
         textArea.setCodeFoldingEnabled(true);
@@ -149,6 +146,8 @@ public class DemoTabble002 extends JFrame {
         textArea.setAutoscrolls(true);
         // 读取配置信息中的数据
         textArea.setEditable(true);
+        //组件名称
+        textArea.setName("#rst:"+textArea.hashCode());
         // 自动换行功能
         textArea.setLineWrap(false);
         textArea.revalidate();
@@ -200,14 +199,15 @@ public class DemoTabble002 extends JFrame {
         });
     }
 
-    private void createNewTabActionPerformed(JTabbedSplitPane002 tabbedSplitPane) {
-        tabbedSplitPane.addTab(createJsonScrollTextArea());
+    public static void createNewTabActionPerformed() {
+        //tabbedSplitPane.addTab(createJsonScrollTextArea());
         System.out.println("组件添加成功");
+        tabbedSplitPane.createNewTabbed(createJsonScrollTextArea());
     }
 
 
     private void closeActionPerformed(JTabbedSplitPane002 tabbedSplitPane) {
-        tabbedSplitPane.closeAbleTabbedSplitPane();
+        tabbedSplitPane.closeAbleTabbed(null);
     }
 
     public <T> T findComponentsByFocus(JFrame frame, Class<T> clazz) {
@@ -219,8 +219,12 @@ public class DemoTabble002 extends JFrame {
         }
     }
 
-    public static void closeAbleTabbedSplitPane(){
-        tabbedSplitPane.closeAbleTabbedSplitPane();
+    public static void closeAbleTabbedSplitPane(RSyntaxTextArea rSyntaxTextArea){
+        System.out.println("关闭按钮执行："+rSyntaxTextArea);
+        if (rSyntaxTextArea==null){
+            return;
+        }
+        tabbedSplitPane.closeAbleTabbed(rSyntaxTextArea);
     }
 
 }
