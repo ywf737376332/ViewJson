@@ -126,7 +126,7 @@ public class DemoTabble002 extends JFrame {
     }
 
     public static RTextScrollPane createJsonScrollTextArea() {
-        RSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, "/themes/textAreaThemes/ideaLight.xml");
+        JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, "/themes/textAreaThemes/ideaLight.xml");
         RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
         rTextScrollPane.setBorder(BorderFactory.createEmptyBorder());
         // 显示行号
@@ -135,7 +135,7 @@ public class DemoTabble002 extends JFrame {
         return rTextScrollPane;
     }
 
-    private static RSyntaxTextArea createTextArea(String styleKey, String themesPath) {
+    private static JSONRSyntaxTextArea createTextArea(String styleKey, String themesPath) {
         JSONRSyntaxTextArea textArea = new JSONRSyntaxTextArea();
         textArea.setSyntaxEditingStyle(styleKey);
         // 这行代码启用了代码折叠功能
@@ -220,7 +220,6 @@ public class DemoTabble002 extends JFrame {
     }
 
     public static void closeAbleTabbedSplitPane(RSyntaxTextArea rSyntaxTextArea){
-        System.out.println("关闭按钮执行："+rSyntaxTextArea);
         if (rSyntaxTextArea==null){
             return;
         }

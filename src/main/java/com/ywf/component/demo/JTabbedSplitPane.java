@@ -1,9 +1,7 @@
 package com.ywf.component.demo;
 
-import com.ywf.component.TextAreaPopupMenuBuilder;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
-import javax.accessibility.Accessible;
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
@@ -181,7 +179,6 @@ public class JTabbedSplitPane extends JPanel implements Serializable {
         }
         try {
             RSyntaxTextArea rSyntaxTextArea = (RSyntaxTextArea) component.getViewport().getView();
-            rSyntaxTextArea.addMouseListener(TextAreaPopupMenuBuilder.getInstance().getPopupListener());
             System.out.println("获取到的组件名称：" + rSyntaxTextArea.getName());
         } catch (RuntimeException e) {
             System.out.println("获取到的组件失败：" + e);

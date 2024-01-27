@@ -1,6 +1,5 @@
 package com.ywf.component.demo2;
 
-import com.ywf.component.TextAreaPopupMenuBuilder;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -195,7 +194,6 @@ public class JTabbedSplitPane002 extends JPanel implements Serializable {
             Component comp = component.getViewport().getView();
             if (comp instanceof RSyntaxTextArea) {
                 RSyntaxTextArea rSyntaxTextArea = (RSyntaxTextArea) comp;
-                rSyntaxTextArea.addMouseListener(TextAreaPopupMenuBuilder.getInstance().getPopupListener());
             }
         } catch (RuntimeException e) {
             System.out.println("获取到的组件失败：" + e);
