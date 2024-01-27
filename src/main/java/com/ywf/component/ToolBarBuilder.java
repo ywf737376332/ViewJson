@@ -2,7 +2,7 @@ package com.ywf.component;
 
 import com.ywf.action.MenuEventService;
 import com.ywf.action.QRCodeEventService;
-import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.constant.PropsConstant;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.PropertiesUtil;
 
@@ -58,7 +58,7 @@ public class ToolBarBuilder {
         btnShowQrcode.addActionListener(e -> QRCodeEventService.getInstance().showQrcodeActionPerformed(frame));
 
         btnFindRepl = new JButton("查找");
-        btnFindRepl.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame,"查找"));
+        btnFindRepl.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame, "查找"));
 
         btnClean = new JButton("清空");
         btnClean.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
@@ -98,7 +98,7 @@ public class ToolBarBuilder {
         // 将默认大小的分隔符添加到工具栏的末尾
         toolBar.addSeparator();
         toolBar.add(btnClean);
-        toolBar.setVisible(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY)));
+        toolBar.setVisible(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_TOOL_BAR_KEY)));
         return toolBar;
     }
 

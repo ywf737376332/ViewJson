@@ -35,7 +35,7 @@ public class PropertiesUtil {
      * @param key
      * @param value
      */
-    public void setValueToProperties(String key, String value) {
+    public void setValue(String key, String value) {
         try {
             PropertiesConfiguration configuration = getPropertiesConfiguration();
             configuration.setAutoSave(true);
@@ -45,7 +45,7 @@ public class PropertiesUtil {
         }
     }
 
-    public String getValueFromProperties(String key) {
+    public String getValue(String key) {
         String res = null;
         try {
             PropertiesConfiguration configuration = getPropertiesConfiguration();

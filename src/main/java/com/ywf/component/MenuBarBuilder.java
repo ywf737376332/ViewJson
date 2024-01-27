@@ -2,7 +2,7 @@ package com.ywf.component;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
-import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.constant.PropsConstant;
 import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.utils.IconUtils;
@@ -27,19 +27,20 @@ public class MenuBarBuilder {
     private static JCheckBoxMenuItem showMenuBarMenuItem;
     private static JMenuItem unescapeMenuItem;
     private static JMenuItem escapeTabMenuItem;
+
     public static JMenuBar createMenuBar(JFrame frame) {
 
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("文件");
         JMenuItem newTabMenuItem = new JMenuItem("新建");
-        newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/open.svg",12,12));
+        newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/open.svg", 12, 12));
         newTabMenuItem.setEnabled(false);
         JMenuItem savePictMenuItem = new JMenuItem("导出图片");
-        savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/exportPict.svg",12,12));
+        savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/exportPict.svg", 12, 12));
         savePictMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToImageActionPerformed(frame));
 
         JMenuItem saveFileMenuItem = new JMenuItem("导出文件");
-        saveFileMenuItem.setIcon(IconUtils.getSVGIcon("icons/saveCode.svg",12,12));
+        saveFileMenuItem.setIcon(IconUtils.getSVGIcon("icons/saveCode.svg", 12, 12));
         saveFileMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToFileActionPerformed(frame));
 
         fileMenu.add(newTabMenuItem);
@@ -48,23 +49,23 @@ public class MenuBarBuilder {
 
         JMenu editMenu = new JMenu("编辑");
         JMenuItem compMenuItem = new JMenuItem("压缩");
-        compMenuItem.setIcon(IconUtils.getSVGIcon("icons/comp.svg",12,12));
+        compMenuItem.setIcon(IconUtils.getSVGIcon("icons/comp.svg", 12, 12));
         compMenuItem.addActionListener(e -> MenuEventService.getInstance().compressionJsonActionPerformed());
         escapeTabMenuItem = new JMenuItem("转义");
-        escapeTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg",12,12));
+        escapeTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg", 12, 12));
         escapeTabMenuItem.addActionListener(e -> MenuEventService.getInstance().escapeJsonActionPerformed());
         unescapeMenuItem = new JMenuItem("去除转义");
-        unescapeMenuItem.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg",12,12));
+        unescapeMenuItem.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg", 12, 12));
         unescapeMenuItem.addActionListener(e -> MenuEventService.getInstance().unEscapeJsonActionPerformed());
         JMenuItem formatMenuItem = new JMenuItem("格式化");
-        formatMenuItem.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg",12,12));
+        formatMenuItem.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg", 12, 12));
         formatMenuItem.addActionListener(e -> MenuEventService.getInstance().formatJsonActionPerformed(frame));
         JMenuItem cleanMenuItem = new JMenuItem("清空");
-        cleanMenuItem.setIcon(IconUtils.getSVGIcon("icons/delete.svg",12,12));
+        cleanMenuItem.setIcon(IconUtils.getSVGIcon("icons/delete.svg", 12, 12));
         cleanMenuItem.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
         JMenuItem findRepMenuItem = new JMenuItem("查找");
-        findRepMenuItem.setIcon(IconUtils.getSVGIcon("icons/find.svg",12,12));
-        findRepMenuItem.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame,"查找"));
+        findRepMenuItem.setIcon(IconUtils.getSVGIcon("icons/find.svg", 12, 12));
+        findRepMenuItem.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame, "查找"));
         editMenu.add(compMenuItem);
         editMenu.add(escapeTabMenuItem);
         editMenu.add(unescapeMenuItem);
@@ -75,15 +76,15 @@ public class MenuBarBuilder {
 
         JMenu setupMenu = new JMenu("设置");
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
-        editSetupMenuItem.setSelected(!Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY)));
+        editSetupMenuItem.setSelected(!Boolean.valueOf(systemProperties.getValue(PropsConstant.TEXTAREA_EDIT_STATE_KEY)));
         editSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().editSwitchActionPerformed());
 
         JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("自动换行");
-        lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
+        lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.TEXTAREA_BREAK_LINE_KEY)));
         lineSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().lineSetupActionPerformed());
 
         JCheckBoxMenuItem showlineNumMenuItem = new JCheckBoxMenuItem("显示行号");
-        showlineNumMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY)));
+        showlineNumMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.TEXTAREA_SHOW_LINE_NUM_KEY)));
         showlineNumMenuItem.addActionListener(e -> MenuEventService.getInstance().showLineNumActionPerformed());
 
         JMenu pictureQualityMenu = new JMenu("图片质量");
@@ -100,11 +101,11 @@ public class MenuBarBuilder {
         MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);
 
         showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
-        showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY)));
+        showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_TOOL_BAR_KEY)));
         showToolBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
 
         showMenuBarMenuItem = new JCheckBoxMenuItem("显示菜单栏");
-        showMenuBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_MENU_BAR_KEY)));
+        showMenuBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_MENU_BAR_KEY)));
         showMenuBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
 
         JMenu facadeMenu = new JMenu("外观菜单");
@@ -200,7 +201,7 @@ public class MenuBarBuilder {
         menuBar.add(setupMenu);
         menuBar.add(themesMenu);
         menuBar.add(helpMenu);
-        menuBar.setVisible(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_MENU_BAR_KEY)));
+        menuBar.setVisible(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_MENU_BAR_KEY)));
         return menuBar;
     }
 

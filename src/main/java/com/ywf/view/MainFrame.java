@@ -5,6 +5,7 @@ import com.ywf.action.FrameWindowCloseEventService;
 import com.ywf.action.WindowResizedEventService;
 import com.ywf.action.WindowStateEventService;
 import com.ywf.component.*;
+import com.ywf.framework.constant.PropsConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.PropertiesUtil;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -29,7 +30,7 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
         int w = Toolkit.getDefaultToolkit().getScreenSize().width;
         int h = Toolkit.getDefaultToolkit().getScreenSize().height;
-        setSize(Integer.parseInt(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_WIDTH_KEY)), Integer.parseInt(systemProperties.getValueFromProperties(SystemConstant.SCREEN_SIZE_HEIGHT_KEY)));
+        setSize(Integer.parseInt(systemProperties.getValue(PropsConstant.SCREEN_SIZE_WIDTH_KEY)), Integer.parseInt(systemProperties.getValue(PropsConstant.SCREEN_SIZE_HEIGHT_KEY)));
         setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
         setMinimumSize(new Dimension(SystemConstant.WINDOWS_MIN_WIDTH, SystemConstant.WINDOWS_MIN_HEIGHT));
         //设置图标

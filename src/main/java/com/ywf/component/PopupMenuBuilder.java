@@ -2,6 +2,7 @@ package com.ywf.component;
 
 import com.ywf.action.MenuEventService;
 import com.ywf.action.QRCodeEventService;
+import com.ywf.framework.constant.PropsConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.PropertiesUtil;
 
@@ -30,10 +31,10 @@ public class PopupMenuBuilder {
     private PopupMenuBuilder() {
         contextMenu = new JPopupMenu();
         menuBarShowState = new JCheckBoxMenuItem("菜单栏");
-        menuBarShowState.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_MENU_BAR_KEY)));
+        menuBarShowState.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_MENU_BAR_KEY)));
         menuBarShowState.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
         toolBarShowState = new JCheckBoxMenuItem("工具栏");
-        toolBarShowState.setSelected(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.SHOW_TOOL_BAR_KEY)));
+        toolBarShowState.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_TOOL_BAR_KEY)));
         toolBarShowState.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
         contextMenu.add(menuBarShowState);
         contextMenu.addSeparator();

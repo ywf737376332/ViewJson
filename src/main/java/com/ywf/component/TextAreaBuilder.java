@@ -2,6 +2,7 @@ package com.ywf.component;
 
 import cn.hutool.core.util.NumberUtil;
 import com.ywf.action.StateBarEventService;
+import com.ywf.framework.constant.PropsConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.PropertiesUtil;
@@ -51,12 +52,12 @@ public class TextAreaBuilder {
      * Json编辑器
      */
     public static RTextScrollPane JsonScrollTextArea() {
-        SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
+        SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(systemProperties.getValue(SystemConstant.SYSTEM_THEMES_KEY));
         String themesPath = themesStyles != null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
         rTextScrollPane = new RTextScrollPane(syntaxTextArea);
         // 显示行号
-        rTextScrollPane.setLineNumbersEnabled(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_SHOW_LINE_NUM_KEY)));
+        rTextScrollPane.setLineNumbersEnabled(Boolean.valueOf(systemProperties.getValue(PropsConstant.TEXTAREA_SHOW_LINE_NUM_KEY)));
         rTextScrollPane.setFoldIndicatorEnabled(true);
         //监听文档变化
         StateBarEventService.getInstance().textAreaDocumentActionPerformed(syntaxTextArea);
@@ -73,10 +74,10 @@ public class TextAreaBuilder {
         // 启用了自动滚动功能
         textArea.setAutoscrolls(true);
         // 读取配置信息中的数据
-        textArea.setEditable(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_EDIT_STATE_KEY)));
+        textArea.setEditable(Boolean.valueOf(systemProperties.getValue(PropsConstant.TEXTAREA_EDIT_STATE_KEY)));
         // 自动换行功能
-        textArea.setLineWrap(Boolean.valueOf(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_BREAK_LINE_KEY)));
-        textArea.setChineseConverState(NumberUtil.parseInt(systemProperties.getValueFromProperties(SystemConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY)));
+        textArea.setLineWrap(Boolean.valueOf(systemProperties.getValue(PropsConstant.TEXTAREA_BREAK_LINE_KEY)));
+        textArea.setChineseConverState(NumberUtil.parseInt(systemProperties.getValue(PropsConstant.TEXTAREA_CHINESE_CONVERT_STATE_KEY)));
         textArea.revalidate();
         try {
             Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));

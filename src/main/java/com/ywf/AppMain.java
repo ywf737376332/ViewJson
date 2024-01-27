@@ -24,7 +24,7 @@ public class AppMain {
         // 创建界面
         SwingUtilities.invokeLater(() -> {
             mainFrame = new MainFrame();
-            SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(systemProperties.getValueFromProperties(SystemConstant.SYSTEM_THEMES_KEY));
+            SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(systemProperties.getValue(SystemConstant.SYSTEM_THEMES_KEY));
             ChangeUIUtils.changeUIStyle(mainFrame, themesStyles != null ? themesStyles : SystemThemesEnum.FlatLightLafThemesStyle);
             mainFrame.createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
         });
