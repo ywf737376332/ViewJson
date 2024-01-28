@@ -2,11 +2,12 @@ package com.ywf.framework.utils;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import com.ywf.framework.init.SysConfigInit;
+import com.ywf.pojo.ApplicationConfig;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
+import java.io.File;
 import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * TODO
@@ -17,9 +18,10 @@ import java.util.ResourceBundle;
 public class PropertiesUtil {
 
     private static PropertiesUtil instance;
-    private PropertiesConfiguration propertiesConfiguration;
+    private PropertiesConfiguration properties;
 
     public PropertiesUtil() {
+        properties = getPropertiesConfiguration();
     }
 
     public static synchronized PropertiesUtil instance() {
@@ -27,6 +29,17 @@ public class PropertiesUtil {
             instance = new PropertiesUtil();
         }
         return instance;
+    }
+
+    private PropertiesConfiguration getPropertiesConfiguration() {
+        if (properties == null) {
+            try {
+                properties = new PropertiesConfiguration();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return properties;
     }
 
     /**
@@ -37,9 +50,8 @@ public class PropertiesUtil {
      */
     public void setValue(String key, String value) {
         try {
-            PropertiesConfiguration configuration = getPropertiesConfiguration();
-            configuration.setAutoSave(true);
-            configuration.setProperty(key, value);
+            properties.setAutoSave(true);
+            properties.setProperty(key, value);
         } catch (Exception e) {
             System.out.println("setValueToProperties error : " + e.getMessage());
         }
@@ -48,26 +60,14 @@ public class PropertiesUtil {
     public String getValue(String key) {
         String res = null;
         try {
-            PropertiesConfiguration configuration = getPropertiesConfiguration();
-            res = configuration.getString(key);
+            res = properties.getString(key);
         } catch (Exception e) {
             System.out.println("getValueFromProperties error : " + e.getMessage());
         }
         return res;
     }
 
-    private PropertiesConfiguration getPropertiesConfiguration() {
-        if (propertiesConfiguration == null) {
-            try {
-                propertiesConfiguration = new PropertiesConfiguration(SysConfigInit.getSysConfigFilePath());
-            } catch (ConfigurationException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return propertiesConfiguration;
-    }
-
-    public static String getResourcePath(String resourceName) {
+    public String getResourcePath(String resourceName) {
         ClassLoader classLoader = ResourceUtil.class.getClassLoader();
         URL resourceUrl = classLoader.getResource(resourceName);
         if (resourceUrl != null) {
@@ -77,24 +77,50 @@ public class PropertiesUtil {
         }
     }
 
+    public PropertiesConfiguration load(String fileName){
+        try {
+            properties.setFile(new File(fileName));
+            properties.load(fileName);
+        } catch (ConfigurationException e) {
+            throw new RuntimeException(e);
+        }
+        return properties;
+    }
+
+    public void store(String fileName,PropertiesConfiguration props) {
+        try {
+            props.setFile(new File(fileName));
+            props.save();
+        } catch (ConfigurationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void main(String[] args) {
         try {
-            //String name2 = getValueFromProperties("name2");
-            //System.out.println(name2);
-            // 获取resource文件的路径
-            String property = System.getProperty("user.dir" + "application.properties");
-            System.out.println("resourcePath:" + property);
 
-            String filePath2 = getResourcePath("/config/config.properties");
-            System.out.println("filePath2:" + filePath2);
+            PropertiesUtil propertiesUtil = PropertiesUtil.instance();
+            String sysConfigFilePath = SysConfigInit.getSysConfigFilePath();
+            String rootPath = propertiesUtil.getResourcePath("config/application.properties");
 
-            ResourceBundle bundle = ResourceBundle.getBundle("/config/config.properties");
-            System.out.printf("dsgfs:", bundle.getString("generateNumber"));
+            PropertiesConfiguration configuration = propertiesUtil.load(sysConfigFilePath);
+            ApplicationConfig applicationConfig = new ApplicationConfig();
+            //System.out.println("applicationConfig:"+applicationConfig.toString());
+            //applicationConfig = propertiesToObject(configuration,ApplicationConfig.class);
+            //System.out.println("applicationConfig:"+applicationConfig.toString());
+            propertiesUtil.setValue("pictureQualityState","12412312");
 
-
+            ApplicationConfig application = RelectionUtils.propConvertObject(configuration, applicationConfig);
+            //propertiesToObject(configuration,applicationConfig.getClass());
+            System.out.println("application:" + application.toString());
+            application.setScreenSize(new ApplicationConfig.ScreenSize(50,200));
+            PropertiesConfiguration targetProps = RelectionUtils.objectConvertProp(application);
+            propertiesUtil.store(sysConfigFilePath,targetProps);
+            //System.out.println("configuration:"+configuration.getString("pictureQualityState"));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
 }

@@ -124,7 +124,13 @@ swing + flatlaf + rsyntaxtextarea
    底座类：存放所有初始化及动态变化的参数
    并排窗口菜单名称：水平分割 垂直分割 向右分割 向下分割
    ```
-
+9. 系统资源文件加载优化
+   ```
+   扫描系统目录下Properties文件是否存在,如果不存在，加载系统
+   目录下默认的Properties资源文件到实体类对象，注入到全局属性，
+   如果存在，注入到全局属性，供各组件使用，在系统关闭时，保存当
+   前实体类的内容到系统目录的磁盘
+   ```
 ![输入图片说明](src/main/resources/images/1.0.png)
 ![输入图片说明](src/main/resources/images/2.0.png)
 ![输入图片说明](src/main/resources/images/3.0.png)

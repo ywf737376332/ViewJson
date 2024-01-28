@@ -1,7 +1,5 @@
 package com.ywf.framework.init;
 
-import cn.hutool.core.util.BooleanUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ywf.framework.constant.PropsConstant;
 import com.ywf.framework.constant.SystemConstant;
@@ -9,21 +7,18 @@ import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.utils.PropertiesUtil;
-import com.ywf.pojo.ApplicationConfig;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Properties;
 import java.util.Date;
+
 /**
  * TODO
  *
  * @Author YWF
  * @Date 2023/12/2 22:23
  */
-public class SysConfigInit extends PropsConstant{
+public class SysConfigInit extends PropsConstant {
 
     private static PropertiesUtil systemProperties = PropertiesUtil.instance();
     public final static Date startTime = new Date();
@@ -91,7 +86,6 @@ public class SysConfigInit extends PropsConstant{
         cashValue(SystemConstant.SYSTEM_THEMES_KEY, SystemThemesEnum.FlatLightLafThemesStyle.getThemesKey());
 
 
-
     }
 
     private static boolean isExists(String key) {
@@ -102,64 +96,5 @@ public class SysConfigInit extends PropsConstant{
         if (isExists(key)) {
             systemProperties.setValue(key, value);
         }
-    }
-
-    private static ApplicationConfig applicationConfig = new ApplicationConfig();
-
-    private static void initEntity(Field[] fields,Object instance,String key, String value){
-        try {
-            for (Field field : fields) {
-                System.out.println("Field: %s"+field.getType().getName());
-                if (field.getName().equals("serialVersionUID")){
-                    continue;
-                }
-                if (field.getName().equals(key)){
-                    field.setAccessible(true);
-                    switch (field.getType().getName()){
-                        case "java.lang.Boolean":
-                            field.set(instance, BooleanUtil.toBoolean(value));
-                            break;
-                        case "java.lang.String":
-                            field.set(instance, StrUtil.toString(value));
-                            break;
-                        case "java.lang.Integer":
-                            field.set(instance, NumberUtil.parseInt(value));
-                            break;
-                        default:
-
-                    }
-                }
-            }
-        }catch (Exception e){
-            System.out.println("出错了"+e);
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        try {
-            Class<?> clazz  = Class.forName("com.ywf.pojo.ApplicationConfig");
-            Object instance = clazz.getConstructor().newInstance();
-            Field[] fields = clazz.getDeclaredFields();
-            initEntity(fields,instance,SHOW_TOOL_BAR_KEY, "true");
-            initEntity(fields,instance,SHOW_MENU_BAR_KEY, "true");
-            initEntity(fields,instance,TEXTAREA_SHOW_LINE_NUM_KEY, "true");
-            initEntity(fields,instance,TEXTAREA_CHINESE_CONVERT_STATE_KEY, "1");
-
-            System.out.println("instance:"+instance);
-
-        }catch (Exception e) {
-            throw new RuntimeException("系统配置文件初始化失败"+e);
-        }
-
-
-        /*Properties properties = new Properties();
-        properties.load(new FileInputStream(getSysConfigFilePath()));
-        ApplicationConfig config = new ApplicationConfig();
-        config.setChineseConverState(Integer.parseInt(properties.getProperty("chineseConverState")));
-        ApplicationConfig.ScreenSize screenSize = new ApplicationConfig.ScreenSize();
-        screenSize.setWidth(Integer.parseInt(properties.getProperty("screenSizeKey.width")));
-        screenSize.setWidth(Integer.parseInt(properties.getProperty("screenSizeKey.height")));
-        config.setScreenSize(screenSize);
-        System.out.println("config" + config.toString());*/
     }
 }

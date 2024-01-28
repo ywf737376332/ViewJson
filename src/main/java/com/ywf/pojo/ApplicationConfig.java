@@ -18,7 +18,6 @@ public class ApplicationConfig implements Serializable {
     private Boolean textAreaShowlineNumState;
     private Boolean showToolBarState;
     private Boolean showMenuBarState;
-    private String textAreaReplaceBlankSpaceState;
     private String lastSystemThemes;
     private Integer chineseConverState;
     private Integer pictureQualityState;
@@ -27,6 +26,14 @@ public class ApplicationConfig implements Serializable {
     public static class ScreenSize {
         private Integer width;
         private Integer height;
+
+        public ScreenSize() {
+        }
+
+        public ScreenSize(Integer width, Integer height) {
+            this.width = width;
+            this.height = height;
+        }
 
         public Integer getWidth() {
             return width;
@@ -93,14 +100,6 @@ public class ApplicationConfig implements Serializable {
         this.showMenuBarState = showMenuBarState;
     }
 
-    public String getTextAreaReplaceBlankSpaceState() {
-        return textAreaReplaceBlankSpaceState;
-    }
-
-    public void setTextAreaReplaceBlankSpaceState(String textAreaReplaceBlankSpaceState) {
-        this.textAreaReplaceBlankSpaceState = textAreaReplaceBlankSpaceState;
-    }
-
     public String getLastSystemThemes() {
         return lastSystemThemes;
     }
@@ -141,7 +140,6 @@ public class ApplicationConfig implements Serializable {
                 ", textAreaShowlineNumState=" + textAreaShowlineNumState +
                 ", showToolBarState=" + showToolBarState +
                 ", showMenuBarState=" + showMenuBarState +
-                ", textAreaReplaceBlankSpaceState='" + textAreaReplaceBlankSpaceState + '\'' +
                 ", lastSystemThemes='" + lastSystemThemes + '\'' +
                 ", chineseConverState=" + chineseConverState +
                 ", pictureQualityState=" + pictureQualityState +
@@ -154,11 +152,11 @@ public class ApplicationConfig implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ApplicationConfig user = (ApplicationConfig) o;
-        return Objects.equals(textAreaEditState, user.textAreaEditState) && Objects.equals(textAreaBreakLineState, user.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, user.textAreaShowlineNumState) && Objects.equals(showToolBarState, user.showToolBarState) && Objects.equals(showMenuBarState, user.showMenuBarState) && Objects.equals(textAreaReplaceBlankSpaceState, user.textAreaReplaceBlankSpaceState) && Objects.equals(lastSystemThemes, user.lastSystemThemes) && Objects.equals(chineseConverState, user.chineseConverState) && Objects.equals(pictureQualityState, user.pictureQualityState) && Objects.equals(screenSize, user.screenSize);
+        return Objects.equals(textAreaEditState, user.textAreaEditState) && Objects.equals(textAreaBreakLineState, user.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, user.textAreaShowlineNumState) && Objects.equals(showToolBarState, user.showToolBarState) && Objects.equals(showMenuBarState, user.showMenuBarState) && Objects.equals(lastSystemThemes, user.lastSystemThemes) && Objects.equals(chineseConverState, user.chineseConverState) && Objects.equals(pictureQualityState, user.pictureQualityState) && Objects.equals(screenSize, user.screenSize);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(textAreaEditState, textAreaBreakLineState, textAreaShowlineNumState, showToolBarState, showMenuBarState, textAreaReplaceBlankSpaceState, lastSystemThemes, chineseConverState, pictureQualityState, screenSize);
+        return Objects.hash(textAreaEditState, textAreaBreakLineState, textAreaShowlineNumState, showToolBarState, showMenuBarState, lastSystemThemes, chineseConverState, pictureQualityState, screenSize);
     }
 }
