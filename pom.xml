@@ -127,6 +127,12 @@
       <version>3.4.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>0.9.10</version>
+    </dependency>
+
     <!--国密算法-->
     <!--<dependency>
       <groupId>org.bouncycastle</groupId>

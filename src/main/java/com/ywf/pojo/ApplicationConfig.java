@@ -1,5 +1,7 @@
 package com.ywf.pojo;
 
+import com.ywf.framework.annotation.PropertySource;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ import java.util.Objects;
  * @Author YWF
  * @Date 2024/1/27 15:13
  */
+@PropertySource(value = "jsonView.properties")
 public class ApplicationConfig implements Serializable {
 
     private static final long serialVersionUID = 1L;
