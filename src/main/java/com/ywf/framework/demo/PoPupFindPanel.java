@@ -27,9 +27,6 @@ public class PoPupFindPanel extends JPanel {
 
     volatile private static PoPupFindPanel instance = null;
 
-    static {
-    }
-
     public static PoPupFindPanel getInstance() {
         if (instance == null) {
             synchronized (PoPupFindPanel.class) {

@@ -1,16 +1,19 @@
 package com.ywf.action;
 
 import cn.hutool.core.text.UnicodeUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
+import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
-import com.ywf.framework.handle.ApplicationContext;
-import com.ywf.framework.utils.*;
+import com.ywf.framework.utils.ChangeUIUtils;
+import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.utils.ImageUtils;
+import com.ywf.framework.utils.JsonUtil;
+import com.ywf.pojo.ConfigurableApplicationContext;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.imageio.ImageIO;
@@ -47,25 +50,18 @@ import java.util.List;
  */
 public class MenuEventService {
 
-    private static PropertiesUtil systemProperties;
+
     private static JSONRSyntaxTextArea rSyntaxTextArea;
     private static RTextScrollPane rTextScrollPane;
 
-    /**
-     * 保存图片放大倍数
-     */
-    private static int pictureScale;
+    @Autowired
+    public static ConfigurableApplicationContext applicationContext;
 
     volatile private static MenuEventService instance = null;
 
-    static {
-        systemProperties = PropertiesUtil.getInstance();
+    private MenuEventService() {
         rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
         rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
-        pictureScale = NumberUtil.parseInt(systemProperties.getValue(ApplicationContext.SHARE_PICTURE_QUALITY_STATE_KEY));
-    }
-
-    private MenuEventService() {
     }
 
     public static MenuEventService getInstance() {
@@ -99,6 +95,7 @@ public class MenuEventService {
                 switch (TextConvertEnum.findConverEnumByState(converState)) {
                     case CH_TO_UN:
                         formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toUnicode(text));
+                        System.out.println("中文转："+text);
                         break;
                     case UN_TO_CH:
                         formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toString(text));
@@ -196,6 +193,7 @@ public class MenuEventService {
         }
         try {
             SwingUtilities.invokeLater(() -> {
+                int pictureScale = applicationContext.getPictureQualityState();
                 //绘制图片
                 BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * pictureScale, rSyntaxTextArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
                 Graphics2D g2d = image.createGraphics();
@@ -289,6 +287,7 @@ public class MenuEventService {
         fileChooser.setFileFilter(fileFilter);
         fileChooser.setDialogTitle("保存文件");
         int userSelection = fileChooser.showSaveDialog(frame);
+        int pictureScale = applicationContext.getPictureQualityState();
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * pictureScale, rSyntaxTextArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
@@ -345,7 +344,7 @@ public class MenuEventService {
      */
     public static void setupThemesActionPerformed(JFrame frame, JMenu themesMenu) {
         // 主题按钮选中
-        SystemThemesEnum themesCss = SystemThemesEnum.findThemesBykey(systemProperties.getValue(SystemConstant.SYSTEM_THEMES_KEY));
+        SystemThemesEnum themesCss = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
         for (Component menuComponent : themesMenu.getMenuComponents()) {
             if (menuComponent instanceof JRadioButtonMenuItem) {
                 JRadioButtonMenuItem radioButtonMenuItem = (JRadioButtonMenuItem) menuComponent;
@@ -359,7 +358,7 @@ public class MenuEventService {
                     // 改变多文本内容的主题
                     ChangeUIUtils.changeTextAreaThemes(frame, themesStyles.getTextAreaStyles());
                     // 保存上一次选定的主题
-                    systemProperties.setValue(SystemConstant.SYSTEM_THEMES_KEY, themesStyles.getThemesKey());
+                    applicationContext.setLastSystemThemes(themesStyles.getThemesKey());
                 });
             }
         }
@@ -373,7 +372,7 @@ public class MenuEventService {
     public static void editSwitchActionPerformed() {
         boolean isEditable = rSyntaxTextArea.isEditable();
         rSyntaxTextArea.setEditable(!isEditable);
-        systemProperties.setValue(ApplicationContext.TEXTAREA_EDIT_STATE_KEY, String.valueOf(!isEditable));
+        applicationContext.setTextAreaEditState(!isEditable);
     }
 
     /**
@@ -384,7 +383,7 @@ public class MenuEventService {
     public static void lineSetupActionPerformed() {
         boolean breakLine = rSyntaxTextArea.getLineWrap();
         rSyntaxTextArea.setLineWrap(!breakLine);
-        systemProperties.setValue(ApplicationContext.TEXTAREA_BREAK_LINE_KEY, String.valueOf(!breakLine));
+        applicationContext.setTextAreaBreakLineState(!breakLine);
     }
 
     /**
@@ -395,7 +394,7 @@ public class MenuEventService {
     public static void showLineNumActionPerformed() {
         boolean lineNumbersEnabled = rTextScrollPane.getLineNumbersEnabled();
         rTextScrollPane.setLineNumbersEnabled(!lineNumbersEnabled);
-        systemProperties.setValue(ApplicationContext.TEXTAREA_SHOW_LINE_NUM_KEY, String.valueOf(!lineNumbersEnabled));
+        applicationContext.setTextAreaShowlineNumState(!lineNumbersEnabled);
     }
 
     /**
@@ -410,7 +409,7 @@ public class MenuEventService {
         // 菜单栏和工具按钮联动修改状态
         MenuBarBuilder.getShowToolBarMenuItem().setSelected(!showToolBar);
         PopupMenuBuilder.getInstance().getToolBarShowState().setSelected(!showToolBar);
-        systemProperties.setValue(ApplicationContext.SHOW_TOOL_BAR_KEY, String.valueOf(!showToolBar));
+        applicationContext.setShowToolBarState(!showToolBar);
     }
 
     /**
@@ -425,7 +424,7 @@ public class MenuEventService {
         // 菜单栏和工具按钮联动修改状态
         MenuBarBuilder.getShowMenuBarMenuItem().setSelected(!showMenuBar);
         PopupMenuBuilder.getInstance().getMenuBarShowState().setSelected(!showMenuBar);
-        systemProperties.setValue(ApplicationContext.SHOW_MENU_BAR_KEY, String.valueOf(!showMenuBar));
+        applicationContext.setShowMenuBarState(!showMenuBar);
     }
 
     /**
@@ -434,7 +433,7 @@ public class MenuEventService {
      * @param chineseConverMenu
      */
     public static void chineseConverActionPerformed(JMenu chineseConverMenu) {
-        int chineseConverState = NumberUtil.parseInt(systemProperties.getValue(ApplicationContext.TEXTAREA_CHINESE_CONVERT_STATE_KEY));
+        int chineseConverState = applicationContext.getChineseConverState();
         for (Component menuComponent : chineseConverMenu.getMenuComponents()) {
             if (menuComponent instanceof CHToCNRadioButtonMenuItem) {
                 CHToCNRadioButtonMenuItem chineseConverMenuItem = (CHToCNRadioButtonMenuItem) menuComponent;
@@ -442,8 +441,8 @@ public class MenuEventService {
                     chineseConverMenuItem.setSelected(true);
                 }
                 chineseConverMenuItem.addActionListener(e -> {
-                    systemProperties.setValue(ApplicationContext.TEXTAREA_CHINESE_CONVERT_STATE_KEY, String.valueOf(chineseConverMenuItem.getChineseConverState()));
                     rSyntaxTextArea.setChineseConverState(chineseConverMenuItem.getChineseConverState());
+                    applicationContext.setChineseConverState(chineseConverMenuItem.getChineseConverState());
                 });
             }
         }
@@ -456,7 +455,7 @@ public class MenuEventService {
      * @date 2023/12/16 22:13
      */
     public static void pictureQualityActionPerformed(JMenu pictureQualityMenu) {
-        int pictureQuality = NumberUtil.parseInt(systemProperties.getValue(ApplicationContext.SHARE_PICTURE_QUALITY_STATE_KEY));
+        int pictureQuality = applicationContext.getPictureQualityState();
         for (Component menuComponent : pictureQualityMenu.getMenuComponents()) {
             if (menuComponent instanceof JSONRadioButtonMenuItem) {
                 JSONRadioButtonMenuItem pictureQualityMenuitem = (JSONRadioButtonMenuItem) menuComponent;
@@ -464,8 +463,7 @@ public class MenuEventService {
                     pictureQualityMenuitem.setSelected(true);
                 }
                 pictureQualityMenuitem.addActionListener(e -> {
-                    systemProperties.setValue(ApplicationContext.SHARE_PICTURE_QUALITY_STATE_KEY, String.valueOf(pictureQualityMenuitem.getPictureQualityState()));
-                    pictureScale = pictureQualityMenuitem.getPictureQualityState();
+                    applicationContext.setPictureQualityState(pictureQualityMenuitem.getPictureQualityState());
                 });
             }
         }

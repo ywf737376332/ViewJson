@@ -16,9 +16,6 @@ public class SwingWorkerUtils<T, P extends T> {
 
     volatile private static SwingWorkerUtils instance = null;
 
-    static {
-    }
-
 
     private SwingWorkerUtils() {
         SwingWorker<Boolean, T> swingWorker = new SwingWorker<Boolean, T>() {

@@ -1,7 +1,11 @@
 package com.ywf.action;
 
-import com.ywf.framework.handle.ApplicationContext;
+import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.PropertiesUtil;
+import com.ywf.framework.utils.RelectionUtils;
+import com.ywf.pojo.ConfigurableApplicationContext;
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -15,12 +19,12 @@ import java.awt.event.WindowEvent;
  */
 public class FrameWindowCloseEventService extends WindowAdapter {
 
-    private PropertiesUtil systemProperties;
     private JFrame frame;
+    @Autowired
+    public static ConfigurableApplicationContext applicationContext;
 
     public FrameWindowCloseEventService(JFrame frame) {
         this.frame = frame;
-        this.systemProperties = PropertiesUtil.getInstance();
     }
 
     @Override
@@ -33,12 +37,22 @@ public class FrameWindowCloseEventService extends WindowAdapter {
             if ((frame.getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH) {
                 // 窗口最大换状态不记录屏幕大小
             } else {
-                systemProperties.setValue(ApplicationContext.SCREEN_SIZE_WIDTH_KEY, String.valueOf(frame.getWidth()));
-                systemProperties.setValue(ApplicationContext.SCREEN_SIZE_HEIGHT_KEY, String.valueOf(frame.getHeight()));
+                applicationContext.setScreenSize(new ConfigurableApplicationContext.ScreenSize(frame.getWidth(), frame.getHeight()));
+                // 退出应用时，保存所有配置项到本地
+                saveApplicationConfiguration();
             }
             frame.dispose();
             System.exit(0); // 退出程序
         }
+    }
+
+    /**
+     * 将APP运行参数保存到本地
+     */
+    private static void saveApplicationConfiguration(){
+        PropertiesUtil propertiesUtil = PropertiesUtil.getInstance();
+        PropertiesConfiguration targetProps = RelectionUtils.objectConvertProp(applicationContext);
+        propertiesUtil.store(SysConfigInit.getApplicationRunRootPath(), targetProps);
     }
 
 

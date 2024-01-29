@@ -5,7 +5,6 @@ import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.annotation.PropertySource;
 import com.ywf.framework.utils.PropertiesUtil;
 import com.ywf.framework.utils.RelectionUtils;
-import com.ywf.pojo.ConfigurableApplicationContext;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
@@ -82,16 +81,14 @@ public class ConfigLoadHandler {
      * @param fieldClassesAnno
      */
     private void fieldInstances(Object config, Set<Field> fieldClassesAnno) {
-        for (int i = 0; i < fieldClassesAnno.size(); i++) {
-            Iterator<Field> iterator = fieldClassesAnno.iterator();
-            while (iterator.hasNext()) {
-                Field field = iterator.next();
-                Class<?> declaringClass = field.getDeclaringClass();
-                try {
-                    field.set(declaringClass, config);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+        Iterator<Field> iterator = fieldClassesAnno.iterator();
+        while (iterator.hasNext()) {
+            Field field = iterator.next();
+            Class<?> declaringClass = field.getDeclaringClass();
+            try {
+                field.set(declaringClass, config);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
         }
     }

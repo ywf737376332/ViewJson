@@ -133,6 +133,16 @@ swing + flatlaf + rsyntaxtextarea
    ```
 10. 格式化JSON时，value值中的空格会被去除
 11. 全局字体大小调整(解决字体太大,导致界面显示不好看)
+
+#### 产品层面需要完善的清单(第十版)
+1. 全局字体设置
+2. 菜单、工具条,LOGO,图标名称全部放到Properties文件，可以默认编辑框的右键菜单
+3. 收藏夹功能，点击收藏时，弹出提示，输入收藏的名称，菜单栏增加收藏列表，可以用到表格组件
+4. 软件使用统计面板
+5. 弹框提示功能
+6. 打包exe，不依赖jdk
+
+
 ![输入图片说明](src/main/resources/images/1.0.png)
 ![输入图片说明](src/main/resources/images/2.0.png)
 ![输入图片说明](src/main/resources/images/3.0.png)

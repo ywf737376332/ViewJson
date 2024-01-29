@@ -27,7 +27,6 @@ public class SystemConstant implements Serializable {
     public static final String SYSTEM_THEMES_KEY = "lastSystemThemes"; // 最后一次选定的系统主题KEY
 
 
-
     /**
      * 保存文件扩展名
      */

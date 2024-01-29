@@ -15,7 +15,7 @@ import java.awt.*;
  */
 public class SystemTrayBuilder {
 
-    public static void createSystemTray(JFrame frame,PropertiesUtil systemProperties){
+    public static void createSystemTray(JFrame frame, PropertiesUtil systemProperties) {
         if (SystemTray.isSupported()) {
             try {
                 SystemTray tray = SystemTray.getSystemTray();
@@ -23,11 +23,11 @@ public class SystemTrayBuilder {
                 MenuItem exitItem = new MenuItem("Exit");
                 Image image = IconUtils.getIcon("/icons/logo10.png");
                 TrayIcon trayIcon = new TrayIcon(image, "JSON格式化工具", popup);
-                exitItem.addActionListener(e -> closeWindowsActionPerformed(frame,systemProperties));
+                exitItem.addActionListener(e -> closeWindowsActionPerformed(frame, systemProperties));
                 popup.add(exitItem);
                 trayIcon.setImageAutoSize(true);
                 trayIcon.addActionListener(e2 -> {
-                    if (trayIcon != null){
+                    if (trayIcon != null) {
                         SystemTray.getSystemTray().remove(trayIcon);
                     }
                     frame.setVisible(true);

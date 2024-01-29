@@ -25,9 +25,6 @@ public class PropertiesUtil {
     private PropertiesConfiguration properties;
     volatile private static PropertiesUtil instance = null;
 
-    static {
-    }
-
     private PropertiesUtil() {
         getPropertiesConfiguration();
     }

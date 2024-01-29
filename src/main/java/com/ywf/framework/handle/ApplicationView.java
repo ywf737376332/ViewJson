@@ -2,18 +2,17 @@ package com.ywf.framework.handle;
 
 import cn.hutool.core.lang.Assert;
 import com.ywf.framework.annotation.Autowired;
-
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.pojo.ConfigurableApplicationContext;
 import com.ywf.view.MainFrame;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.ywf.framework.handle.ApplicationContext.*;
 
 /**
  * 项目启动主类
@@ -23,8 +22,11 @@ import static com.ywf.framework.handle.ApplicationContext.*;
  */
 public class ApplicationView {
 
+    private static final Log LOG = LogFactory.getLog(ApplicationView.class);
+
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
+
     private static MainFrame applicationView;
     private ConfigLoadHandler configLoadHandler;
     private static final ConcurrentHashMap<Class<?>, Object> VIEW_SOURCES = new ConcurrentHashMap<>();
@@ -65,15 +67,23 @@ public class ApplicationView {
      */
     public ApplicationContext run() {
         // 创建界面
-        SwingUtilities.invokeLater(() -> {
-            applicationView.createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
-        });
+        try {
+            SwingUtilities.invokeLater(() -> {
+                applicationView.createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
+            });
+        } catch (Exception e) {
+            LOG.error("APP界面加载失败", e);
+        }
         return applicationContext;
     }
 
     private ApplicationView initThemesUI() {
-        SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
-        ChangeUIUtils.changeUIStyle(applicationView, themesStyles != null ? themesStyles : SystemThemesEnum.FlatLightLafThemesStyle);
+        try {
+            SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
+            ChangeUIUtils.changeUIStyle(applicationView, themesStyles != null ? themesStyles : SystemThemesEnum.FlatLightLafThemesStyle);
+        } catch (Exception e) {
+            LOG.error("初始化主题失败", e);
+        }
         return this;
     }
 

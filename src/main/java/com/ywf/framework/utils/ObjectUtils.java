@@ -10,14 +10,18 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ObjectUtils {
 
-    private static final ConcurrentHashMap<String, Object> PROTOTYPE_MAP = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Class<?>, Object> VIEW_SOURCES = new ConcurrentHashMap<>();
 
-    public static <T> T getPrototype(Class<?> clazz) {
-        return (T) PROTOTYPE_MAP.get(clazz.getName());
+    public static <T> T getBean(Class<?> clazz) {
+        return (T) VIEW_SOURCES.get(clazz);
     }
 
-    public static <T> T setPrototype(Class<?> clazz, T value) {
-        return (T) PROTOTYPE_MAP.put(clazz.getName(), value);
+    public static void setBean(Class<?> clazz, Object value) {
+        Object val = VIEW_SOURCES.get(clazz);
+        if (val == null) {
+            VIEW_SOURCES.put(clazz, value);
+        }
     }
+
 
 }

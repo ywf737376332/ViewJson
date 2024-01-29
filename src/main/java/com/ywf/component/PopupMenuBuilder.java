@@ -24,9 +24,6 @@ public class PopupMenuBuilder {
 
     volatile private static PopupMenuBuilder instance = null;
 
-    static {
-    }
-
     private PopupMenuBuilder() {
         contextMenu = new JPopupMenu();
         menuBarShowState = new JCheckBoxMenuItem("菜单栏");

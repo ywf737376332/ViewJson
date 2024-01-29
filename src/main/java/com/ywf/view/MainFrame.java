@@ -5,10 +5,10 @@ import com.ywf.action.FrameWindowCloseEventService;
 import com.ywf.action.WindowResizedEventService;
 import com.ywf.action.WindowStateEventService;
 import com.ywf.component.*;
+import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.handle.ApplicationContext;
-import com.ywf.framework.utils.PropertiesUtil;
+import com.ywf.pojo.ConfigurableApplicationContext;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
@@ -24,7 +24,8 @@ import java.awt.*;
 public class MainFrame extends JFrame {
     private JFrame _this = this;
 
-    private static PropertiesUtil systemProperties = PropertiesUtil.getInstance();
+    @Autowired
+    public static ConfigurableApplicationContext applicationContext;
 
     public void createAndShowGUI(String title) {
         setTitle(title);
@@ -32,7 +33,7 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
         int w = Toolkit.getDefaultToolkit().getScreenSize().width;
         int h = Toolkit.getDefaultToolkit().getScreenSize().height;
-        setSize(Integer.parseInt(systemProperties.getValue(ApplicationContext.SCREEN_SIZE_WIDTH_KEY)), Integer.parseInt(systemProperties.getValue(ApplicationContext.SCREEN_SIZE_HEIGHT_KEY)));
+        setSize(applicationContext.getScreenSize().getWidth(), applicationContext.getScreenSize().getHeight());
         setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
         setMinimumSize(new Dimension(SystemConstant.WINDOWS_MIN_WIDTH, SystemConstant.WINDOWS_MIN_HEIGHT));
         //设置图标
@@ -40,7 +41,6 @@ public class MainFrame extends JFrame {
         // 初始化界面
         initUI(_this);
         setVisible(true);
-        //pack();
     }
 
     private void initUI(JFrame frame) {
@@ -75,5 +75,11 @@ public class MainFrame extends JFrame {
 
     }
 
+    public JFrame get_this() {
+        return _this;
+    }
 
+    public void set_this(JFrame _this) {
+        this._this = _this;
+    }
 }

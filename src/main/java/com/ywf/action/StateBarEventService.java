@@ -32,9 +32,6 @@ public class StateBarEventService {
 
     volatile private static StateBarEventService instance = null;
 
-    static {
-    }
-
     private StateBarEventService() {
     }
 
