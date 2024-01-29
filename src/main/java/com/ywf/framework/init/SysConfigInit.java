@@ -72,38 +72,8 @@ public class SysConfigInit extends ApplicationContext {
         PropertiesConfiguration targetProps = RelectionUtils.objectConvertProp(application);
         propertiesUtil.store(rootPath, targetProps);*/
 
-        /**
-         * 判断文件是否存在，不存在，则直接Copy一份
-         */
-        // 编辑框是否可编辑
-        cashValue(TEXTAREA_EDIT_STATE_KEY, "true");
-        // 是否换行
-        cashValue(TEXTAREA_BREAK_LINE_KEY, "false");
-        // 是否转换中文
-        cashValue(TEXTAREA_CHINESE_CONVERT_STATE_KEY, StrUtil.toString(TextConvertEnum.CONVERT_CLOSED.getConverType()));
-        // 图片质量
-        cashValue(SHARE_PICTURE_QUALITY_STATE_KEY, StrUtil.toString(PictureQualityEnum.MIDDLE_PICTURE_QUALITY.getPictureQualityState()));
-        // 是否显示行号
-        cashValue(TEXTAREA_SHOW_LINE_NUM_KEY, "false");
-        // 显示工具栏
-        cashValue(SHOW_TOOL_BAR_KEY, "true");
-        cashValue(SHOW_MENU_BAR_KEY, "true");
-        // 屏幕尺寸大小初始化
-        cashValue(SCREEN_SIZE_WIDTH_KEY, StrUtil.toString(SystemConstant.WINDOWS_MIN_WIDTH));
-        cashValue(SCREEN_SIZE_HEIGHT_KEY, StrUtil.toString(SystemConstant.WINDOWS_MIN_HEIGHT));
-        // 主题初始化
-        cashValue(SystemConstant.SYSTEM_THEMES_KEY, SystemThemesEnum.FlatLightLafThemesStyle.getThemesKey());
 
 
-    }
 
-    private static boolean isExists(String key) {
-        return StrUtil.isEmpty(systemProperties.getValue(key));
-    }
-
-    private static void cashValue(String key, String value) {
-        if (isExists(key)) {
-            systemProperties.setValue(key, value);
-        }
     }
 }
