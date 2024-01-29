@@ -1,7 +1,6 @@
 package com.ywf.component;
 
-import com.ywf.framework.constant.PropsConstant;
-import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.handle.ApplicationContext;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.PropertiesUtil;
 
@@ -50,8 +49,8 @@ public class SystemTrayBuilder {
                 JOptionPane.YES_NO_OPTION);
         if (confirmed == JOptionPane.YES_OPTION) {
             // 屏幕尺寸大小保存
-            systemProperties.setValue(PropsConstant.SCREEN_SIZE_WIDTH_KEY, String.valueOf(frame.getWidth()));
-            systemProperties.setValue(PropsConstant.SCREEN_SIZE_HEIGHT_KEY, String.valueOf(frame.getHeight()));
+            systemProperties.setValue(ApplicationContext.SCREEN_SIZE_WIDTH_KEY, String.valueOf(frame.getWidth()));
+            systemProperties.setValue(ApplicationContext.SCREEN_SIZE_HEIGHT_KEY, String.valueOf(frame.getHeight()));
             frame.dispose();
         }
     }

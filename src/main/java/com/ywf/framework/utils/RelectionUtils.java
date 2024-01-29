@@ -2,10 +2,7 @@ package com.ywf.framework.utils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,7 +12,7 @@ import java.util.Date;
  * @Author YWF
  * @Date 2024/1/28 13:47
  */
-public class RelectionUtils<T> {
+public class RelectionUtils {
 
     /**
      * 设置数据类对象的属性
@@ -211,9 +208,11 @@ public class RelectionUtils<T> {
         return isSuccess;
     }
 
-    private static <T> Object constructInstance(Class<T> clazz) {
+    public static <T> T constructInstance(Class<T> clazz) {
         try {
-            return clazz.getConstructor().newInstance();
+            Constructor<T> constructor = clazz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            return (T)constructor.newInstance();
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException e) {
             throw new RuntimeException("当前 [" + clazz.getName() + "] 类缺少默认的构造方法");

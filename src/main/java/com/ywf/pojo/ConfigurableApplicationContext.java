@@ -1,6 +1,7 @@
 package com.ywf.pojo;
 
 import com.ywf.framework.annotation.PropertySource;
+import com.ywf.framework.handle.ApplicationContext;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,7 +13,7 @@ import java.util.Objects;
  * @Date 2024/1/27 15:13
  */
 @PropertySource(value = "jsonView.properties")
-public class ApplicationConfig implements Serializable {
+public class ConfigurableApplicationContext extends ApplicationContext implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -61,6 +62,9 @@ public class ApplicationConfig implements Serializable {
                     ", height=" + height +
                     '}';
         }
+    }
+
+    public ConfigurableApplicationContext() {
     }
 
     public Boolean getTextAreaEditState() {
@@ -154,7 +158,7 @@ public class ApplicationConfig implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ApplicationConfig user = (ApplicationConfig) o;
+        ConfigurableApplicationContext user = (ConfigurableApplicationContext) o;
         return Objects.equals(textAreaEditState, user.textAreaEditState) && Objects.equals(textAreaBreakLineState, user.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, user.textAreaShowlineNumState) && Objects.equals(showToolBarState, user.showToolBarState) && Objects.equals(showMenuBarState, user.showMenuBarState) && Objects.equals(lastSystemThemes, user.lastSystemThemes) && Objects.equals(chineseConverState, user.chineseConverState) && Objects.equals(pictureQualityState, user.pictureQualityState) && Objects.equals(screenSize, user.screenSize);
     }
 

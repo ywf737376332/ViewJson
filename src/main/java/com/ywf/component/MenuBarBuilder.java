@@ -2,9 +2,9 @@ package com.ywf.component;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
-import com.ywf.framework.constant.PropsConstant;
 import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.TextConvertEnum;
+import com.ywf.framework.handle.ApplicationContext;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.PropertiesUtil;
 
@@ -20,7 +20,7 @@ import java.awt.event.KeyEvent;
  */
 public class MenuBarBuilder {
 
-    private static PropertiesUtil systemProperties = PropertiesUtil.instance();
+    private static PropertiesUtil systemProperties = PropertiesUtil.getInstance();
 
     private static JMenuBar menuBar;
     private static JCheckBoxMenuItem showToolBarMenuItem;
@@ -76,15 +76,15 @@ public class MenuBarBuilder {
 
         JMenu setupMenu = new JMenu("设置");
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
-        editSetupMenuItem.setSelected(!Boolean.valueOf(systemProperties.getValue(PropsConstant.TEXTAREA_EDIT_STATE_KEY)));
+        editSetupMenuItem.setSelected(!Boolean.valueOf(systemProperties.getValue(ApplicationContext.TEXTAREA_EDIT_STATE_KEY)));
         editSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().editSwitchActionPerformed());
 
         JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("自动换行");
-        lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.TEXTAREA_BREAK_LINE_KEY)));
+        lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.TEXTAREA_BREAK_LINE_KEY)));
         lineSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().lineSetupActionPerformed());
 
         JCheckBoxMenuItem showlineNumMenuItem = new JCheckBoxMenuItem("显示行号");
-        showlineNumMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.TEXTAREA_SHOW_LINE_NUM_KEY)));
+        showlineNumMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.TEXTAREA_SHOW_LINE_NUM_KEY)));
         showlineNumMenuItem.addActionListener(e -> MenuEventService.getInstance().showLineNumActionPerformed());
 
         JMenu pictureQualityMenu = new JMenu("图片质量");
@@ -101,11 +101,11 @@ public class MenuBarBuilder {
         MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);
 
         showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
-        showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_TOOL_BAR_KEY)));
+        showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.SHOW_TOOL_BAR_KEY)));
         showToolBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
 
         showMenuBarMenuItem = new JCheckBoxMenuItem("显示菜单栏");
-        showMenuBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_MENU_BAR_KEY)));
+        showMenuBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.SHOW_MENU_BAR_KEY)));
         showMenuBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
 
         JMenu facadeMenu = new JMenu("外观菜单");
@@ -201,7 +201,7 @@ public class MenuBarBuilder {
         menuBar.add(setupMenu);
         menuBar.add(themesMenu);
         menuBar.add(helpMenu);
-        menuBar.setVisible(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_MENU_BAR_KEY)));
+        menuBar.setVisible(Boolean.valueOf(systemProperties.getValue(ApplicationContext.SHOW_MENU_BAR_KEY)));
         return menuBar;
     }
 

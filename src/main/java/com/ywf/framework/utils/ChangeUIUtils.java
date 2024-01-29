@@ -49,7 +49,7 @@ public class ChangeUIUtils {
             // 菜单主题应用
             SwingUtilities.updateComponentTreeUI(PopupMenuBuilder.getInstance().getContextMenu());
         }
-        if (DialogBuilder.getFindDialog() != null){
+        if (DialogBuilder.getFindDialog() != null) {
             // 查找对话框主题应用
             SwingUtilities.updateComponentTreeUI(DialogBuilder.getFindDialog());
         }

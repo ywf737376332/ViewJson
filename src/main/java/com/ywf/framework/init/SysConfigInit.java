@@ -1,11 +1,11 @@
 package com.ywf.framework.init;
 
 import cn.hutool.core.util.StrUtil;
-import com.ywf.framework.constant.PropsConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
+import com.ywf.framework.handle.ApplicationContext;
 import com.ywf.framework.utils.PropertiesUtil;
 
 import java.io.File;
@@ -18,17 +18,17 @@ import java.util.Date;
  * @Author YWF
  * @Date 2023/12/2 22:23
  */
-public class SysConfigInit extends PropsConstant {
+public class SysConfigInit extends ApplicationContext {
 
-    private static PropertiesUtil systemProperties = PropertiesUtil.instance();
+    private static PropertiesUtil systemProperties = PropertiesUtil.getInstance();
     public final static Date startTime = new Date();
 
 
-    public static void initSysConfig() {
+    public static void initConfigToApplicationRunRoot() {
         // 系统配置文件初始化
-        configFileInit(getSysConfigFilePath());
+        configFileInit(getApplicationRunRootPath());
         // 系统配置属性初始化
-        configInitInit();
+        appRootConfigInitInit();
     }
 
     private static void configFileInit(String configFilePath) {
@@ -53,7 +53,7 @@ public class SysConfigInit extends PropsConstant {
      *
      * @date 2023/12/3 20:04
      */
-    public static String getSysConfigFilePath() {
+    public static String getApplicationRunRootPath() {
         // 获取用户目录
         String userHome = SYSTEM_CONFIG_HOME;
         // 创建文件夹路径
@@ -65,7 +65,16 @@ public class SysConfigInit extends PropsConstant {
     /**
      * 首次启动时加载配置文件并设置组件的属性值
      */
-    private static void configInitInit() {
+    private static void appRootConfigInitInit() {
+
+        /*ConfigurableApplicationContext application = (ConfigurableApplicationContext)instanceObject;
+        application.setScreenSize(new ConfigurableApplicationContext.ScreenSize(500, 200));
+        PropertiesConfiguration targetProps = RelectionUtils.objectConvertProp(application);
+        propertiesUtil.store(rootPath, targetProps);*/
+
+        /**
+         * 判断文件是否存在，不存在，则直接Copy一份
+         */
         // 编辑框是否可编辑
         cashValue(TEXTAREA_EDIT_STATE_KEY, "true");
         // 是否换行

@@ -1,7 +1,6 @@
 package com.ywf.action;
 
-import com.ywf.framework.constant.PropsConstant;
-import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.handle.ApplicationContext;
 import com.ywf.framework.utils.PropertiesUtil;
 
 import javax.swing.*;
@@ -21,7 +20,7 @@ public class FrameWindowCloseEventService extends WindowAdapter {
 
     public FrameWindowCloseEventService(JFrame frame) {
         this.frame = frame;
-        this.systemProperties = PropertiesUtil.instance();
+        this.systemProperties = PropertiesUtil.getInstance();
     }
 
     @Override
@@ -34,8 +33,8 @@ public class FrameWindowCloseEventService extends WindowAdapter {
             if ((frame.getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH) {
                 // 窗口最大换状态不记录屏幕大小
             } else {
-                systemProperties.setValue(PropsConstant.SCREEN_SIZE_WIDTH_KEY, String.valueOf(frame.getWidth()));
-                systemProperties.setValue(PropsConstant.SCREEN_SIZE_HEIGHT_KEY, String.valueOf(frame.getHeight()));
+                systemProperties.setValue(ApplicationContext.SCREEN_SIZE_WIDTH_KEY, String.valueOf(frame.getWidth()));
+                systemProperties.setValue(ApplicationContext.SCREEN_SIZE_HEIGHT_KEY, String.valueOf(frame.getHeight()));
             }
             frame.dispose();
             System.exit(0); // 退出程序

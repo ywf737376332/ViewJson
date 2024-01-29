@@ -131,6 +131,8 @@ swing + flatlaf + rsyntaxtextarea
    如果存在，注入到全局属性，供各组件使用，在系统关闭时，保存当
    前实体类的内容到系统目录的磁盘
    ```
+10. 格式化JSON时，value值中的空格会被去除
+11. 全局字体大小调整(解决字体太大,导致界面显示不好看)
 ![输入图片说明](src/main/resources/images/1.0.png)
 ![输入图片说明](src/main/resources/images/2.0.png)
 ![输入图片说明](src/main/resources/images/3.0.png)

@@ -1,4 +1,4 @@
-package com.ywf.framework.constant;
+package com.ywf.framework.handle;
 
 import java.io.File;
 import java.io.Serializable;
@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @Author YWF
  * @Date 2023/12/2 18:23
  */
-public class PropsConstant implements Serializable {
+public class ApplicationContext implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,8 +28,8 @@ public class PropsConstant implements Serializable {
     public static final String TEXTAREA_SHOW_LINE_NUM_KEY = "textAreaShowlineNumState"; // 文本编辑器是否可换行KEY
     public static final String SHOW_TOOL_BAR_KEY = "showToolBarState"; // 是否显示工具栏KEY
     public static final String SHOW_MENU_BAR_KEY = "showMenuBarState"; // 是否显示菜单栏KEY
-    public static final String SCREEN_SIZE_WIDTH_KEY = "screenSizeKey.width"; // 屏幕大小记录KEY
-    public static final String SCREEN_SIZE_HEIGHT_KEY = "screenSizeKey.height"; // 屏幕大小记录KEY
+    public static final String SCREEN_SIZE_WIDTH_KEY = "screenSize.width"; // 屏幕大小记录KEY
+    public static final String SCREEN_SIZE_HEIGHT_KEY = "screenSize.height"; // 屏幕大小记录KEY
     public static final String TEXTAREA_CHINESE_CONVERT_STATE_KEY = "chineseConverState"; // 中文转Unicode
     public static final String SHARE_PICTURE_QUALITY_STATE_KEY = "pictureQualityState"; // 图片质量
 

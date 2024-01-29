@@ -2,7 +2,7 @@ package com.ywf.component;
 
 import com.ywf.action.MenuEventService;
 import com.ywf.action.QRCodeEventService;
-import com.ywf.framework.constant.PropsConstant;
+import com.ywf.framework.handle.ApplicationContext;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.PropertiesUtil;
 
@@ -18,7 +18,7 @@ import java.awt.*;
  */
 public class ToolBarBuilder {
 
-    private static PropertiesUtil systemProperties = PropertiesUtil.instance();
+    private static PropertiesUtil systemProperties = PropertiesUtil.getInstance();
     private static JToolBar toolBar;
     private static JButton btnFormat;
     private static JButton btnComp;
@@ -98,7 +98,7 @@ public class ToolBarBuilder {
         // 将默认大小的分隔符添加到工具栏的末尾
         toolBar.addSeparator();
         toolBar.add(btnClean);
-        toolBar.setVisible(Boolean.valueOf(systemProperties.getValue(PropsConstant.SHOW_TOOL_BAR_KEY)));
+        toolBar.setVisible(Boolean.valueOf(systemProperties.getValue(ApplicationContext.SHOW_TOOL_BAR_KEY)));
         return toolBar;
     }
 
