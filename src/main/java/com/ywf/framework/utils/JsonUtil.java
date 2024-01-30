@@ -1,14 +1,12 @@
 package com.ywf.framework.utils;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.XmlUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.ywf.framework.enums.TextTypeEnum;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -36,7 +34,7 @@ public class JsonUtil {
      */
     public static String formatJson(String jsonStr) {
         // 替换空格、制表符和换行符，并在':'后面加空格
-        String json = compressingStr(jsonStr).replaceAll(":(?!\\s)", ":  ");
+        String json = compressingStr(jsonStr).replaceAll(":(?!\\s)", ":");
         StringBuffer result = new StringBuffer();
         int length = json.length();
         int number = 0;
@@ -167,7 +165,7 @@ public class JsonUtil {
         return StringEscapeUtils.escapeJavaScript(compressingStr(jsonStr));
     }
 
-    public static String contentFormat(TextTypeEnum type,String content){
+    public static String contentFormat(TextTypeEnum type, String content) {
         String result = null;
         switch (type) {
             case JSON:
@@ -190,8 +188,8 @@ public class JsonUtil {
     /**
      * 格式化xml
      *
-     * @param xmlString xml内容
-     * @param indent 向前缩进多少空格
+     * @param xmlString         xml内容
+     * @param indent            向前缩进多少空格
      * @param ignoreDeclaration 是否忽略描述
      * @return 格式化后的xml
      */
@@ -217,18 +215,18 @@ public class JsonUtil {
 
     /**
      * 判断内容类型
-     * @date 2024/1/21 19:55
      *
      * @param content
+     * @date 2024/1/21 19:55
      */
-    public static TextTypeEnum isType(String content){
-        if (isJsonString(content)){
+    public static TextTypeEnum isType(String content) {
+        if (isJsonString(content)) {
             return TextTypeEnum.JSON;
         } else if (isURL(content)) {
             return TextTypeEnum.URL;
         } else if (isText(content)) {
             return TextTypeEnum.TEXT;
-        }else if (isXML(content)) {
+        } else if (isXML(content)) {
             return TextTypeEnum.XML;
         }
         return TextTypeEnum.TEXT;
@@ -245,16 +243,16 @@ public class JsonUtil {
         if (StrUtil.isBlank(content)) {
             return true;
         }
-        if(text.contains("\\")){
+        if (text.contains("\\")) {
             return true;
         }
-        if(text.startsWith("<") && text.endsWith(">")){
+        if (text.startsWith("<") && text.endsWith(">")) {
             return false;
         }
-        if(text.startsWith("{") && text.endsWith("}")){
+        if (text.startsWith("{") && text.endsWith("}")) {
             return false;
         }
-        if(text.startsWith("http")){
+        if (text.startsWith("http")) {
             return false;
         }
         return true;
@@ -303,7 +301,7 @@ public class JsonUtil {
     private static boolean isXML(String content) {
         String text = compressingStr(content);
         try {
-            if(text.startsWith("<") && text.endsWith(">")){
+            if (text.startsWith("<") && text.endsWith(">")) {
                 // 防止XXE攻击，禁用DTD加载
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                 dbFactory.setNamespaceAware(false);

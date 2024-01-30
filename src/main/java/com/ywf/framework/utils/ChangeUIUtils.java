@@ -1,5 +1,6 @@
 package com.ywf.framework.utils;
 
+import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.IntelliJTheme;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.ywf.component.MenuBarBuilder;
@@ -38,7 +39,16 @@ public class ChangeUIUtils {
         initGlobalTheme(themesStyles);
         // 其他个别组件主题应用
         initGlobalOtherTheme(frame);
-        // 过渡动画
+        // 更新UI
+        updateViewUI();
+    }
+
+    /**
+     * 更新当前UI的外观
+     * 隐藏动画快照，以确保在更新过程中不会出现闪烁或不连贯的视觉效果,可以提供更平滑和一致的用户体验
+     */
+    public static void updateViewUI() {
+        FlatLaf.updateUI();
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 
@@ -97,30 +107,14 @@ public class ChangeUIUtils {
         }
     }
 
-
     /**
-     * 系统组件整体样式定义
-     *
-     * @date 2023/12/2 15:35
+     * 获取系统字体列表
      */
-    public static void uiStyleInit() {
-        //滚动条的默认宽度为 。要使它们更宽（或更小），请使用：10
-        UIManager.put("ScrollBar.width", 0);
-        UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-        //默认情况下，滚动条的上一个/下一个箭头按钮处于隐藏状态。要使 它们对应用程序使用中的所有滚动条可见：
-        UIManager.put("ScrollBar.showButtons", true);
-        //按钮组件的弧度
-        UIManager.put("ProgressBar.arc", 0);
-        UIManager.put("Button.arc", 0);
-        UIManager.put("Component.arc", 0);
-        UIManager.put("TextComponent.arc", 0);
-        //聚焦组件的特殊边框表示聚焦状态
-        UIManager.put("Component.focusWidth", 0);
-        //控制右侧滑块
-        UIManager.put("ScrollBar.trackArc", 0);
-        UIManager.put("ScrollBar.thumbArc", 0);
-        UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
-        UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-        UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
+    public static void getSystemFonts() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        String[] availableFontFamilyNames = ge.getAvailableFontFamilyNames();
+        for (String fontFamilyName : availableFontFamilyNames) {
+            System.out.println("fontFamilyName:" + fontFamilyName);
+        }
     }
 }

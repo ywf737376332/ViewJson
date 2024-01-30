@@ -6,7 +6,6 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.demo.PoPupFindPanel;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
@@ -95,8 +94,10 @@ public class MenuEventService {
                 String formatAfterText = null;
                 switch (TextConvertEnum.findConverEnumByState(converState)) {
                     case CH_TO_UN:
-                        formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toUnicode(text));
-                        System.out.println("中文转：" + text);
+                        // 1.先替换回车后面的空格
+                        // 2.再替换回车和换行，
+                        text = UnicodeUtil.toUnicode(text.replaceAll( "(?<=\\n)[ \\t]+","").replaceAll("[\\t\\n\\r]", ""));
+                        formatAfterText = JsonUtil.contentFormat(textType,text);
                         break;
                     case UN_TO_CH:
                         formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toString(text));
@@ -481,5 +482,21 @@ public class MenuEventService {
         FindPanelBuilder.getLayout().showHideActionPerformed();
     }
 
+    /**
+     * 设置系统字体
+     * @param fontSetMenu
+     */
+    public static void applyFontActionPerformed(JMenu fontSetMenu){
+        Component[] menuComponent = fontSetMenu.getMenuComponents();
+        for (int i = 0; i < menuComponent.length; i++) {
+            if (menuComponent[i] instanceof JRadioButtonMenuItem) {
+                JRadioButtonMenuItem jRadioButtonMenuItem = (JRadioButtonMenuItem) menuComponent[i];
+                jRadioButtonMenuItem.addActionListener(e -> {
+                    ChangeUIUtils.initGlobalFont(new Font(jRadioButtonMenuItem.getText(), Font.PLAIN, 12));
+                    ChangeUIUtils.updateViewUI();
+                });
+            }
+        }
+    }
 
 }

@@ -4,15 +4,11 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.enums.PictureQualityEnum;
-import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
-import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.pojo.ConfigurableApplicationContext;
 
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -82,6 +78,7 @@ public class MenuBarBuilder {
         JMenu setupMenu = new JMenu("设置");
         JMenu fontSetMenu = new JMenu("界面字体");
         initFontMenu(fontSetMenu);
+        MenuEventService.getInstance().applyFontActionPerformed(fontSetMenu);
 
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
         editSetupMenuItem.setSelected(applicationContext.getTextAreaEditState());
@@ -216,9 +213,10 @@ public class MenuBarBuilder {
 
     private static void initFontMenu(JMenu fontSetMenu) {
         JRadioButtonMenuItem micYaHeiFontMenuItem = new JRadioButtonMenuItem("微软雅黑");
-        JRadioButtonMenuItem christmasWorshipFontMenuItem = new JRadioButtonMenuItem("小米兰亭");
-        JRadioButtonMenuItem arialFontMenuItem = new JRadioButtonMenuItem("等线");
-        JRadioButtonMenuItem blackLetterFontMenuItem = new JRadioButtonMenuItem("黑体");
+        micYaHeiFontMenuItem.setEnabled(true);
+        JRadioButtonMenuItem christmasWorshipFontMenuItem = new JRadioButtonMenuItem("华文中宋");
+        JRadioButtonMenuItem arialFontMenuItem = new JRadioButtonMenuItem("黑体");
+        JRadioButtonMenuItem blackLetterFontMenuItem = new JRadioButtonMenuItem("等线");
         ButtonGroup fontButtonGroup = new ButtonGroup();
         fontButtonGroup.add(micYaHeiFontMenuItem);
         fontButtonGroup.add(christmasWorshipFontMenuItem);
@@ -228,17 +226,6 @@ public class MenuBarBuilder {
         fontSetMenu.add(christmasWorshipFontMenuItem);
         fontSetMenu.add(arialFontMenuItem);
         fontSetMenu.add(blackLetterFontMenuItem);
-
-        Component[] menuComponent = fontSetMenu.getMenuComponents();
-        for (int i = 0; i < menuComponent.length; i++) {
-            if (menuComponent[i] instanceof JRadioButtonMenuItem) {
-                JRadioButtonMenuItem jRadioButtonMenuItem = (JRadioButtonMenuItem) menuComponent[i];
-                jRadioButtonMenuItem.addActionListener(e -> {
-                    System.out.println("JRadioButtonMenuItem:" + jRadioButtonMenuItem.getText() + "是否选中:" + jRadioButtonMenuItem.isSelected());
-                    ChangeUIUtils.initGlobalFont(new Font(jRadioButtonMenuItem.getText(), Font.PLAIN, 14));
-                });
-            }
-        }
     }
 
     public static JMenuBar getMenuBar() {
