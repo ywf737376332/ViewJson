@@ -68,7 +68,7 @@ public class DemoTabble002 extends JFrame {
 
         JToolBar toolBar = new JToolBar("工具栏");
         JButton btnNew = new JButton("新建");
-        btnNew.setIcon(IconUtils.getSVGIcon("icons/layoutOne.svg"));
+        btnNew.setIcon(IconUtils.getSVGIcon("icons/newEditer.svg"));
         btnNew.addActionListener(e -> createNewTabActionPerformed());
 
         JButton btnFormat = new JButton("格式化");

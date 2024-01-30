@@ -2,8 +2,8 @@ package com.ywf.component;
 
 import com.ywf.action.MenuEventService;
 import com.ywf.action.QRCodeEventService;
-import com.ywf.framework.handle.ApplicationContext;
-import com.ywf.framework.utils.PropertiesUtil;
+import com.ywf.framework.annotation.Autowired;
+import com.ywf.pojo.ConfigurableApplicationContext;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -11,13 +11,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * TODO
+ * 软件界面右键菜单
  *
  * @Author YWF
  * @Date 2023/12/10 14:13
  */
 public class PopupMenuBuilder {
-    private static PropertiesUtil systemProperties = PropertiesUtil.getInstance();
+    @Autowired
+    public static ConfigurableApplicationContext applicationContext;
+
     private JPopupMenu contextMenu;
     private MouseListener popupListener;
     private JCheckBoxMenuItem menuBarShowState, toolBarShowState;
@@ -27,10 +29,10 @@ public class PopupMenuBuilder {
     private PopupMenuBuilder() {
         contextMenu = new JPopupMenu();
         menuBarShowState = new JCheckBoxMenuItem("菜单栏");
-        menuBarShowState.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.SHOW_MENU_BAR_KEY)));
+        menuBarShowState.setSelected(applicationContext.getShowMenuBarState());
         menuBarShowState.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
         toolBarShowState = new JCheckBoxMenuItem("工具栏");
-        toolBarShowState.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.SHOW_TOOL_BAR_KEY)));
+        toolBarShowState.setSelected(applicationContext.getShowToolBarState());
         toolBarShowState.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
         contextMenu.add(menuBarShowState);
         contextMenu.addSeparator();
@@ -50,21 +52,25 @@ public class PopupMenuBuilder {
     }
 
     //添加内部类，其扩展了MouseAdapter类，用来处理鼠标事件
-    class PopupListener extends MouseAdapter{
+    class PopupListener extends MouseAdapter {
         JPopupMenu popupMenu;
-        PopupListener(JPopupMenu popupMenu){
-            this.popupMenu=popupMenu;
+
+        PopupListener(JPopupMenu popupMenu) {
+            this.popupMenu = popupMenu;
         }
-        public void mousePressed(MouseEvent e){
+
+        public void mousePressed(MouseEvent e) {
             showPopupMenu(e);
         }
-        public void mouseReleased(MouseEvent e){
+
+        public void mouseReleased(MouseEvent e) {
             showPopupMenu(e);
         }
-        private void showPopupMenu(MouseEvent e){
-            if(SwingUtilities.isRightMouseButton(e)){
+
+        private void showPopupMenu(MouseEvent e) {
+            if (SwingUtilities.isRightMouseButton(e)) {
                 //如果当前事件与鼠标事件相关，则弹出菜单
-                popupMenu.show(e.getComponent(),e.getX(),e.getY());
+                popupMenu.show(e.getComponent(), e.getX(), e.getY());
             }
         }
     }

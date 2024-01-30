@@ -80,7 +80,7 @@ public class ApplicationView {
     private ApplicationView initThemesUI() {
         try {
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
-            ChangeUIUtils.changeUIStyle(applicationView, themesStyles != null ? themesStyles : SystemThemesEnum.FlatLightLafThemesStyle);
+            ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
         } catch (Exception e) {
             LOG.error("初始化主题失败", e);
         }

@@ -37,7 +37,7 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
     public static class NewEditorAction extends RecordableTextAction {
         public NewEditorAction() {
             //super(RsTextAreaEditorKit.newEditorAction);
-            super(RsTextAreaEditorKit.newEditorAction,IconUtils.getSVGIcon("icons/layoutOne.svg"), null, null, null);
+            super(RsTextAreaEditorKit.newEditorAction,IconUtils.getSVGIcon("icons/newEditer.svg"), null, null, null);
         }
         @Override
         public void actionPerformedImpl(ActionEvent e, RTextArea textArea) {

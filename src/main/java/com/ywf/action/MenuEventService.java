@@ -6,6 +6,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.demo.PoPupFindPanel;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
@@ -95,7 +96,7 @@ public class MenuEventService {
                 switch (TextConvertEnum.findConverEnumByState(converState)) {
                     case CH_TO_UN:
                         formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toUnicode(text));
-                        System.out.println("中文转："+text);
+                        System.out.println("中文转：" + text);
                         break;
                     case UN_TO_CH:
                         formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toString(text));
@@ -476,7 +477,6 @@ public class MenuEventService {
      * @param title 打开的窗口标题名称
      */
     public static void showFindDialogActionPerformed(JFrame frame, String title) {
-        //DialogBuilder.showFindDialog(frame, rSyntaxTextArea, title).setVisible(true);
         //PoPupFindPanel.getInstance().showPopup(rSyntaxTextArea);
         FindPanelBuilder.getLayout().showHideActionPerformed();
     }

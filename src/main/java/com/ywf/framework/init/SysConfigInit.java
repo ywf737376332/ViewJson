@@ -1,12 +1,6 @@
 package com.ywf.framework.init;
 
-import cn.hutool.core.util.StrUtil;
-import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.enums.PictureQualityEnum;
-import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.handle.ApplicationContext;
-import com.ywf.framework.utils.PropertiesUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +14,6 @@ import java.util.Date;
  */
 public class SysConfigInit extends ApplicationContext {
 
-    private static PropertiesUtil systemProperties = PropertiesUtil.getInstance();
     public final static Date startTime = new Date();
 
 
@@ -71,8 +64,6 @@ public class SysConfigInit extends ApplicationContext {
         application.setScreenSize(new ConfigurableApplicationContext.ScreenSize(500, 200));
         PropertiesConfiguration targetProps = RelectionUtils.objectConvertProp(application);
         propertiesUtil.store(rootPath, targetProps);*/
-
-
 
 
     }

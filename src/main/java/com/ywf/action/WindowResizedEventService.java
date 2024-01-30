@@ -1,6 +1,5 @@
 package com.ywf.action;
 
-import com.ywf.component.DialogBuilder;
 import com.ywf.component.TextAreaBuilder;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -42,9 +41,5 @@ public class WindowResizedEventService extends ComponentAdapter {
      */
     private void movedWindwos() {
         Point tslPoint = rTextScrollPane.getLocationOnScreen();
-        JDialog findDialog = DialogBuilder.getFindDialog();
-        if (findDialog != null) {
-            findDialog.setLocation(tslPoint.x + rTextScrollPane.getWidth() - findDialog.getWidth() - 11, tslPoint.y + 1);
-        }
     }
 }

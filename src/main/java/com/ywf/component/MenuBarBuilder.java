@@ -2,13 +2,17 @@ package com.ywf.component;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
+import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.enums.PictureQualityEnum;
+import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
-import com.ywf.framework.handle.ApplicationContext;
+import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.IconUtils;
-import com.ywf.framework.utils.PropertiesUtil;
+import com.ywf.pojo.ConfigurableApplicationContext;
 
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -20,7 +24,8 @@ import java.awt.event.KeyEvent;
  */
 public class MenuBarBuilder {
 
-    private static PropertiesUtil systemProperties = PropertiesUtil.getInstance();
+    @Autowired
+    public static ConfigurableApplicationContext applicationContext;
 
     private static JMenuBar menuBar;
     private static JCheckBoxMenuItem showToolBarMenuItem;
@@ -33,7 +38,7 @@ public class MenuBarBuilder {
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("文件");
         JMenuItem newTabMenuItem = new JMenuItem("新建");
-        newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/open.svg", 12, 12));
+        newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/newEditer.svg", 12, 12));
         newTabMenuItem.setEnabled(false);
         JMenuItem savePictMenuItem = new JMenuItem("导出图片");
         savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/exportPict.svg", 12, 12));
@@ -75,16 +80,19 @@ public class MenuBarBuilder {
 
 
         JMenu setupMenu = new JMenu("设置");
+        JMenu fontSetMenu = new JMenu("界面字体");
+        initFontMenu(fontSetMenu);
+
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
-        editSetupMenuItem.setSelected(!Boolean.valueOf(systemProperties.getValue(ApplicationContext.TEXTAREA_EDIT_STATE_KEY)));
+        editSetupMenuItem.setSelected(applicationContext.getTextAreaEditState());
         editSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().editSwitchActionPerformed());
 
         JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("自动换行");
-        lineSetupMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.TEXTAREA_BREAK_LINE_KEY)));
+        lineSetupMenuItem.setSelected(applicationContext.getTextAreaBreakLineState());
         lineSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().lineSetupActionPerformed());
 
         JCheckBoxMenuItem showlineNumMenuItem = new JCheckBoxMenuItem("显示行号");
-        showlineNumMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.TEXTAREA_SHOW_LINE_NUM_KEY)));
+        showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
         showlineNumMenuItem.addActionListener(e -> MenuEventService.getInstance().showLineNumActionPerformed());
 
         JMenu pictureQualityMenu = new JMenu("图片质量");
@@ -101,11 +109,11 @@ public class MenuBarBuilder {
         MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);
 
         showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
-        showToolBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.SHOW_TOOL_BAR_KEY)));
+        showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());
         showToolBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
 
         showMenuBarMenuItem = new JCheckBoxMenuItem("显示菜单栏");
-        showMenuBarMenuItem.setSelected(Boolean.valueOf(systemProperties.getValue(ApplicationContext.SHOW_MENU_BAR_KEY)));
+        showMenuBarMenuItem.setSelected(applicationContext.getShowMenuBarState());
         showMenuBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
 
         JMenu facadeMenu = new JMenu("外观菜单");
@@ -126,6 +134,7 @@ public class MenuBarBuilder {
         chineseConverMenu.add(unicodeConverChineseMenuItem);
         MenuEventService.getInstance().chineseConverActionPerformed(chineseConverMenu);
 
+        setupMenu.add(fontSetMenu);
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
         setupMenu.add(showlineNumMenuItem);
@@ -201,8 +210,35 @@ public class MenuBarBuilder {
         menuBar.add(setupMenu);
         menuBar.add(themesMenu);
         menuBar.add(helpMenu);
-        menuBar.setVisible(Boolean.valueOf(systemProperties.getValue(ApplicationContext.SHOW_MENU_BAR_KEY)));
+        menuBar.setVisible(applicationContext.getShowMenuBarState());
         return menuBar;
+    }
+
+    private static void initFontMenu(JMenu fontSetMenu) {
+        JRadioButtonMenuItem micYaHeiFontMenuItem = new JRadioButtonMenuItem("微软雅黑");
+        JRadioButtonMenuItem christmasWorshipFontMenuItem = new JRadioButtonMenuItem("小米兰亭");
+        JRadioButtonMenuItem arialFontMenuItem = new JRadioButtonMenuItem("等线");
+        JRadioButtonMenuItem blackLetterFontMenuItem = new JRadioButtonMenuItem("黑体");
+        ButtonGroup fontButtonGroup = new ButtonGroup();
+        fontButtonGroup.add(micYaHeiFontMenuItem);
+        fontButtonGroup.add(christmasWorshipFontMenuItem);
+        fontButtonGroup.add(arialFontMenuItem);
+        fontButtonGroup.add(blackLetterFontMenuItem);
+        fontSetMenu.add(micYaHeiFontMenuItem);
+        fontSetMenu.add(christmasWorshipFontMenuItem);
+        fontSetMenu.add(arialFontMenuItem);
+        fontSetMenu.add(blackLetterFontMenuItem);
+
+        Component[] menuComponent = fontSetMenu.getMenuComponents();
+        for (int i = 0; i < menuComponent.length; i++) {
+            if (menuComponent[i] instanceof JRadioButtonMenuItem) {
+                JRadioButtonMenuItem jRadioButtonMenuItem = (JRadioButtonMenuItem) menuComponent[i];
+                jRadioButtonMenuItem.addActionListener(e -> {
+                    System.out.println("JRadioButtonMenuItem:" + jRadioButtonMenuItem.getText() + "是否选中:" + jRadioButtonMenuItem.isSelected());
+                    ChangeUIUtils.initGlobalFont(new Font(jRadioButtonMenuItem.getText(), Font.PLAIN, 14));
+                });
+            }
+        }
     }
 
     public static JMenuBar getMenuBar() {

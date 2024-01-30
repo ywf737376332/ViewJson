@@ -2,7 +2,6 @@ package com.ywf.framework.utils;
 
 import com.formdev.flatlaf.IntelliJTheme;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.ywf.component.DialogBuilder;
 import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.PopupMenuBuilder;
 import com.ywf.component.TextAreaBuilder;
@@ -12,11 +11,13 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Enumeration;
 
 /**
- * TODO
+ * 全局主题应用
  *
  * @Author YWF
  * @Date 2023/11/30 22:17
@@ -31,7 +32,18 @@ public class ChangeUIUtils {
      * @date 2023/12/2 15:35
      */
     public static void changeUIStyle(JFrame frame, SystemThemesEnum themesStyles) {
+        //全局字体设置 小米兰亭 幼圆 华文中宋 黑体 等线
+        initGlobalFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
+        // 全局主题应用
+        initGlobalTheme(themesStyles);
+        // 其他个别组件主题应用
+        initGlobalOtherTheme(frame);
+        // 过渡动画
+        FlatAnimatedLafChange.hideSnapshotWithAnimation();
+    }
 
+
+    private static void initGlobalTheme(SystemThemesEnum themesStyles) {
         try {
             if (SystemConstant.THEMES_TYPE_SYSTEM == themesStyles.getThemeType()) {
                 // 系统主题整体外观
@@ -43,18 +55,15 @@ public class ChangeUIUtils {
         } catch (Exception ex) {
             System.err.println("皮肤应用失败，请检查：" + ex.getMessage());
         }
-        //主题应用
-        SwingUtilities.updateComponentTreeUI(frame);
+    }
+
+    private static void initGlobalOtherTheme(JFrame frame) {
         if (PopupMenuBuilder.getInstance().getContextMenu() != null) {
             // 菜单主题应用
             SwingUtilities.updateComponentTreeUI(PopupMenuBuilder.getInstance().getContextMenu());
         }
-        if (DialogBuilder.getFindDialog() != null) {
-            // 查找对话框主题应用
-            SwingUtilities.updateComponentTreeUI(DialogBuilder.getFindDialog());
-        }
-        // 过渡动画
-        FlatAnimatedLafChange.hideSnapshotWithAnimation();
+        //树组件主题应用
+        SwingUtilities.updateComponentTreeUI(frame);
     }
 
     /**
@@ -73,6 +82,21 @@ public class ChangeUIUtils {
             System.err.println("textAreaThemes apply error");
         }
     }
+
+    /**
+     * 统一设置字体，父界面设置之后，所有由父界面进入的子界面都不需要再次设置字体
+     */
+    public static void initGlobalFont(Font font) {
+        FontUIResource fontRes = new FontUIResource(font);
+        for (Enumeration<Object> keys = UIManager.getDefaults().keys(); keys.hasMoreElements(); ) {
+            Object key = keys.nextElement();
+            Object value = UIManager.get(key);
+            if (value instanceof FontUIResource) {
+                UIManager.put(key, fontRes);
+            }
+        }
+    }
+
 
     /**
      * 系统组件整体样式定义
