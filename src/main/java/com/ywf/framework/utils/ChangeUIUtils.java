@@ -33,7 +33,7 @@ public class ChangeUIUtils {
      */
     public static void changeUIStyle(JFrame frame, SystemThemesEnum themesStyles) {
         //全局字体设置 小米兰亭 幼圆 华文中宋 黑体 等线
-        initGlobalFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
+        initGlobalFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
         // 全局主题应用
         initGlobalTheme(themesStyles);
         // 其他个别组件主题应用
