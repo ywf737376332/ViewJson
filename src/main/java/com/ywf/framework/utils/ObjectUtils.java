@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ObjectUtils {
 
     private static final ConcurrentHashMap<String, Object> VIEW_SOURCES = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Class<?>, Object> VIEW_COMPONENTS = new ConcurrentHashMap<>();
 
     public static <T> T getBean(String clazzKey) {
         return (T) VIEW_SOURCES.get(clazzKey);
@@ -23,5 +24,16 @@ public class ObjectUtils {
         }
     }
 
+
+    public static <T> T getBean(Class<?> clazz) {
+        return (T) VIEW_COMPONENTS.get(clazz);
+    }
+
+    public static void setBean(Class<?> clazz, Object value) {
+        Object val = VIEW_COMPONENTS.get(clazz);
+        if (val == null) {
+            VIEW_COMPONENTS.put(clazz, value);
+        }
+    }
 
 }

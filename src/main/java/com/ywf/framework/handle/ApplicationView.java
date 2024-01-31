@@ -6,6 +6,7 @@ import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.ChangeUIUtils;
+import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.pojo.ConfigurableApplicationContext;
 import com.ywf.view.MainFrame;
 import org.apache.commons.logging.Log;
@@ -29,7 +30,6 @@ public class ApplicationView {
 
     private static MainFrame applicationView;
     private ConfigLoadHandler configLoadHandler;
-    private static final ConcurrentHashMap<Class<?>, Object> VIEW_SOURCES = new ConcurrentHashMap<>();
 
     /**
      * 本地资源加注入
@@ -53,7 +53,7 @@ public class ApplicationView {
          */
         Assert.notNull(primarySource, "PrimarySources must not be null");
         applicationView = configLoadHandler.appViewInit("com.ywf");
-        VIEW_SOURCES.put(primarySource, applicationView);
+        ObjectUtils.setBean(primarySource, applicationView);
     }
 
     public static ApplicationContext run(Class<?> primarySource, String... args) {
