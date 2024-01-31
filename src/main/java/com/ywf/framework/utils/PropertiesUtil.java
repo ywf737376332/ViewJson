@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Iterator;
 
 /**
  * TODO
@@ -123,6 +124,11 @@ public class PropertiesUtil {
             ConfigurableApplicationContext application = RelectionUtils.propConvertObject(configuration, applicationConfig);
             //propertiesToObject(configuration,applicationConfig.getClass());
             System.out.println("application:" + application.toString());
+            Iterator<String> iterator = configuration.getKeys();
+            while (iterator.hasNext()) {
+                String key = iterator.next();
+                System.out.println("K:" + key+" V:"+configuration.getProperty(key));
+            }
             application.setScreenSize(new ConfigurableApplicationContext.ScreenSize(50, 200));
             PropertiesConfiguration targetProps = RelectionUtils.objectConvertProp(application);
             propertiesUtil.store(sysConfigFilePath, targetProps);

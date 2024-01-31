@@ -17,14 +17,23 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
 
     private static final long serialVersionUID = 1L;
 
+    // 文本编辑器是否可编辑状态
     private Boolean textAreaEditState;
+    // 文本编辑器是否可换行
     private Boolean textAreaBreakLineState;
+    // 文本编辑器是否可换行
     private Boolean textAreaShowlineNumState;
+    // 是否显示工具栏
     private Boolean showToolBarState;
+    // 是否显示菜单栏
     private Boolean showMenuBarState;
+    // 最近使用的主题样式
     private String lastSystemThemes;
+    // 中文转换状态
     private Integer chineseConverState;
+    // 图片质量
     private Integer pictureQualityState;
+    // 屏幕大小
     private ScreenSize screenSize;
 
     public static class ScreenSize {

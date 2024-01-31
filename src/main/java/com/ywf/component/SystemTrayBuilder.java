@@ -49,8 +49,6 @@ public class SystemTrayBuilder {
                 JOptionPane.YES_NO_OPTION);
         if (confirmed == JOptionPane.YES_OPTION) {
             // 屏幕尺寸大小保存
-            systemProperties.setValue(ApplicationContext.SCREEN_SIZE_WIDTH_KEY, String.valueOf(frame.getWidth()));
-            systemProperties.setValue(ApplicationContext.SCREEN_SIZE_HEIGHT_KEY, String.valueOf(frame.getHeight()));
             frame.dispose();
         }
     }

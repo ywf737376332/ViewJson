@@ -10,16 +10,16 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ObjectUtils {
 
-    private static final ConcurrentHashMap<Class<?>, Object> VIEW_SOURCES = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Object> VIEW_SOURCES = new ConcurrentHashMap<>();
 
-    public static <T> T getBean(Class<?> clazz) {
-        return (T) VIEW_SOURCES.get(clazz);
+    public static <T> T getBean(String clazzKey) {
+        return (T) VIEW_SOURCES.get(clazzKey);
     }
 
-    public static void setBean(Class<?> clazz, Object value) {
-        Object val = VIEW_SOURCES.get(clazz);
+    public static void setBean(String clazzKey, Object value) {
+        Object val = VIEW_SOURCES.get(clazzKey);
         if (val == null) {
-            VIEW_SOURCES.put(clazz, value);
+            VIEW_SOURCES.put(clazzKey, value);
         }
     }
 

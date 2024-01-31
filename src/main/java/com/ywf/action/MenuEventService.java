@@ -3,6 +3,7 @@ package com.ywf.action;
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.FlatLaf;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.SystemConstant;
@@ -14,6 +15,7 @@ import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.ImageUtils;
 import com.ywf.framework.utils.JsonUtil;
 import com.ywf.pojo.ConfigurableApplicationContext;
+import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.imageio.ImageIO;
@@ -96,8 +98,8 @@ public class MenuEventService {
                     case CH_TO_UN:
                         // 1.先替换回车后面的空格
                         // 2.再替换回车和换行，
-                        text = UnicodeUtil.toUnicode(text.replaceAll( "(?<=\\n)[ \\t]+","").replaceAll("[\\t\\n\\r]", ""));
-                        formatAfterText = JsonUtil.contentFormat(textType,text);
+                        text = UnicodeUtil.toUnicode(text.replaceAll("(?<=\\n)[ \\t]+", "").replaceAll("[\\t\\n\\r]", ""));
+                        formatAfterText = JsonUtil.contentFormat(textType, text);
                         break;
                     case UN_TO_CH:
                         formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toString(text));
@@ -358,7 +360,7 @@ public class MenuEventService {
                     SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
                     ChangeUIUtils.changeUIStyle(frame, themesStyles);
                     // 改变多文本内容的主题
-                    ChangeUIUtils.changeTextAreaThemes(frame, themesStyles.getTextAreaStyles());
+                    ChangeUIUtils.changeTextAreaThemes(themesStyles.getTextAreaStyles());
                     // 保存上一次选定的主题
                     applicationContext.setLastSystemThemes(themesStyles.getThemesKey());
                 });
@@ -484,15 +486,16 @@ public class MenuEventService {
 
     /**
      * 设置系统字体
+     *
      * @param fontSetMenu
      */
-    public static void applyFontActionPerformed(JMenu fontSetMenu){
+    public static void applyFontActionPerformed(JFrame frame, JMenu fontSetMenu) {
         Component[] menuComponent = fontSetMenu.getMenuComponents();
         for (int i = 0; i < menuComponent.length; i++) {
             if (menuComponent[i] instanceof JRadioButtonMenuItem) {
-                JRadioButtonMenuItem jRadioButtonMenuItem = (JRadioButtonMenuItem) menuComponent[i];
-                jRadioButtonMenuItem.addActionListener(e -> {
-                    ChangeUIUtils.initGlobalFont(new Font(jRadioButtonMenuItem.getText(), Font.PLAIN, 12));
+                JRadioButtonMenuItem fontMenuItem = (JRadioButtonMenuItem) menuComponent[i];
+                fontMenuItem.addActionListener(e -> {
+                    ChangeUIUtils.initGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, 14));
                     ChangeUIUtils.updateViewUI();
                 });
             }

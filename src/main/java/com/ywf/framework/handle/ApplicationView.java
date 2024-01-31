@@ -57,7 +57,7 @@ public class ApplicationView {
     }
 
     public static ApplicationContext run(Class<?> primarySource, String... args) {
-        return new ApplicationView(primarySource).initThemesUI().run();
+        return new ApplicationView(primarySource).run().initThemesUI();
     }
 
     /**
@@ -65,7 +65,7 @@ public class ApplicationView {
      *
      * @return
      */
-    public ApplicationContext run() {
+    public ApplicationView run() {
         // 创建界面
         try {
             SwingUtilities.invokeLater(() -> {
@@ -74,17 +74,17 @@ public class ApplicationView {
         } catch (Exception e) {
             LOG.error("APP界面加载失败", e);
         }
-        return applicationContext;
+        return this;
     }
 
-    private ApplicationView initThemesUI() {
+    private ApplicationContext initThemesUI() {
         try {
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
             ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
         } catch (Exception e) {
             LOG.error("初始化主题失败", e);
         }
-        return this;
+        return applicationContext;
     }
 
     public String getBasePackages(Class<?> primarySource) {

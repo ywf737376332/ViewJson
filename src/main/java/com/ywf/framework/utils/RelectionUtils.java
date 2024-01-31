@@ -1,6 +1,8 @@
 package com.ywf.framework.utils;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.*;
 import java.math.BigDecimal;
@@ -13,6 +15,8 @@ import java.util.Date;
  * @Date 2024/1/28 13:47
  */
 public class RelectionUtils {
+
+    private static final Log LOG = LogFactory.getLog(RelectionUtils.class);
 
     /**
      * 设置数据类对象的属性
@@ -110,6 +114,9 @@ public class RelectionUtils {
                     continue;
                 }
                 Object val = sourceProps.getProperty(name);
+                if (val == null){
+                    LOG.warn("当前字段：【"+name + "】为空");
+                }
                 setValues(target, name, typeName, val);
             } catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);

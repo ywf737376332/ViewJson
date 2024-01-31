@@ -34,7 +34,7 @@ public class ChangeUIUtils {
      */
     public static void changeUIStyle(JFrame frame, SystemThemesEnum themesStyles) {
         //全局字体设置 小米兰亭 幼圆 华文中宋 黑体 等线
-        initGlobalFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
+        initGlobalFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
         // 全局主题应用
         initGlobalTheme(themesStyles);
         // 其他个别组件主题应用
@@ -53,7 +53,7 @@ public class ChangeUIUtils {
     }
 
 
-    private static void initGlobalTheme(SystemThemesEnum themesStyles) {
+    public static void initGlobalTheme(SystemThemesEnum themesStyles) {
         try {
             if (SystemConstant.THEMES_TYPE_SYSTEM == themesStyles.getThemeType()) {
                 // 系统主题整体外观
@@ -79,11 +79,10 @@ public class ChangeUIUtils {
     /**
      * 富文本组件主题改变
      *
-     * @param frame
      * @param style
      * @date 2023/12/2 15:32
      */
-    public static void changeTextAreaThemes(JFrame frame, String style) {
+    public static void changeTextAreaThemes(String style) {
         RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
         try {
             Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style));

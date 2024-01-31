@@ -67,12 +67,10 @@ public class SwingWorkerUtils<T, P extends T> {
     }
 
     private void success() {
-        System.out.println("后台耗时任务已经执行完毕");
-        ;
+
     }
 
     private void updateUI(List<T> chunks) {
-        System.out.println("chunks:" + chunks);
     }
 
     private T backgroundWorker() {

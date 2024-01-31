@@ -73,7 +73,6 @@ public class TextAreaPopupMenuEventService {
      * 清空文本内容
      */
     public void closeAbleTabbedSplitPane() {
-        System.out.println("关闭事件");
     }
 
 

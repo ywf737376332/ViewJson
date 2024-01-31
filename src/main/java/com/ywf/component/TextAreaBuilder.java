@@ -73,9 +73,9 @@ public class TextAreaBuilder {
         // 启用了自动滚动功能
         textArea.setAutoscrolls(true);
         // 读取配置信息中的数据
-        textArea.setEditable(Boolean.valueOf(applicationContext.getTextAreaEditState()));
+        textArea.setEditable(applicationContext.getTextAreaEditState());
         // 自动换行功能
-        textArea.setLineWrap(Boolean.valueOf(applicationContext.getTextAreaBreakLineState()));
+        textArea.setLineWrap(applicationContext.getTextAreaBreakLineState());
         textArea.setChineseConverState(applicationContext.getChineseConverState());
         textArea.revalidate();
         try {

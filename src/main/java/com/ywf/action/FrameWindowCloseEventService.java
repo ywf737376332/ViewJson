@@ -49,10 +49,10 @@ public class FrameWindowCloseEventService extends WindowAdapter {
     /**
      * 将APP运行参数保存到本地
      */
-    private static void saveApplicationConfiguration(){
-        PropertiesUtil propertiesUtil = PropertiesUtil.getInstance();
+    private static void saveApplicationConfiguration() {
         PropertiesConfiguration targetProps = RelectionUtils.objectConvertProp(applicationContext);
-        propertiesUtil.store(SysConfigInit.getApplicationRunRootPath(), targetProps);
+        String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
+        PropertiesUtil.getInstance().store(applicationRootPath,targetProps);
     }
 
 
