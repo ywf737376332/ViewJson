@@ -1,10 +1,13 @@
 package com.ywf.component.demo2;
 
+import com.ywf.action.WindowResizedEventService;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -30,6 +33,7 @@ public class JTabbedSplitPane002 extends JPanel implements Serializable {
         pages = new LinkedList<>();
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // 设置外边距
+        parentFrame.addComponentListener(new SplitResizedEventService());
     }
 
     public JPanel addTab(JScrollPane component) {
@@ -230,7 +234,16 @@ public class JTabbedSplitPane002 extends JPanel implements Serializable {
         }
     }
 
-    //获取当前激活组件的宽度
+    class SplitResizedEventService extends ComponentAdapter {
+        @Override
+        public void componentResized(ComponentEvent e) {
+            if (pages.size()==2){
+                splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 21);
+            }else if (pages.size() == 3) {
+                splitPane.setDividerLocation(parentFrame.getWidth() / 3 - 15);
+            }
+        }
+    }
 
 }
 

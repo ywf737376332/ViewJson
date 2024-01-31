@@ -26,20 +26,10 @@ public class WindowResizedEventService extends ComponentAdapter {
 
     @Override
     public void componentResized(ComponentEvent e) {
-        this.movedWindwos();
     }
 
     @Override
     public void componentMoved(ComponentEvent e) {
-        this.movedWindwos();
-    }
 
-    /**
-     * 窗口发生变化，重新设置查找对话框的位置
-     *
-     * @date 2023/12/24 18:45
-     */
-    private void movedWindwos() {
-        Point tslPoint = rTextScrollPane.getLocationOnScreen();
     }
 }
