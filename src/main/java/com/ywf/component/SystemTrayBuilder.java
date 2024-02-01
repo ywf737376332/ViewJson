@@ -1,6 +1,5 @@
 package com.ywf.component;
 
-import com.ywf.framework.handle.ApplicationContext;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.PropertiesUtil;
 

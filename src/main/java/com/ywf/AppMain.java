@@ -1,6 +1,6 @@
 package com.ywf;
 
-import com.ywf.framework.handle.ApplicationView;
+import com.ywf.framework.ioc.ApplicationView;
 
 /**
  * APP启动类

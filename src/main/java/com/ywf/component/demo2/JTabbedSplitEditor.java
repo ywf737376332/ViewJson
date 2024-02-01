@@ -20,7 +20,7 @@ import java.util.Random;
  * @Author YWF
  * @Date 2024/1/24 22:50
  */
-public class JTabbedSplitPane002 extends JPanel implements Serializable {
+public class JTabbedSplitEditor extends JPanel implements Serializable {
 
     private final LinkedList<JScrollPane> pages;
 
@@ -28,7 +28,7 @@ public class JTabbedSplitPane002 extends JPanel implements Serializable {
     private JPanel page;
     private JSplitPane splitPane;
 
-    public JTabbedSplitPane002(JFrame parentFrame) {
+    public JTabbedSplitEditor(JFrame parentFrame) {
         this.parentFrame = parentFrame;
         pages = new LinkedList<>();
         setLayout(new BorderLayout());

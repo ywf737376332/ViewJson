@@ -3,7 +3,7 @@ package com.ywf.framework.utils;
 import cn.hutool.core.io.resource.ResourceUtil;
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.init.SysConfigInit;
-import com.ywf.pojo.ConfigurableApplicationContext;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;

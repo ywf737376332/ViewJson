@@ -1,8 +1,8 @@
 package com.ywf.framework.init;
 
 import cn.hutool.core.io.resource.ResourceUtil;
-import com.ywf.framework.handle.ApplicationContext;
-import com.ywf.framework.handle.PropertiesConfigurationContext;
+import com.ywf.framework.ioc.ApplicationContext;
+import com.ywf.framework.ioc.PropertiesConfigurationContext;
 import com.ywf.framework.utils.ObjectUtils;
 ;
 import org.apache.commons.configuration.PropertiesConfiguration;

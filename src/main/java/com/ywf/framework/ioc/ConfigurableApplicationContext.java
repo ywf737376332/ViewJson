@@ -1,7 +1,6 @@
-package com.ywf.pojo;
+package com.ywf.framework.ioc;
 
 import com.ywf.framework.annotation.PropertySource;
-import com.ywf.framework.handle.ApplicationContext;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -6,7 +6,7 @@ import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.utils.IconUtils;
-import com.ywf.pojo.ConfigurableApplicationContext;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 
 import javax.swing.*;
 import java.awt.*;

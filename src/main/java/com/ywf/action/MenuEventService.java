@@ -3,7 +3,6 @@ package com.ywf.action;
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatLaf;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.SystemConstant;
@@ -14,8 +13,7 @@ import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.ImageUtils;
 import com.ywf.framework.utils.JsonUtil;
-import com.ywf.pojo.ConfigurableApplicationContext;
-import org.fife.ui.rsyntaxtextarea.Theme;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.imageio.ImageIO;

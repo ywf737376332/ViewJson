@@ -4,7 +4,7 @@ import com.ywf.action.MenuEventService;
 import com.ywf.action.QRCodeEventService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.utils.IconUtils;
-import com.ywf.pojo.ConfigurableApplicationContext;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicToolBarUI;

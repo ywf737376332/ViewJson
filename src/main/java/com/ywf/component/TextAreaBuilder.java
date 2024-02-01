@@ -3,7 +3,7 @@ package com.ywf.component;
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.pojo.ConfigurableApplicationContext;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;

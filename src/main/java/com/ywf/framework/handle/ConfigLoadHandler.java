@@ -3,6 +3,7 @@ package com.ywf.framework.handle;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.annotation.PropertySource;
+import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.framework.utils.ReflectUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;

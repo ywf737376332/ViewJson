@@ -8,7 +8,7 @@ import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.pojo.ConfigurableApplicationContext;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;

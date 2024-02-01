@@ -28,7 +28,7 @@ public class DemoTabble002 extends JFrame {
 
     private JFrame _this = this;
 
-    private static JTabbedSplitPane002 tabbedSplitPane;
+    private static JTabbedSplitEditor tabbedSplitPane;
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
@@ -61,7 +61,7 @@ public class DemoTabble002 extends JFrame {
         editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // 设置外边距
 
         //初始化可创建多个的多文本编辑区
-        tabbedSplitPane = new JTabbedSplitPane002(_this);
+        tabbedSplitPane = new JTabbedSplitEditor(_this);
         //editPanel.add(tabbedSplitPane.addTab(createJsonScrollTextArea()), BorderLayout.CENTER);
         JPanel editMy = tabbedSplitPane.addTab(createJsonScrollTextArea());
         editPanel.add(editMy, BorderLayout.CENTER);
@@ -206,7 +206,7 @@ public class DemoTabble002 extends JFrame {
     }
 
 
-    private void closeActionPerformed(JTabbedSplitPane002 tabbedSplitPane) {
+    private void closeActionPerformed(JTabbedSplitEditor tabbedSplitPane) {
         tabbedSplitPane.closeAbleTabbed(null);
     }
 

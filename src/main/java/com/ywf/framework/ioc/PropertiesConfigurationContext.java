@@ -1,4 +1,4 @@
-package com.ywf.framework.handle;
+package com.ywf.framework.ioc;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;

@@ -1,4 +1,4 @@
-package com.ywf.framework.handle;
+package com.ywf.framework.ioc;
 
 import java.io.File;
 import java.io.Serializable;

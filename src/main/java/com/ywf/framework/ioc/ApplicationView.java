@@ -1,19 +1,18 @@
-package com.ywf.framework.handle;
+package com.ywf.framework.ioc;
 
 import cn.hutool.core.lang.Assert;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.handle.ConfigLoadHandler;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.ObjectUtils;
-import com.ywf.pojo.ConfigurableApplicationContext;
 import com.ywf.view.MainFrame;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 项目启动主类

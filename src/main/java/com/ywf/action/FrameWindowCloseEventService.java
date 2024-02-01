@@ -4,7 +4,7 @@ import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.PropertiesUtil;
 import com.ywf.framework.utils.ReflectUtils;
-import com.ywf.pojo.ConfigurableApplicationContext;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import javax.swing.*;
