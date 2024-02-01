@@ -3,7 +3,7 @@ package com.ywf.action;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.PropertiesUtil;
-import com.ywf.framework.utils.RelectionUtils;
+import com.ywf.framework.utils.ReflectUtils;
 import com.ywf.pojo.ConfigurableApplicationContext;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -50,7 +50,7 @@ public class FrameWindowCloseEventService extends WindowAdapter {
      * 将APP运行参数保存到本地
      */
     private static void saveApplicationConfiguration() {
-        PropertiesConfiguration targetProps = RelectionUtils.objectConvertProp(applicationContext);
+        PropertiesConfiguration targetProps = ReflectUtils.objectConvertProp(applicationContext);
         String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
         PropertiesUtil.getInstance().store(applicationRootPath,targetProps);
     }

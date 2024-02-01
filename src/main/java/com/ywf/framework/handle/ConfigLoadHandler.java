@@ -4,7 +4,7 @@ import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.annotation.PropertySource;
 import com.ywf.framework.utils.ObjectUtils;
-import com.ywf.framework.utils.RelectionUtils;
+import com.ywf.framework.utils.ReflectUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
@@ -44,7 +44,7 @@ public class ConfigLoadHandler {
             throw new RuntimeException("应用启动失败,不存在MainView注解的启动类");
         }
         Class<?> mainViewClasses = mainViewClassesAnno.iterator().next();
-        Object mainView = RelectionUtils.constructInstance(mainViewClasses);
+        Object mainView = ReflectUtils.constructInstance(mainViewClasses);
         return (T) mainView;
     }
 
@@ -64,12 +64,12 @@ public class ConfigLoadHandler {
         // 从本地文件Properties中夹在配置文件到Properties
         //PropertiesConfigurationContext propertiesContext = new PropertiesConfigurationContext(rootPath);
         //PropertiesConfiguration configuration = propertiesContext.load();
-        PropertiesConfiguration configuration = ObjectUtils.getBean(ApplicationContext.USER_PATH+PropertiesConfiguration.class);
+        PropertiesConfiguration configuration = ObjectUtils.getBean(ApplicationContext.USER_PATH + PropertiesConfiguration.class);
         for (Class<?> configClass : configClassesAnno) {
             // 创建配置类
-            Object configInstance = RelectionUtils.constructInstance(configClass);
+            Object configInstance = ReflectUtils.constructInstance(configClass);
             // 将Properties配置文件转换为配置类
-            Object instanceObject = RelectionUtils.propConvertObject(configuration, configInstance);
+            Object instanceObject = ReflectUtils.propConvertObject(configuration, configInstance);
             //对有Autowired注解的属性字段实例化注入
             fieldInstances(instanceObject, fieldClassesAnno);
         }

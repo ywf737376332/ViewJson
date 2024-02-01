@@ -121,7 +121,7 @@ public class PropertiesUtil {
             //System.out.println("applicationConfig:"+applicationConfig.toString());
             propertiesUtil.setValue("pictureQualityState", "12412312");
 
-            ConfigurableApplicationContext application = RelectionUtils.propConvertObject(configuration, applicationConfig);
+            ConfigurableApplicationContext application = ReflectUtils.propConvertObject(configuration, applicationConfig);
             //propertiesToObject(configuration,applicationConfig.getClass());
             System.out.println("application:" + application.toString());
             Iterator<String> iterator = configuration.getKeys();
@@ -130,7 +130,7 @@ public class PropertiesUtil {
                 System.out.println("K:" + key+" V:"+configuration.getProperty(key));
             }
             application.setScreenSize(new ConfigurableApplicationContext.ScreenSize(50, 200));
-            PropertiesConfiguration targetProps = RelectionUtils.objectConvertProp(application);
+            PropertiesConfiguration targetProps = ReflectUtils.objectConvertProp(application);
             propertiesUtil.store(sysConfigFilePath, targetProps);
             //System.out.println("configuration:"+configuration.getString("pictureQualityState"));
         } catch (Exception e) {

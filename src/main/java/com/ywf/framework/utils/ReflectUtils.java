@@ -1,22 +1,48 @@
 package com.ywf.framework.utils;
 
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.map.WeakConcurrentMap;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 /**
  * 利用反射将Properties对象转换为对象
+ * 对字段进行缓存，加快反射速度
  *
  * @Author YWF
  * @Date 2024/1/28 13:47
  */
-public class RelectionUtils {
+public class ReflectUtils {
 
-    private static final Log LOG = LogFactory.getLog(RelectionUtils.class);
+    private static final Log LOG = LogFactory.getLog(ReflectUtils.class);
+
+    /**
+     * 字段缓存
+     */
+    private static final WeakConcurrentMap<Class<?>, Field[]> FIELDS_CACHE = new WeakConcurrentMap<>();
+
+    /**
+     * 获取所有的字段
+     *
+     * @param beanClass
+     * @return
+     */
+    public static Field[] getFields(Class<?> beanClass) {
+        Assert.notNull(beanClass);
+        return FIELDS_CACHE.computeIfAbsent(beanClass, () -> Arrays.stream(beanClass.getDeclaredFields())
+                .filter(field -> !field.getName().equals("serialVersionUID"))
+                .toArray(Field[]::new));
+    }
 
     /**
      * 设置数据类对象的属性
@@ -37,59 +63,59 @@ public class RelectionUtils {
         switch (type) {
             case "int":
                 method = obj.getClass().getMethod(name, int.class);
-                method.invoke(obj, ConvertUtils.parseInt(val));
+                method.invoke(obj, ConvertUtils.toInt(val));
                 break;
             case "short":
                 method = obj.getClass().getMethod(name, short.class);
-                method.invoke(obj, ConvertUtils.parseShort(val));
+                method.invoke(obj, ConvertUtils.toShort(val));
                 break;
             case "long":
                 method = obj.getClass().getMethod(name, long.class);
-                method.invoke(obj, ConvertUtils.parseLong(val));
+                method.invoke(obj, ConvertUtils.toLong(val));
                 break;
             case "float":
                 method = obj.getClass().getMethod(name, float.class);
-                method.invoke(obj, ConvertUtils.parseFloat(val));
+                method.invoke(obj, ConvertUtils.toFloat(val));
                 break;
             case "double":
                 method = obj.getClass().getMethod(name, double.class);
-                method.invoke(obj, ConvertUtils.parseDouble(val));
+                method.invoke(obj, ConvertUtils.toDouble(val));
                 break;
             case "boolean":
                 method = obj.getClass().getMethod(name, boolean.class);
-                method.invoke(obj, ConvertUtils.parseBoolean(val));
+                method.invoke(obj, ConvertUtils.toBool(val));
                 break;
             case "java.lang.String":
                 method = obj.getClass().getMethod(name, String.class);
-                method.invoke(obj, ConvertUtils.parseString(val));
+                method.invoke(obj, ConvertUtils.toStr(val));
                 break;
             case "java.util.Date":
                 method = obj.getClass().getMethod(name, Date.class);
-                method.invoke(obj, ConvertUtils.parseDate(val));
+                method.invoke(obj, ConvertUtils.toDate(val));
                 break;
             case "java.lang.Boolean":
                 method = obj.getClass().getMethod(name, Boolean.class);
-                method.invoke(obj, ConvertUtils.parseBigBoolean(val));
+                method.invoke(obj, ConvertUtils.toBool(val));
                 break;
             case "java.lang.Integer":
                 method = obj.getClass().getMethod(name, Integer.class);
-                method.invoke(obj, ConvertUtils.parseInteger(val));
+                method.invoke(obj, ConvertUtils.toInt(val));
                 break;
             case "java.lang.Long":
                 method = obj.getClass().getMethod(name, Long.class);
-                method.invoke(obj, ConvertUtils.parseBigLong(val));
+                method.invoke(obj, ConvertUtils.toLong(val));
                 break;
             case "java.lang.Float":
                 method = obj.getClass().getMethod(name, Float.class);
-                method.invoke(obj, ConvertUtils.parseBigFloat(val));
+                method.invoke(obj, ConvertUtils.toFloat(val));
                 break;
             case "java.lang.Double":
                 method = obj.getClass().getMethod(name, Double.class);
-                method.invoke(obj, ConvertUtils.parseBigDouble(val));
+                method.invoke(obj, ConvertUtils.toDouble(val));
                 break;
             case "java.math.BigDecimal":
                 method = obj.getClass().getMethod(name, BigDecimal.class);
-                method.invoke(obj, ConvertUtils.parseBigBigDecimal(val));
+                method.invoke(obj, ConvertUtils.toBigDecimal(val));
                 break;
         }
     }
@@ -102,20 +128,17 @@ public class RelectionUtils {
      * @param <T>
      */
     public static <T> T propConvertObject(PropertiesConfiguration sourceProps, T target) {
-        for (Field field : target.getClass().getDeclaredFields()) {
+        for (Field field : getFields(target.getClass())) {
             String name = field.getName();
             String typeName = field.getGenericType().getTypeName();
             try {
-                if (name.equals("serialVersionUID")) {
-                    continue;
-                }
                 boolean isSuccess = innerStaticClassSetValue(sourceProps, target, typeName, name);
                 if (isSuccess) {
                     continue;
                 }
                 Object val = sourceProps.getProperty(name);
-                if (val == null){
-                    LOG.warn("当前字段：【"+name + "】为空");
+                if (val == null) {
+                    LOG.warn("当前字段：【" + name + "】为空");
                 }
                 setValues(target, name, typeName, val);
             } catch (NoSuchMethodException e) {
@@ -132,13 +155,10 @@ public class RelectionUtils {
 
     public static <T> PropertiesConfiguration objectConvertProp(T source) {
         PropertiesConfiguration targetProps = new PropertiesConfiguration();
-        for (Field field : source.getClass().getDeclaredFields()) {
+        for (Field field : getFields(source.getClass())) {
             try {
                 field.setAccessible(true);
                 String name = field.getName();
-                if (name.equals("serialVersionUID")) {
-                    continue;
-                }
                 Object value = field.get(source);
                 boolean isSuccess = innerStaticClassGetValue(targetProps, value, name);
                 if (isSuccess) {
@@ -170,12 +190,9 @@ public class RelectionUtils {
             boolean isStaticClass = Modifier.isStatic(clazz.getModifiers()) && clazz.getEnclosingClass() != null ? true : false;
             if (isStaticClass) {
                 Object innerClass = constructInstance(clazz);
-                for (Field field : clazz.getDeclaredFields()) {
+                for (Field field : getFields(clazz)) {
                     String name = field.getName();
                     String typeInnerName = field.getGenericType().getTypeName();
-                    if (field.getName().equals("serialVersionUID")) {
-                        continue;
-                    }
                     Object val = sourceProps.getProperty(innerClassField + "." + name);
                     setValues(innerClass, name, typeInnerName, val);
                 }
@@ -185,7 +202,7 @@ public class RelectionUtils {
                 isSuccess = true;
             }
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException |
-                 InvocationTargetException e) {
+                InvocationTargetException e) {
             throw new RuntimeException(e);
         }
         return isSuccess;
@@ -198,12 +215,9 @@ public class RelectionUtils {
             Class<?> clazz = source.getClass();
             boolean isStaticClass = Modifier.isStatic(clazz.getModifiers()) && clazz.getEnclosingClass() != null ? true : false;
             if (isStaticClass) {
-                for (Field field : clazz.getDeclaredFields()) {
+                for (Field field : getFields(clazz)) {
                     field.setAccessible(true);
                     String name = field.getName();
-                    if (name.equals("serialVersionUID")) {
-                        continue;
-                    }
                     Object value = field.get(source);
                     targetProps.setProperty(innerClassField + "." + name, value);
                 }
@@ -217,12 +231,9 @@ public class RelectionUtils {
 
     public static <T> T constructInstance(Class<T> clazz) {
         try {
-            Constructor<T> constructor = clazz.getDeclaredConstructor();
-            constructor.setAccessible(true);
-            return (T)constructor.newInstance();
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
-                 InvocationTargetException e) {
-            throw new RuntimeException("当前 [" + clazz.getName() + "] 类缺少默认的构造方法");
+            return (T) clazz.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("当前 [" + clazz.getName() + "] 实例化失败");
         }
     }
 
