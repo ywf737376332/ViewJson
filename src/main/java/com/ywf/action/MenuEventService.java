@@ -123,7 +123,8 @@ public class MenuEventService {
     /**
      * 清空文本内容
      */
-    public void cleanJsonActionPerformed() {
+    public void cleanJsonActionPerformed(JButton button) {
+        System.out.println("图标宽："+ button.getIcon().getIconWidth() + " 图标高："+ button.getIcon().getIconHeight());
         rSyntaxTextArea.setText("");
         // 保持光标的焦点
         rSyntaxTextArea.requestFocusInWindow();

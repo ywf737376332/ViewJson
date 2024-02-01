@@ -63,7 +63,7 @@ public class MenuBarBuilder {
         formatMenuItem.addActionListener(e -> MenuEventService.getInstance().formatJsonActionPerformed(frame));
         JMenuItem cleanMenuItem = new JMenuItem("清空");
         cleanMenuItem.setIcon(IconUtils.getSVGIcon("icons/delete.svg", 12, 12));
-        cleanMenuItem.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
+        cleanMenuItem.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed(null));
         JMenuItem findRepMenuItem = new JMenuItem("查找");
         findRepMenuItem.setIcon(IconUtils.getSVGIcon("icons/find.svg", 12, 12));
         findRepMenuItem.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame, "查找"));

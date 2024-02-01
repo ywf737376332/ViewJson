@@ -56,7 +56,7 @@ public class ApplicationView {
     }
 
     public static ApplicationContext run(Class<?> primarySource, String... args) {
-        return new ApplicationView(primarySource).run().initThemesUI();
+        return new ApplicationView(primarySource).initThemesUI().run().cacheGlobalComponent();
     }
 
     /**
@@ -76,15 +76,21 @@ public class ApplicationView {
         return this;
     }
 
-    private ApplicationContext initThemesUI() {
+    private ApplicationView initThemesUI() {
         try {
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
             ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
         } catch (Exception e) {
             LOG.error("初始化主题失败", e);
         }
+        return this;
+    }
+
+    private ApplicationContext cacheGlobalComponent() {
+        System.out.println("扫描缓存全局组件");
         return applicationContext;
     }
+
 
     public String getBasePackages(Class<?> primarySource) {
         return primarySource.getPackage().getName();
