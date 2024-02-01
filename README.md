@@ -143,7 +143,8 @@ swing + flatlaf + rsyntaxtextarea
 6. 软件使用统计面板
 7. 弹框提示功能，重构别人的代码，减小体积，增加代码契合度
 8. 自动获取语言类型的判断还需要优化
-9. 打包exe，不依赖jdk
+9. 整合日志框架，控制台和用户日志目录输出日志文件
+10. 打包exe，不依赖jdk
 
 
 ![输入图片说明](src/main/resources/images/1.0.png)
