@@ -4,6 +4,7 @@ import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.formdev.flatlaf.ui.FlatScrollPaneUI;
 import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.TextAreaBuilder;
+import com.ywf.framework.base.AbstractWindow;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.JsonUtil;
@@ -24,9 +25,7 @@ import java.io.IOException;
  * @Author YWF
  * @Date 2024/1/24 22:52
  */
-public class DemoTabble002 extends JFrame {
-
-    private JFrame _this = this;
+public class DemoTabble002 extends AbstractWindow {
 
     private static JTabbedSplitEditor tabbedSplitPane;
 
@@ -64,7 +63,9 @@ public class DemoTabble002 extends JFrame {
         tabbedSplitPane = new JTabbedSplitEditor(_this);
         //editPanel.add(tabbedSplitPane.addTab(createJsonScrollTextArea()), BorderLayout.CENTER);
         JPanel editMy = tabbedSplitPane.addTab(createJsonScrollTextArea());
-        editPanel.add(editMy, BorderLayout.CENTER);
+        //editPanel.add(editMy, BorderLayout.CENTER);
+
+        this.addComponent(editPanel,"#tabbedSplitEditor",editMy,BorderLayout.CENTER);
 
         JToolBar toolBar = new JToolBar("工具栏");
         JButton btnNew = new JButton("新建");
@@ -97,8 +98,10 @@ public class DemoTabble002 extends JFrame {
         toolBar.add(btnClose);
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
 
-        mainPanel.add(toolBar, BorderLayout.NORTH);
-        mainPanel.add(editPanel, BorderLayout.CENTER);
+        //mainPanel.add(toolBar, BorderLayout.NORTH);
+        //mainPanel.add(editPanel, BorderLayout.CENTER);
+        this.addComponent(mainPanel,"#toolBar",toolBar,BorderLayout.NORTH);
+        this.addComponent(mainPanel,"#editPanel",editPanel,BorderLayout.CENTER);
 
         frame.addComponentListener(frameResizedEventService());
         frame.add(mainPanel);
