@@ -1,6 +1,7 @@
 package com.ywf.framework.config;
 
 import com.ywf.component.demo2.DemoTabble002;
+import com.ywf.component.demo3.DemoTabble003;
 import com.ywf.framework.utils.IconUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
@@ -42,7 +43,7 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
         }
         @Override
         public void actionPerformedImpl(ActionEvent e, RTextArea textArea) {
-            DemoTabble002.createNewTabActionPerformed();
+            DemoTabble003.createNewTabActionPerformed();
         }
         @Override
         public final String getMacroID() {
