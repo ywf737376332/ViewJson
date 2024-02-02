@@ -1,5 +1,6 @@
-package com.ywf.component.demo2;
+package com.ywf.framework.config;
 
+import com.ywf.component.demo2.DemoTabble002;
 import com.ywf.framework.utils.IconUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
