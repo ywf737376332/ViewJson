@@ -127,8 +127,10 @@ public class TabEditor extends JPanel {
         }
         this.indexTab ++;
         this.add(page);
-        this.revalidate();
-        this.repaint();
+        if (indexTab<3){
+            this.revalidate();
+            this.repaint();
+        }
     }
 
     private void cacheComment(JScrollPane component) {
@@ -230,7 +232,7 @@ public class TabEditor extends JPanel {
         Container split = rTextScrollPane.getParent();
         if (split instanceof JSplitPane){
             splitPaneParent = (JSplitPane)rTextScrollPane.getParent();
-            int rightWidth = splitPaneParent.getWidth() - splitPaneParent.getDividerLocation();
+            int rightWidth = splitPaneParent.getDividerLocation();
             JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
             splitPane2.setLeftComponent(rTextScrollPane);
             splitPane2.setRightComponent(getComment(indexTab));
@@ -244,6 +246,8 @@ public class TabEditor extends JPanel {
             splitPaneParent.setRightComponent(getComment(indexTab));
             splitPaneParent.setDividerLocation(rTextScrollPane.getWidth() / 2);
         }
+        splitPaneParent.revalidate();
+        splitPaneParent.repaint();
         return splitPaneParent;
     }
 
