@@ -161,13 +161,13 @@ swing + flatlaf + rsyntaxtextarea
 11. 主题改变后，编辑框主题不变(已解决)✅
 12. 新建编辑框后，编辑框主题与当前主题不对应(已解决)✅
 
-<img src="src/main/resources/images/1.0.png" alt="版本一" width="800" height="600">
-<img src="src/main/resources/images/2.0.png" alt="版本一" width="800" height="600">
-<img src="src/main/resources/images/3.0.png" alt="版本一" width="800" height="600">
-<img src="src/main/resources/images/4.0.png" alt="版本一" width="800" height="600">
-<img src="src/main/resources/images/5.0.png" alt="版本一" width="800" height="600">
-<img src="src/main/resources/images/6.0.png" alt="版本一" width="800" height="600">
-<img src="src/main/resources/images/7.0.png" alt="版本一" width="800" height="600">
+<img src="src/main/resources/images/1.0.png" alt="版本一" width="600" height="400">
+<img src="src/main/resources/images/2.0.png" alt="版本一" width="600" height="400">
+<img src="src/main/resources/images/3.0.png" alt="版本一" width="600" height="400">
+<img src="src/main/resources/images/4.0.png" alt="版本一" width="600" height="400">
+<img src="src/main/resources/images/5.0.png" alt="版本一" width="600" height="400">
+<img src="src/main/resources/images/6.0.png" alt="版本一" width="600" height="400">
+<img src="src/main/resources/images/7.0.png" alt="版本一" width="600" height="400">
 
 >作者：莫斐鱼
 > 
