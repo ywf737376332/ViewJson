@@ -41,9 +41,6 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
     }
 
     private JPanel insertTab(JScrollPane component) {
-        /*if (component == null) {
-            return null;
-        }*/
         // 缓存SyntaxTextArea组件
         cacheComment(component);
         // 给SyntaxTextArea组件添加右键菜单
@@ -83,8 +80,6 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
                 break;
             default:
         }
-        // addImpl(page, null, -1);
-        // ToolTipManager.sharedInstance().registerComponent(page);
         // 重新绘制
         page.revalidate();
         page.repaint();
