@@ -8,13 +8,12 @@ import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.base.AbstractWindow;
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 /**
  * 启动界面
@@ -49,11 +48,8 @@ public class MainFrame extends AbstractWindow {
 
         // 右侧JSON格式化区域
         JPanel editPanel = PanelView.createEditPanel();
-        //RTextScrollPane rTextScrollPane = TextAreaBuilder.createJsonScrollTextArea();
         JTabbedSplitEditor tabbedSplitEditor = new JTabbedSplitEditor(new BorderLayout(), _this);
-
-        //editPanel.add(rTextScrollPane, BorderLayout.CENTER);
-        this.addComponent(editPanel, "#global:tabbedSplitEditor", tabbedSplitEditor, BorderLayout.CENTER);
+        this.addComponent(editPanel, GlobalMenuKEY.TABBED_SPLIT_EDITOR, tabbedSplitEditor, BorderLayout.CENTER);
 
         // 创建菜单栏
         JMenuBar menuBar = MenuBarBuilder.createMenuBar(frame);

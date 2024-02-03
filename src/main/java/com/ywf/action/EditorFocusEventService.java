@@ -1,5 +1,6 @@
 package com.ywf.action;
 
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.utils.ObjectUtils;
 import org.fife.ui.rtextarea.RTextArea;
 
@@ -40,7 +41,7 @@ public class EditorFocusEventService {
         rSyntaxTextArea.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                ObjectUtils.setBean("#global:textArea:focus", rSyntaxTextArea);
+                ObjectUtils.setBean(GlobalMenuKEY.EDITOR_FOCUS, rSyntaxTextArea);
             }
         });
     }

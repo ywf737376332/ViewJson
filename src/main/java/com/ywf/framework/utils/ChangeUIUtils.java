@@ -3,9 +3,8 @@ package com.ywf.framework.utils;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.IntelliJTheme;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.ywf.component.MenuBarBuilder;
-import com.ywf.component.PopupMenuBuilder;
-import com.ywf.component.TextAreaBuilder;
+import com.ywf.component.*;
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -16,6 +15,7 @@ import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.LinkedList;
 
 /**
  * 全局主题应用
@@ -83,12 +83,16 @@ public class ChangeUIUtils {
      * @date 2023/12/2 15:32
      */
     public static void changeTextAreaThemes(String style) {
-        RSyntaxTextArea rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
-        try {
-            Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style));
-            theme.apply(rSyntaxTextArea);
-        } catch (IOException e) {
-            System.err.println("textAreaThemes apply error");
+        JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalMenuKEY.TABBED_SPLIT_EDITOR);
+        LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
+        for (JScrollPane scrollPane : sp) {
+            JSONRSyntaxTextArea rSyntaxTextArea = (JSONRSyntaxTextArea) scrollPane.getViewport().getView();
+            try {
+                Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style));
+                theme.apply(rSyntaxTextArea);
+            } catch (IOException e) {
+                System.err.println("textAreaThemes apply error");
+            }
         }
     }
 

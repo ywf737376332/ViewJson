@@ -1,11 +1,8 @@
 package com.ywf.component;
 
-import com.ywf.action.EditorFocusEventService;
-import com.ywf.action.StateBarEventService;
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.utils.ObjectUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -13,10 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,6 +75,23 @@ public class JTabbedSplitEditor extends JPanel {
                 addSplitWidthChangeListener(parentFrame, splitPane, splitPane3);
                 page.add(splitPane, BorderLayout.CENTER);
                 break;
+            case 4: // 3-编辑框 2-JSplitPane
+                JSplitPane splitPaneA = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+                splitPaneA.setLeftComponent(getComment(1));
+                splitPaneA.setRightComponent(getComment(2));
+                splitPaneA.setDividerLocation(parentFrame.getWidth() / 4 - 15);
+
+                JSplitPane splitPaneB = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+                splitPaneB.setLeftComponent(getComment(3));
+                splitPaneB.setRightComponent(getComment(4));
+                splitPaneB.setDividerLocation(parentFrame.getWidth() / 4 - 15);
+
+                splitPane.setLeftComponent(splitPaneA);
+                splitPane.setRightComponent(splitPaneB);
+                splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 15);
+                addSplitWidthChangeListener(parentFrame, splitPane, splitPaneA, splitPaneB);
+                page.add(splitPane, BorderLayout.CENTER);
+                break;
             default:
                 System.out.println("没有逻辑被执行");
         }
@@ -104,6 +114,17 @@ public class JTabbedSplitEditor extends JPanel {
                 int newLocation = (int) evt.getNewValue();
                 // 在这里执行宽度调整后的相关操作
                 slpChild.setDividerLocation((mainFrame.getWidth() - newLocation) / 2 - 25);
+            }
+        });
+    }
+
+    private void addSplitWidthChangeListener(JFrame mainFrame, JSplitPane slpParent, JSplitPane slpChild1, JSplitPane slpChild2) {
+        slpParent.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, evt -> {
+            if (JSplitPane.DIVIDER_LOCATION_PROPERTY.equals(evt.getPropertyName())) {
+                int newLocation = (int) evt.getNewValue();
+                // 在这里执行宽度调整后的相关操作
+                slpChild1.setDividerLocation(newLocation / 2 - 10);
+                slpChild2.setDividerLocation((mainFrame.getWidth() - newLocation) / 2 - 25);
             }
         });
     }
@@ -141,8 +162,8 @@ public class JTabbedSplitEditor extends JPanel {
         if (component == null) {
             return;
         }
-        if (getEditorComponentCount() == 3) {
-            System.out.println("目前支持最多3个组件");
+        if (getEditorComponentCount() == 4) {
+            System.out.println("目前支持最多4个组件");
             return;
         }
         pages.add(component);
@@ -186,28 +207,23 @@ public class JTabbedSplitEditor extends JPanel {
             return clazz.isInstance(focusOwner) ? (T) focusOwner : null;
         }
     }
+
     public <T> T findComponentsByFocus() {
-        return (T)ObjectUtils.getBean("#global:textArea:focus");
+        return (T) ObjectUtils.getBean(GlobalMenuKEY.EDITOR_FOCUS);
     }
 
     /**
      * 关闭最后一次打开的组件
      */
     public void closeAbleTabbed(RTextArea rSyntaxTextArea) {
-        System.out.println("执行关闭操作:传进来的组件：" + rSyntaxTextArea);
-        rSyntaxTextArea = rSyntaxTextArea == null ? findComponentsByFocus(parentFrame, RSyntaxTextArea.class) : rSyntaxTextArea;
         if (rSyntaxTextArea == null) {
             return;
         }
-        System.out.println("当前组件：" + rSyntaxTextArea.getName());
         RTextScrollPane rTextScrollPane = (RTextScrollPane) rSyntaxTextArea.getParent().getParent();
         int componentCount = getEditorComponentCount();
-        System.out.println("当前激活的:" + rTextScrollPane.getName());
         for (int i = 0; i < pages.size(); i++) {
             if (rTextScrollPane.equals(pages.get(i))) {
-                System.out.println("找到相同的:" + pages.get(i).getName());
                 if (componentCount > 1) {
-                    System.out.println("关闭了:" + pages.get(i).getName());
                     pages.remove(i);
                     // 刷新组件布局
                     insertTab(null);
@@ -222,8 +238,7 @@ public class JTabbedSplitEditor extends JPanel {
      * @return
      */
     private static RTextScrollPane initScrollEditor() {
-        //return TextAreaBuilder.createJsonScrollTextArea();
-        return createJsonScrollTextArea();
+        return TextAreaBuilder.createJsonScrollTextArea();
     }
 
     /**
@@ -236,49 +251,19 @@ public class JTabbedSplitEditor extends JPanel {
                 splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 21);
             } else if (pages.size() == 3) {
                 splitPane.setDividerLocation(parentFrame.getWidth() / 3 - 15);
+            }else if (pages.size() == 4) {
+                JSplitPane leftSplitComponent = (JSplitPane)splitPane.getLeftComponent();
+                JSplitPane rightSplitComponent = (JSplitPane)splitPane.getRightComponent();
+                splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 15);
+                int dividerLocation = splitPane.getDividerLocation();
+                leftSplitComponent.setDividerLocation(dividerLocation / 2);
+                rightSplitComponent.setDividerLocation(dividerLocation / 2);
             }
         }
     }
 
-
-    public static RTextScrollPane createJsonScrollTextArea() {
-        JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, "/themes/textAreaThemes/ideaLight.xml");
-        RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
-        rTextScrollPane.setBorder(BorderFactory.createEmptyBorder());
-        // 显示行号
-        rTextScrollPane.setLineNumbersEnabled(true);
-        rTextScrollPane.setFoldIndicatorEnabled(true);
-        return rTextScrollPane;
+    public LinkedList<JScrollPane> getPages() {
+        return pages;
     }
-
-    private static JSONRSyntaxTextArea createTextArea(String styleKey, String themesPath) {
-        JSONRSyntaxTextArea textArea = new JSONRSyntaxTextArea();
-        textArea.setSyntaxEditingStyle(styleKey);
-        // 这行代码启用了代码折叠功能
-        textArea.setCodeFoldingEnabled(true);
-        // 启用了抗锯齿功能
-        textArea.setAntiAliasingEnabled(true);
-        // 启用了自动滚动功能
-        textArea.setAutoscrolls(true);
-        // 读取配置信息中的数据
-        textArea.setEditable(true);
-        //组件名称
-        textArea.setName("#rst:" + textArea.hashCode());
-        // 自动换行功能
-        textArea.setLineWrap(false);
-        //监听文档变化
-        StateBarEventService.getInstance().textAreaDocumentActionPerformed(textArea);
-        // 设置编辑框的焦点
-        //EditorFocusEventService.getInstance().getFocusOwnerActionPerformed(textArea);
-        textArea.revalidate();
-        try {
-            Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));
-            theme.apply(textArea);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        return textArea;
-    }
-
 }
 

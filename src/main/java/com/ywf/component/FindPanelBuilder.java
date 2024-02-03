@@ -4,8 +4,10 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.formdev.flatlaf.extras.components.FlatTextField;
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.layout.FindPanelLayout;
 import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.utils.ObjectUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -30,7 +32,7 @@ public class FindPanelBuilder {
     private static JLabel btnClose;
     private static FlatTextField fieldFind;
     private static FlatLabel searchResultLabel;
-
+    private static JTabbedSplitEditor tabbedSplitEditor;
 
     public static JPanel createFindPanel() {
         JPanel rootFindPanel = new JPanel();
@@ -127,14 +129,16 @@ public class FindPanelBuilder {
      * 查找下一个
      */
     private static void nextFindActionPerformed() {
-        startSegmentFindOrReplaceOperation(TextAreaBuilder.getSyntaxTextArea(), fieldFind.getText(), true, true, false);
+        JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        startSegmentFindOrReplaceOperation(syntaxTextArea, fieldFind.getText(), true, true, false);
     }
 
     /**
      * 查找上一个
      */
     private static void prevFindActionPerformed() {
-        startSegmentFindOrReplaceOperation(TextAreaBuilder.getSyntaxTextArea(), fieldFind.getText(), true, false, false);
+        JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        startSegmentFindOrReplaceOperation(syntaxTextArea, fieldFind.getText(), true, false, false);
     }
 
     /**
@@ -191,6 +195,7 @@ public class FindPanelBuilder {
     }
 
     public static FindPanelLayout getLayout() {
+        tabbedSplitEditor = ObjectUtils.getBean(GlobalMenuKEY.TABBED_SPLIT_EDITOR);
         return layout;
     }
 
@@ -210,7 +215,7 @@ public class FindPanelBuilder {
      */
     private static void setTextAreaContentHighlight() {
         SwingUtilities.invokeLater(() -> {
-            JSONRSyntaxTextArea syntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
+            JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
             if (!isHighlight) {
                 int result = setHighlight(syntaxTextArea, fieldFind.getText());
                 searchResultLabel.setText(updateSearchResultCounts(result));

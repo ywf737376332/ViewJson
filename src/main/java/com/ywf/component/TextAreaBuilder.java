@@ -1,9 +1,12 @@
 package com.ywf.component;
 
+import com.ywf.action.EditorFocusEventService;
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.ywf.framework.utils.ObjectUtils;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -55,11 +58,14 @@ public class TextAreaBuilder {
         String themesPath = themesStyles != null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
         rTextScrollPane = new RTextScrollPane(syntaxTextArea);
+        rTextScrollPane.setBorder(BorderFactory.createEmptyBorder());
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(Boolean.valueOf(applicationContext.getTextAreaShowlineNumState()));
         rTextScrollPane.setFoldIndicatorEnabled(true);
         //监听文档变化
         StateBarEventService.getInstance().textAreaDocumentActionPerformed(syntaxTextArea);
+        // 设置编辑框的焦点
+        EditorFocusEventService.getInstance().getFocusOwnerActionPerformed(syntaxTextArea);
         return rTextScrollPane;
     }
 
@@ -77,6 +83,8 @@ public class TextAreaBuilder {
         // 自动换行功能
         textArea.setLineWrap(applicationContext.getTextAreaBreakLineState());
         textArea.setChineseConverState(applicationContext.getChineseConverState());
+        // 初始化组建后，直接保存到全局变量中
+        ObjectUtils.setBean(GlobalMenuKEY.EDITOR_FOCUS, textArea);
         textArea.revalidate();
         try {
             Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));

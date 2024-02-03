@@ -63,7 +63,7 @@ public class ToolBarBuilder {
         btnFindRepl.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame, "查找"));
 
         btnClean = new JButton("清空");
-        btnClean.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed(btnClean));
+        btnClean.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
 
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
         btnComp.setIcon(IconUtils.getSVGIcon("icons/comp.svg"));

@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
- * TODO
+ * 菜单工具条
  *
  * @Author YWF
  * @Date 2023/11/30 16:07
@@ -63,7 +63,7 @@ public class MenuBarBuilder {
         formatMenuItem.addActionListener(e -> MenuEventService.getInstance().formatJsonActionPerformed(frame));
         JMenuItem cleanMenuItem = new JMenuItem("清空");
         cleanMenuItem.setIcon(IconUtils.getSVGIcon("icons/delete.svg", 12, 12));
-        cleanMenuItem.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed(null));
+        cleanMenuItem.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
         JMenuItem findRepMenuItem = new JMenuItem("查找");
         findRepMenuItem.setIcon(IconUtils.getSVGIcon("icons/find.svg", 12, 12));
         findRepMenuItem.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame, "查找"));

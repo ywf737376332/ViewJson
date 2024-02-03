@@ -5,12 +5,14 @@ import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -48,10 +50,7 @@ import java.util.List;
  */
 public class MenuEventService {
 
-
-    private static JSONRSyntaxTextArea rSyntaxTextArea;
-    private static RTextScrollPane rTextScrollPane;
-    private static JTabbedSplitEditor tabbedSplitEditor;
+    private JTabbedSplitEditor tabbedSplitEditor;
 
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
@@ -59,8 +58,7 @@ public class MenuEventService {
     volatile private static MenuEventService instance = null;
 
     private MenuEventService() {
-        rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
-        tabbedSplitEditor = ObjectUtils.getBean("#global:tabbedSplitEditor");
+        tabbedSplitEditor = ObjectUtils.getBean(GlobalMenuKEY.TABBED_SPLIT_EDITOR);
     }
 
     public static MenuEventService getInstance() {
@@ -73,9 +71,6 @@ public class MenuEventService {
         }
         return instance;
     }
-
-
-
 
     /**
      * 格式化JSON
@@ -126,8 +121,8 @@ public class MenuEventService {
     /**
      * 清空文本内容
      */
-    public void cleanJsonActionPerformed(JButton button) {
-        System.out.println("图标宽：" + button.getIcon().getIconWidth() + " 图标高：" + button.getIcon().getIconHeight());
+    public void cleanJsonActionPerformed() {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         rSyntaxTextArea.setText("");
         // 保持光标的焦点
         rSyntaxTextArea.requestFocusInWindow();
@@ -148,6 +143,7 @@ public class MenuEventService {
      * 转义
      */
     public void escapeJsonActionPerformed() {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         String sourceText = rSyntaxTextArea.getText();
         SwingUtilities.invokeLater(() -> {
             rSyntaxTextArea.setText(JsonUtil.escapeJSON(sourceText));
@@ -158,6 +154,7 @@ public class MenuEventService {
      * 去除转义
      */
     public void unEscapeJsonActionPerformed() {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         String sourceText = rSyntaxTextArea.getText();
         SwingUtilities.invokeLater(() -> {
             rSyntaxTextArea.setText(JsonUtil.unescapeJSON(sourceText));
@@ -170,6 +167,7 @@ public class MenuEventService {
      * @param frame
      */
     public void copyJsonActionPerformed(JFrame frame) {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "内容不能为空！");
             return;
@@ -194,6 +192,7 @@ public class MenuEventService {
      * @param frame
      */
     public void copyJsonToPictActionPerformed(JFrame frame) {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "内容不能为空！");
             return;
@@ -255,6 +254,7 @@ public class MenuEventService {
      * @param frame
      */
     public void saveJsonToFileActionPerformed(JFrame frame) {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "保存的内容不能为空！");
             return;
@@ -268,7 +268,7 @@ public class MenuEventService {
             File fileToSave = fileChooser.getSelectedFile();
             try {
                 FileWriter fileWriter = new FileWriter(fileToSave + SystemConstant.SAVE_JSON_EXTENSION);
-                fileWriter.write(TextAreaBuilder.getSyntaxTextArea().getText());
+                fileWriter.write(rSyntaxTextArea.getText());
                 fileWriter.close();
                 JOptionPane.showMessageDialog(frame, "文件已保存： " + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION);
             } catch (IOException e) {
@@ -285,6 +285,7 @@ public class MenuEventService {
      * @date 2023/12/3 22:00
      */
     public void saveJsonToImageActionPerformed(JFrame frame) {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "内容不能为空！");
             return;
@@ -377,6 +378,7 @@ public class MenuEventService {
      * @date 2023/12/2 21:44
      */
     public void editSwitchActionPerformed() {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         boolean isEditable = rSyntaxTextArea.isEditable();
         rSyntaxTextArea.setEditable(!isEditable);
         applicationContext.setTextAreaEditState(!isEditable);
@@ -388,6 +390,7 @@ public class MenuEventService {
      * @date 2023/12/2 21:44
      */
     public void lineSetupActionPerformed() {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         boolean breakLine = rSyntaxTextArea.getLineWrap();
         rSyntaxTextArea.setLineWrap(!breakLine);
         applicationContext.setTextAreaBreakLineState(!breakLine);
@@ -399,9 +402,14 @@ public class MenuEventService {
      * @param
      */
     public void showLineNumActionPerformed() {
-        boolean lineNumbersEnabled = rTextScrollPane.getLineNumbersEnabled();
-        rTextScrollPane.setLineNumbersEnabled(!lineNumbersEnabled);
-        applicationContext.setTextAreaShowlineNumState(!lineNumbersEnabled);
+        RSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        Container component = rSyntaxTextArea.getParent().getParent();
+        if (component instanceof RTextScrollPane){
+            RTextScrollPane  rTextScrollPane = (RTextScrollPane)component ;
+            boolean lineNumbersEnabled = rTextScrollPane.getLineNumbersEnabled();
+            rTextScrollPane.setLineNumbersEnabled(!lineNumbersEnabled);
+            applicationContext.setTextAreaShowlineNumState(!lineNumbersEnabled);
+        }
     }
 
     /**
@@ -440,6 +448,7 @@ public class MenuEventService {
      * @param chineseConverMenu
      */
     public void chineseConverActionPerformed(JMenu chineseConverMenu) {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         int chineseConverState = applicationContext.getChineseConverState();
         for (Component menuComponent : chineseConverMenu.getMenuComponents()) {
             if (menuComponent instanceof CHToCNRadioButtonMenuItem) {

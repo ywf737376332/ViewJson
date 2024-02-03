@@ -147,12 +147,28 @@ swing + flatlaf + rsyntaxtextarea
 10. 打包exe，不依赖jdk
 
 
-![输入图片说明](src/main/resources/images/1.0.png)
-![输入图片说明](src/main/resources/images/2.0.png)
-![输入图片说明](src/main/resources/images/3.0.png)
-![输入图片说明](src/main/resources/images/4.0.png)
-![输入图片说明](src/main/resources/images/5.0.png)
-![输入图片说明](src/main/resources/images/6.0.png)
+#### 目前存在的问题：
+1. 编辑框的禁止编辑，自动换行，显示行号，图片质量，中文转码应该为全局设置，而不是一个编辑器一个编辑器设置
+2. 状态栏的内容类型，字数统计，应该随着编辑框焦点的变化而变化
+3. 菜单栏的清空按钮空指针(已解决)✅
+4. 分享功能异常(已解决)✅
+5. 查找功能异常(已解决)✅
+6. 全局组件的键全局注册，常量引用⭐
+7. 编辑框最多可以创建并排四个针(已解决)✅
+8. 编辑框创建四个后，编辑框位置拖动你渐近变化问题处理(已解决)✅
+9. 编辑框新建四个后，窗口最大化，还原的操作保证各编辑框的位置均匀分布(已解决)✅
+10. 主题改变或字体改变后，图标尺寸(变大)和编辑框字体(变小)被改变的问题处理
+11. 主题改变后，编辑框主题不变(已解决)✅
+12. 新建编辑框后，编辑框主题与当前主题不对应(已解决)✅
+
+<img src="src/main/resources/images/1.0.png" alt="版本一" width="800" height="600">
+<img src="src/main/resources/images/2.0.png" alt="版本一" width="800" height="600">
+<img src="src/main/resources/images/3.0.png" alt="版本一" width="800" height="600">
+<img src="src/main/resources/images/4.0.png" alt="版本一" width="800" height="600">
+<img src="src/main/resources/images/5.0.png" alt="版本一" width="800" height="600">
+<img src="src/main/resources/images/6.0.png" alt="版本一" width="800" height="600">
+<img src="src/main/resources/images/7.0.png" alt="版本一" width="800" height="600">
+
 >作者：莫斐鱼
 > 
 >2023年11月23日
