@@ -3,6 +3,7 @@ package com.ywf.component;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
+import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
@@ -181,7 +182,7 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
     /**
      * 关闭最后一次打开的组件
      */
-    public void closeAbleTabbed(RSyntaxTextArea rSyntaxTextArea) {
+    public void closeAbleTabbed(RTextArea rSyntaxTextArea) {
         System.out.println("执行关闭操作:传进来的组件："+rSyntaxTextArea);
         rSyntaxTextArea = rSyntaxTextArea == null ? findComponentsByFocus(parentFrame, RSyntaxTextArea.class) : rSyntaxTextArea;
         if (rSyntaxTextArea == null) {

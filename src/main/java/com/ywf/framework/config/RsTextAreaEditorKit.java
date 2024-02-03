@@ -29,7 +29,7 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
 
     private static final RecordableTextAction[] defaultActions = {
             new NewEditorAction(),
-            new CloseEditorAction(null)
+            new CloseEditorAction()
     };
 
     @Override
@@ -56,14 +56,13 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
 
     public static class CloseEditorAction extends RecordableTextAction {
         private JSONRSyntaxTextArea syntaxTextArea;
-        public CloseEditorAction(JSONRSyntaxTextArea syntaxTextArea) {
+        public CloseEditorAction() {
             //super(RsTextAreaEditorKit.closeEditorAction);
             super(RsTextAreaEditorKit.closeEditorAction,IconUtils.getSVGIcon("icons/closeTab.svg"), null, null, null);
-            this.syntaxTextArea = syntaxTextArea;
         }
         @Override
         public void actionPerformedImpl(ActionEvent e, RTextArea textArea) {
-            MenuEventService.getInstance().closeTabbedSplitEditorActionPerformed(syntaxTextArea);
+            MenuEventService.getInstance().closeTabbedSplitEditorActionPerformed(textArea);
         }
         @Override
         public final String getMacroID() {

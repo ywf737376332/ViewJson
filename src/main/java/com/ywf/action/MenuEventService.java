@@ -15,6 +15,7 @@ import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.ImageUtils;
 import com.ywf.framework.utils.JsonUtil;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.imageio.ImageIO;
@@ -512,7 +513,7 @@ public class MenuEventService {
     /**
      * 关闭可调整宽度的文本编辑器
      */
-    public static void closeTabbedSplitEditorActionPerformed(JSONRSyntaxTextArea syntaxTextArea) {
+    public static void closeTabbedSplitEditorActionPerformed(RTextArea syntaxTextArea) {
         DemoTabble002.getTabbedSplitPane().closeAbleTabbed(syntaxTextArea);
     }
 
