@@ -3,7 +3,7 @@ package com.ywf.framework.utils;
 import java.awt.*;
 
 /**
- * 通过父组件骚猫子组件
+ * 通过父组件扫描子组件
  *
  * @Author YWF
  * @Date 2023/12/2 15:24

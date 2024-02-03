@@ -7,12 +7,14 @@ import com.ywf.action.WindowStateEventService;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
+import com.ywf.framework.base.AbstractWindow;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
-import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * 启动界面
@@ -21,8 +23,7 @@ import java.awt.*;
  * @Date 2023/11/25 18:21
  */
 @MainView
-public class MainFrame extends JFrame {
-    private JFrame _this = this;
+public class MainFrame extends AbstractWindow {
 
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
@@ -48,8 +49,11 @@ public class MainFrame extends JFrame {
 
         // 右侧JSON格式化区域
         JPanel editPanel = PanelView.createEditPanel();
-        RTextScrollPane rTextScrollPane = TextAreaBuilder.createJsonScrollTextArea();
-        editPanel.add(rTextScrollPane, BorderLayout.CENTER);
+        //RTextScrollPane rTextScrollPane = TextAreaBuilder.createJsonScrollTextArea();
+        JTabbedSplitEditor tabbedSplitEditor = new JTabbedSplitEditor(new BorderLayout(), _this);
+
+        //editPanel.add(rTextScrollPane, BorderLayout.CENTER);
+        this.addComponent(editPanel, "#global:tabbedSplitEditor", tabbedSplitEditor, BorderLayout.CENTER);
 
         // 创建菜单栏
         JMenuBar menuBar = MenuBarBuilder.createMenuBar(frame);
@@ -58,8 +62,8 @@ public class MainFrame extends JFrame {
         // 底部版权区域
         JPanel panelBottom = PanelView.createPanelBottom(frame);
 
-        mainPanel.add(editPanel, BorderLayout.CENTER);
         editPanel.add(FindPanelBuilder.createFindPanel(), BorderLayout.SOUTH);
+        mainPanel.add(editPanel, BorderLayout.CENTER);
         mainPanel.add(panelBottom, BorderLayout.SOUTH);
         frame.setJMenuBar(menuBar);
         frame.getContentPane().add(toolBar, BorderLayout.NORTH);
@@ -72,7 +76,6 @@ public class MainFrame extends JFrame {
         frame.addComponentListener(new WindowResizedEventService(frame));
         // 窗口激活状态事件监听
         frame.addWindowStateListener(new WindowStateEventService(frame));
-
     }
 
     public JFrame get_this() {

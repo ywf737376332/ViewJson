@@ -1,8 +1,5 @@
 package com.ywf.component;
 
-import com.ywf.action.EditorFocusEventService;
-import com.ywf.action.StateBarEventService;
-import com.ywf.framework.utils.ObjectUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -13,8 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,7 +22,7 @@ import java.util.List;
  * @Author YWF
  * @Date 2024/1/24 22:50
  */
-public class JTabbedSplitEditor extends JPanel {
+public class JTabbedSplitEditor2 extends JPanel implements Serializable {
 
     private final LinkedList<JScrollPane> pages;
 
@@ -35,7 +30,7 @@ public class JTabbedSplitEditor extends JPanel {
     private JPanel page;
     private JSplitPane splitPane;
 
-    public JTabbedSplitEditor(LayoutManager layout, JFrame parentFrame) {
+    public JTabbedSplitEditor2(LayoutManager layout, JFrame parentFrame) {
         super(layout);
         pages = new LinkedList<>();
         this.parentFrame = parentFrame;
@@ -175,6 +170,8 @@ public class JTabbedSplitEditor extends JPanel {
     /**
      * 获取当前焦点组件
      *
+     * @param frame
+     * @param clazz
      * @param <T>
      * @return
      */
@@ -185,9 +182,6 @@ public class JTabbedSplitEditor extends JPanel {
         } else {
             return clazz.isInstance(focusOwner) ? (T) focusOwner : null;
         }
-    }
-    public <T> T findComponentsByFocus() {
-        return (T)ObjectUtils.getBean("#global:textArea:focus");
     }
 
     /**
@@ -266,10 +260,6 @@ public class JTabbedSplitEditor extends JPanel {
         textArea.setName("#rst:" + textArea.hashCode());
         // 自动换行功能
         textArea.setLineWrap(false);
-        //监听文档变化
-        StateBarEventService.getInstance().textAreaDocumentActionPerformed(textArea);
-        // 设置编辑框的焦点
-        //EditorFocusEventService.getInstance().getFocusOwnerActionPerformed(textArea);
         textArea.revalidate();
         try {
             Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));

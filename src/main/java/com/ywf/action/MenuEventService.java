@@ -4,17 +4,13 @@ import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
-import com.ywf.component.demo2.DemoTabble002;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
-import com.ywf.framework.utils.ChangeUIUtils;
-import com.ywf.framework.utils.IconUtils;
-import com.ywf.framework.utils.ImageUtils;
-import com.ywf.framework.utils.JsonUtil;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.ywf.framework.utils.*;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -55,6 +51,7 @@ public class MenuEventService {
 
     private static JSONRSyntaxTextArea rSyntaxTextArea;
     private static RTextScrollPane rTextScrollPane;
+    private static JTabbedSplitEditor tabbedSplitEditor;
 
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
@@ -62,8 +59,8 @@ public class MenuEventService {
     volatile private static MenuEventService instance = null;
 
     private MenuEventService() {
-        rSyntaxTextArea = TextAreaBuilder.getSyntaxTextArea();
         rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
+        tabbedSplitEditor = ObjectUtils.getBean("#global:tabbedSplitEditor");
     }
 
     public static MenuEventService getInstance() {
@@ -77,12 +74,16 @@ public class MenuEventService {
         return instance;
     }
 
+
+
+
     /**
      * 格式化JSON
      *
      * @param frame
      */
     public void formatJsonActionPerformed(JFrame frame) {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "请输入json字符串！");
             return;
@@ -126,7 +127,7 @@ public class MenuEventService {
      * 清空文本内容
      */
     public void cleanJsonActionPerformed(JButton button) {
-        System.out.println("图标宽："+ button.getIcon().getIconWidth() + " 图标高："+ button.getIcon().getIconHeight());
+        System.out.println("图标宽：" + button.getIcon().getIconWidth() + " 图标高：" + button.getIcon().getIconHeight());
         rSyntaxTextArea.setText("");
         // 保持光标的焦点
         rSyntaxTextArea.requestFocusInWindow();
@@ -137,6 +138,7 @@ public class MenuEventService {
      */
     public void compressionJsonActionPerformed() {
         SwingUtilities.invokeLater(() -> {
+            JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
             String sourceText = rSyntaxTextArea.getText();
             rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText));
         });
@@ -312,7 +314,7 @@ public class MenuEventService {
     /**
      * 关于对话框
      */
-    public static void aboutActionPerformed() {
+    public void aboutActionPerformed() {
         JLabel titleLabel = new JLabel(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
         titleLabel.setIcon(IconUtils.getSVGIcon("icons/logo01.svg", 50, 50));
         titleLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "H1");
@@ -335,7 +337,7 @@ public class MenuEventService {
     /**
      * 更新日志对话框
      */
-    public static void updateLogActionPerformed() {
+    public void updateLogActionPerformed() {
         JLabel linkLabel = new JLabel("<html>" + "<span>最新更新：</span>" + "<ol type=\"1\" style=\"float:left\">" + "<li>工具条新增新建按钮，点击新建时，增加新的选项卡.</li>" + "<li>删除左侧富文本框，增加JSON树显示.</li>" + "<li>系统托盘驻留功能.</li>" + "<li>最下方显示，工具格式化次数.</li>" + "<li>系统托盘驻留功能.</li>" + "<li>搜索功能.</li>" + "<li>窗口大小本地文件记录.</li>" + "<li>增加记录上一次选定的主题颜色.</li>" + "<li>报文分享为二维码.</li>" + "<li>增加按钮栏工具是否显示，某个按钮是否显示功能.</li>" + "<li>增加复制图片功能.</li>" + "</ol>" + "</html>");
         JOptionPane.showMessageDialog(null, new Object[]{linkLabel}, "更新日志", JOptionPane.PLAIN_MESSAGE);
     }
@@ -347,7 +349,7 @@ public class MenuEventService {
      * @param themesMenu
      * @date 2023/12/2 21:30
      */
-    public static void setupThemesActionPerformed(JFrame frame, JMenu themesMenu) {
+    public void setupThemesActionPerformed(JFrame frame, JMenu themesMenu) {
         // 主题按钮选中
         SystemThemesEnum themesCss = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
         for (Component menuComponent : themesMenu.getMenuComponents()) {
@@ -374,7 +376,7 @@ public class MenuEventService {
      *
      * @date 2023/12/2 21:44
      */
-    public static void editSwitchActionPerformed() {
+    public void editSwitchActionPerformed() {
         boolean isEditable = rSyntaxTextArea.isEditable();
         rSyntaxTextArea.setEditable(!isEditable);
         applicationContext.setTextAreaEditState(!isEditable);
@@ -385,7 +387,7 @@ public class MenuEventService {
      *
      * @date 2023/12/2 21:44
      */
-    public static void lineSetupActionPerformed() {
+    public void lineSetupActionPerformed() {
         boolean breakLine = rSyntaxTextArea.getLineWrap();
         rSyntaxTextArea.setLineWrap(!breakLine);
         applicationContext.setTextAreaBreakLineState(!breakLine);
@@ -396,7 +398,7 @@ public class MenuEventService {
      *
      * @param
      */
-    public static void showLineNumActionPerformed() {
+    public void showLineNumActionPerformed() {
         boolean lineNumbersEnabled = rTextScrollPane.getLineNumbersEnabled();
         rTextScrollPane.setLineNumbersEnabled(!lineNumbersEnabled);
         applicationContext.setTextAreaShowlineNumState(!lineNumbersEnabled);
@@ -407,7 +409,7 @@ public class MenuEventService {
      *
      * @date 2023/12/9 21:40
      */
-    public static void showToolBarActionPerformed() {
+    public void showToolBarActionPerformed() {
         JToolBar toolBar = ToolBarBuilder.getToolBar();
         boolean showToolBar = toolBar.isVisible();
         toolBar.setVisible(!showToolBar);
@@ -422,7 +424,7 @@ public class MenuEventService {
      *
      * @date 2023/12/9 21:40
      */
-    public static void showMenuBarActionPerformed() {
+    public void showMenuBarActionPerformed() {
         JMenuBar menuBar = MenuBarBuilder.getMenuBar();
         boolean showMenuBar = menuBar.isVisible();
         menuBar.setVisible(!showMenuBar);
@@ -437,7 +439,7 @@ public class MenuEventService {
      *
      * @param chineseConverMenu
      */
-    public static void chineseConverActionPerformed(JMenu chineseConverMenu) {
+    public void chineseConverActionPerformed(JMenu chineseConverMenu) {
         int chineseConverState = applicationContext.getChineseConverState();
         for (Component menuComponent : chineseConverMenu.getMenuComponents()) {
             if (menuComponent instanceof CHToCNRadioButtonMenuItem) {
@@ -459,7 +461,7 @@ public class MenuEventService {
      * @param pictureQualityMenu
      * @date 2023/12/16 22:13
      */
-    public static void pictureQualityActionPerformed(JMenu pictureQualityMenu) {
+    public void pictureQualityActionPerformed(JMenu pictureQualityMenu) {
         int pictureQuality = applicationContext.getPictureQualityState();
         for (Component menuComponent : pictureQualityMenu.getMenuComponents()) {
             if (menuComponent instanceof JSONRadioButtonMenuItem) {
@@ -480,7 +482,7 @@ public class MenuEventService {
      *
      * @param title 打开的窗口标题名称
      */
-    public static void showFindDialogActionPerformed(JFrame frame, String title) {
+    public void showFindDialogActionPerformed(JFrame frame, String title) {
         //PoPupFindPanel.getInstance().showPopup(rSyntaxTextArea);
         FindPanelBuilder.getLayout().showHideActionPerformed();
     }
@@ -490,7 +492,7 @@ public class MenuEventService {
      *
      * @param fontSetMenu
      */
-    public static void applyFontActionPerformed(JFrame frame, JMenu fontSetMenu) {
+    public void applyFontActionPerformed(JFrame frame, JMenu fontSetMenu) {
         Component[] menuComponent = fontSetMenu.getMenuComponents();
         for (int i = 0; i < menuComponent.length; i++) {
             if (menuComponent[i] instanceof JRadioButtonMenuItem) {
@@ -506,15 +508,15 @@ public class MenuEventService {
     /**
      * 新建可调整宽度的文本编辑器
      */
-    public static void addTabbedSplitEditorActionPerformed() {
-        DemoTabble002.getTabbedSplitPane().addTab();
+    public void addTabbedSplitEditorActionPerformed() {
+        tabbedSplitEditor.addTab();
     }
 
     /**
      * 关闭可调整宽度的文本编辑器
      */
-    public static void closeTabbedSplitEditorActionPerformed(RTextArea syntaxTextArea) {
-        DemoTabble002.getTabbedSplitPane().closeAbleTabbed(syntaxTextArea);
+    public void closeTabbedSplitEditorActionPerformed(RTextArea syntaxTextArea) {
+        tabbedSplitEditor.closeAbleTabbed(syntaxTextArea);
     }
 
 }

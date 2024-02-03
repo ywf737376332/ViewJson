@@ -18,10 +18,7 @@ public class ObjectUtils {
     }
 
     public static void setBean(String clazzKey, Object value) {
-        Object val = VIEW_SOURCES.get(clazzKey);
-        if (val == null) {
-            VIEW_SOURCES.put(clazzKey, value);
-        }
+        VIEW_SOURCES.put(clazzKey, value);
     }
 
 
