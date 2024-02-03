@@ -1,13 +1,15 @@
-package com.ywf.component.demo2;
+package com.ywf.component;
 
-import com.ywf.action.WindowResizedEventService;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -28,32 +30,27 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
     private JPanel page;
     private JSplitPane splitPane;
 
-    public JTabbedSplitEditor(JFrame parentFrame) {
-        this.parentFrame = parentFrame;
+    public JTabbedSplitEditor(LayoutManager layout, JFrame parentFrame) {
+        super(layout);
         pages = new LinkedList<>();
-        setLayout(new BorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // 设置外边距
-        parentFrame.addComponentListener(new SplitResizedEventService());
-    }
-
-    public JPanel addTab(JScrollPane component) {
-        return insertTab(component);
-    }
-
-    private JPanel insertTab(JScrollPane component) {
-        /*if (component == null) {
-            return null;
-        }*/
-        // 缓存SyntaxTextArea组件
-        cacheComment(component);
-        // 给SyntaxTextArea组件添加右键菜单
-        // addSyntaxTextAreaPopupMenu(component);
-        removeComponents(page);
+        this.parentFrame = parentFrame;
         if (page == null) {
             page = new JPanel(new BorderLayout());
         }
+        addTab();
+        // 自适应屏幕大小变化，调整组件宽度
+        parentFrame.addComponentListener(new SplitResizedEventService());
+    }
+
+    public void addTab() {
+        insertTab(initScrollEditor());
+    }
+
+    private void insertTab(JScrollPane component) {
+        removeComponents(page);
+        cacheComment(component );
+        int componentCount = getEditorComponentCount();
         page.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(130, 128, 128, 130)));
-        int componentCount = getComponentCount();
         switch (componentCount) {
             case 1:
                 page.add(getComment(1), BorderLayout.CENTER);
@@ -79,16 +76,14 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
                 splitPane.setContinuousLayout(true);
                 addSplitWidthChangeListener(parentFrame, splitPane, splitPane3);
                 page.add(splitPane, BorderLayout.CENTER);
-                //add(page, BorderLayout.CENTER);
                 break;
             default:
+                System.out.println("没有逻辑被执行");
         }
-        // addImpl(page, null, -1);
-        // ToolTipManager.sharedInstance().registerComponent(page);
         // 重新绘制
-        page.revalidate();
-        page.repaint();
-        return page;
+        this.add(page);
+        this.revalidate();
+        this.repaint();
     }
 
     /**
@@ -111,15 +106,13 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
     public void removeComponents(JComponent container) {
         if (container != null) {
             container.removeAll();
-            revalidate();
-            repaint();
         }
     }
 
     /**
      * 获取组件数量
      */
-    public int getComponentCount() {
+    public int getEditorComponentCount() {
         return pages.size();
     }
 
@@ -131,23 +124,12 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
         if (component == null) {
             return;
         }
-        if (getComponentCount() == 3) {
+        if (getEditorComponentCount() == 3) {
             System.out.println("目前支持最多3个组件");
             return;
         }
         pages.add(component);
-        System.out.println("组件数量：" + getComponentCount());
         component.setName(String.valueOf(component.hashCode()));
-    }
-
-    private void disposeSplitPane(JSplitPane splitPane) {
-        if (splitPane == null) {
-            return;
-        }
-        splitPane.removeAll();
-        splitPane.setDividerLocation(0);
-        splitPane.revalidate();
-        splitPane.repaint();
     }
 
     /**
@@ -182,14 +164,6 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
         }
     }
 
-    private Color updateRandomColor() {
-        Random random = new Random();
-        int r = random.nextInt(256);
-        int g = random.nextInt(256);
-        int b = random.nextInt(256);
-        return new Color(r, g, b);
-    }
-
     private void addSyntaxTextAreaPopupMenu(JScrollPane component) {
         if (component == null) {
             return;
@@ -204,22 +178,18 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
         }
     }
 
-    public void createNewTabbed(RTextScrollPane rTextScrollPane) {
-        addTab(rTextScrollPane);
-    }
-
     /**
      * 关闭最后一次打开的组件
      */
     public void closeAbleTabbed(RSyntaxTextArea rSyntaxTextArea) {
-        System.out.println("执行关闭操作");
+        System.out.println("执行关闭操作:传进来的组件："+rSyntaxTextArea);
         rSyntaxTextArea = rSyntaxTextArea == null ? findComponentsByFocus(parentFrame, RSyntaxTextArea.class) : rSyntaxTextArea;
         if (rSyntaxTextArea == null) {
             return;
         }
         System.out.println("当前组件：" + rSyntaxTextArea.getName());
         RTextScrollPane rTextScrollPane = (RTextScrollPane) rSyntaxTextArea.getParent().getParent();
-        int componentCount = getComponentCount();
+        int componentCount = getEditorComponentCount();
         System.out.println("当前激活的:" + rTextScrollPane.getName());
         for (int i = 0; i < pages.size(); i++) {
             if (rTextScrollPane.equals(pages.get(i))) {
@@ -234,6 +204,14 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
         }
     }
 
+    private static RTextScrollPane initScrollEditor(){
+        //return TextAreaBuilder.createJsonScrollTextArea();
+        return createJsonScrollTextArea();
+    }
+
+    /**
+     * 窗口最大化，自适应调整每个分隔栏宽度
+     */
     class SplitResizedEventService extends ComponentAdapter {
         @Override
         public void componentResized(ComponentEvent e) {
@@ -243,6 +221,42 @@ public class JTabbedSplitEditor extends JPanel implements Serializable {
                 splitPane.setDividerLocation(parentFrame.getWidth() / 3 - 15);
             }
         }
+    }
+
+
+    public static RTextScrollPane createJsonScrollTextArea() {
+        JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, "/themes/textAreaThemes/ideaLight.xml");
+        RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
+        rTextScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        // 显示行号
+        rTextScrollPane.setLineNumbersEnabled(true);
+        rTextScrollPane.setFoldIndicatorEnabled(true);
+        return rTextScrollPane;
+    }
+
+    private static JSONRSyntaxTextArea createTextArea(String styleKey, String themesPath) {
+        JSONRSyntaxTextArea textArea = new JSONRSyntaxTextArea();
+        textArea.setSyntaxEditingStyle(styleKey);
+        // 这行代码启用了代码折叠功能
+        textArea.setCodeFoldingEnabled(true);
+        // 启用了抗锯齿功能
+        textArea.setAntiAliasingEnabled(true);
+        // 启用了自动滚动功能
+        textArea.setAutoscrolls(true);
+        // 读取配置信息中的数据
+        textArea.setEditable(true);
+        //组件名称
+        textArea.setName("#rst:"+textArea.hashCode());
+        // 自动换行功能
+        textArea.setLineWrap(false);
+        textArea.revalidate();
+        try {
+            Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));
+            theme.apply(textArea);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return textArea;
     }
 
 }

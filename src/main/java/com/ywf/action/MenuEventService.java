@@ -4,6 +4,7 @@ import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
+import com.ywf.component.demo2.DemoTabble002;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
@@ -499,6 +500,20 @@ public class MenuEventService {
                 });
             }
         }
+    }
+
+    /**
+     * 新建可调整宽度的文本编辑器
+     */
+    public static void addTabbedSplitEditorActionPerformed() {
+        DemoTabble002.getTabbedSplitPane().addTab();
+    }
+
+    /**
+     * 关闭可调整宽度的文本编辑器
+     */
+    public static void closeTabbedSplitEditorActionPerformed(JSONRSyntaxTextArea syntaxTextArea) {
+        DemoTabble002.getTabbedSplitPane().closeAbleTabbed(syntaxTextArea);
     }
 
 }

@@ -48,7 +48,7 @@ public class MainFrame extends JFrame {
 
         // 右侧JSON格式化区域
         JPanel editPanel = PanelView.createEditPanel();
-        RTextScrollPane rTextScrollPane = TextAreaBuilder.JsonScrollTextArea();
+        RTextScrollPane rTextScrollPane = TextAreaBuilder.createJsonScrollTextArea();
         editPanel.add(rTextScrollPane, BorderLayout.CENTER);
 
         // 创建菜单栏

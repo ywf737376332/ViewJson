@@ -50,7 +50,7 @@ public class TextAreaBuilder {
     /**
      * Json编辑器
      */
-    public static RTextScrollPane JsonScrollTextArea() {
+    public static RTextScrollPane createJsonScrollTextArea() {
         SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
         String themesPath = themesStyles != null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);

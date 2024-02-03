@@ -69,7 +69,7 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
     protected void init() {
         super.init();
         if (newEditorMenuItem == null) {
-            createPopupMenuActions();
+            createPopupMenuActions(this);
         }
         if (collapseAllFoldsAction == null) {
             createRstaPopupMenuActions();
@@ -80,7 +80,6 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
     /**
      * 创建右键菜单
      *
-     * @param syntaxTextArea
      * @return
      */
     private JPopupMenu initPopupMenu(JSONRSyntaxTextArea syntaxTextArea) {
@@ -117,14 +116,14 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
     /**
      * 菜单事件初始化
      */
-    private static void createPopupMenuActions() {
+    private static void createPopupMenuActions(JSONRSyntaxTextArea syntaxTextArea) {
         ResourceBundle msg = getResourceBundle();
         int mod = RTextArea.getDefaultModifier();
 
         newEditorAction = new RsTextAreaEditorKit.NewEditorAction();
         newEditorAction.setProperties(msg, "Action.New");
 
-        closeEditorAction = new RsTextAreaEditorKit.CloseEditorAction();
+        closeEditorAction = new RsTextAreaEditorKit.CloseEditorAction(syntaxTextArea);
         closeEditorAction.setProperties(msg, "Action.Close");
 
         cutAction = new RTextAreaEditorKit.CutAction();

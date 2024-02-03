@@ -1,5 +1,7 @@
 package com.ywf.framework.config;
 
+import com.ywf.action.MenuEventService;
+import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.demo2.DemoTabble002;
 import com.ywf.framework.utils.IconUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -27,7 +29,7 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
 
     private static final RecordableTextAction[] defaultActions = {
             new NewEditorAction(),
-            new CloseEditorAction()
+            new CloseEditorAction(null)
     };
 
     @Override
@@ -36,13 +38,14 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
     }
 
     public static class NewEditorAction extends RecordableTextAction {
+        private JSONRSyntaxTextArea syntaxTextArea;
         public NewEditorAction() {
             //super(RsTextAreaEditorKit.newEditorAction);
             super(RsTextAreaEditorKit.newEditorAction,IconUtils.getSVGIcon("icons/newEditer.svg"), null, null, null);
         }
         @Override
         public void actionPerformedImpl(ActionEvent e, RTextArea textArea) {
-            DemoTabble002.createNewTabActionPerformed();
+            MenuEventService.getInstance().addTabbedSplitEditorActionPerformed();
         }
         @Override
         public final String getMacroID() {
@@ -52,13 +55,15 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
     }
 
     public static class CloseEditorAction extends RecordableTextAction {
-        public CloseEditorAction() {
-            //super(RsTextAreaEditorKit.newEditorAction);
-            super(RsTextAreaEditorKit.newEditorAction,IconUtils.getSVGIcon("icons/closeTab.svg"), null, null, null);
+        private JSONRSyntaxTextArea syntaxTextArea;
+        public CloseEditorAction(JSONRSyntaxTextArea syntaxTextArea) {
+            //super(RsTextAreaEditorKit.closeEditorAction);
+            super(RsTextAreaEditorKit.closeEditorAction,IconUtils.getSVGIcon("icons/closeTab.svg"), null, null, null);
+            this.syntaxTextArea = syntaxTextArea;
         }
         @Override
         public void actionPerformedImpl(ActionEvent e, RTextArea textArea) {
-            DemoTabble002.closeAbleTabbedSplitPane((RSyntaxTextArea) textArea);
+            MenuEventService.getInstance().closeTabbedSplitEditorActionPerformed(syntaxTextArea);
         }
         @Override
         public final String getMacroID() {
