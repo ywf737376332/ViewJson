@@ -3,6 +3,9 @@ package com.ywf.framework.ioc;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 /**
@@ -33,6 +36,20 @@ public class PropertiesConfigurationContext implements Serializable {
             propertiesConfiguration = new PropertiesConfiguration(resourceUrl);
         } catch (ConfigurationException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public PropertiesConfigurationContext(String resourceUrl,int w){
+        try {
+            propertiesConfiguration = new PropertiesConfiguration(resourceUrl);
+        } catch (ConfigurationException e) {
+            e.printStackTrace();
+        }
+        try (FileInputStream inputStream = new FileInputStream(resourceUrl)) {
+            propertiesConfiguration.load(inputStream);
+        } catch (IOException | ConfigurationException e) {
+            System.err.println("Failed to load configuration file: " + e.getMessage());
+            return;
         }
     }
 
