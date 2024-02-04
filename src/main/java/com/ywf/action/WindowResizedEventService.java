@@ -1,10 +1,6 @@
 package com.ywf.action;
 
-import com.ywf.component.TextAreaBuilder;
-import org.fife.ui.rtextarea.RTextScrollPane;
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -17,11 +13,9 @@ import java.awt.event.ComponentEvent;
 public class WindowResizedEventService extends ComponentAdapter {
 
     private JFrame frame;
-    private RTextScrollPane rTextScrollPane;
 
     public WindowResizedEventService(JFrame frame) {
         this.frame = frame;
-        rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
     }
 
     @Override

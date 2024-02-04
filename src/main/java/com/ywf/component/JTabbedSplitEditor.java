@@ -1,6 +1,7 @@
 package com.ywf.component;
 
 import com.ywf.action.StateBarEventService;
+import com.ywf.framework.utils.ComponentUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -269,7 +270,7 @@ public class JTabbedSplitEditor extends JPanel {
      * @param scrollPane
      */
     public void requestFocusToScrollEditor(JScrollPane scrollPane) {
-        JSONRSyntaxTextArea rSyntaxTextArea = (JSONRSyntaxTextArea) (scrollPane.getViewport().getView());
+        JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
         // 给当前组件绑定焦点
         requestFocusToEditor(rSyntaxTextArea);
         // 给当前组件点击事件，点击时绑定焦点
@@ -292,7 +293,7 @@ public class JTabbedSplitEditor extends JPanel {
     private void requestFocusToEditor(JSONRSyntaxTextArea syntaxTextArea) {
         LinkedList<JScrollPane> scpList = getPages();
         for (JScrollPane scrollPane : scpList) {
-            JSONRSyntaxTextArea rSyntaxTextAreaOld = (JSONRSyntaxTextArea) scrollPane.getViewport().getView();
+            JSONRSyntaxTextArea rSyntaxTextAreaOld = ComponentUtils.convertEditor(scrollPane);
             rSyntaxTextAreaOld.setEditorFocus(false);
         }
         // 保持光标的焦点
@@ -308,7 +309,7 @@ public class JTabbedSplitEditor extends JPanel {
     public JSONRSyntaxTextArea getFocusEditor() {
         LinkedList<JScrollPane> scpList = getPages();
         for (JScrollPane scrollPane : scpList) {
-            JSONRSyntaxTextArea rSyntaxTextArea = (JSONRSyntaxTextArea) scrollPane.getViewport().getView();
+            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
             if (rSyntaxTextArea.isEditorFocus()) {
                 return rSyntaxTextArea;
             }

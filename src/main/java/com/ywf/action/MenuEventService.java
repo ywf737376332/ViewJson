@@ -12,7 +12,6 @@ import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -32,6 +31,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -378,10 +378,15 @@ public class MenuEventService {
      * @date 2023/12/2 21:44
      */
     public void editSwitchActionPerformed() {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
-        boolean isEditable = rSyntaxTextArea.isEditable();
-        rSyntaxTextArea.setEditable(!isEditable);
-        applicationContext.setTextAreaEditState(!isEditable);
+        LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
+        for (int i = 0; i < scrollPaneList.size(); i++) {
+            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
+            boolean isEditable = rSyntaxTextArea.isEditable();
+            rSyntaxTextArea.setEditable(!isEditable);
+            if (i == scrollPaneList.size() - 1) {
+                applicationContext.setTextAreaEditState(!isEditable);
+            }
+        }
     }
 
     /**
@@ -390,10 +395,15 @@ public class MenuEventService {
      * @date 2023/12/2 21:44
      */
     public void lineSetupActionPerformed() {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
-        boolean breakLine = rSyntaxTextArea.getLineWrap();
-        rSyntaxTextArea.setLineWrap(!breakLine);
-        applicationContext.setTextAreaBreakLineState(!breakLine);
+        LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
+        for (int i = 0; i < scrollPaneList.size(); i++) {
+            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
+            boolean breakLine = rSyntaxTextArea.getLineWrap();
+            rSyntaxTextArea.setLineWrap(!breakLine);
+            if (i == scrollPaneList.size() - 1) {
+                applicationContext.setTextAreaBreakLineState(!breakLine);
+            }
+        }
     }
 
     /**
@@ -402,13 +412,14 @@ public class MenuEventService {
      * @param
      */
     public void showLineNumActionPerformed() {
-        RSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
-        Container component = rSyntaxTextArea.getParent().getParent();
-        if (component instanceof RTextScrollPane) {
-            RTextScrollPane rTextScrollPane = (RTextScrollPane) component;
+        LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
+        for (int i = 0; i < scrollPaneList.size(); i++) {
+            RTextScrollPane rTextScrollPane = (RTextScrollPane) scrollPaneList.get(i);
             boolean lineNumbersEnabled = rTextScrollPane.getLineNumbersEnabled();
             rTextScrollPane.setLineNumbersEnabled(!lineNumbersEnabled);
-            applicationContext.setTextAreaShowlineNumState(!lineNumbersEnabled);
+            if (i == scrollPaneList.size() - 1) {
+                applicationContext.setTextAreaShowlineNumState(!lineNumbersEnabled);
+            }
         }
     }
 
@@ -443,23 +454,48 @@ public class MenuEventService {
     }
 
     /**
-     * 中文转码按钮组事件注册
+     * 中文转码按钮组事件
      *
      * @param chineseConverMenu
      */
     public void chineseConverActionPerformed(JMenu chineseConverMenu) {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         int chineseConverState = applicationContext.getChineseConverState();
+        chineseConverEvent(chineseConverMenu, chineseConverState);
+    }
+
+    /**
+     * 中文转码按钮组事件注册
+     *
+     * @param chineseConverMenu
+     * @param chineseConverState
+     */
+    private void chineseConverEvent(JMenu chineseConverMenu, int chineseConverState) {
         for (Component menuComponent : chineseConverMenu.getMenuComponents()) {
             if (menuComponent instanceof CHToCNRadioButtonMenuItem) {
                 CHToCNRadioButtonMenuItem chineseConverMenuItem = (CHToCNRadioButtonMenuItem) menuComponent;
                 if (chineseConverMenuItem.getChineseConverState() == chineseConverState) {
                     chineseConverMenuItem.setSelected(true);
                 }
-                chineseConverMenuItem.addActionListener(e -> {
-                    rSyntaxTextArea.setChineseConverState(chineseConverMenuItem.getChineseConverState());
-                    applicationContext.setChineseConverState(chineseConverMenuItem.getChineseConverState());
-                });
+                chineseConverMenuItem.addActionListener(e -> addChineseConverMenuActionListener(chineseConverMenuItem));
+            }
+        }
+    }
+
+    /**
+     * 设置中文转码状态
+     *
+     * @param chineseConverMenuItem
+     */
+    private void addChineseConverMenuActionListener(CHToCNRadioButtonMenuItem chineseConverMenuItem) {
+        int btnConverState = chineseConverMenuItem.getChineseConverState();
+        LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
+        for (int i = 0; i < scrollPaneList.size(); i++) {
+            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
+            rSyntaxTextArea.setChineseConverState(btnConverState);
+            System.out.println("组件设置：" + applicationContext.getChineseConverState());
+            if (i == scrollPaneList.size() - 1) {
+                applicationContext.setChineseConverState(btnConverState);
+                System.out.println("保存状态：" + applicationContext.getChineseConverState());
             }
         }
     }
@@ -484,7 +520,6 @@ public class MenuEventService {
             }
         }
     }
-
 
     /**
      * 打开查找对话框

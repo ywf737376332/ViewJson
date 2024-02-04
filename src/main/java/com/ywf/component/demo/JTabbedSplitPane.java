@@ -1,5 +1,6 @@
 package com.ywf.component.demo;
 
+import com.ywf.framework.utils.ComponentUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
@@ -178,7 +179,7 @@ public class JTabbedSplitPane extends JPanel implements Serializable {
             return;
         }
         try {
-            RSyntaxTextArea rSyntaxTextArea = (RSyntaxTextArea) component.getViewport().getView();
+            RSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(component);
             System.out.println("获取到的组件名称：" + rSyntaxTextArea.getName());
         } catch (RuntimeException e) {
             System.out.println("获取到的组件失败：" + e);

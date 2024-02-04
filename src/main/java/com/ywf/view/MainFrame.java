@@ -2,7 +2,6 @@ package com.ywf.view;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.ywf.action.FrameWindowCloseEventService;
-import com.ywf.action.WindowResizedEventService;
 import com.ywf.action.WindowStateEventService;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
@@ -68,8 +67,6 @@ public class MainFrame extends AbstractWindow {
         frame.addWindowListener(new FrameWindowCloseEventService(frame));
         // 窗口右键菜单
         frame.addMouseListener(PopupMenuBuilder.getInstance().getPopupListener());
-        // 窗口改变大小事件监听
-        frame.addComponentListener(new WindowResizedEventService(frame));
         // 窗口激活状态事件监听
         frame.addWindowStateListener(new WindowStateEventService(frame));
     }

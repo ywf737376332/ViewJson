@@ -86,7 +86,7 @@ public class ChangeUIUtils {
         JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalMenuKEY.TABBED_SPLIT_EDITOR);
         LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
         for (JScrollPane scrollPane : sp) {
-            JSONRSyntaxTextArea rSyntaxTextArea = (JSONRSyntaxTextArea) scrollPane.getViewport().getView();
+            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
             try {
                 Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style));
                 theme.apply(rSyntaxTextArea);
