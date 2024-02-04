@@ -1,15 +1,17 @@
 package com.ywf.component;
 
 import com.ywf.framework.config.GlobalMenuKEY;
+import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.ObjectUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -208,10 +210,6 @@ public class JTabbedSplitEditor extends JPanel {
         }
     }
 
-    public <T> T findComponentsByFocus() {
-        return (T) ObjectUtils.getBean(GlobalMenuKEY.EDITOR_FOCUS);
-    }
-
     /**
      * 关闭最后一次打开的组件
      */
@@ -237,8 +235,10 @@ public class JTabbedSplitEditor extends JPanel {
      *
      * @return
      */
-    private static RTextScrollPane initScrollEditor() {
-        return TextAreaBuilder.createJsonScrollTextArea();
+    private RTextScrollPane initScrollEditor() {
+        RTextScrollPane scrollTextArea = TextAreaBuilder.createJsonScrollTextArea();
+        requestFocusToScrollEditor(scrollTextArea);
+        return scrollTextArea;
     }
 
     /**
@@ -260,6 +260,55 @@ public class JTabbedSplitEditor extends JPanel {
                 rightSplitComponent.setDividerLocation(dividerLocation / 2);
             }
         }
+    }
+
+    /**
+     * 给当前有滚动框的编辑框组件设置焦点
+     *      组件初始化的时候清除其他组件焦点，设置当前组件焦点
+     *      鼠标点击编辑框的清除其他组件焦点，设置当前组件焦点
+     * @param scrollPane
+     */
+    public void requestFocusToScrollEditor(JScrollPane scrollPane) {
+        JSONRSyntaxTextArea rSyntaxTextArea = (JSONRSyntaxTextArea)(scrollPane.getViewport().getView());
+        // 给当前组件绑定焦点
+        requestFocusToEditor(rSyntaxTextArea);
+        // 给当前组件点击事件，点击时绑定焦点
+        rSyntaxTextArea.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                requestFocusToEditor(rSyntaxTextArea);
+            }
+        });
+    }
+
+    /**
+     * 给当前编辑框组件设置焦点
+     * @param syntaxTextArea
+     */
+    private void requestFocusToEditor(JSONRSyntaxTextArea syntaxTextArea) {
+        LinkedList<JScrollPane> scpList = getPages();
+        for (JScrollPane scrollPane : scpList) {
+            JSONRSyntaxTextArea rSyntaxTextAreaOld = (JSONRSyntaxTextArea) scrollPane.getViewport().getView();
+            rSyntaxTextAreaOld.setEditorFocus(false);
+        }
+        // 保持光标的焦点
+        syntaxTextArea.requestFocus();
+        syntaxTextArea.setEditorFocus(true);
+    }
+
+    /**
+     * 获取当前焦点编辑框组件
+     * @return
+     */
+    public JSONRSyntaxTextArea getFocusEditor() {
+        LinkedList<JScrollPane> scpList = getPages();
+        for (JScrollPane scrollPane : scpList) {
+            JSONRSyntaxTextArea rSyntaxTextArea= (JSONRSyntaxTextArea) scrollPane.getViewport().getView();
+            if (rSyntaxTextArea.isEditorFocus()){
+                return rSyntaxTextArea;
+            }
+        }
+        return null;
     }
 
     public LinkedList<JScrollPane> getPages() {

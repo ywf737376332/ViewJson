@@ -42,7 +42,7 @@ public class QRCodeEventService {
      * @param frame
      */
     public void showQrcodeActionPerformed(JFrame frame) {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         String text = rSyntaxTextArea.getText();
         if ("".equals(text)) {
             JOptionPane.showMessageDialog(frame, "内容不能为空！");

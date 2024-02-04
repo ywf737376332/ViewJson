@@ -129,7 +129,7 @@ public class FindPanelBuilder {
      * 查找下一个
      */
     private static void nextFindActionPerformed() {
-        JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.getFocusEditor();
         startSegmentFindOrReplaceOperation(syntaxTextArea, fieldFind.getText(), true, true, false);
     }
 
@@ -137,7 +137,7 @@ public class FindPanelBuilder {
      * 查找上一个
      */
     private static void prevFindActionPerformed() {
-        JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.getFocusEditor();
         startSegmentFindOrReplaceOperation(syntaxTextArea, fieldFind.getText(), true, false, false);
     }
 
@@ -215,7 +215,7 @@ public class FindPanelBuilder {
      */
     private static void setTextAreaContentHighlight() {
         SwingUtilities.invokeLater(() -> {
-            JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+            JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.getFocusEditor();
             if (!isHighlight) {
                 int result = setHighlight(syntaxTextArea, fieldFind.getText());
                 searchResultLabel.setText(updateSearchResultCounts(result));

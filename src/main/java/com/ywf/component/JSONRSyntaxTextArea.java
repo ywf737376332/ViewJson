@@ -45,6 +45,8 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
      */
     private TextTypeEnum textType;
 
+    private boolean editorFocus;
+
     /**
      * 右键菜单重写
      */
@@ -197,6 +199,14 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
 
     public void setTextType(TextTypeEnum textType) {
         this.textType = textType;
+    }
+
+    public boolean isEditorFocus() {
+        return editorFocus;
+    }
+
+    public void setEditorFocus(boolean editorFocus) {
+        this.editorFocus = editorFocus;
     }
 
     @Override

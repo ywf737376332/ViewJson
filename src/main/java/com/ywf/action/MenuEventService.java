@@ -78,7 +78,7 @@ public class MenuEventService {
      * @param frame
      */
     public void formatJsonActionPerformed(JFrame frame) {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "请输入json字符串！");
             return;
@@ -122,7 +122,7 @@ public class MenuEventService {
      * 清空文本内容
      */
     public void cleanJsonActionPerformed() {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         rSyntaxTextArea.setText("");
         // 保持光标的焦点
         rSyntaxTextArea.requestFocusInWindow();
@@ -133,7 +133,7 @@ public class MenuEventService {
      */
     public void compressionJsonActionPerformed() {
         SwingUtilities.invokeLater(() -> {
-            JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+            JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
             String sourceText = rSyntaxTextArea.getText();
             rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText));
         });
@@ -143,7 +143,7 @@ public class MenuEventService {
      * 转义
      */
     public void escapeJsonActionPerformed() {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         String sourceText = rSyntaxTextArea.getText();
         SwingUtilities.invokeLater(() -> {
             rSyntaxTextArea.setText(JsonUtil.escapeJSON(sourceText));
@@ -154,7 +154,7 @@ public class MenuEventService {
      * 去除转义
      */
     public void unEscapeJsonActionPerformed() {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         String sourceText = rSyntaxTextArea.getText();
         SwingUtilities.invokeLater(() -> {
             rSyntaxTextArea.setText(JsonUtil.unescapeJSON(sourceText));
@@ -167,7 +167,7 @@ public class MenuEventService {
      * @param frame
      */
     public void copyJsonActionPerformed(JFrame frame) {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "内容不能为空！");
             return;
@@ -192,7 +192,7 @@ public class MenuEventService {
      * @param frame
      */
     public void copyJsonToPictActionPerformed(JFrame frame) {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "内容不能为空！");
             return;
@@ -254,7 +254,7 @@ public class MenuEventService {
      * @param frame
      */
     public void saveJsonToFileActionPerformed(JFrame frame) {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "保存的内容不能为空！");
             return;
@@ -285,7 +285,7 @@ public class MenuEventService {
      * @date 2023/12/3 22:00
      */
     public void saveJsonToImageActionPerformed(JFrame frame) {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
             JOptionPane.showMessageDialog(frame, "内容不能为空！");
             return;
@@ -378,7 +378,7 @@ public class MenuEventService {
      * @date 2023/12/2 21:44
      */
     public void editSwitchActionPerformed() {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         boolean isEditable = rSyntaxTextArea.isEditable();
         rSyntaxTextArea.setEditable(!isEditable);
         applicationContext.setTextAreaEditState(!isEditable);
@@ -390,7 +390,7 @@ public class MenuEventService {
      * @date 2023/12/2 21:44
      */
     public void lineSetupActionPerformed() {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         boolean breakLine = rSyntaxTextArea.getLineWrap();
         rSyntaxTextArea.setLineWrap(!breakLine);
         applicationContext.setTextAreaBreakLineState(!breakLine);
@@ -402,10 +402,10 @@ public class MenuEventService {
      * @param
      */
     public void showLineNumActionPerformed() {
-        RSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        RSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         Container component = rSyntaxTextArea.getParent().getParent();
-        if (component instanceof RTextScrollPane){
-            RTextScrollPane  rTextScrollPane = (RTextScrollPane)component ;
+        if (component instanceof RTextScrollPane) {
+            RTextScrollPane rTextScrollPane = (RTextScrollPane) component;
             boolean lineNumbersEnabled = rTextScrollPane.getLineNumbersEnabled();
             rTextScrollPane.setLineNumbersEnabled(!lineNumbersEnabled);
             applicationContext.setTextAreaShowlineNumState(!lineNumbersEnabled);
@@ -448,7 +448,7 @@ public class MenuEventService {
      * @param chineseConverMenu
      */
     public void chineseConverActionPerformed(JMenu chineseConverMenu) {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.findComponentsByFocus();
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         int chineseConverState = applicationContext.getChineseConverState();
         for (Component menuComponent : chineseConverMenu.getMenuComponents()) {
             if (menuComponent instanceof CHToCNRadioButtonMenuItem) {
