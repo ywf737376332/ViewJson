@@ -71,7 +71,7 @@ public class StateBarEventService {
         });
     }
 
-    private void updateStateUI(JSONRSyntaxTextArea rSyntaxTextArea) {
+    public void updateStateUI(JSONRSyntaxTextArea rSyntaxTextArea) {
         SwingWorker<Boolean, StateBarEntity> swingWorker = new SwingWorker<Boolean, StateBarEntity>() {
             @Override
             protected Boolean doInBackground() {

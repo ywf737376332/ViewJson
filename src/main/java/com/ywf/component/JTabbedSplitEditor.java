@@ -1,17 +1,16 @@
 package com.ywf.component;
 
-import com.ywf.framework.config.GlobalMenuKEY;
-import com.ywf.framework.utils.ChangeUIUtils;
-import com.ywf.framework.utils.ObjectUtils;
+import com.ywf.action.StateBarEventService;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -251,9 +250,9 @@ public class JTabbedSplitEditor extends JPanel {
                 splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 21);
             } else if (pages.size() == 3) {
                 splitPane.setDividerLocation(parentFrame.getWidth() / 3 - 15);
-            }else if (pages.size() == 4) {
-                JSplitPane leftSplitComponent = (JSplitPane)splitPane.getLeftComponent();
-                JSplitPane rightSplitComponent = (JSplitPane)splitPane.getRightComponent();
+            } else if (pages.size() == 4) {
+                JSplitPane leftSplitComponent = (JSplitPane) splitPane.getLeftComponent();
+                JSplitPane rightSplitComponent = (JSplitPane) splitPane.getRightComponent();
                 splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 15);
                 int dividerLocation = splitPane.getDividerLocation();
                 leftSplitComponent.setDividerLocation(dividerLocation / 2);
@@ -264,25 +263,30 @@ public class JTabbedSplitEditor extends JPanel {
 
     /**
      * 给当前有滚动框的编辑框组件设置焦点
-     *      组件初始化的时候清除其他组件焦点，设置当前组件焦点
-     *      鼠标点击编辑框的清除其他组件焦点，设置当前组件焦点
+     * 组件初始化的时候清除其他组件焦点，设置当前组件焦点
+     * 鼠标点击编辑框的清除其他组件焦点，设置当前组件焦点
+     *
      * @param scrollPane
      */
     public void requestFocusToScrollEditor(JScrollPane scrollPane) {
-        JSONRSyntaxTextArea rSyntaxTextArea = (JSONRSyntaxTextArea)(scrollPane.getViewport().getView());
+        JSONRSyntaxTextArea rSyntaxTextArea = (JSONRSyntaxTextArea) (scrollPane.getViewport().getView());
         // 给当前组件绑定焦点
         requestFocusToEditor(rSyntaxTextArea);
         // 给当前组件点击事件，点击时绑定焦点
         rSyntaxTextArea.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
+                //设置焦点
                 requestFocusToEditor(rSyntaxTextArea);
+                //监听文档变化
+                StateBarEventService.getInstance().updateStateUI(rSyntaxTextArea);
             }
         });
     }
 
     /**
      * 给当前编辑框组件设置焦点
+     *
      * @param syntaxTextArea
      */
     private void requestFocusToEditor(JSONRSyntaxTextArea syntaxTextArea) {
@@ -298,13 +302,14 @@ public class JTabbedSplitEditor extends JPanel {
 
     /**
      * 获取当前焦点编辑框组件
+     *
      * @return
      */
     public JSONRSyntaxTextArea getFocusEditor() {
         LinkedList<JScrollPane> scpList = getPages();
         for (JScrollPane scrollPane : scpList) {
-            JSONRSyntaxTextArea rSyntaxTextArea= (JSONRSyntaxTextArea) scrollPane.getViewport().getView();
-            if (rSyntaxTextArea.isEditorFocus()){
+            JSONRSyntaxTextArea rSyntaxTextArea = (JSONRSyntaxTextArea) scrollPane.getViewport().getView();
+            if (rSyntaxTextArea.isEditorFocus()) {
                 return rSyntaxTextArea;
             }
         }
