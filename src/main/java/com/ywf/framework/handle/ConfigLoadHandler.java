@@ -3,7 +3,7 @@ package com.ywf.framework.handle;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.annotation.PropertySource;
-import com.ywf.framework.ioc.ApplicationContext;
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.framework.utils.ReflectUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -63,9 +63,7 @@ public class ConfigLoadHandler {
         //获取需要注入属性的所有字段
         Set<Field> fieldClassesAnno = reflections.getFieldsAnnotatedWith(Autowired.class);
         // 从本地文件Properties中夹在配置文件到Properties
-        //PropertiesConfigurationContext propertiesContext = new PropertiesConfigurationContext(rootPath);
-        //PropertiesConfiguration configuration = propertiesContext.load();
-        PropertiesConfiguration configuration = ObjectUtils.getBean(ApplicationContext.USER_PATH + PropertiesConfiguration.class);
+        PropertiesConfiguration configuration = ObjectUtils.getBean(GlobalMenuKEY.USER_PRPPERTIES_CONFIG);
         for (Class<?> configClass : configClassesAnno) {
             // 创建配置类
             Object configInstance = ReflectUtils.constructInstance(configClass);

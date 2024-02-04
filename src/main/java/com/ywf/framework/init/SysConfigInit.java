@@ -1,10 +1,9 @@
 package com.ywf.framework.init;
 
-import cn.hutool.core.io.resource.ResourceUtil;
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.ioc.ApplicationContext;
-import com.ywf.framework.ioc.PropertiesConfigurationContext;
+import com.ywf.framework.ioc.ResourceContext;
 import com.ywf.framework.utils.ObjectUtils;
-;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import java.io.File;
@@ -12,6 +11,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Iterator;
+
+;
 
 /**
  * 启动资源加载
@@ -55,27 +56,27 @@ public class SysConfigInit extends ApplicationContext {
          * 获取程序运行的根目录
          */
         String appRunUserPath = getApplicationRunRootPath();
-        PropertiesConfigurationContext propertiesAppRunContext = new PropertiesConfigurationContext(appRunUserPath);
-        PropertiesConfiguration appRunProperties = propertiesAppRunContext.load();
-        ObjectUtils.setBean(USER_PATH+appRunProperties.getClass(),appRunProperties);
+        ResourceContext resourceUserRunContext = new ResourceContext(appRunUserPath, ResourceContext.FILE_TYPE);
+        PropertiesConfiguration userRunProperties = resourceUserRunContext.getResource();
+        ObjectUtils.setBean(GlobalMenuKEY.USER_PRPPERTIES_CONFIG, userRunProperties);
         /**
          * 读取系统默认的配置文件
          */
-        String resourcePath = getApplicationResourcePath("config/application.properties");
-        PropertiesConfigurationContext propertiesDefaultContext = new PropertiesConfigurationContext(resourcePath);
-        PropertiesConfiguration defaultProperties = propertiesDefaultContext.load();
-        ObjectUtils.setBean(DEFAULT_PATH+defaultProperties.getClass(),defaultProperties);
+        String resourcePath = getApplicationResourcePath(DEFAULT_RESOURCE_PATH);
+        ResourceContext resourceDefaultContext = new ResourceContext(resourcePath, ResourceContext.STREAM_TYPE);
+        PropertiesConfiguration defaultProperties = resourceDefaultContext.getResource();
+        ObjectUtils.setBean(GlobalMenuKEY.DEFAULT_PRPPERTIES_CONFIG, defaultProperties);
         Iterator<String> iterator = defaultProperties.getKeys();
         int counts = 0;
         while (iterator.hasNext()) {
             String key = iterator.next();
-            if(!appRunProperties.containsKey(key)){
-                appRunProperties.setProperty(key, defaultProperties.getProperty(key));
-                counts ++;
+            if (!userRunProperties.containsKey(key)) {
+                userRunProperties.setProperty(key, defaultProperties.getProperty(key));
+                counts++;
             }
         }
-        if (counts>0){
-            propertiesAppRunContext.store();
+        if (counts > 0) {
+            resourceUserRunContext.store();
         }
     }
 
@@ -96,6 +97,7 @@ public class SysConfigInit extends ApplicationContext {
     /**
      * 获取系统配置文件
      * config/application.properties
+     *
      * @date 2023/12/3 20:04
      */
     /*public static String getApplicationResourcePath(String resourceName) {
@@ -107,7 +109,6 @@ public class SysConfigInit extends ApplicationContext {
             return null;
         }
     }*/
-
     public static String getApplicationResourcePath(String resourceName) {
         ClassLoader classLoader = SysConfigInit.class.getClassLoader();
         URL resourceUrl = classLoader.getResource(resourceName);

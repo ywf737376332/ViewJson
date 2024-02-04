@@ -23,7 +23,6 @@ public class ApplicationContext implements Serializable {
     /**
      * 系统设置配置参数
      */
-    public static final String USER_PATH = "user:dir#";
-    public static final String DEFAULT_PATH = "root#:dir";
+    public static final String DEFAULT_RESOURCE_PATH = "config/application.properties";
 
 }
