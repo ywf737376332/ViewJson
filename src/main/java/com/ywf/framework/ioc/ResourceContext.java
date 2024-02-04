@@ -3,8 +3,8 @@ package com.ywf.framework.ioc;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 /**
@@ -39,15 +39,15 @@ public class ResourceContext implements Serializable {
                 try {
                     propertiesConfiguration = new PropertiesConfiguration(resourceUrl);
                 } catch (ConfigurationException e) {
-                    throw new RuntimeException("资源文件加载失败："+e.getMessage());
+                    throw new RuntimeException("资源文件加载失败：" + e.getMessage());
                 }
                 break;
             case STREAM_TYPE:
                 propertiesConfiguration = new PropertiesConfiguration();
-                try (FileInputStream inputStream = new FileInputStream(resourceUrl)) {
+                try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream(resourceUrl)) {
                     propertiesConfiguration.load(inputStream);
                 } catch (IOException | ConfigurationException e) {
-                    throw new RuntimeException("资源文件加载失败："+e.getMessage());
+                    throw new RuntimeException("资源文件加载失败：" + e.getMessage());
                 }
                 break;
             default:
@@ -60,7 +60,7 @@ public class ResourceContext implements Serializable {
      * @return
      */
     private PropertiesConfiguration load() {
-        if (propertiesConfiguration == null){
+        if (propertiesConfiguration == null) {
             throw new RuntimeException("请先创建[ PropertiesConfigurationContext ] 对象");
         }
         try {
@@ -76,7 +76,7 @@ public class ResourceContext implements Serializable {
      * 保存资源
      */
     public void store() {
-        if (propertiesConfiguration == null){
+        if (propertiesConfiguration == null) {
             throw new RuntimeException("请先创建[ PropertiesConfigurationContext ] 对象");
         }
         try {
@@ -88,10 +88,11 @@ public class ResourceContext implements Serializable {
 
     /**
      * 获取资源唯一类
+     *
      * @return
      */
     public PropertiesConfiguration getResource() {
-        if (propertiesConfiguration == null){
+        if (propertiesConfiguration == null) {
             throw new RuntimeException("请先创建[ PropertiesConfigurationContext ] 对象");
         }
         return propertiesConfiguration;

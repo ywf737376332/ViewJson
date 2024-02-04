@@ -1,5 +1,6 @@
 package com.ywf.framework.init;
 
+import cn.hutool.core.io.resource.ResourceUtil;
 import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.ioc.ResourceContext;
@@ -62,7 +63,7 @@ public class SysConfigInit extends ApplicationContext {
         /**
          * 读取系统默认的配置文件
          */
-        String resourcePath = getApplicationResourcePath(DEFAULT_RESOURCE_PATH);
+        String resourcePath = DEFAULT_RESOURCE_PATH;
         ResourceContext resourceDefaultContext = new ResourceContext(resourcePath, ResourceContext.STREAM_TYPE);
         PropertiesConfiguration defaultProperties = resourceDefaultContext.getResource();
         ObjectUtils.setBean(GlobalMenuKEY.DEFAULT_PRPPERTIES_CONFIG, defaultProperties);
@@ -100,17 +101,8 @@ public class SysConfigInit extends ApplicationContext {
      *
      * @date 2023/12/3 20:04
      */
-    /*public static String getApplicationResourcePath(String resourceName) {
-        ClassLoader classLoader = ResourceUtil.class.getClassLoader();
-        URL resourceUrl = classLoader.getResource(resourceName);
-        if (resourceUrl != null) {
-            return resourceUrl.getPath();
-        } else {
-            return null;
-        }
-    }*/
     public static String getApplicationResourcePath(String resourceName) {
-        ClassLoader classLoader = SysConfigInit.class.getClassLoader();
+        ClassLoader classLoader = ResourceUtil.class.getClassLoader();
         URL resourceUrl = classLoader.getResource(resourceName);
         if (resourceUrl != null) {
             return resourceUrl.getPath();
