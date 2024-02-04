@@ -12,6 +12,10 @@ import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.styles.BalloonTipStyle;
+import net.java.balloontip.styles.ToolTipBalloonStyle;
+import net.java.balloontip.utils.ToolTipUtils;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -492,10 +496,8 @@ public class MenuEventService {
         for (int i = 0; i < scrollPaneList.size(); i++) {
             JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
             rSyntaxTextArea.setChineseConverState(btnConverState);
-            System.out.println("组件设置：" + applicationContext.getChineseConverState());
             if (i == scrollPaneList.size() - 1) {
                 applicationContext.setChineseConverState(btnConverState);
-                System.out.println("保存状态：" + applicationContext.getChineseConverState());
             }
         }
     }

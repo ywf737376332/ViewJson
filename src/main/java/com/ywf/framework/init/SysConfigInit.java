@@ -23,7 +23,6 @@ public class SysConfigInit extends ApplicationContext {
 
     public final static Date startTime = new Date();
 
-
     public static void initConfigToApplicationRunRoot() {
         // 系统配置文件初始化
         configFileInit(getApplicationRunRootPath());
@@ -99,7 +98,7 @@ public class SysConfigInit extends ApplicationContext {
      * config/application.properties
      * @date 2023/12/3 20:04
      */
-    public static String getApplicationResourcePath(String resourceName) {
+    /*public static String getApplicationResourcePath(String resourceName) {
         ClassLoader classLoader = ResourceUtil.class.getClassLoader();
         URL resourceUrl = classLoader.getResource(resourceName);
         if (resourceUrl != null) {
@@ -107,5 +106,17 @@ public class SysConfigInit extends ApplicationContext {
         } else {
             return null;
         }
+    }*/
+
+    public static String getApplicationResourcePath(String resourceName) {
+        ClassLoader classLoader = SysConfigInit.class.getClassLoader();
+        URL resourceUrl = classLoader.getResource(resourceName);
+        if (resourceUrl != null) {
+            return resourceUrl.getPath();
+        } else {
+            return null;
+        }
     }
+
+
 }

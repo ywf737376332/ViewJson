@@ -140,6 +140,11 @@ swing + flatlaf + rsyntaxtextarea
 3. 收藏夹JList功能，点击收藏时，弹出提示，输入收藏的名称，菜单栏增加收藏列表，可以用到表格组件
 4. PropertySource注解扫描注入时,配置类增加校验注解,是否可为空,是否指定默认值,直接可以打印字段注入异常提示框
 5. 菜单栏和工具栏代码优化,默认编辑框右键菜单的写法，进行代码重构
+   ```
+   可以借鉴：
+      RsTextArea文本编辑器的右键菜单
+      swing-helper项目的菜单构建
+   ```
 6. 软件使用统计面板
 7. 弹框提示功能，重构别人的代码，减小体积，增加代码契合度
 8. 自动获取语言类型的判断还需要优化
@@ -160,6 +165,7 @@ swing + flatlaf + rsyntaxtextarea
 10. 主题改变或字体改变后，图标尺寸(变大)和编辑框字体(变小)被改变的问题处理
 11. 主题改变后，编辑框主题不变(已解决)✅
 12. 新建编辑框后，编辑框主题与当前主题不对应(已解决)✅
+13. 项目打包后，读取不到resource资源文件下的配置
 
 <img src="src/main/resources/images/1.0.png" alt="版本一" width="600" height="400">
 <img src="src/main/resources/images/2.0.png" alt="版本一" width="600" height="400">

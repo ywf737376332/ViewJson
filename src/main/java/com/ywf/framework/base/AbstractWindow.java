@@ -1,5 +1,6 @@
 package com.ywf.framework.base;
 
+import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.utils.ObjectUtils;
 
 import javax.swing.*;
@@ -13,10 +14,10 @@ import java.awt.*;
  */
 public abstract class AbstractWindow extends JFrame {
 
-    protected JFrame _this = this;
+    public JFrame _this = this;
 
     public AbstractWindow() {
-        ObjectUtils.setBean("#global:frame", _this);
+
     }
 
     /**

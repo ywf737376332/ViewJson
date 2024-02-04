@@ -15,6 +15,7 @@ public class GlobalMenuKEY extends JFrame implements Serializable {
 
     private static final String PREFIX = "#global:";
 
+    public static final String MAIN_FRAME = PREFIX + "mainFrame";
     public static final String TABBED_SPLIT_EDITOR = PREFIX + "tabbedSplitEditor";
 
 }

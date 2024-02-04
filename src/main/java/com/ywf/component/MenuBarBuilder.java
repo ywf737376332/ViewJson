@@ -7,6 +7,10 @@ import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.styles.BalloonTipStyle;
+import net.java.balloontip.styles.ToolTipBalloonStyle;
+import net.java.balloontip.utils.ToolTipUtils;
 
 import javax.swing.*;
 import java.awt.*;

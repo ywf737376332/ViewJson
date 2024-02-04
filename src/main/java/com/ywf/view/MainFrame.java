@@ -70,12 +70,4 @@ public class MainFrame extends AbstractWindow {
         // 窗口激活状态事件监听
         frame.addWindowStateListener(new WindowStateEventService(frame));
     }
-
-    public JFrame get_this() {
-        return _this;
-    }
-
-    public void set_this(JFrame _this) {
-        this._this = _this;
-    }
 }
