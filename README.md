@@ -166,6 +166,9 @@ swing + flatlaf + rsyntaxtextarea
 11. 主题改变后，编辑框主题不变(已解决)✅
 12. 新建编辑框后，编辑框主题与当前主题不对应(已解决)✅
 13. 项目打包后，读取不到resource资源文件下的配置
+```
+JXMultiSplitPane:又发现了新的可分割窗口,可以考虑拉新的分支进行整合，封装
+```
 
 <img src="src/main/resources/images/1.0.png" alt="版本一" width="600" height="400">
 <img src="src/main/resources/images/2.0.png" alt="版本一" width="600" height="400">

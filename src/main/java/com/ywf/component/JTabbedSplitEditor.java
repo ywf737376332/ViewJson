@@ -58,7 +58,6 @@ public class JTabbedSplitEditor extends JPanel {
                 break;
             case 2:
                 splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-                splitPane.setUI(new ViewSplitPaneUI());
                 splitPane.setLeftComponent(getComment(1));
                 splitPane.setRightComponent(getComment(2));
                 splitPane.setDividerLocation(parentFrame.getWidth() / 2 - 21);
@@ -66,7 +65,6 @@ public class JTabbedSplitEditor extends JPanel {
                 break;
             case 3:
                 JSplitPane splitPane3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-                splitPane3.setUI(new ViewSplitPaneUI());
                 splitPane3.setLeftComponent(getComment(2));
                 splitPane3.setRightComponent(getComment(3));
                 splitPane3.setDividerLocation(parentFrame.getWidth() / 3 - 15);
@@ -82,13 +80,11 @@ public class JTabbedSplitEditor extends JPanel {
                 break;
             case 4: // 3-编辑框 2-JSplitPane
                 JSplitPane splitPaneA = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-                splitPaneA.setUI(new ViewSplitPaneUI());
                 splitPaneA.setLeftComponent(getComment(1));
                 splitPaneA.setRightComponent(getComment(2));
                 splitPaneA.setDividerLocation(parentFrame.getWidth() / 4 - 15);
 
                 JSplitPane splitPaneB = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-                splitPaneB.setUI(new ViewSplitPaneUI());
                 splitPaneB.setLeftComponent(getComment(3));
                 splitPaneB.setRightComponent(getComment(4));
                 splitPaneB.setDividerLocation(parentFrame.getWidth() / 4 - 15);
