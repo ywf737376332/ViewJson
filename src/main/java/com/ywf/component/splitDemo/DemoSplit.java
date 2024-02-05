@@ -1,13 +1,16 @@
 package com.ywf.component.splitDemo;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
+
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.ConvertUtils;
 import com.ywf.framework.utils.IconUtils;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.jdesktop.swingx.JXMultiSplitPane;
-import org.jdesktop.swingx.MultiSplitLayout;
-import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
+import org.jdesktop.swingx.JXStatusBar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +28,7 @@ import java.util.LinkedList;
  */
 public class DemoSplit extends JFrame {
 
+    static Logger logger = LoggerFactory.getLogger(DemoSplit.class);
     private JFrame _this = this;
 
     private static JXMultiSplitPane msp;
@@ -97,10 +101,17 @@ public class DemoSplit extends JFrame {
         toolBar.addSeparator();
         toolBar.add(btnClose);
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
-
+        JXStatusBar statusBar = new JXStatusBar();
+        statusBar.setLayout(new FlowLayout(FlowLayout.LEFT,50,5));
+        statusBar.setBorder(BorderFactory.createMatteBorder(1,0, 1, 0, Color.LIGHT_GRAY));
+        statusBar.add(new JLabel("时间：2004年02月05日"));
+        statusBar.add(new JLabel("文件类型：JSON类型"));
+        statusBar.add(new JLabel("字数统计：1280字"));
+        statusBar.add(new JLabel("作者：莫斐鱼"));
+        statusBar.add(new JProgressBar());
         mainPanel.add(toolBar, BorderLayout.NORTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
-
+        mainPanel.add(statusBar, BorderLayout.SOUTH);
         frame.add(mainPanel);
 
     }
@@ -110,7 +121,7 @@ public class DemoSplit extends JFrame {
         LinkedList<RTextScrollPane> list = TextAreaUtil.getList();
         int counts = list.size();
         double weight = 1.0 / counts;
-        System.out.println("当前宽度：" + weight + "当前计数："+counts);
+        logger.info("当前宽度:{},当前计数：{}",weight,counts);
         if (counts == 2) {
             msp.add(tp, FiveHorizontalSplitPaneModel.P2);
             splitPaneModel.p1.setWeight(weight);

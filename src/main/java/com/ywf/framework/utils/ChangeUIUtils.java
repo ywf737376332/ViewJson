@@ -3,12 +3,16 @@ package com.ywf.framework.utils;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.IntelliJTheme;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.ywf.component.*;
+import com.ywf.component.JSONRSyntaxTextArea;
+import com.ywf.component.JTabbedSplitEditor;
+import com.ywf.component.MenuBarBuilder;
+import com.ywf.component.PopupMenuBuilder;
 import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -25,6 +29,8 @@ import java.util.LinkedList;
  */
 public class ChangeUIUtils {
 
+    private final static Logger logger = LoggerFactory.getLogger(ChangeUIUtils.class);
+
     /**
      * 主题改变工具类类
      *
@@ -33,7 +39,7 @@ public class ChangeUIUtils {
      * @date 2023/12/2 15:35
      */
     public static void changeUIStyle(JFrame frame, SystemThemesEnum themesStyles) {
-        // initUIStyle();
+        initUIStyle();
         //全局字体设置 小米兰亭 幼圆 华文中宋 黑体 等线
         initGlobalFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
         // 全局主题应用
@@ -118,7 +124,7 @@ public class ChangeUIUtils {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String[] availableFontFamilyNames = ge.getAvailableFontFamilyNames();
         for (String fontFamilyName : availableFontFamilyNames) {
-            System.out.println("fontFamilyName:" + fontFamilyName);
+            logger.info("系统字体：{}", fontFamilyName);
         }
     }
 
@@ -129,22 +135,22 @@ public class ChangeUIUtils {
      */
     public static void initUIStyle() {
         //滚动条的默认宽度为 。要使它们更宽（或更小），请使用：10
-        UIManager.put("ScrollBar.width", 0);
-        UIManager.put("ScrollBar.thumbInsets", new Insets(20, 20, 20, 20));
+        UIManager.put("ScrollBar.width", 1);
+        //UIManager.put("ScrollBar.thumbInsets", new Insets(20, 20, 20, 20));
         //默认情况下，滚动条的上一个/下一个箭头按钮处于隐藏状态。要使 它们对应用程序使用中的所有滚动条可见：
         //UIManager.put("ScrollBar.showButtons", true);
         //按钮组件的弧度
-        UIManager.put("ProgressBar.arc", 0);
-        UIManager.put("Button.arc", 0);
-        UIManager.put("Component.arc", 0);
-        UIManager.put("TextComponent.arc", 0);
+        //UIManager.put("ProgressBar.arc", 0);
+        //UIManager.put("Button.arc", 0);
+        //UIManager.put("Component.arc", 0);
+        //UIManager.put("TextComponent.arc", 0);
         //聚焦组件的特殊边框表示聚焦状态
-        UIManager.put("Component.focusWidth", 0);
+        //UIManager.put("Component.focusWidth", 0);
         //控制右侧滑块
-        UIManager.put("ScrollBar.trackArc", 20);
-        UIManager.put("ScrollBar.thumbArc", 20);
-        UIManager.put("ScrollBar.trackInsets", new Insets(20, 40, 20, 40));
-        UIManager.put("ScrollBar.thumbInsets", new Insets(20, 20, 20, 20));
-        UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
+        //UIManager.put("ScrollBar.trackArc", 20);
+        //UIManager.put("ScrollBar.thumbArc", 20);
+        //UIManager.put("ScrollBar.trackInsets", new Insets(20, 40, 20, 40));
+        //UIManager.put("ScrollBar.thumbInsets", new Insets(20, 20, 20, 20));
+        //UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
     }
 }

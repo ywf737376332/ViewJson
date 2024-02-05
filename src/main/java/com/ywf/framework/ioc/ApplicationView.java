@@ -10,8 +10,8 @@ import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.view.MainFrame;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 
@@ -23,7 +23,7 @@ import javax.swing.*;
  */
 public class ApplicationView {
 
-    private static final Log LOG = LogFactory.getLog(ApplicationView.class);
+    private final static Logger logger = LoggerFactory.getLogger(ApplicationView.class);
 
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
@@ -72,7 +72,7 @@ public class ApplicationView {
                 applicationView.createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
             });
         } catch (Exception e) {
-            LOG.error("APP界面加载失败", e);
+            logger.error("APP界面加载失败", e);
         }
         return this;
     }
@@ -82,13 +82,13 @@ public class ApplicationView {
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
             ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
         } catch (Exception e) {
-            LOG.error("初始化主题失败", e);
+            logger.error("初始化主题失败", e);
         }
         return this;
     }
 
     private ApplicationContext cacheGlobalComponent() {
-        System.out.println("扫描缓存全局组件");
+        logger.info("扫描缓存全局组件,此功能暂未完善");
         return applicationContext;
     }
 

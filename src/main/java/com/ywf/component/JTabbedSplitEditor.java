@@ -1,11 +1,12 @@
 package com.ywf.component;
 
 import com.ywf.action.StateBarEventService;
-import com.ywf.framework.ui.ViewSplitPaneUI;
 import com.ywf.framework.utils.ComponentUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,8 @@ import java.util.List;
  * @Date 2024/1/24 22:50
  */
 public class JTabbedSplitEditor extends JPanel {
+
+    private final static Logger logger = LoggerFactory.getLogger(JTabbedSplitEditor.class);
 
     private final LinkedList<JScrollPane> pages;
 
@@ -96,7 +99,7 @@ public class JTabbedSplitEditor extends JPanel {
                 page.add(splitPane, BorderLayout.CENTER);
                 break;
             default:
-                System.out.println("没有逻辑被执行");
+                logger.info("没有逻辑被执行");
         }
         // 重新绘制
         this.add(page);
@@ -166,7 +169,7 @@ public class JTabbedSplitEditor extends JPanel {
             return;
         }
         if (getEditorComponentCount() == 4) {
-            System.out.println("目前支持最多4个组件");
+            logger.info("目前支持最多4个组件");
             return;
         }
         pages.add(component);
