@@ -1,5 +1,6 @@
 package com.ywf.framework.ioc;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalMenuKEY;
@@ -24,6 +25,7 @@ import javax.swing.*;
 public class ApplicationView {
 
     private final static Logger logger = LoggerFactory.getLogger(ApplicationView.class);
+    private long startTime;
 
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
@@ -35,6 +37,8 @@ public class ApplicationView {
      * 本地资源加注入
      */
     public ApplicationView(Class<?> primarySource) {
+        startTime = System.nanoTime();
+        logger.info("应用程序启动开始,当前时间：{}~", DateUtil.format(DateUtil.date(startTime/1000000000), "yyyy-MM-dd HH:mm:ss"));
         String basePackages = getBasePackages(primarySource);
         String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
         /**
@@ -78,6 +82,7 @@ public class ApplicationView {
     }
 
     private ApplicationView initThemesUI() {
+        logger.info("程序UI界面初始化,当前主题{}~", applicationContext.getLastSystemThemes());
         try {
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
             ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
@@ -88,7 +93,9 @@ public class ApplicationView {
     }
 
     private ApplicationContext cacheGlobalComponent() {
-        logger.info("扫描缓存全局组件,此功能暂未完善");
+        logger.info("扫描缓存全局组件,实现真正意义上的IOC容器,此功能暂未完善");
+        long endTime = System.nanoTime();
+        logger.info("应用程序启动结束,当前时间:{},实际耗时：{}~", DateUtil.format(DateUtil.date(endTime/1000000000), "yyyy-MM-dd HH:mm:ss"),(endTime - startTime) / 1_000_000_000.0);
         return applicationContext;
     }
 

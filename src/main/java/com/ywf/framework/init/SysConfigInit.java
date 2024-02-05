@@ -6,6 +6,8 @@ import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.ioc.ResourceContext;
 import com.ywf.framework.utils.ObjectUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,8 @@ import java.util.Iterator;
  * @Date 2023/12/2 22:23
  */
 public class SysConfigInit extends ApplicationContext {
+
+    private final static Logger logger = LoggerFactory.getLogger(SysConfigInit.class);
 
     public final static Date startTime = new Date();
 
@@ -47,6 +51,7 @@ public class SysConfigInit extends ApplicationContext {
                 throw new RuntimeException("系统配置文件文件初始化失败");
             }
         }
+        logger.info("应用配置模板文件创建成功");
     }
 
     /**
@@ -56,6 +61,7 @@ public class SysConfigInit extends ApplicationContext {
         /**
          * 获取程序运行的根目录
          */
+        logger.info("加载应用配置信息到用户目录，程序开始执行~");
         String appRunUserPath = getApplicationRunRootPath();
         ResourceContext resourceUserRunContext = new ResourceContext(appRunUserPath, ResourceContext.FILE_TYPE);
         PropertiesConfiguration userRunProperties = resourceUserRunContext.getResource();
@@ -72,13 +78,17 @@ public class SysConfigInit extends ApplicationContext {
         while (iterator.hasNext()) {
             String key = iterator.next();
             if (!userRunProperties.containsKey(key)) {
-                userRunProperties.setProperty(key, defaultProperties.getProperty(key));
+                Object value = defaultProperties.getProperty(key);
+                userRunProperties.setProperty(key, value);
                 counts++;
+                logger.info("配置加载中... 加载次数：{}, 键：{},值：{}",counts,key,value);
             }
         }
         if (counts > 0) {
             resourceUserRunContext.store();
+            logger.info("加载应用配置信息到用户目录，映射结束，配置信息保存到文件");
         }
+        logger.info("加载应用配置信息到用户目录，程序执行结束~");
     }
 
     /**

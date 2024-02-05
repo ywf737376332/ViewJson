@@ -11,6 +11,8 @@ import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ConfigurationBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -23,6 +25,8 @@ import java.util.Set;
  * @Date 2024/1/28 22:14
  */
 public class ConfigLoadHandler {
+
+    private final static Logger logger = LoggerFactory.getLogger(ConfigLoadHandler.class);
 
     private String basePackages;
 
@@ -38,6 +42,7 @@ public class ConfigLoadHandler {
         Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages(basePackages).addScanners(new SubTypesScanner()).addScanners(new FieldAnnotationsScanner()));
         // 获取某个包下类型注解对应的类
         Set<Class<?>> mainViewClassesAnno = reflections.getTypesAnnotatedWith(MainView.class, true);
+        logger.info("扫描到主页面启动类:{}", mainViewClassesAnno);
         if (mainViewClassesAnno.size() > 1) {
             throw new RuntimeException("应用启动失败,存在多个MainView注解的启动类");
         }
@@ -60,17 +65,22 @@ public class ConfigLoadHandler {
         Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages(basePackages).addScanners(new SubTypesScanner()).addScanners(new FieldAnnotationsScanner()));
         // 获取某个包下类型注解对应的类
         Set<Class<?>> configClassesAnno = reflections.getTypesAnnotatedWith(PropertySource.class, true);
+        logger.info("扫描到配置类:{}", configClassesAnno);
         //获取需要注入属性的所有字段
         Set<Field> fieldClassesAnno = reflections.getFieldsAnnotatedWith(Autowired.class);
+        logger.info("扫描实例化注入的类:{}", fieldClassesAnno);
         // 从本地文件Properties中夹在配置文件到Properties
         PropertiesConfiguration configuration = ObjectUtils.getBean(GlobalMenuKEY.USER_PRPPERTIES_CONFIG);
         for (Class<?> configClass : configClassesAnno) {
+            logger.info("配置类实例化开始~");
             // 创建配置类
             Object configInstance = ReflectUtils.constructInstance(configClass);
             // 将Properties配置文件转换为配置类
             Object instanceObject = ReflectUtils.propConvertObject(configuration, configInstance);
+            logger.info("配置类实例化信息{}", instanceObject);
             //对有Autowired注解的属性字段实例化注入
             fieldInstances(instanceObject, fieldClassesAnno);
+            logger.info("配置类实例化结束~");
         }
     }
 
@@ -87,6 +97,7 @@ public class ConfigLoadHandler {
             Class<?> declaringClass = field.getDeclaringClass();
             try {
                 field.set(declaringClass, config);
+                logger.info("属性注入:{}", field.getDeclaringClass().getName()+"."+field.getName());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
