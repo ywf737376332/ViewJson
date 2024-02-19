@@ -33,7 +33,7 @@ public class IconUtils {
 
     public static ImageIcon getSVGIcon(String svgPath) {
         ClassLoader classLoader = IconUtils.class.getClassLoader();
-        FlatSVGIcon flatSVGIcon = new FlatSVGIcon(svgPath, 14, 14, classLoader);
+        FlatSVGIcon flatSVGIcon = new FlatSVGIcon(svgPath, classLoader);
         return flatSVGIcon;
     }
 

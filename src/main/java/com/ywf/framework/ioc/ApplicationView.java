@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * 项目启动主类
@@ -82,12 +83,15 @@ public class ApplicationView {
     }
 
     private ApplicationView initThemesUI() {
-        logger.info("程序UI界面初始化,当前主题{}~", applicationContext.getLastSystemThemes());
         try {
+            logger.info("程序UI界面初始化,当前主题{}~", applicationContext.getLastSystemThemes());
+            // 全局字体设置 小米兰亭 幼圆 华文中宋 黑体 等线
+            ChangeUIUtils.initGlobalFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
+            // 全局主题设置
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
             ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
         } catch (Exception e) {
-            logger.error("初始化主题失败", e);
+            logger.error("初始化主题和字体失败", e);
         }
         return this;
     }
