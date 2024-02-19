@@ -4,6 +4,8 @@ import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.action.StateBarEventService;
 import com.ywf.component.BasePanel;
 import com.ywf.framework.utils.IconUtils;
+import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.JXStatusBar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +51,7 @@ public class PanelView {
         // 设置边距
         JPanel panelBottomText = new BasePanel();
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/auth.svg",14,14), SwingConstants.LEFT);
+        labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/auth.svg", 14, 14), SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156, 170, 207));
         labelCopyright.addMouseListener(new CopyrightMouseListener());
 
@@ -61,7 +63,7 @@ public class PanelView {
 
         FlatLabel runTimeText = new FlatLabel();
         runTimeText.setText("运行时长：");
-        runTimeText.setForeground(new Color(167,179,211));
+        runTimeText.setForeground(new Color(167, 179, 211));
         runTimeText.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
         runTimeText.setBounds(0, 0, 65, 20);
         runTimeLabel = new FlatLabel();
@@ -75,12 +77,12 @@ public class PanelView {
         fileTypeLabel.setLabelType(FlatLabel.LabelType.medium);
         fileTypeLabel.setBounds(260, 0, 140, 20);
         fileTypeLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-        fileTypeLabel.setForeground(new Color(167,179,211));
+        fileTypeLabel.setForeground(new Color(167, 179, 211));
 
         fileLengthLabel = new FlatLabel();
         fileLengthLabel.setLabelType(FlatLabel.LabelType.medium);
         fileLengthLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-        fileLengthLabel.setForeground(new Color(167,179,211));
+        fileLengthLabel.setForeground(new Color(167, 179, 211));
         fileLengthLabel.setBounds(410, 0, 140, 20);
 
         panelStateBar.add(runTimeText);
@@ -96,6 +98,58 @@ public class PanelView {
         panelBottom.add(panelBottomText, BorderLayout.CENTER);
 
         return panelBottom;
+    }
+
+    public static JPanel createPanelBottom002(JFrame frame) {
+        // 状态栏
+        JPanel statusPanel = new JPanel();
+        statusPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.LIGHT_GRAY));
+        statusPanel.setLayout(new BorderLayout());
+        //statusPanel.setBackground(Color.BLUE);
+        JXStatusBar statusBar = new JXStatusBar();
+        statusBar.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
+
+        FlatLabel runTimeText = new FlatLabel();
+        runTimeText.setText("运行时长：");
+        runTimeText.setForeground(new Color(167, 179, 211));
+        runTimeText.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
+
+        runTimeLabel = new FlatLabel();
+        runTimeLabel.setLabelType(FlatLabel.LabelType.medium);
+        runTimeLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
+        Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeLabel));
+        StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
+
+        fileTypeLabel = new FlatLabel();
+        fileTypeLabel.setLabelType(FlatLabel.LabelType.medium);
+        fileTypeLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
+        fileTypeLabel.setForeground(new Color(167, 179, 211));
+
+        fileLengthLabel = new FlatLabel();
+        fileLengthLabel.setLabelType(FlatLabel.LabelType.medium);
+        fileLengthLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
+        fileLengthLabel.setForeground(new Color(167, 179, 211));
+
+        JPanel runTime = new JPanel();
+        runTime.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+        runTime.add(runTimeText);
+        runTime.add(runTimeLabel);
+        statusBar.add(runTime);
+        fileTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+        statusBar.add(fileTypeLabel);
+        fileLengthLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+        statusBar.add(fileLengthLabel);
+
+        JXStatusBar authBar = new JXStatusBar();
+        labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/auth.svg", 14, 14), SwingConstants.LEFT);
+        labelCopyright.setForeground(new Color(156, 170, 207));
+        labelCopyright.addMouseListener(new CopyrightMouseListener());
+        authBar.add(labelCopyright);
+
+        statusPanel.add(statusBar, BorderLayout.WEST);
+        statusPanel.add(authBar, BorderLayout.EAST);
+
+        return statusPanel;
     }
 
 

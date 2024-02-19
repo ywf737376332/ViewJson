@@ -2,6 +2,8 @@ package com.ywf.component.splitDemo;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
 
+import com.formdev.flatlaf.extras.components.FlatProgressBar;
+import com.formdev.flatlaf.ui.FlatProgressBarUI;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.ConvertUtils;
 import com.ywf.framework.utils.IconUtils;
@@ -14,6 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -101,20 +105,40 @@ public class DemoSplit extends JFrame {
         toolBar.addSeparator();
         toolBar.add(btnClose);
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
-        JXStatusBar statusBar = new JXStatusBar();
-        statusBar.setLayout(new FlowLayout(FlowLayout.LEFT,50,5));
-        statusBar.setBorder(BorderFactory.createMatteBorder(1,0, 1, 0, Color.LIGHT_GRAY));
-        statusBar.add(new JLabel("时间：2004年02月05日"));
-        statusBar.add(new JLabel("文件类型：JSON类型"));
-        statusBar.add(new JLabel("字数统计：1280字"));
-        statusBar.add(new JLabel("作者：莫斐鱼"));
-        statusBar.add(new JProgressBar());
+        JPanel statusPanel = new JPanel();
+        statusPanel.setBorder(BorderFactory.createMatteBorder(1,0, 1, 0, Color.LIGHT_GRAY));
+        statusPanel.setLayout(new BorderLayout());
+
+        JXStatusBar statusInfoBar = new JXStatusBar();
+        statusInfoBar.setLayout(new FlowLayout(FlowLayout.CENTER,10,0));
+        JLabel labelTime = new JLabel("时间：2004年02月05日");
+        labelTime.setBorder(BorderFactory.createEmptyBorder(0, 29, 0, 20));
+        statusInfoBar.add(labelTime);
+        JLabel labelFileType = new JLabel("文件类型：JSON类型");
+        labelFileType.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+        statusInfoBar.add(labelFileType);
+        JLabel labelFontCounts = new JLabel("字数统计：1280字");
+        labelFontCounts.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+        statusInfoBar.add(labelFontCounts);
+
+        JXStatusBar statusAuthBar = new JXStatusBar();
+        FlatProgressBar progressBar = new FlatProgressBar();
+        //progressBar.setStringPainted(true);
+        progressBar.setIndeterminate(true);
+        //this.progressBarUpdate(progressBar);
+        statusAuthBar.add(progressBar);
+        statusAuthBar.add(new JLabel("作者：莫斐鱼"));
+
+        statusPanel.add(statusInfoBar, BorderLayout.WEST);
+        statusPanel.add(statusAuthBar, BorderLayout.EAST);
         mainPanel.add(toolBar, BorderLayout.NORTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
-        mainPanel.add(statusBar, BorderLayout.SOUTH);
+        mainPanel.add(statusPanel, BorderLayout.SOUTH);
         frame.add(mainPanel);
 
     }
+
+
 
     public static void createNewTabActionPerformed() {
         RTextScrollPane tp = TextAreaUtil.initScrollEditor();
@@ -162,6 +186,24 @@ public class DemoSplit extends JFrame {
         }
         msp.revalidate();
         msp.repaint();
+    }
+
+    private void progressBarUpdate(JProgressBar progressBar) {
+        Timer timer = new Timer(100, new ActionListener() {
+            int value = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (value < 100) {
+                    value++;
+                    progressBar.setValue(value);
+                } else {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        // 启动定时器
+        timer.start();
     }
 
 }
