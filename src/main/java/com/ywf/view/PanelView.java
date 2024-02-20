@@ -4,7 +4,6 @@ import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.action.StateBarEventService;
 import com.ywf.component.BasePanel;
 import com.ywf.framework.utils.IconUtils;
-import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXStatusBar;
 
 import javax.swing.*;
