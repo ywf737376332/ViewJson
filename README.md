@@ -151,7 +151,7 @@ swing + flatlaf + rsyntaxtextarea
 9. 整合日志框架，控制台和用户日志目录输出日志文件,项目打包后,日志不保存
 10. 重写状态栏：JXStatusBar,以解决更换主题时，状态栏字体变大问题
 11. 增加菜单：语言类别，自动识别 json xml java JavaScript sql 等等，供用户选择
-12. 打包exe，不依赖jdk
+13. 打包exe，不依赖jdk
 
 
 #### 目前存在的问题：
@@ -170,6 +170,7 @@ swing + flatlaf + rsyntaxtextarea
 13. 项目打包后，读取不到resource资源文件下的配置✅
 ```
 JXMultiSplitPane:又发现了新的可分割窗口,可以考虑拉新的分支进行整合，封装
+可以模仿PhotoShop的窗口分割功能,多窗口并排
 ```
 
 <img src="src/main/resources/images/1.0.png" alt="版本一" width="600" height="400">
