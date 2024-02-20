@@ -3,7 +3,7 @@ package com.ywf.framework.annotation;
 import java.lang.annotation.*;
 
 /**
- * TODO
+ * 自动注入类的实例
  *
  * @Author YWF
  * @Date 2024/1/29 9:22

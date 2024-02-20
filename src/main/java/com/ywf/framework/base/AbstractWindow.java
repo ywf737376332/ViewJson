@@ -1,6 +1,5 @@
 package com.ywf.framework.base;
 
-import com.ywf.framework.config.GlobalMenuKEY;
 import com.ywf.framework.utils.ObjectUtils;
 
 import javax.swing.*;

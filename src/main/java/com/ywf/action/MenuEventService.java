@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
-import com.ywf.framework.config.GlobalMenuKEY;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
@@ -58,7 +58,7 @@ public class MenuEventService {
     volatile private static MenuEventService instance = null;
 
     private MenuEventService() {
-        tabbedSplitEditor = ObjectUtils.getBean(GlobalMenuKEY.TABBED_SPLIT_EDITOR);
+        tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
     }
 
     public static MenuEventService getInstance() {

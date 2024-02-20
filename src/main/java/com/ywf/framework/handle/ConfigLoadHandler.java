@@ -3,7 +3,7 @@ package com.ywf.framework.handle;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.annotation.PropertySource;
-import com.ywf.framework.config.GlobalMenuKEY;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.framework.utils.ReflectUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -70,7 +70,7 @@ public class ConfigLoadHandler {
         Set<Field> fieldClassesAnno = reflections.getFieldsAnnotatedWith(Autowired.class);
         logger.info("扫描实例化注入的类:{}", fieldClassesAnno);
         // 从本地文件Properties中夹在配置文件到Properties
-        PropertiesConfiguration configuration = ObjectUtils.getBean(GlobalMenuKEY.USER_PRPPERTIES_CONFIG);
+        PropertiesConfiguration configuration = ObjectUtils.getBean(GlobalKEY.USER_PRPPERTIES_CONFIG);
         for (Class<?> configClass : configClassesAnno) {
             logger.info("配置类实例化开始~");
             // 创建配置类

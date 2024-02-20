@@ -7,7 +7,7 @@ import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.JTabbedSplitEditor;
 import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.PopupMenuBuilder;
-import com.ywf.framework.config.GlobalMenuKEY;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -88,7 +88,7 @@ public class ChangeUIUtils {
      * @date 2023/12/2 15:32
      */
     public static void changeTextAreaThemes(String style) {
-        JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalMenuKEY.TABBED_SPLIT_EDITOR);
+        JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
         LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
         for (JScrollPane scrollPane : sp) {
             JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);

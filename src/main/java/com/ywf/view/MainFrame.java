@@ -7,7 +7,7 @@ import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.base.AbstractWindow;
-import com.ywf.framework.config.GlobalMenuKEY;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 
@@ -48,7 +48,7 @@ public class MainFrame extends AbstractWindow {
         // 右侧JSON格式化区域
         JPanel editPanel = PanelView.createEditPanel();
         JTabbedSplitEditor tabbedSplitEditor = new JTabbedSplitEditor(new BorderLayout(), _this);
-        this.addComponent(editPanel, GlobalMenuKEY.TABBED_SPLIT_EDITOR, tabbedSplitEditor, BorderLayout.CENTER);
+        this.addComponent(editPanel, GlobalKEY.TABBED_SPLIT_EDITOR, tabbedSplitEditor, BorderLayout.CENTER);
 
         // 创建菜单栏
         JMenuBar menuBar = MenuBarBuilder.createMenuBar(frame);

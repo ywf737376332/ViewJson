@@ -4,7 +4,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.formdev.flatlaf.extras.components.FlatTextField;
-import com.ywf.framework.config.GlobalMenuKEY;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.layout.FindPanelLayout;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.ObjectUtils;
@@ -195,7 +195,7 @@ public class FindPanelBuilder {
     }
 
     public static FindPanelLayout getLayout() {
-        tabbedSplitEditor = ObjectUtils.getBean(GlobalMenuKEY.TABBED_SPLIT_EDITOR);
+        tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
         return layout;
     }
 

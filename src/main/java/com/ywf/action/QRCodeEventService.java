@@ -3,7 +3,7 @@ package com.ywf.action;
 import com.ywf.component.DialogBuilder;
 import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.JTabbedSplitEditor;
-import com.ywf.framework.config.GlobalMenuKEY;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.utils.ImageUtils;
 import com.ywf.framework.utils.ObjectUtils;
 
@@ -22,7 +22,7 @@ public class QRCodeEventService {
     volatile private static QRCodeEventService instance = null;
 
     private QRCodeEventService() {
-        tabbedSplitEditor = ObjectUtils.getBean(GlobalMenuKEY.TABBED_SPLIT_EDITOR);
+        tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
     }
 
     public static QRCodeEventService getInstance() {

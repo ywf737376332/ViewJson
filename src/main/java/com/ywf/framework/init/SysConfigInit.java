@@ -1,7 +1,7 @@
 package com.ywf.framework.init;
 
 import cn.hutool.core.io.resource.ResourceUtil;
-import com.ywf.framework.config.GlobalMenuKEY;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.ioc.ResourceContext;
 import com.ywf.framework.utils.ObjectUtils;
@@ -65,14 +65,14 @@ public class SysConfigInit extends ApplicationContext {
         String appRunUserPath = getApplicationRunRootPath();
         ResourceContext resourceUserRunContext = new ResourceContext(appRunUserPath, ResourceContext.FILE_TYPE);
         PropertiesConfiguration userRunProperties = resourceUserRunContext.getResource();
-        ObjectUtils.setBean(GlobalMenuKEY.USER_PRPPERTIES_CONFIG, userRunProperties);
+        ObjectUtils.setBean(GlobalKEY.USER_PRPPERTIES_CONFIG, userRunProperties);
         /**
          * 读取系统默认的配置文件
          */
         String resourcePath = DEFAULT_RESOURCE_PATH;
         ResourceContext resourceDefaultContext = new ResourceContext(resourcePath, ResourceContext.STREAM_TYPE);
         PropertiesConfiguration defaultProperties = resourceDefaultContext.getResource();
-        ObjectUtils.setBean(GlobalMenuKEY.DEFAULT_PRPPERTIES_CONFIG, defaultProperties);
+        ObjectUtils.setBean(GlobalKEY.DEFAULT_PRPPERTIES_CONFIG, defaultProperties);
         Iterator<String> iterator = defaultProperties.getKeys();
         int counts = 0;
         while (iterator.hasNext()) {

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @Author YWF
  * @Date 2024/2/1 22:11
  */
-public class GlobalMenuKEY extends JFrame implements Serializable {
+public class GlobalKEY extends JFrame implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

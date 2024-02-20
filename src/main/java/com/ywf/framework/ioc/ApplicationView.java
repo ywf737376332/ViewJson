@@ -3,7 +3,7 @@ package com.ywf.framework.ioc;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import com.ywf.framework.annotation.Autowired;
-import com.ywf.framework.config.GlobalMenuKEY;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.handle.ConfigLoadHandler;
@@ -58,7 +58,7 @@ public class ApplicationView {
          */
         Assert.notNull(primarySource, "PrimarySources must not be null");
         applicationView = configLoadHandler.appViewInit(basePackages);
-        ObjectUtils.setBean(GlobalMenuKEY.MAIN_FRAME, applicationView._this);
+        ObjectUtils.setBean(GlobalKEY.MAIN_FRAME, applicationView._this);
     }
 
     public static ApplicationContext run(Class<?> primarySource, String... args) {
