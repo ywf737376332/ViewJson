@@ -16,16 +16,14 @@ public class SystemConstant implements Serializable {
      * 窗口标题及版本号
      */
     public static final String SYSTEM_LOGO = "/icons/logo01.svg";
-    public static final String SYSTEM_TITLE = "JSON格式化工具";   // 窗口最小宽度
-    public static final String SYSTEM_VERSION = "V3.0";   // 窗口最小宽度
+    public static final String SYSTEM_TITLE = "JSON工具";   // 窗口最小宽度
+    public static final String SYSTEM_VERSION = "V5.0";   // 窗口最小宽度
 
     /**
      * 窗口大小最小值
      */
     public static final int WINDOWS_MIN_WIDTH = 930;   // 窗口最小宽度
     public static final int WINDOWS_MIN_HEIGHT = 680;    // 窗口最小高度
-    public static final String SYSTEM_THEMES_KEY = "lastSystemThemes"; // 最后一次选定的系统主题KEY
-
 
     /**
      * 保存文件扩展名

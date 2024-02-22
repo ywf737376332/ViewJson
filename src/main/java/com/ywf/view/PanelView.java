@@ -148,59 +148,6 @@ public class PanelView {
         return panelBottom;
     }
 
-    /*public static JPanel createPanelBottom002(JFrame frame) {
-        // 状态栏
-        JPanel statusPanel = new JPanel();
-        statusPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.LIGHT_GRAY));
-        statusPanel.setLayout(new BorderLayout());
-        //statusPanel.setBackground(Color.BLUE);
-        JXStatusBar statusBar = new JXStatusBar();
-        statusBar.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
-
-        FlatLabel runTimeText = new FlatLabel();
-        runTimeText.setText("运行时长：");
-        runTimeText.setForeground(new Color(167, 179, 211));
-        runTimeText.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-
-        runTimeLabel = new FlatLabel();
-        runTimeLabel.setLabelType(FlatLabel.LabelType.medium);
-        runTimeLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-        Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeLabel));
-        StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
-
-        fileTypeLabel = new FlatLabel();
-        fileTypeLabel.setLabelType(FlatLabel.LabelType.medium);
-        fileTypeLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-        fileTypeLabel.setForeground(new Color(167, 179, 211));
-
-        fileLengthLabel = new FlatLabel();
-        fileLengthLabel.setLabelType(FlatLabel.LabelType.medium);
-        fileLengthLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-        fileLengthLabel.setForeground(new Color(167, 179, 211));
-
-        JPanel runTime = new JPanel();
-        runTime.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-        runTime.add(runTimeText);
-        runTime.add(runTimeLabel);
-        statusBar.add(runTime);
-        fileTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-        statusBar.add(fileTypeLabel);
-        fileLengthLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-        statusBar.add(fileLengthLabel);
-
-        JXStatusBar authBar = new JXStatusBar();
-        labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/auth.svg", 14, 14), SwingConstants.LEFT);
-        labelCopyright.setForeground(new Color(156, 170, 207));
-        labelCopyright.addMouseListener(new CopyrightMouseListener());
-        authBar.add(labelCopyright);
-
-        statusPanel.add(statusBar, BorderLayout.WEST);
-        statusPanel.add(authBar, BorderLayout.EAST);
-
-        return statusPanel;
-    }*/
-
-
     /**
      * 多彩版权显示效果
      */

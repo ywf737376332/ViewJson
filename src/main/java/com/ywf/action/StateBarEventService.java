@@ -119,7 +119,7 @@ public class StateBarEventService {
             @Override
             protected void process(List<String> chunks) {
                 String countTime = chunks.get(chunks.size() - 1);
-                runTimeValue.setText("<html><span color=\"#2D2D2D\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + countTime + "</span></html>");
+                runTimeValue.setText("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + countTime + "</span></html>");
             }
         };
         swingWorker.execute();
