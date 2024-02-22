@@ -142,7 +142,7 @@ public class JsonUtil {
      * @return
      */
     public static String compressingStr(String jsonStr) {
-        return jsonStr.replaceAll("\\s*\\n\\s*", "").replaceAll(">\\s+<", "><").trim();
+        return jsonStr.replaceAll("\\s*\\n\\s*", " ").replaceAll(">\\s+<", "><").trim();
     }
 
     /**

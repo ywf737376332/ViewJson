@@ -7,10 +7,9 @@ import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
-import com.ywf.framework.utils.JsonUtil;
+import com.ywf.framework.utils.TypeUtils;
 import com.ywf.pojo.StateBarEntity;
 import com.ywf.view.PanelView;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -75,7 +74,8 @@ public class StateBarEventService {
             @Override
             protected Boolean doInBackground() {
                 String text = rSyntaxTextArea.getText();
-                TextTypeEnum contentType = JsonUtil.isType(text);
+                //TextTypeEnum contentType = JsonUtil.isType(text);
+                TextTypeEnum contentType = TypeUtils.isType(text);
                 StateBarEntity stateBarEntity = new StateBarEntity(contentType, text.length());
                 publish(stateBarEntity);
                 return true;
@@ -90,7 +90,7 @@ public class StateBarEventService {
                     TextTypeEnum contentType = stateBarEntity.getContentType();
                     labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：<span color=\"#389FD6\">" + contentType.getDiscription() + "</span></span></html>");
                     fileLengthLabel.setText("字数统计：" + stateBarEntity.getTextLength() + "词");
-                    rSyntaxTextArea.setSyntaxEditingStyle(TextTypeEnum.XML.equals(contentType) ? SyntaxConstants.SYNTAX_STYLE_XML : SyntaxConstants.SYNTAX_STYLE_JSON);
+                    rSyntaxTextArea.setSyntaxEditingStyle(contentType.getSyntaxStyle());
                     rSyntaxTextArea.setTextType(contentType);
                     setBtnEnableState(contentType);
                 }

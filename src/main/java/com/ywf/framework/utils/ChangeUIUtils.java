@@ -134,7 +134,12 @@ public class ChangeUIUtils {
      */
     public static void initUIStyle() {
         //滚动条的默认宽度为 。要使它们更宽（或更小），请使用：10
-        UIManager.put("ScrollBar.width", 1);
+        UIManager.put("ScrollBar.width", 4);
+        // 设置滚动条背景色为透明
+        //UIManager.put("ScrollBar.background", new Color(0, 0, 0, 0));
+        // 设置滚动条颜色为红色
+        //UIManager.put("ScrollBar.thumb", new Color(255, 0, 0));
+        //UIManager.put("ScrollBar.track", new Color(255, 0, 0, 0));
         //UIManager.put("ScrollBar.thumbInsets", new Insets(20, 20, 20, 20));
         //默认情况下，滚动条的上一个/下一个箭头按钮处于隐藏状态。要使 它们对应用程序使用中的所有滚动条可见：
         //UIManager.put("ScrollBar.showButtons", true);
@@ -150,6 +155,5 @@ public class ChangeUIUtils {
         //UIManager.put("ScrollBar.thumbArc", 20);
         //UIManager.put("ScrollBar.trackInsets", new Insets(20, 40, 20, 40));
         //UIManager.put("ScrollBar.thumbInsets", new Insets(20, 20, 20, 20));
-        //UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
     }
 }

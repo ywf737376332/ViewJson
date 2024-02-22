@@ -1,13 +1,7 @@
 package com.ywf.action;
 
-import com.ywf.component.DialogBuilder;
-import com.ywf.component.TextAreaBuilder;
-import org.fife.ui.rtextarea.RTextScrollPane;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 
@@ -20,11 +14,9 @@ import java.awt.event.WindowStateListener;
 public class WindowStateEventService implements WindowStateListener {
 
     private JFrame frame;
-    private RTextScrollPane rTextScrollPane;
 
     public WindowStateEventService(JFrame frame) {
         this.frame = frame;
-        rTextScrollPane = TextAreaBuilder.getrTextScrollPane();
     }
 
 

@@ -24,17 +24,11 @@ public class TextAreaBuilder {
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
 
-    private static JTextArea textAreaSource;
-
-    private static JSONRSyntaxTextArea syntaxTextArea;
-
-    private static RTextScrollPane rTextScrollPane;
-
     /**
      * 带滚动条的多文本框
      */
     public static JScrollPane scrollTextArea() {
-        textAreaSource = new JTextArea();
+        JTextArea textAreaSource = new JTextArea();
         UndoManager manager = new UndoManager();
         textAreaSource.getDocument().addUndoableEditListener(manager);
         textAreaSource.setLineWrap(true);
@@ -53,11 +47,13 @@ public class TextAreaBuilder {
     public static RTextScrollPane createJsonScrollTextArea() {
         SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
         String themesPath = themesStyles != null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
-        syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
-        rTextScrollPane = new RTextScrollPane(syntaxTextArea);
+        JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
+        RTextScrollPane rTextScrollPane = new RTextScrollPane();
+        rTextScrollPane.setViewportView(syntaxTextArea);
         rTextScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        //syntaxTextArea.setFont(new Font("微软雅黑", Font.PLAIN, 14));
         // 显示行号
-        rTextScrollPane.setLineNumbersEnabled(Boolean.valueOf(applicationContext.getTextAreaShowlineNumState()));
+        rTextScrollPane.setLineNumbersEnabled(applicationContext.getTextAreaShowlineNumState());
         rTextScrollPane.setFoldIndicatorEnabled(true);
         //监听文档变化
         StateBarEventService.getInstance().textAreaDocumentActionPerformed(syntaxTextArea);
@@ -86,29 +82,5 @@ public class TextAreaBuilder {
             ioe.printStackTrace();
         }
         return textArea;
-    }
-
-    public static JTextArea getTextAreaSource() {
-        return textAreaSource;
-    }
-
-    public static void setTextAreaSource(JTextArea textAreaSource) {
-        TextAreaBuilder.textAreaSource = textAreaSource;
-    }
-
-    public static JSONRSyntaxTextArea getSyntaxTextArea() {
-        return syntaxTextArea;
-    }
-
-    public static void setSyntaxTextArea(JSONRSyntaxTextArea syntaxTextArea) {
-        TextAreaBuilder.syntaxTextArea = syntaxTextArea;
-    }
-
-    public static RTextScrollPane getrTextScrollPane() {
-        return rTextScrollPane;
-    }
-
-    public static void setrTextScrollPane(RTextScrollPane rTextScrollPane) {
-        TextAreaBuilder.rTextScrollPane = rTextScrollPane;
     }
 }
