@@ -17,6 +17,8 @@ public class GlobalKEY extends JFrame implements Serializable {
 
     public static final String MAIN_FRAME = PREFIX + "mainFrame";
     public static final String TABBED_SPLIT_EDITOR = PREFIX + "tabbedSplitEditor";
+    public static final String STATE_BAR_TEXT_TYPE = PREFIX + "stateBarTextType";
+    public static final String STATE_BAR_TEXT_LENGTH = PREFIX + "stateBarTextLength";
 
     /**
      * 系统设置配置参数

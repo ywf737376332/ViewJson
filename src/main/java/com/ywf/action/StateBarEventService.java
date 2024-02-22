@@ -3,13 +3,14 @@ package com.ywf.action;
 import cn.hutool.core.util.ObjectUtil;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.JSONRSyntaxTextArea;
+import com.ywf.component.LabelBuilder;
 import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.ToolBarBuilder;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.TypeUtils;
 import com.ywf.pojo.StateBarEntity;
-import com.ywf.view.PanelView;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -85,11 +86,11 @@ public class StateBarEventService {
             protected void process(List<StateBarEntity> chunks) {
                 StateBarEntity stateBarEntity = chunks.get(chunks.size() - 1);
                 if (ObjectUtil.isNotNull(stateBarEntity)) {
-                    FlatLabel labelTypeLabel = PanelView.getFileTypeLabel();
-                    FlatLabel fileLengthLabel = PanelView.getFileLengthLabel();
+                    FlatLabel labelTypeLabel = LabelBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_TYPE);
+                    FlatLabel fileLengthLabel = LabelBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_LENGTH);
                     TextTypeEnum contentType = stateBarEntity.getContentType();
-                    labelTypeLabel.setText("<html><span color=\"#A7B3D3\">内容类型：<span color=\"#389FD6\">" + contentType.getDiscription() + "</span></span></html>");
-                    fileLengthLabel.setText("字数统计：" + stateBarEntity.getTextLength() + "词");
+                    labelTypeLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + contentType.getDiscription() + "</span></html>");
+                    fileLengthLabel.setText("<html><span color=\"#107C41\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + stateBarEntity.getTextLength() + "词" + "</span></html>");
                     rSyntaxTextArea.setSyntaxEditingStyle(contentType.getSyntaxStyle());
                     rSyntaxTextArea.setTextType(contentType);
                     setBtnEnableState(contentType);
@@ -104,7 +105,7 @@ public class StateBarEventService {
      *
      * @date 2023/12/17 14:38
      */
-    public void stateBarTimeActionPerformed(FlatLabel runTimeLabel) {
+    public void stateBarTimeActionPerformed(FlatLabel runTimeValue) {
         SwingWorker<Boolean, String> swingWorker = new SwingWorker<Boolean, String>() {
             @Override
             protected Boolean doInBackground() {
@@ -118,14 +119,14 @@ public class StateBarEventService {
             @Override
             protected void process(List<String> chunks) {
                 String countTime = chunks.get(chunks.size() - 1);
-                runTimeLabel.setText(countTime);
+                runTimeValue.setText("<html><span color=\"#2D2D2D\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + countTime + "</span></html>");
             }
         };
         swingWorker.execute();
     }
 
     private String viewTime(long millseconds) {
-        //millseconds = millseconds + 50000 + 3540000 + 82800000L + 1036800000L * 10;
+        // millseconds = millseconds + 50000 + 3540000 + 82800000L + 1036800000L * 10;
         long seconds, minutes, hours, days;
         StringBuilder sb = new StringBuilder();
         seconds = millseconds / 1000;
