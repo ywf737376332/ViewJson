@@ -101,6 +101,15 @@ public class ChangeUIUtils {
         }
     }
 
+    public static void changeTextAreaFont() {
+        JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
+        LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
+        for (JScrollPane scrollPane : sp) {
+            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
+            rSyntaxTextArea.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+        }
+    }
+
     /**
      * 统一设置字体，父界面设置之后，所有由父界面进入的子界面都不需要再次设置字体
      */
@@ -110,7 +119,12 @@ public class ChangeUIUtils {
             Object key = keys.nextElement();
             Object value = UIManager.get(key);
             if (value instanceof FontUIResource) {
+                if ("Viewport.font".equals(key) || "ScrollPane.font".equals(key) || "TextArea.font".equals(key)) {
+                    continue;
+                }
                 UIManager.put(key, fontRes);
+                //logger.info(" UIManager.put(\"{}\",font)", key);
+                System.out.println(" UIManager.put("+ key +",font)");
             }
 
         }

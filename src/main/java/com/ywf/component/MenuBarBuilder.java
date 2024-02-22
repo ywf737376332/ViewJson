@@ -76,9 +76,9 @@ public class MenuBarBuilder {
 
 
         JMenu setupMenu = new JMenu("设置");
-        //JMenu fontSetMenu = new JMenu("界面字体");
-        //initFontMenu(fontSetMenu);
-        //MenuEventService.getInstance().applyFontActionPerformed(frame,fontSetMenu);
+        JMenu fontSetMenu = new JMenu("界面字体");
+        initFontMenu(fontSetMenu);
+        MenuEventService.getInstance().applyFontActionPerformed(frame,fontSetMenu);
 
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
         editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
@@ -131,7 +131,7 @@ public class MenuBarBuilder {
         chineseConverMenu.add(unicodeConverChineseMenuItem);
         MenuEventService.getInstance().chineseConverActionPerformed(chineseConverMenu);
 
-        //setupMenu.add(fontSetMenu);
+        setupMenu.add(fontSetMenu);
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
         setupMenu.add(showlineNumMenuItem);

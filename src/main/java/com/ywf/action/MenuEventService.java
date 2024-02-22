@@ -541,6 +541,7 @@ public class MenuEventService {
                 JRadioButtonMenuItem fontMenuItem = (JRadioButtonMenuItem) menuComponent[i];
                 fontMenuItem.addActionListener(e -> {
                     ChangeUIUtils.initGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, 14));
+                    ChangeUIUtils.changeTextAreaFont();
                     ChangeUIUtils.updateViewUI();
                 });
             }
