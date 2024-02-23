@@ -10,6 +10,7 @@ import com.ywf.component.PopupMenuBuilder;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.ioc.ResourceContext;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.LinkedList;
 
@@ -140,6 +142,21 @@ public class ChangeUIUtils {
         String[] availableFontFamilyNames = ge.getAvailableFontFamilyNames();
         for (String fontFamilyName : availableFontFamilyNames) {
             logger.info("系统字体：{}", fontFamilyName);
+        }
+    }
+
+    /**
+     * 读取字体文件
+     *
+     * @return
+     */
+    public static Font getReadFileFonts() {
+        try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream("config/micYaHei.ttc")) {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            Font sizedFont = font.deriveFont(14f);
+            return sizedFont;
+        } catch (IOException | FontFormatException e) {
+            throw new RuntimeException("资源文件加载失败：" + e.getMessage());
         }
     }
 
