@@ -93,7 +93,7 @@ public class ChangeUIUtils {
         for (JScrollPane scrollPane : sp) {
             JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
             try {
-                Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style));
+                Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style), SystemConstant.SYSTEM_DEFAULT_FONT);
                 theme.apply(rSyntaxTextArea);
             } catch (IOException e) {
                 System.err.println("textAreaThemes apply error");
@@ -101,12 +101,17 @@ public class ChangeUIUtils {
         }
     }
 
+    /**
+     * 改变多文本框的字体
+     */
     public static void changeTextAreaFont() {
         JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
-        LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
-        for (JScrollPane scrollPane : sp) {
-            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
-            rSyntaxTextArea.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+        if (tabbedSplitEditor != null) {
+            LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
+            for (JScrollPane scrollPane : sp) {
+                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
+                rSyntaxTextArea.setFont(SystemConstant.SYSTEM_DEFAULT_FONT);
+            }
         }
     }
 
@@ -114,20 +119,17 @@ public class ChangeUIUtils {
      * 统一设置字体，父界面设置之后，所有由父界面进入的子界面都不需要再次设置字体
      */
     public static void initGlobalFont(Font font) {
+        // 改变全局界面布局元素的字体
         FontUIResource fontRes = new FontUIResource(font);
         for (Enumeration<Object> keys = UIManager.getDefaults().keys(); keys.hasMoreElements(); ) {
             Object key = keys.nextElement();
             Object value = UIManager.get(key);
             if (value instanceof FontUIResource) {
-                if ("Viewport.font".equals(key) || "ScrollPane.font".equals(key) || "TextArea.font".equals(key)) {
-                    continue;
-                }
                 UIManager.put(key, fontRes);
-                //logger.info(" UIManager.put(\"{}\",font)", key);
-                System.out.println(" UIManager.put("+ key +",font)");
             }
-
         }
+        // 改变TextArea编辑框的字体,避免全局字体改变后,编辑框字体也发生变化
+        changeTextAreaFont();
     }
 
     /**
@@ -170,4 +172,5 @@ public class ChangeUIUtils {
         //UIManager.put("ScrollBar.trackInsets", new Insets(20, 40, 20, 40));
         //UIManager.put("ScrollBar.thumbInsets", new Insets(20, 20, 20, 20));
     }
+
 }

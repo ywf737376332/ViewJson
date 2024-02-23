@@ -14,7 +14,7 @@ public class TestMain {
         String code1 = "public static TextTypeEnum isType(String content) {if (isJsonString(content)) {return TextTypeEnum.JSON;} else if (isURL(content)) {return TextTypeEnum.URL;} else if (isText(content)) {return TextTypeEnum.TEXT;} else if (isXML(content)) {return TextTypeEnum.XML;}return TextTypeEnum.TEXT;}";
         String code2 = "function hello() { console.log('Hello, World!'); }";
         String code3 = "<root><element>content</element></root>";
-
+//Theme theme = Theme.load(RSyntaxTextAreaEditor.class.getResourceAsStream("/org/fife/ui/rsyntaxtextarea/themes/idea.xml"));
         System.out.println("Code 1 is: " + detectCodeType(code1));
         System.out.println("Code 2 is: " + detectCodeType(code2));
         System.out.println("Code 3 is: " + detectCodeType(code3));

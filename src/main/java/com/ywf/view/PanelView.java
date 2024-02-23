@@ -3,7 +3,7 @@ package com.ywf.view;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.action.StateBarEventService;
 import com.ywf.component.BasePanel;
-import com.ywf.component.LabelBuilder;
+import com.ywf.component.LabelBarBuilder;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.utils.IconUtils;
 
@@ -40,68 +40,14 @@ public class PanelView {
         return editPanel;
     }
 
-    /*public static JPanel createPanelBottom(JFrame frame) {
-        JPanel panelBottom = new BasePanel();
-        // 设置上面框线
-        // panelBottom.setBorder(BorderFactory.createMatteBorder(10, 0, 0, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
-        // 设置边距
-        JPanel panelBottomText = new BasePanel();
-        panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/auth.svg", 14, 14), SwingConstants.LEFT);
-        labelCopyright.setForeground(new Color(156, 170, 207));
-        labelCopyright.addMouseListener(new CopyrightMouseListener());
-
-        // 状态栏
-        JPanel panelStateBar = new JPanel();
-        panelStateBar.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0)); // 设置外边距
-        panelStateBar.setPreferredSize(new Dimension(560, 20));
-        panelStateBar.setLayout(null);
-
-        FlatLabel runTimeText = new FlatLabel();
-        runTimeText.setText("运行时长：");
-        runTimeText.setForeground(new Color(167, 179, 211));
-        runTimeText.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-        runTimeText.setBounds(0, 0, 65, 20);
-        runTimeLabel = new FlatLabel();
-        runTimeLabel.setLabelType(FlatLabel.LabelType.medium);
-        runTimeLabel.setBounds(60, 0, 255, 20);
-        runTimeLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-        Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeLabel));
-        StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
-
-        fileTypeLabel = new FlatLabel();
-        fileTypeLabel.setLabelType(FlatLabel.LabelType.medium);
-        fileTypeLabel.setBounds(260, 0, 140, 20);
-        fileTypeLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-        fileTypeLabel.setForeground(new Color(167, 179, 211));
-
-        fileLengthLabel = new FlatLabel();
-        fileLengthLabel.setLabelType(FlatLabel.LabelType.medium);
-        fileLengthLabel.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 12));
-        fileLengthLabel.setForeground(new Color(167, 179, 211));
-        fileLengthLabel.setBounds(410, 0, 140, 20);
-
-        panelStateBar.add(runTimeText);
-        panelStateBar.add(runTimeLabel);
-        panelStateBar.add(fileTypeLabel);
-        panelStateBar.add(fileLengthLabel);
-
-        panelBottomText.setLayout(new BorderLayout());
-        panelBottomText.add(panelStateBar, BorderLayout.WEST);
-        panelBottomText.add(labelCopyright, BorderLayout.EAST);
-
-        panelBottom.setLayout(new BorderLayout());
-        panelBottom.add(panelBottomText, BorderLayout.CENTER);
-
-        return panelBottom;
-    }*/
-
     public static JPanel createPanelBottom(JFrame frame) {
         JPanel panelBottom = new BasePanel();
         // 设置边距
         JPanel panelBottomText = new BasePanel();
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
-        labelCopyright = new JLabel("作者：莫斐鱼", IconUtils.getSVGIcon("icons/auth.svg", 14, 14), SwingConstants.LEFT);
+        FlatLabel labelCopyrightLabel = new FlatLabel();
+        labelCopyrightLabel.setIcon(IconUtils.getImageIcon("/icons/auth.png"));
+        labelCopyright = new JLabel("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:9px\">作者：莫斐鱼</span></html>", IconUtils.getSVGIcon("icons/auth.svg", 12, 12), SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156, 170, 207));
         labelCopyright.addMouseListener(new CopyrightMouseListener());
 
@@ -111,23 +57,23 @@ public class PanelView {
         panelStateBar.setPreferredSize(new Dimension(560, 20));
         panelStateBar.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-        FlatLabel runTimeLabel = LabelBuilder.createLabel("运行时长：");
+        FlatLabel runTimeLabel = LabelBarBuilder.createLabel("运行时长：");
         runTimeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        FlatLabel runTimeValue = LabelBuilder.createLabel();
+        FlatLabel runTimeValue = LabelBarBuilder.createLabel();
         runTimeValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeValue));
         StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
 
-        FlatLabel fileTypeLabel = LabelBuilder.createLabel("内容类型：");
+        FlatLabel fileTypeLabel = LabelBarBuilder.createLabel("内容类型：");
         fileTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
-        FlatLabel fileTypeValue = LabelBuilder.createLabel(true, GlobalKEY.STATE_BAR_TEXT_TYPE);
+        FlatLabel fileTypeValue = LabelBarBuilder.createLabel(true, GlobalKEY.STATE_BAR_TEXT_TYPE);
         fileTypeValue.setText("<html><span color=\"#389FD6\" style=\"font-size:9px\">文本类型</span></html>");
         fileTypeValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
-        FlatLabel fileLengthLabel = LabelBuilder.createLabel("字数统计：");
+        FlatLabel fileLengthLabel = LabelBarBuilder.createLabel("字数统计：");
         fileLengthLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        FlatLabel fileLengthValue = LabelBuilder.createLabel(true, GlobalKEY.STATE_BAR_TEXT_LENGTH);
+        FlatLabel fileLengthValue = LabelBarBuilder.createLabel(true, GlobalKEY.STATE_BAR_TEXT_LENGTH);
         fileLengthValue.setText("<html><span color=\"#107C41\" style=\"font-size:9px\">0词</span></html>");
         fileLengthValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 

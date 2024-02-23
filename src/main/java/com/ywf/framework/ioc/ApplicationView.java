@@ -86,7 +86,7 @@ public class ApplicationView {
         try {
             logger.info("程序UI界面初始化,当前主题{}~", applicationContext.getLastSystemThemes());
             // 全局字体设置 小米兰亭 幼圆 华文中宋 黑体 等线
-            ChangeUIUtils.initGlobalFont(new Font("Microsoft YaHei UI", Font.PLAIN, 14));
+            ChangeUIUtils.initGlobalFont(SystemConstant.SYSTEM_DEFAULT_FONT);
             // 全局主题设置
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
             ChangeUIUtils.changeUIStyle(applicationView, themesStyles);

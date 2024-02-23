@@ -152,6 +152,7 @@ swing + flatlaf + rsyntaxtextarea
 10. 重写状态栏：JXStatusBar,以解决更换主题时，状态栏字体变大问题(已使用流式布局重写)✅
 11. 增加菜单：语言类别，自动识别 json xml java JavaScript sql 等等，供用户选择(系统自动识别)✅
 13. 打包exe，不依赖jdk✅
+14. 对字体进行同意创建文件维护，统一管理，可以是Enum类型，增加默认字体
 
 
 #### 目前存在的问题：

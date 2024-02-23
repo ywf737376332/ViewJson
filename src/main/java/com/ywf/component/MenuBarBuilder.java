@@ -78,7 +78,7 @@ public class MenuBarBuilder {
         JMenu setupMenu = new JMenu("设置");
         JMenu fontSetMenu = new JMenu("界面字体");
         initFontMenu(fontSetMenu);
-        MenuEventService.getInstance().applyFontActionPerformed(frame,fontSetMenu);
+        MenuEventService.getInstance().applyFontActionPerformed(frame, fontSetMenu);
 
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
         editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
@@ -213,7 +213,7 @@ public class MenuBarBuilder {
 
     private static void initFontMenu(JMenu fontSetMenu) {
         JRadioButtonMenuItem micYaHeiFontMenuItem = new JRadioButtonMenuItem("Microsoft YaHei UI");
-        micYaHeiFontMenuItem.setEnabled(true);
+        micYaHeiFontMenuItem.setSelected(true);
         JRadioButtonMenuItem christmasWorshipFontMenuItem = new JRadioButtonMenuItem("华文中宋");
         JRadioButtonMenuItem arialFontMenuItem = new JRadioButtonMenuItem("黑体");
         JRadioButtonMenuItem blackLetterFontMenuItem = new JRadioButtonMenuItem("等线");

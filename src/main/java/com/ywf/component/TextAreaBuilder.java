@@ -2,6 +2,7 @@ package com.ywf.component;
 
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -51,7 +52,6 @@ public class TextAreaBuilder {
         RTextScrollPane rTextScrollPane = new RTextScrollPane();
         rTextScrollPane.setViewportView(syntaxTextArea);
         rTextScrollPane.setBorder(BorderFactory.createEmptyBorder());
-        //syntaxTextArea.setFont(new Font("微软雅黑", Font.PLAIN, 14));
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(applicationContext.getTextAreaShowlineNumState());
         rTextScrollPane.setFoldIndicatorEnabled(true);
@@ -76,7 +76,7 @@ public class TextAreaBuilder {
         textArea.setChineseConverState(applicationContext.getChineseConverState());
         textArea.revalidate();
         try {
-            Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));
+            Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath), SystemConstant.SYSTEM_DEFAULT_FONT);
             theme.apply(textArea);
         } catch (IOException ioe) {
             ioe.printStackTrace();

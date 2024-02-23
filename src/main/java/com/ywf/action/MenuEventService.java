@@ -7,6 +7,7 @@ import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.enums.FontEnum;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
@@ -540,8 +541,7 @@ public class MenuEventService {
             if (menuComponent[i] instanceof JRadioButtonMenuItem) {
                 JRadioButtonMenuItem fontMenuItem = (JRadioButtonMenuItem) menuComponent[i];
                 fontMenuItem.addActionListener(e -> {
-                    ChangeUIUtils.initGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, 14));
-                    ChangeUIUtils.changeTextAreaFont();
+                    ChangeUIUtils.initGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, FontEnum.Size.regular.getSize()));
                     ChangeUIUtils.updateViewUI();
                 });
             }

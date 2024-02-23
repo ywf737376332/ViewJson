@@ -12,7 +12,7 @@
    
    <!--  General editor colors.Courier New JetBrains Mono -->
    <!--fontFamily:, IBMPlexMono, 'Courier New', monospace -->
-   <baseFont family="微软雅黑" size="14"/>
+   <!--<baseFont family="微软雅黑" size="14"/>-->
    <background color="FDF6E3" />
    <caret color="000000" />
    <selection fg="ffffff" bg="526da5" />

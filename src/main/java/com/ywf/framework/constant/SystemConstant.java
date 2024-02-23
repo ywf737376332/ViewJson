@@ -1,5 +1,8 @@
 package com.ywf.framework.constant;
 
+import com.ywf.framework.enums.FontEnum;
+
+import java.awt.*;
 import java.io.Serializable;
 
 /**
@@ -11,6 +14,12 @@ import java.io.Serializable;
 public class SystemConstant implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 全局主要字体
+     */
+    public static final Font SYSTEM_DEFAULT_FONT = new Font(FontEnum.Name.micYaHei.getName(), Font.PLAIN, FontEnum.Size.regular.getSize());
+    public static final Font SYSTEM_STATE_BAR_FONT = new Font(FontEnum.Name.micYaHei.getName(), Font.PLAIN, FontEnum.Size.medium.getSize());
 
     /**
      * 窗口标题及版本号

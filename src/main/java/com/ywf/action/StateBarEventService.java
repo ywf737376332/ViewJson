@@ -3,7 +3,7 @@ package com.ywf.action;
 import cn.hutool.core.util.ObjectUtil;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.JSONRSyntaxTextArea;
-import com.ywf.component.LabelBuilder;
+import com.ywf.component.LabelBarBuilder;
 import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.config.GlobalKEY;
@@ -86,8 +86,8 @@ public class StateBarEventService {
             protected void process(List<StateBarEntity> chunks) {
                 StateBarEntity stateBarEntity = chunks.get(chunks.size() - 1);
                 if (ObjectUtil.isNotNull(stateBarEntity)) {
-                    FlatLabel labelTypeLabel = LabelBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_TYPE);
-                    FlatLabel fileLengthLabel = LabelBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_LENGTH);
+                    FlatLabel labelTypeLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_TYPE);
+                    FlatLabel fileLengthLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_LENGTH);
                     TextTypeEnum contentType = stateBarEntity.getContentType();
                     labelTypeLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + contentType.getDiscription() + "</span></html>");
                     fileLengthLabel.setText("<html><span color=\"#107C41\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + stateBarEntity.getTextLength() + "词" + "</span></html>");

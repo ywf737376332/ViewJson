@@ -19,7 +19,7 @@ public enum TextTypeEnum {
     YAML("YAML", SyntaxConstants.SYNTAX_STYLE_YAML, "YAML类型"),
     HTML("HTML", SyntaxConstants.SYNTAX_STYLE_HTML, "HTML类型"),
     CSS("CSS", SyntaxConstants.SYNTAX_STYLE_CSS, "CSS类型"),
-    TEXT("TEXT", SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT, "文本类型");
+    TEXT("TEXT", SyntaxConstants.SYNTAX_STYLE_NONE, "文本类型");
 
     private String type;
     private String syntaxStyle;

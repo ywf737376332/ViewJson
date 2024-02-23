@@ -44,7 +44,10 @@ public class IconUtils {
     }
 
     public static ImageIcon getImageIcon(String imagePath) {
-        return new ImageIcon(Toolkit.getDefaultToolkit().getImage(IconUtils.class.getResource(imagePath)));
+        ImageIcon imageIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(IconUtils.class.getResource(imagePath)));
+        Image scaledImage = imageIcon.getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        return scaledIcon;
     }
 
 }
