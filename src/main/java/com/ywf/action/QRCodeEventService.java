@@ -6,6 +6,8 @@ import com.ywf.component.JTabbedSplitEditor;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.utils.ImageUtils;
 import com.ywf.framework.utils.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 
@@ -16,6 +18,8 @@ import javax.swing.*;
  * @Date 2023/12/7 22:37
  */
 public class QRCodeEventService {
+
+    private final static Logger logger = LoggerFactory.getLogger(QRCodeEventService.class);
 
     private JTabbedSplitEditor tabbedSplitEditor;
 
@@ -48,8 +52,11 @@ public class QRCodeEventService {
             JOptionPane.showMessageDialog(frame, "内容不能为空！");
             return;
         }
-        ImageIcon icon = ImageUtils.generatorQRCode(text);
-        DialogBuilder.ShowImageDialog(frame, "二维码展示", icon).setVisible(true);
+        try {
+            ImageIcon icon = ImageUtils.generatorQRCode(text);
+            DialogBuilder.ShowImageDialog(frame, "二维码展示", icon).setVisible(true);
+        } catch (RuntimeException e) {
+            logger.error("二维码生成失败：{}",e.fillInStackTrace());
+        }
     }
-
 }

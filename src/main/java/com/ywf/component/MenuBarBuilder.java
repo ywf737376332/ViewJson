@@ -35,7 +35,7 @@ public class MenuBarBuilder {
         JMenu fileMenu = new JMenu("文件");
         JMenuItem newTabMenuItem = new JMenuItem("新建");
         newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/newEditer.svg", 12, 12));
-        newTabMenuItem.setEnabled(false);
+        newTabMenuItem.addActionListener(e -> MenuEventService.getInstance().addTabbedSplitEditorActionPerformed());
         JMenuItem savePictMenuItem = new JMenuItem("导出图片");
         savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/exportPict.svg", 12, 12));
         savePictMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToImageActionPerformed(frame));
