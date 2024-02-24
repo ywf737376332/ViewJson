@@ -40,6 +40,21 @@ public class FindPanelLayout extends BorderLayout {
         }
     }
 
+    /**
+     * 控制窗口的隐藏动画事件
+     * 此事件，解决修改字体后，搜索框界面布局混乱问题
+     *
+     * @date 2023/12/23 16:29
+     */
+    public void hideFindPanelActionPerformed() {
+        if (!animator.isRunning()) {
+            if (controls.getHeight() != 0) {
+                isHidden = true;
+                animator.start();
+            }
+        }
+    }
+
     @Override
     public Dimension preferredLayoutSize(Container target) {
         Dimension ps = super.preferredLayoutSize(target);

@@ -8,7 +8,7 @@ package com.ywf.framework.enums;
  */
 public class FontEnum {
 
-    public static enum Name {
+    public enum Name {
         micYaHei("微软雅黑"),
         christmasWorship("华文中宋"),
         arial("黑体"),
@@ -16,7 +16,7 @@ public class FontEnum {
 
         private String name;
 
-        private Name(String name) {
+        Name(String name) {
             this.name = name;
         }
 
@@ -25,7 +25,7 @@ public class FontEnum {
         }
     }
 
-    public static enum Size {
+    public enum Size {
         mini(8, "迷你"),
         small(10, "小号"),
         medium(12, "中等"),
@@ -36,7 +36,7 @@ public class FontEnum {
         private int size;
         private String desc;
 
-        private Size(int size, String desc) {
+        Size(int size, String desc) {
             this.size = size;
             this.desc = desc;
         }

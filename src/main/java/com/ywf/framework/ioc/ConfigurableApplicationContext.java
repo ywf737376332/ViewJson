@@ -34,6 +34,10 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     private Integer pictureQualityState;
     // 屏幕大小
     private ScreenSize screenSize;
+    // 字体样式名称
+    private String fontStyle;
+    // 字头大小
+    private Integer fontSize;
 
     public static class ScreenSize {
         private Integer width;
@@ -147,9 +151,25 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         this.screenSize = screenSize;
     }
 
+    public String getFontStyle() {
+        return fontStyle;
+    }
+
+    public void setFontStyle(String fontStyle) {
+        this.fontStyle = fontStyle;
+    }
+
+    public Integer getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(Integer fontSize) {
+        this.fontSize = fontSize;
+    }
+
     @Override
     public String toString() {
-        return "ApplicationConfig{" +
+        return "ConfigurableApplicationContext{" +
                 "textAreaEditState=" + textAreaEditState +
                 ", textAreaBreakLineState=" + textAreaBreakLineState +
                 ", textAreaShowlineNumState=" + textAreaShowlineNumState +
@@ -159,6 +179,8 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                 ", chineseConverState=" + chineseConverState +
                 ", pictureQualityState=" + pictureQualityState +
                 ", screenSize=" + screenSize +
+                ", fontStyle='" + fontStyle + '\'' +
+                ", fontSize=" + fontSize +
                 '}';
     }
 
@@ -166,12 +188,12 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ConfigurableApplicationContext user = (ConfigurableApplicationContext) o;
-        return Objects.equals(textAreaEditState, user.textAreaEditState) && Objects.equals(textAreaBreakLineState, user.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, user.textAreaShowlineNumState) && Objects.equals(showToolBarState, user.showToolBarState) && Objects.equals(showMenuBarState, user.showMenuBarState) && Objects.equals(lastSystemThemes, user.lastSystemThemes) && Objects.equals(chineseConverState, user.chineseConverState) && Objects.equals(pictureQualityState, user.pictureQualityState) && Objects.equals(screenSize, user.screenSize);
+        ConfigurableApplicationContext that = (ConfigurableApplicationContext) o;
+        return Objects.equals(textAreaEditState, that.textAreaEditState) && Objects.equals(textAreaBreakLineState, that.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, that.textAreaShowlineNumState) && Objects.equals(showToolBarState, that.showToolBarState) && Objects.equals(showMenuBarState, that.showMenuBarState) && Objects.equals(lastSystemThemes, that.lastSystemThemes) && Objects.equals(chineseConverState, that.chineseConverState) && Objects.equals(pictureQualityState, that.pictureQualityState) && Objects.equals(screenSize, that.screenSize) && Objects.equals(fontStyle, that.fontStyle) && Objects.equals(fontSize, that.fontSize);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(textAreaEditState, textAreaBreakLineState, textAreaShowlineNumState, showToolBarState, showMenuBarState, lastSystemThemes, chineseConverState, pictureQualityState, screenSize);
+        return Objects.hash(textAreaEditState, textAreaBreakLineState, textAreaShowlineNumState, showToolBarState, showMenuBarState, lastSystemThemes, chineseConverState, pictureQualityState, screenSize, fontStyle, fontSize);
     }
 }

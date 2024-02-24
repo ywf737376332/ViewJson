@@ -3,6 +3,7 @@ package com.ywf.component;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.enums.FontEnum;
 import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
@@ -77,8 +78,12 @@ public class MenuBarBuilder {
 
         JMenu setupMenu = new JMenu("设置");
         JMenu fontSetMenu = new JMenu("界面字体");
-        initFontMenu(fontSetMenu);
-        MenuEventService.getInstance().applyFontActionPerformed(frame, fontSetMenu);
+        JMenu fontStyleMenu = new JMenu("字体样式");
+        JMenu fontSizeMenu = new JMenu("字体大小");
+        initFontMenu(fontStyleMenu, fontSizeMenu);
+        fontSetMenu.add(fontStyleMenu);
+        fontSetMenu.add(fontSizeMenu);
+        MenuEventService.getInstance().applyFontActionPerformed(frame, fontStyleMenu, fontSizeMenu);
 
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
         editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
@@ -93,9 +98,9 @@ public class MenuBarBuilder {
         showlineNumMenuItem.addActionListener(e -> MenuEventService.getInstance().showLineNumActionPerformed());
 
         JMenu pictureQualityMenu = new JMenu("图片质量");
-        JSONRadioButtonMenuItem lowPictureQualityMenuItem = new JSONRadioButtonMenuItem("低", PictureQualityEnum.LOW_PICTURE_QUALITY.getPictureQualityState());
-        JSONRadioButtonMenuItem middlePictureQualityMenuItem = new JSONRadioButtonMenuItem("中", PictureQualityEnum.MIDDLE_PICTURE_QUALITY.getPictureQualityState());
-        JSONRadioButtonMenuItem hightPictureQualityMenuItem = new JSONRadioButtonMenuItem("高", PictureQualityEnum.HEIGHT_PICTURE_QUALITY.getPictureQualityState());
+        PictureQualityRadioButtonMenuItem lowPictureQualityMenuItem = new PictureQualityRadioButtonMenuItem("低", PictureQualityEnum.LOW_PICTURE_QUALITY.getPictureQualityState());
+        PictureQualityRadioButtonMenuItem middlePictureQualityMenuItem = new PictureQualityRadioButtonMenuItem("中", PictureQualityEnum.MIDDLE_PICTURE_QUALITY.getPictureQualityState());
+        PictureQualityRadioButtonMenuItem hightPictureQualityMenuItem = new PictureQualityRadioButtonMenuItem("高", PictureQualityEnum.HEIGHT_PICTURE_QUALITY.getPictureQualityState());
         ButtonGroup pictureQualityBtn = new ButtonGroup();
         pictureQualityBtn.add(lowPictureQualityMenuItem);
         pictureQualityBtn.add(middlePictureQualityMenuItem);
@@ -211,21 +216,38 @@ public class MenuBarBuilder {
         return menuBar;
     }
 
-    private static void initFontMenu(JMenu fontSetMenu) {
-        JRadioButtonMenuItem micYaHeiFontMenuItem = new JRadioButtonMenuItem("Microsoft YaHei UI");
+    private static void initFontMenu(JMenu fontStyleMenu, JMenu fontSizeMenu) {
+        JRadioButtonMenuItem micYaHeiFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.micYaHei.getName());
         micYaHeiFontMenuItem.setSelected(true);
-        JRadioButtonMenuItem christmasWorshipFontMenuItem = new JRadioButtonMenuItem("华文中宋");
-        JRadioButtonMenuItem arialFontMenuItem = new JRadioButtonMenuItem("黑体");
-        JRadioButtonMenuItem blackLetterFontMenuItem = new JRadioButtonMenuItem("等线");
-        ButtonGroup fontButtonGroup = new ButtonGroup();
-        fontButtonGroup.add(micYaHeiFontMenuItem);
-        fontButtonGroup.add(christmasWorshipFontMenuItem);
-        fontButtonGroup.add(arialFontMenuItem);
-        fontButtonGroup.add(blackLetterFontMenuItem);
-        fontSetMenu.add(micYaHeiFontMenuItem);
-        fontSetMenu.add(christmasWorshipFontMenuItem);
-        fontSetMenu.add(arialFontMenuItem);
-        fontSetMenu.add(blackLetterFontMenuItem);
+        JRadioButtonMenuItem christmasWorshipFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.christmasWorship.getName());
+        JRadioButtonMenuItem arialFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.arial.getName());
+        JRadioButtonMenuItem blackLetterFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.blackLetter.getName());
+        ButtonGroup fontStyleButtonGroup = new ButtonGroup();
+        fontStyleButtonGroup.add(micYaHeiFontMenuItem);
+        fontStyleButtonGroup.add(christmasWorshipFontMenuItem);
+        fontStyleButtonGroup.add(arialFontMenuItem);
+        fontStyleButtonGroup.add(blackLetterFontMenuItem);
+        fontStyleMenu.add(micYaHeiFontMenuItem);
+        fontStyleMenu.add(christmasWorshipFontMenuItem);
+        fontStyleMenu.add(arialFontMenuItem);
+        fontStyleMenu.add(blackLetterFontMenuItem);
+
+        FontSizeRadioButtonMenuItem smallFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.small.getDesc(), FontEnum.Size.small.getSize());
+        FontSizeRadioButtonMenuItem mediumFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.medium.getDesc(), FontEnum.Size.medium.getSize());
+        FontSizeRadioButtonMenuItem regularFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.regular.getDesc(), FontEnum.Size.regular.getSize(),true);
+        FontSizeRadioButtonMenuItem largeFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.large.getDesc(), FontEnum.Size.large.getSize());
+        FontSizeRadioButtonMenuItem tooLargeFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.tooLarge.getDesc(), FontEnum.Size.tooLarge.getSize());
+        ButtonGroup fontSizeButtonGroup = new ButtonGroup();
+        fontSizeButtonGroup.add(smallFontMenuItem);
+        fontSizeButtonGroup.add(mediumFontMenuItem);
+        fontSizeButtonGroup.add(regularFontMenuItem);
+        fontSizeButtonGroup.add(largeFontMenuItem);
+        fontSizeButtonGroup.add(tooLargeFontMenuItem);
+        fontSizeMenu.add(smallFontMenuItem);
+        fontSizeMenu.add(mediumFontMenuItem);
+        fontSizeMenu.add(regularFontMenuItem);
+        fontSizeMenu.add(largeFontMenuItem);
+        fontSizeMenu.add(tooLargeFontMenuItem);
     }
 
     public static JMenuBar getMenuBar() {

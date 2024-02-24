@@ -62,7 +62,11 @@ public class ApplicationView {
     }
 
     public static ApplicationContext run(Class<?> primarySource, String... args) {
-        return new ApplicationView(primarySource).initThemesUI().run().cacheGlobalComponent();
+        return new ApplicationView(primarySource)
+                .initThemesUI()
+                .run()
+                .initGlobalFont()
+                .cacheGlobalComponent();
     }
 
     /**
@@ -85,13 +89,23 @@ public class ApplicationView {
     private ApplicationView initThemesUI() {
         try {
             logger.info("程序UI界面初始化,当前主题{}~", applicationContext.getLastSystemThemes());
-            // 全局字体设置 小米兰亭 幼圆 华文中宋 黑体 等线
-            ChangeUIUtils.initGlobalFont(SystemConstant.SYSTEM_DEFAULT_FONT);
             // 全局主题设置
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
             ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
         } catch (Exception e) {
-            logger.error("初始化主题和字体失败", e);
+            logger.error("初始化主题失败", e);
+        }
+        return this;
+    }
+
+    private ApplicationView initGlobalFont() {
+        try {
+            logger.info("程序UI界面初始化,当前字体{}~", applicationContext.getLastSystemThemes());
+            // 全局主题设置
+            ChangeUIUtils.initGlobalFont(SystemConstant.SYSTEM_DEFAULT_FONT);
+            ChangeUIUtils.updateViewUI();
+        } catch (Exception e) {
+            logger.error("初始化字体失败", e);
         }
         return this;
     }

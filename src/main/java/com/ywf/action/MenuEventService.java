@@ -7,7 +7,6 @@ import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.enums.FontEnum;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
@@ -508,8 +507,8 @@ public class MenuEventService {
     public void pictureQualityActionPerformed(JMenu pictureQualityMenu) {
         int pictureQuality = applicationContext.getPictureQualityState();
         for (Component menuComponent : pictureQualityMenu.getMenuComponents()) {
-            if (menuComponent instanceof JSONRadioButtonMenuItem) {
-                JSONRadioButtonMenuItem pictureQualityMenuitem = (JSONRadioButtonMenuItem) menuComponent;
+            if (menuComponent instanceof PictureQualityRadioButtonMenuItem) {
+                PictureQualityRadioButtonMenuItem pictureQualityMenuitem = (PictureQualityRadioButtonMenuItem) menuComponent;
                 if (pictureQualityMenuitem.getPictureQualityState() == pictureQuality) {
                     pictureQualityMenuitem.setSelected(true);
                 }
@@ -533,16 +532,35 @@ public class MenuEventService {
     /**
      * 设置系统字体
      *
-     * @param fontSetMenu
+     * @param fontStyleMenu
+     * @param fontSizeMenu
      */
-    public void applyFontActionPerformed(JFrame frame, JMenu fontSetMenu) {
-        Component[] menuComponent = fontSetMenu.getMenuComponents();
-        for (int i = 0; i < menuComponent.length; i++) {
-            if (menuComponent[i] instanceof JRadioButtonMenuItem) {
-                JRadioButtonMenuItem fontMenuItem = (JRadioButtonMenuItem) menuComponent[i];
+    public void applyFontActionPerformed(JFrame frame, JMenu fontStyleMenu, JMenu fontSizeMenu) {
+        //字体样式事件批量扫描注册
+        Component[] fontStyleMenuComponents = fontStyleMenu.getMenuComponents();
+        for (Component fontStyleMenuComponent : fontStyleMenuComponents) {
+            if (fontStyleMenuComponent instanceof JRadioButtonMenuItem) {
+                JRadioButtonMenuItem fontMenuItem = (JRadioButtonMenuItem) fontStyleMenuComponent;
                 fontMenuItem.addActionListener(e -> {
-                    ChangeUIUtils.initGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, FontEnum.Size.regular.getSize()));
+                    //此事件，解决修改字体后，搜索框界面布局混乱问题
+                    FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
+                    ChangeUIUtils.initGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, applicationContext.getFontSize()));
                     ChangeUIUtils.updateViewUI();
+                    applicationContext.setFontStyle(fontMenuItem.getText());
+                });
+            }
+        }
+        //字体大小事件批量扫描注册
+        Component[] fontSizeMenuComponents = fontSizeMenu.getMenuComponents();
+        for (Component fontSizeMenuComponent : fontSizeMenuComponents) {
+            if (fontSizeMenuComponent instanceof FontSizeRadioButtonMenuItem) {
+                FontSizeRadioButtonMenuItem fontSizeMenuItem = (FontSizeRadioButtonMenuItem) fontSizeMenuComponent;
+                fontSizeMenuItem.addActionListener(e -> {
+                    //此事件，解决修改字体后，搜索框界面布局混乱问题
+                    FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
+                    ChangeUIUtils.initGlobalFont(new Font(applicationContext.getFontStyle(), Font.PLAIN, fontSizeMenuItem.getFontSize()));
+                    ChangeUIUtils.updateViewUI();
+                    applicationContext.setFontSize(fontSizeMenuItem.getFontSize());
                 });
             }
         }

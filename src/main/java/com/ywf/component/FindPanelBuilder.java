@@ -199,11 +199,6 @@ public class FindPanelBuilder {
         return layout;
     }
 
-    public static void setLayout(FindPanelLayout layout) {
-        FindPanelBuilder.layout = layout;
-    }
-
-
     private static final Highlighter.HighlightPainter HIGHLIGHT = new DefaultHighlighter.DefaultHighlightPainter(new Color(255, 150, 50));
     private static boolean isHighlight = false;
 
@@ -278,7 +273,5 @@ public class FindPanelBuilder {
         }
     }
 
-    public static FlatTextField getFieldFind() {
-        return fieldFind;
-    }
+
 }
