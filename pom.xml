@@ -121,15 +121,20 @@
             <artifactId>swingx</artifactId>
             <version>1.6.1</version>
         </dependency>
+        <!--这两个依赖在框架的其他组件中已经存在，所以不需要引用-->
+        <!--log4j 1.2.17 日志框架-->
+        <!--slf4j-api 1.7.13是日志桥接门面-->
+        <!--slf4j-log4j12 1.7.13桥接转接到log4j-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.21</version>
+            <version>1.7.13</version>
         </dependency>
+        <!--解决log4j控制面板日志中文乱码-->
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-vfs</artifactId>
+            <version>3.2.15.Final</version>
         </dependency>
 
     </dependencies>
