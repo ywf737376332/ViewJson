@@ -49,8 +49,7 @@ public class TextAreaBuilder {
         SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
         String themesPath = themesStyles != null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
-        RTextScrollPane rTextScrollPane = new RTextScrollPane();
-        rTextScrollPane.setViewportView(syntaxTextArea);
+        RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
         rTextScrollPane.setBorder(BorderFactory.createEmptyBorder());
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(applicationContext.getTextAreaShowlineNumState());
