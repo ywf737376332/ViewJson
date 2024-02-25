@@ -10,6 +10,7 @@ import com.ywf.framework.base.AbstractWindow;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.zhk.toast.Notifications;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,6 +38,7 @@ public class MainFrame extends AbstractWindow {
         setMinimumSize(new Dimension(SystemConstant.WINDOWS_MIN_WIDTH, SystemConstant.WINDOWS_MIN_HEIGHT));
         //设置图标
         setIconImages(FlatSVGUtils.createWindowIconImages(SystemConstant.SYSTEM_LOGO));
+        Notifications.getInstance().setJFrame(_this);
         // 初始化界面
         initUI(_this);
         // 窗口关闭事件监听
