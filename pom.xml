@@ -131,11 +131,11 @@
             <version>1.7.13</version>
         </dependency>
         <!--解决log4j控制面板日志中文乱码-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-vfs</artifactId>
             <version>3.2.15.Final</version>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
 
