@@ -65,7 +65,7 @@ public class ApplicationView {
         return new ApplicationView(primarySource)
                 .initThemesUI()
                 .run()
-                .initGlobalFont()
+                .initGUIGlobalFont()
                 .cacheGlobalComponent();
     }
 
@@ -98,11 +98,12 @@ public class ApplicationView {
         return this;
     }
 
-    private ApplicationView initGlobalFont() {
+    private ApplicationView initGUIGlobalFont() {
         try {
-            logger.info("程序UI界面初始化,当前字体{}~", applicationContext.getLastSystemThemes());
-            // 全局主题设置
-            ChangeUIUtils.initGlobalFont(SystemConstant.SYSTEM_DEFAULT_FONT);
+            logger.info("程序UI界面字体初始化,当前字体{}~", applicationContext.getLastSystemThemes());
+            // 全局字体设置
+            ConfigurableApplicationContext.FontStyle fontStyle = applicationContext.getFontStyle();
+            ChangeUIUtils.initGlobalFont(new Font(fontStyle.getName(), Font.PLAIN, fontStyle.getSize()));
             ChangeUIUtils.updateViewUI();
         } catch (Exception e) {
             logger.error("初始化字体失败", e);

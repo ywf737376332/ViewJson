@@ -14,6 +14,8 @@ import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -49,6 +51,8 @@ import java.util.List;
  * @Date 2023/12/7 17:15
  */
 public class MenuEventService {
+
+    private final static Logger logger = LoggerFactory.getLogger(MenuEventService.class);
 
     private JTabbedSplitEditor tabbedSplitEditor;
 
@@ -541,12 +545,15 @@ public class MenuEventService {
         for (Component fontStyleMenuComponent : fontStyleMenuComponents) {
             if (fontStyleMenuComponent instanceof JRadioButtonMenuItem) {
                 JRadioButtonMenuItem fontMenuItem = (JRadioButtonMenuItem) fontStyleMenuComponent;
+                if (fontMenuItem.getText().equals(applicationContext.getFontStyle().getName())) {
+                    fontMenuItem.setSelected(true);
+                }
                 fontMenuItem.addActionListener(e -> {
                     //此事件，解决修改字体后，搜索框界面布局混乱问题
                     FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
-                    ChangeUIUtils.initGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, applicationContext.getFontSize()));
+                    ChangeUIUtils.initGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, applicationContext.getFontStyle().getSize()));
                     ChangeUIUtils.updateViewUI();
-                    applicationContext.setFontStyle(fontMenuItem.getText());
+                    applicationContext.getFontStyle().setName(fontMenuItem.getText());
                 });
             }
         }
@@ -555,12 +562,15 @@ public class MenuEventService {
         for (Component fontSizeMenuComponent : fontSizeMenuComponents) {
             if (fontSizeMenuComponent instanceof FontSizeRadioButtonMenuItem) {
                 FontSizeRadioButtonMenuItem fontSizeMenuItem = (FontSizeRadioButtonMenuItem) fontSizeMenuComponent;
+                if (fontSizeMenuItem.getFontSize() == applicationContext.getFontStyle().getSize()) {
+                    fontSizeMenuItem.setSelected(true);
+                }
                 fontSizeMenuItem.addActionListener(e -> {
                     //此事件，解决修改字体后，搜索框界面布局混乱问题
                     FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
-                    ChangeUIUtils.initGlobalFont(new Font(applicationContext.getFontStyle(), Font.PLAIN, fontSizeMenuItem.getFontSize()));
+                    ChangeUIUtils.initGlobalFont(new Font(applicationContext.getFontStyle().getName(), Font.PLAIN, fontSizeMenuItem.getFontSize()));
                     ChangeUIUtils.updateViewUI();
-                    applicationContext.setFontSize(fontSizeMenuItem.getFontSize());
+                    applicationContext.getFontStyle().setSize(fontSizeMenuItem.getFontSize());
                 });
             }
         }

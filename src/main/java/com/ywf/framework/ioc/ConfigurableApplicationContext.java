@@ -34,10 +34,45 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     private Integer pictureQualityState;
     // 屏幕大小
     private ScreenSize screenSize;
-    // 字体样式名称
-    private String fontStyle;
-    // 字头大小
-    private Integer fontSize;
+    // 字体样式
+    private FontStyle fontStyle;
+
+    public static class FontStyle {
+        private String name;
+        private Integer size;
+
+        public FontStyle() {
+        }
+
+        public FontStyle(String name, Integer size) {
+            this.name = name;
+            this.size = size;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getSize() {
+            return size;
+        }
+
+        public void setSize(Integer size) {
+            this.size = size;
+        }
+
+        @Override
+        public String toString() {
+            return "FontStyle{" +
+                    "name='" + name + '\'' +
+                    ", size=" + size +
+                    '}';
+        }
+    }
 
     public static class ScreenSize {
         private Integer width;
@@ -151,20 +186,12 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         this.screenSize = screenSize;
     }
 
-    public String getFontStyle() {
+    public FontStyle getFontStyle() {
         return fontStyle;
     }
 
-    public void setFontStyle(String fontStyle) {
+    public void setFontStyle(FontStyle fontStyle) {
         this.fontStyle = fontStyle;
-    }
-
-    public Integer getFontSize() {
-        return fontSize;
-    }
-
-    public void setFontSize(Integer fontSize) {
-        this.fontSize = fontSize;
     }
 
     @Override
@@ -179,8 +206,7 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                 ", chineseConverState=" + chineseConverState +
                 ", pictureQualityState=" + pictureQualityState +
                 ", screenSize=" + screenSize +
-                ", fontStyle='" + fontStyle + '\'' +
-                ", fontSize=" + fontSize +
+                ", fontStyle=" + fontStyle +
                 '}';
     }
 
@@ -189,11 +215,11 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ConfigurableApplicationContext that = (ConfigurableApplicationContext) o;
-        return Objects.equals(textAreaEditState, that.textAreaEditState) && Objects.equals(textAreaBreakLineState, that.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, that.textAreaShowlineNumState) && Objects.equals(showToolBarState, that.showToolBarState) && Objects.equals(showMenuBarState, that.showMenuBarState) && Objects.equals(lastSystemThemes, that.lastSystemThemes) && Objects.equals(chineseConverState, that.chineseConverState) && Objects.equals(pictureQualityState, that.pictureQualityState) && Objects.equals(screenSize, that.screenSize) && Objects.equals(fontStyle, that.fontStyle) && Objects.equals(fontSize, that.fontSize);
+        return Objects.equals(textAreaEditState, that.textAreaEditState) && Objects.equals(textAreaBreakLineState, that.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, that.textAreaShowlineNumState) && Objects.equals(showToolBarState, that.showToolBarState) && Objects.equals(showMenuBarState, that.showMenuBarState) && Objects.equals(lastSystemThemes, that.lastSystemThemes) && Objects.equals(chineseConverState, that.chineseConverState) && Objects.equals(pictureQualityState, that.pictureQualityState) && Objects.equals(screenSize, that.screenSize) && Objects.equals(fontStyle, that.fontStyle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(textAreaEditState, textAreaBreakLineState, textAreaShowlineNumState, showToolBarState, showMenuBarState, lastSystemThemes, chineseConverState, pictureQualityState, screenSize, fontStyle, fontSize);
+        return Objects.hash(textAreaEditState, textAreaBreakLineState, textAreaShowlineNumState, showToolBarState, showMenuBarState, lastSystemThemes, chineseConverState, pictureQualityState, screenSize, fontStyle);
     }
 }

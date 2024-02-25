@@ -218,7 +218,6 @@ public class MenuBarBuilder {
 
     private static void initFontMenu(JMenu fontStyleMenu, JMenu fontSizeMenu) {
         JRadioButtonMenuItem micYaHeiFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.micYaHei.getName());
-        micYaHeiFontMenuItem.setSelected(true);
         JRadioButtonMenuItem christmasWorshipFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.christmasWorship.getName());
         JRadioButtonMenuItem arialFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.arial.getName());
         JRadioButtonMenuItem blackLetterFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.blackLetter.getName());
@@ -234,7 +233,7 @@ public class MenuBarBuilder {
 
         FontSizeRadioButtonMenuItem smallFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.small.getDesc(), FontEnum.Size.small.getSize());
         FontSizeRadioButtonMenuItem mediumFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.medium.getDesc(), FontEnum.Size.medium.getSize());
-        FontSizeRadioButtonMenuItem regularFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.regular.getDesc(), FontEnum.Size.regular.getSize(),true);
+        FontSizeRadioButtonMenuItem regularFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.regular.getDesc(), FontEnum.Size.regular.getSize());
         FontSizeRadioButtonMenuItem largeFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.large.getDesc(), FontEnum.Size.large.getSize());
         FontSizeRadioButtonMenuItem tooLargeFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.tooLarge.getDesc(), FontEnum.Size.tooLarge.getSize());
         ButtonGroup fontSizeButtonGroup = new ButtonGroup();
