@@ -3,14 +3,14 @@ package com.ywf.component;
 import javax.swing.*;
 
 /**
- * TODO
+ * 字体样式设置单选按钮
  *
  * @Author YWF
  * @Date 2023/12/16 22:03
  */
 public class FontSizeRadioButtonMenuItem extends JRadioButtonMenuItem {
 
-    // 图片质量状态：1-低 2-中 3-高
+    // 字体大小
     private int fontSize;
 
     public FontSizeRadioButtonMenuItem() {

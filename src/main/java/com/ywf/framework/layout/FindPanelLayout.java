@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.Objects;
 
 /**
- * TODO
+ * 搜索框布局样式与动画
  *
  * @Author YWF
  * @Date 2023/12/23 12:27

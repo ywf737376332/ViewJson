@@ -3,7 +3,7 @@ package com.ywf.component;
 import javax.swing.*;
 
 /**
- * TODO
+ * 图片质量单选按钮
  *
  * @Author YWF
  * @Date 2023/12/16 22:03

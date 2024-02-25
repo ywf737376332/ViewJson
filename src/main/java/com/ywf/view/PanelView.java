@@ -14,7 +14,7 @@ import java.awt.event.MouseListener;
 import java.util.Random;
 
 /**
- * TODO
+ * 视图面板组件
  *
  * @Author YWF
  * @Date 2023/11/25 20:46

@@ -1,7 +1,7 @@
 package com.ywf.framework.enums;
 
 /**
- * TODO
+ * 图片清晰度
  *
  * @Author YWF
  * @Date 2023/12/16 22:43

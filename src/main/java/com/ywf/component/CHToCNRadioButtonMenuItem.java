@@ -3,7 +3,7 @@ package com.ywf.component;
 import javax.swing.*;
 
 /**
- * TODO
+ * 中文转码状态单选按钮
  *
  * @Author YWF
  * @Date 2023/12/16 22:03

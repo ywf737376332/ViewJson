@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 /**
- * TODO
+ * 配置文件读取
  *
  * @Author YWF
  * @Date 2023/11/13 16:45

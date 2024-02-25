@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.IOException;
 
 /**
- * TODO
+ * 图标获取工具
  *
  * @Author YWF
  * @Date 2023/11/25 18:28
@@ -26,7 +26,7 @@ public class IconUtils {
         try {
             image = ImageIO.read(IconUtils.class.getResource(iconPath));
         } catch (IOException e) {
-            throw new RuntimeException("图标文件未找到："+iconPath);
+            throw new RuntimeException("图标文件未找到：" + iconPath);
         }
         return image;
     }

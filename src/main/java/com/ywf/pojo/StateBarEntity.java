@@ -5,7 +5,7 @@ import com.ywf.framework.enums.TextTypeEnum;
 import java.io.Serializable;
 
 /**
- * TODO
+ * 状态栏实体类
  *
  * @Author YWF
  * @Date 2024/1/23 9:30
