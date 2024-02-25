@@ -64,7 +64,7 @@ public class ApplicationView {
     public static ApplicationContext run(Class<?> primarySource, String... args) {
         return new ApplicationView(primarySource)
                 .initThemesUI()
-                .run()
+                .appGuiInit()
                 .initGUIGlobalFont()
                 .cacheGlobalComponent();
     }
@@ -74,7 +74,7 @@ public class ApplicationView {
      *
      * @return
      */
-    public ApplicationView run() {
+    public ApplicationView appGuiInit() {
         // 创建界面
         try {
             SwingUtilities.invokeLater(() -> {

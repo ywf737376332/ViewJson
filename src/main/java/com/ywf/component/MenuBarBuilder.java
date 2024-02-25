@@ -33,6 +33,7 @@ public class MenuBarBuilder {
     public static JMenuBar createMenuBar(JFrame frame) {
 
         menuBar = new JMenuBar();
+
         JMenu fileMenu = new JMenu("文件");
         JMenuItem newTabMenuItem = new JMenuItem("新建");
         newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/newEditer.svg", 12, 12));
@@ -40,14 +41,20 @@ public class MenuBarBuilder {
         JMenuItem savePictMenuItem = new JMenuItem("导出图片");
         savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/exportPict.svg", 12, 12));
         savePictMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToImageActionPerformed(frame));
-
         JMenuItem saveFileMenuItem = new JMenuItem("导出文件");
         saveFileMenuItem.setIcon(IconUtils.getSVGIcon("icons/saveCode.svg", 12, 12));
         saveFileMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToFileActionPerformed(frame));
+        JMenuItem favoritesMenuItem = new JMenuItem("收藏夹");
+        favoritesMenuItem.setIcon(IconUtils.getSVGIcon("icons/favorites.svg", 12, 12));
+        JMenuItem exitMenuItem = new JMenuItem("退出");
+        exitMenuItem.setIcon(IconUtils.getSVGIcon("icons/exit.svg", 12, 12));
+        exitMenuItem.addActionListener(e -> MenuEventService.getInstance().closeWindowsFrameActionPerformed(frame));
 
         fileMenu.add(newTabMenuItem);
         fileMenu.add(savePictMenuItem);
         fileMenu.add(saveFileMenuItem);
+        fileMenu.add(favoritesMenuItem);
+        fileMenu.add(exitMenuItem);
 
         JMenu editMenu = new JMenu("编辑");
         JMenuItem compMenuItem = new JMenuItem("压缩");
@@ -85,6 +92,16 @@ public class MenuBarBuilder {
         fontSetMenu.add(fontSizeMenu);
         MenuEventService.getInstance().applyFontActionPerformed(frame, fontStyleMenu, fontSizeMenu);
 
+        JMenu facadeMenu = new JMenu("外观菜单");
+        showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
+        showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());
+        showToolBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
+        showMenuBarMenuItem = new JCheckBoxMenuItem("显示菜单栏");
+        showMenuBarMenuItem.setSelected(applicationContext.getShowMenuBarState());
+        showMenuBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
+        facadeMenu.add(showToolBarMenuItem);
+        facadeMenu.add(showMenuBarMenuItem);
+
         JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
         editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
         editSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().editSwitchActionPerformed());
@@ -110,18 +127,6 @@ public class MenuBarBuilder {
         pictureQualityMenu.add(hightPictureQualityMenuItem);
         MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);
 
-        showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
-        showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());
-        showToolBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
-
-        showMenuBarMenuItem = new JCheckBoxMenuItem("显示菜单栏");
-        showMenuBarMenuItem.setSelected(applicationContext.getShowMenuBarState());
-        showMenuBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
-
-        JMenu facadeMenu = new JMenu("外观菜单");
-        facadeMenu.add(showToolBarMenuItem);
-        facadeMenu.add(showMenuBarMenuItem);
-
         JMenu chineseConverMenu = new JMenu("中文转码");
         CHToCNRadioButtonMenuItem chineseConverUnicodeMenuItem = new CHToCNRadioButtonMenuItem("中文转Unicode", TextConvertEnum.CH_TO_UN.getConverType());
         CHToCNRadioButtonMenuItem unicodeConverChineseMenuItem = new CHToCNRadioButtonMenuItem("Unicode转中文", TextConvertEnum.UN_TO_CH.getConverType());
@@ -137,11 +142,11 @@ public class MenuBarBuilder {
         MenuEventService.getInstance().chineseConverActionPerformed(chineseConverMenu);
 
         setupMenu.add(fontSetMenu);
+        setupMenu.add(facadeMenu);
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
         setupMenu.add(showlineNumMenuItem);
         setupMenu.add(pictureQualityMenu);
-        setupMenu.add(facadeMenu);
         setupMenu.add(chineseConverMenu);
 
         JMenu themesMenu = new JMenu("主题");

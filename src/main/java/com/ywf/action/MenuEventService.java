@@ -10,8 +10,10 @@ import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
+import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
@@ -588,6 +590,37 @@ public class MenuEventService {
      */
     public void closeTabbedSplitEditorActionPerformed(RTextArea syntaxTextArea) {
         tabbedSplitEditor.closeAbleTabbed(syntaxTextArea);
+    }
+
+    /**
+     * 关闭窗口
+     * @param frame
+     */
+    public void closeWindowsFrameActionPerformed(JFrame frame) {
+        int confirmed = JOptionPane.showConfirmDialog(frame,
+                "您是否想退出当前应用？", "确认关闭",
+                JOptionPane.YES_NO_OPTION);
+        if (confirmed == JOptionPane.YES_OPTION) {
+            // 屏幕尺寸大小保存
+            if ((frame.getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH) {
+                // 窗口最大换状态不记录屏幕大小
+            } else {
+                applicationContext.setScreenSize(new ConfigurableApplicationContext.ScreenSize(frame.getWidth(), frame.getHeight()));
+                // 退出应用时，保存所有配置项到本地
+                saveApplicationConfiguration();
+            }
+            frame.dispose();
+            System.exit(0); // 退出程序
+        }
+    }
+
+    /**
+     * 将APP运行参数保存到本地
+     */
+    private static void saveApplicationConfiguration() {
+        PropertiesConfiguration targetProps = ReflectUtils.objectConvertProp(applicationContext);
+        String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
+        PropertiesUtil.getInstance().store(applicationRootPath,targetProps);
     }
 
 }

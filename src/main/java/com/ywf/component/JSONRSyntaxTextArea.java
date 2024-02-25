@@ -31,11 +31,6 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
     private static ResourceBundle resourceBundle;
 
     /**
-     * 是否替换空白字符串
-     */
-    private boolean isReplaceSpaceBlank = false;
-
-    /**
      * 是否中文转Unicode
      */
     private int chineseConverState;

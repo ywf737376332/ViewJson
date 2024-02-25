@@ -39,6 +39,12 @@ public class MainFrame extends AbstractWindow {
         setIconImages(FlatSVGUtils.createWindowIconImages(SystemConstant.SYSTEM_LOGO));
         // 初始化界面
         initUI(_this);
+        // 窗口关闭事件监听
+        addWindowListener(new FrameWindowCloseEventService(_this));
+        // 窗口右键菜单
+        addMouseListener(PopupMenuBuilder.getInstance().getPopupListener());
+        // 窗口激活状态事件监听
+        addWindowStateListener(new WindowStateEventService(_this));
         setVisible(true);
     }
 
@@ -63,11 +69,5 @@ public class MainFrame extends AbstractWindow {
         frame.setJMenuBar(menuBar);
         frame.getContentPane().add(toolBar, BorderLayout.NORTH);
         frame.getContentPane().add(mainPanel);
-        // 窗口关闭事件监听
-        frame.addWindowListener(new FrameWindowCloseEventService(frame));
-        // 窗口右键菜单
-        frame.addMouseListener(PopupMenuBuilder.getInstance().getPopupListener());
-        // 窗口激活状态事件监听
-        frame.addWindowStateListener(new WindowStateEventService(frame));
     }
 }
