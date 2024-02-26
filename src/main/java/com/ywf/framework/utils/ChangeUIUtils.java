@@ -106,7 +106,7 @@ public class ChangeUIUtils {
     /**
      * 改变多文本框的字体
      */
-    public static void changeTextAreaFont() {
+    public static void initTextAreaFont() {
         JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
         if (tabbedSplitEditor != null) {
             LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
@@ -118,9 +118,23 @@ public class ChangeUIUtils {
     }
 
     /**
+     * 改变多文本框的字体
+     */
+    public static void changeTextAreaFont(Font font) {
+        JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
+        if (tabbedSplitEditor != null) {
+            LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
+            for (JScrollPane scrollPane : sp) {
+                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
+                rSyntaxTextArea.setFont(font);
+            }
+        }
+    }
+
+    /**
      * 统一设置字体，父界面设置之后，所有由父界面进入的子界面都不需要再次设置字体
      */
-    public static void initGlobalFont(Font font) {
+    public static void changeGlobalFont(Font font) {
         // 改变全局界面布局元素的字体
         FontUIResource fontRes = new FontUIResource(font);
         for (Enumeration<Object> keys = UIManager.getDefaults().keys(); keys.hasMoreElements(); ) {
@@ -131,7 +145,7 @@ public class ChangeUIUtils {
             }
         }
         // 改变TextArea编辑框的字体,避免全局字体改变后,编辑框字体也发生变化
-        changeTextAreaFont();
+        initTextAreaFont();
     }
 
     /**

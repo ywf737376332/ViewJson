@@ -39,7 +39,7 @@ public class ApplicationView {
      */
     public ApplicationView(Class<?> primarySource) {
         startTime = System.nanoTime();
-        logger.info("应用程序启动开始,当前时间：{}~", DateUtil.format(DateUtil.date(startTime/1000000000), "yyyy-MM-dd HH:mm:ss"));
+        logger.info("应用程序启动开始,当前时间：{}~", DateUtil.format(DateUtil.date(startTime / 1000000000), "yyyy-MM-dd HH:mm:ss"));
         String basePackages = getBasePackages(primarySource);
         String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
         /**
@@ -103,7 +103,7 @@ public class ApplicationView {
             logger.info("程序UI界面字体初始化,当前字体{}", applicationContext.getFontStyle());
             // 全局字体设置
             ConfigurableApplicationContext.FontStyle fontStyle = applicationContext.getFontStyle();
-            ChangeUIUtils.initGlobalFont(new Font(fontStyle.getName(), Font.PLAIN, fontStyle.getSize()));
+            ChangeUIUtils.changeGlobalFont(new Font(fontStyle.getName(), Font.PLAIN, fontStyle.getSize()));
             ChangeUIUtils.updateViewUI();
         } catch (Exception e) {
             logger.error("初始化字体失败", e);
@@ -114,7 +114,7 @@ public class ApplicationView {
     private ApplicationContext cacheGlobalComponent() {
         logger.info("扫描缓存全局组件,实现真正意义上的IOC容器,此功能暂未完善");
         long endTime = System.nanoTime();
-        logger.info("应用程序启动结束,当前时间:{},实际耗时：{}~", DateUtil.format(DateUtil.date(endTime/1000000000), "yyyy-MM-dd HH:mm:ss"),(endTime - startTime) / 1_000_000_000.0);
+        logger.info("应用程序启动结束,当前时间:{},实际耗时：{}~", DateUtil.format(DateUtil.date(endTime / 1000000000), "yyyy-MM-dd HH:mm:ss"), (endTime - startTime) / 1_000_000_000.0);
         return applicationContext;
     }
 

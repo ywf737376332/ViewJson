@@ -84,13 +84,8 @@ public class MenuBarBuilder {
 
 
         JMenu setupMenu = new JMenu("设置");
-        JMenu fontSetMenu = new JMenu("界面字体");
-        JMenu fontStyleMenu = new JMenu("字体样式");
-        JMenu fontSizeMenu = new JMenu("字体大小");
-        initFontMenu(fontStyleMenu, fontSizeMenu);
-        fontSetMenu.add(fontStyleMenu);
-        fontSetMenu.add(fontSizeMenu);
-        MenuEventService.getInstance().applyFontActionPerformed(frame, fontStyleMenu, fontSizeMenu);
+        // 界面字体
+        JMenu frameFontMenu = createFrameFontMenu();
 
         JMenu facadeMenu = new JMenu("外观菜单");
         showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
@@ -141,7 +136,7 @@ public class MenuBarBuilder {
         chineseConverMenu.add(unicodeConverChineseMenuItem);
         MenuEventService.getInstance().chineseConverActionPerformed(chineseConverMenu);
 
-        setupMenu.add(fontSetMenu);
+        setupMenu.add(frameFontMenu);
         setupMenu.add(facadeMenu);
         setupMenu.add(editSetupMenuItem);
         setupMenu.add(lineSetupMenuItem);
@@ -221,6 +216,17 @@ public class MenuBarBuilder {
         return menuBar;
     }
 
+    private static JMenu createFrameFontMenu() {
+        JMenu frameFontMenu = new JMenu("界面字体");
+        JMenu fontStyleMenu = new JMenu("字体样式");
+        JMenu fontSizeMenu = new JMenu("字体大小");
+        initFontMenu(fontStyleMenu, fontSizeMenu);
+        frameFontMenu.add(fontStyleMenu);
+        frameFontMenu.add(fontSizeMenu);
+        MenuEventService.getInstance().applyFrameFontActionPerformed(fontStyleMenu, fontSizeMenu);
+        return frameFontMenu;
+    }
+
     private static void initFontMenu(JMenu fontStyleMenu, JMenu fontSizeMenu) {
         JRadioButtonMenuItem micYaHeiFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.micYaHei.getName());
         JRadioButtonMenuItem christmasWorshipFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.christmasWorship.getName());
@@ -258,39 +264,20 @@ public class MenuBarBuilder {
         return menuBar;
     }
 
-    public static void setMenuBar(JMenuBar menuBar) {
-        MenuBarBuilder.menuBar = menuBar;
-    }
-
     public static JCheckBoxMenuItem getShowToolBarMenuItem() {
         return showToolBarMenuItem;
-    }
-
-    public static void setShowToolBarMenuItem(JCheckBoxMenuItem showToolBarMenuItem) {
-        MenuBarBuilder.showToolBarMenuItem = showToolBarMenuItem;
     }
 
     public static JCheckBoxMenuItem getShowMenuBarMenuItem() {
         return showMenuBarMenuItem;
     }
 
-    public static void setShowMenuBarMenuItem(JCheckBoxMenuItem showMenuBarMenuItem) {
-        MenuBarBuilder.showMenuBarMenuItem = showMenuBarMenuItem;
-    }
-
     public static JMenuItem getUnescapeMenuItem() {
         return unescapeMenuItem;
-    }
-
-    public static void setUnescapeMenuItem(JMenuItem unescapeMenuItem) {
-        MenuBarBuilder.unescapeMenuItem = unescapeMenuItem;
     }
 
     public static JMenuItem getEscapeTabMenuItem() {
         return escapeTabMenuItem;
     }
 
-    public static void setEscapeTabMenuItem(JMenuItem escapeTabMenuItem) {
-        MenuBarBuilder.escapeTabMenuItem = escapeTabMenuItem;
-    }
 }

@@ -30,7 +30,7 @@
 	</secondaryLanguages>
 
 	<!-- Gutter styling. -->
-	<gutterBorder color="81969A" />
+	<gutterBorder color="555556" />
 	<lineNumbers fg="81969A" fontFamily="Monospaced" fontSize="12" />
 	<foldIndicator fg="6A8088" iconBg="2f383c" iconArmedBg="3f484c" />
 	<iconRowHeader activeLineRange="3399ff" />

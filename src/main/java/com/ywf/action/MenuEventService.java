@@ -535,12 +535,12 @@ public class MenuEventService {
     }
 
     /**
-     * 设置系统字体
+     * 设置系统界面字体
      *
      * @param fontStyleMenu
      * @param fontSizeMenu
      */
-    public void applyFontActionPerformed(JFrame frame, JMenu fontStyleMenu, JMenu fontSizeMenu) {
+    public void applyFrameFontActionPerformed(JMenu fontStyleMenu, JMenu fontSizeMenu) {
         //字体样式事件批量扫描注册
         Component[] fontStyleMenuComponents = fontStyleMenu.getMenuComponents();
         for (Component fontStyleMenuComponent : fontStyleMenuComponents) {
@@ -552,9 +552,9 @@ public class MenuEventService {
                 fontMenuItem.addActionListener(e -> {
                     //此事件，解决修改字体后，搜索框界面布局混乱问题
                     FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
-                    ChangeUIUtils.initGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, applicationContext.getFontStyle().getSize()));
-                    ChangeUIUtils.updateViewUI();
+                    ChangeUIUtils.changeGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, applicationContext.getFontStyle().getSize()));
                     applicationContext.getFontStyle().setName(fontMenuItem.getText());
+                    ChangeUIUtils.updateViewUI();
                 });
             }
         }
@@ -569,14 +569,14 @@ public class MenuEventService {
                 fontSizeMenuItem.addActionListener(e -> {
                     //此事件，解决修改字体后，搜索框界面布局混乱问题
                     FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
-                    ChangeUIUtils.initGlobalFont(new Font(applicationContext.getFontStyle().getName(), Font.PLAIN, fontSizeMenuItem.getFontSize()));
-                    ChangeUIUtils.updateViewUI();
+                    ChangeUIUtils.changeGlobalFont(new Font(applicationContext.getFontStyle().getName(), Font.PLAIN, fontSizeMenuItem.getFontSize()));
                     applicationContext.getFontStyle().setSize(fontSizeMenuItem.getFontSize());
+                    ChangeUIUtils.updateViewUI();
                 });
             }
         }
     }
-
+    
     /**
      * 新建可调整宽度的文本编辑器
      */
