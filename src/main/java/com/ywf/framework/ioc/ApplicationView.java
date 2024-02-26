@@ -31,7 +31,7 @@ public class ApplicationView {
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
 
-    private static MainFrame applicationView;
+    private MainFrame applicationView;
     private ConfigLoadHandler configLoadHandler;
 
     /**
@@ -114,7 +114,7 @@ public class ApplicationView {
     private ApplicationContext cacheGlobalComponent() {
         logger.info("扫描缓存全局组件,实现真正意义上的IOC容器,此功能暂未完善");
         long endTime = System.nanoTime();
-        logger.info("应用程序启动结束,当前时间:{},实际耗时：{}~", DateUtil.format(DateUtil.date(endTime / 1000000000), "yyyy-MM-dd HH:mm:ss"), (endTime - startTime) / 1_000_000_000.0);
+        logger.info("应用程序启动结束,当前时间:{},实际耗时:{}毫秒~~", DateUtil.now(), (endTime - startTime) / 1_000_000);
         return applicationContext;
     }
 
