@@ -2,10 +2,7 @@ package com.ywf.action;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.formdev.flatlaf.extras.components.FlatLabel;
-import com.ywf.component.JSONRSyntaxTextArea;
-import com.ywf.component.LabelBarBuilder;
-import com.ywf.component.MenuBarBuilder;
-import com.ywf.component.ToolBarBuilder;
+import com.ywf.component.*;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
@@ -105,7 +102,7 @@ public class StateBarEventService {
      *
      * @date 2023/12/17 14:38
      */
-    public void stateBarTimeActionPerformed(FlatLabel runTimeValue) {
+    public void stateBarTimeActionPerformed(StateLabel runTimeValue) {
         SwingWorker<Boolean, String> swingWorker = new SwingWorker<Boolean, String>() {
             @Override
             protected Boolean doInBackground() {
@@ -120,6 +117,7 @@ public class StateBarEventService {
             protected void process(List<String> chunks) {
                 String countTime = chunks.get(chunks.size() - 1);
                 runTimeValue.setText("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + countTime + "</span></html>");
+                runTimeValue.setValue(countTime);
             }
         };
         swingWorker.execute();

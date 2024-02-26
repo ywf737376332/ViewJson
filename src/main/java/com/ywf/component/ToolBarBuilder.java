@@ -1,5 +1,6 @@
 package com.ywf.component;
 
+import com.ywf.action.FullScreenEventService;
 import com.ywf.action.MenuEventService;
 import com.ywf.action.QRCodeEventService;
 import com.ywf.framework.annotation.Autowired;
@@ -63,6 +64,10 @@ public class ToolBarBuilder {
         btnClean = new JButton("清空");
         btnClean.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
 
+        JButton btnFullScreen = new JButton("全屏");
+        btnFullScreen.addActionListener(e -> FullScreenEventService.getInstance().fullScreenActionPerformed(frame,btnFullScreen));
+        btnFullScreen.setIcon(IconUtils.getSVGIcon("icons/fullScreen.svg"));
+
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
         btnComp.setIcon(IconUtils.getSVGIcon("icons/comp.svg"));
         btnEscape.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg"));
@@ -98,6 +103,8 @@ public class ToolBarBuilder {
         // 将默认大小的分隔符添加到工具栏的末尾
         toolBar.addSeparator();
         toolBar.add(btnClean);
+        toolBar.addSeparator();
+        toolBar.add(btnFullScreen);
         toolBar.setVisible(applicationContext.getShowToolBarState());
         return toolBar;
     }

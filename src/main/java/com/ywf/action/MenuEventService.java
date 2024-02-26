@@ -3,6 +3,7 @@ package com.ywf.action;
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
@@ -10,10 +11,8 @@ import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
-import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
@@ -608,20 +607,14 @@ public class MenuEventService {
             } else {
                 applicationContext.setScreenSize(new ConfigurableApplicationContext.ScreenSize(frame.getWidth(), frame.getHeight()));
                 // 退出应用时，保存所有配置项到本地
-                saveApplicationConfiguration();
+                FrameWindowCloseEventService.saveApplicationConfiguration();
             }
+            logger.info("应用程序退出，界面销毁~~~");
+            StateLabel statusLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_RUN_TIME);
+            logger.info("程序运行时长：{}", statusLabel.getValue());
             frame.dispose();
             System.exit(0); // 退出程序
         }
-    }
-
-    /**
-     * 将APP运行参数保存到本地
-     */
-    private static void saveApplicationConfiguration() {
-        PropertiesConfiguration targetProps = ReflectUtils.objectConvertProp(applicationContext);
-        String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
-        PropertiesUtil.getInstance().store(applicationRootPath, targetProps);
     }
 
 }

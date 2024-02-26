@@ -63,12 +63,19 @@ public class MainTest extends JFrame {
 
         JButton btnFormat = new JButton("格式化");
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
-        //Notifications.getInstance().setJFrame(frame);
         btnFormat.addActionListener(e -> {
-            //Notifications.getInstance().show(Notifications.Type.WARNING,"Hello World\n"+"请输入需要格式化的内容");
+            JOptionPane.showMessageDialog(frame, "请输入json字符串！");
+        });
+        JButton btnFullScreen = new JButton("全屏");
+        btnFullScreen.setIcon(IconUtils.getSVGIcon("icons/fullScreen.svg"));
+        btnFullScreen.addActionListener(e -> {
+            // 获取默认设备的GraphicsDevice对象
+            GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            fullScreen(frame,btnFullScreen,device,isFullScreen);
         });
 
         toolBar.add(btnFormat);
+        toolBar.add(btnFullScreen);
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
         mainPanel.add(toolBar, BorderLayout.NORTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
@@ -76,5 +83,25 @@ public class MainTest extends JFrame {
 
     }
 
+    private void fullScreen(JFrame frame, JButton btnFullScreen,GraphicsDevice device, boolean isFullScreen){
+        if (!isFullScreen){
+            // 设置全屏模式
+           /* device.setFullScreenWindow(frame);
+            int w = Toolkit.getDefaultToolkit().getScreenSize().width;
+            int h = Toolkit.getDefaultToolkit().getScreenSize().height;
+            btnFullScreen.setIcon(IconUtils.getSVGIcon("icons/nofullScreen.svg"));
+            frame.setSize(new Dimension(w+20, h+10));
+            frame.setLocation(-10,0);*/
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            this.isFullScreen = true;
+        }else {
+            /*btnFullScreen.setIcon(IconUtils.getSVGIcon("icons/fullScreen.svg"));
+            // 设置全屏模式
+            device.setFullScreenWindow(null);*/
+            frame.setExtendedState(JFrame.NORMAL);
+            this.isFullScreen = false;
+        }
+    }
+    boolean isFullScreen = false;
 
 }

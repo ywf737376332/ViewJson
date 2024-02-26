@@ -4,6 +4,7 @@ import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.action.StateBarEventService;
 import com.ywf.component.BasePanel;
 import com.ywf.component.LabelBarBuilder;
+import com.ywf.component.StateLabel;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.utils.IconUtils;
 
@@ -59,7 +60,7 @@ public class PanelView {
 
         FlatLabel runTimeLabel = LabelBarBuilder.createLabel("运行时长：");
         runTimeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        FlatLabel runTimeValue = LabelBarBuilder.createLabel();
+        StateLabel runTimeValue = LabelBarBuilder.createGlobalLabel(GlobalKEY.STATE_BAR_RUN_TIME);
         runTimeValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeValue));
@@ -67,13 +68,13 @@ public class PanelView {
 
         FlatLabel fileTypeLabel = LabelBarBuilder.createLabel("内容类型：");
         fileTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
-        FlatLabel fileTypeValue = LabelBarBuilder.createLabel(true, GlobalKEY.STATE_BAR_TEXT_TYPE);
+        FlatLabel fileTypeValue = LabelBarBuilder.createGlobalLabel(new Color(167, 179, 211), GlobalKEY.STATE_BAR_TEXT_TYPE);
         fileTypeValue.setText("<html><span color=\"#389FD6\" style=\"font-size:9px\">文本类型</span></html>");
         fileTypeValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         FlatLabel fileLengthLabel = LabelBarBuilder.createLabel("字数统计：");
         fileLengthLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-        FlatLabel fileLengthValue = LabelBarBuilder.createLabel(true, GlobalKEY.STATE_BAR_TEXT_LENGTH);
+        FlatLabel fileLengthValue = LabelBarBuilder.createGlobalLabel(new Color(167, 179, 211), GlobalKEY.STATE_BAR_TEXT_LENGTH);
         fileLengthValue.setText("<html><span color=\"#107C41\" style=\"font-size:9px\">0词</span></html>");
         fileLengthValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 

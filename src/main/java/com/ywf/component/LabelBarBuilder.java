@@ -15,14 +15,14 @@ import java.awt.*;
  */
 public class LabelBarBuilder {
 
-    public static FlatLabel createLabel(boolean isCashe, String componentName) {
+    public static FlatLabel createGlobalLabel(Color foreground, String componentName) {
         FlatLabel label = new FlatLabel();
         label.setLabelType(FlatLabel.LabelType.medium);
         label.setFont(SystemConstant.SYSTEM_STATE_BAR_FONT);
-        label.setForeground(new Color(167, 179, 211));
+        label.setForeground(foreground);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
-        casheComponent(isCashe, label, componentName);
+        casheComponent(true, label, componentName);
         return label;
     }
 
@@ -31,6 +31,15 @@ public class LabelBarBuilder {
         label.setLabelType(FlatLabel.LabelType.medium);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
+        return label;
+    }
+
+    public static StateLabel createGlobalLabel(String componentName) {
+        StateLabel label = new StateLabel();
+        label.setLabelType(FlatLabel.LabelType.medium);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        casheComponent(true, label, componentName);
         return label;
     }
 
@@ -45,47 +54,15 @@ public class LabelBarBuilder {
         return label;
     }
 
-    public static FlatLabel createLabel(String text, Color foreground) {
-        FlatLabel label = new FlatLabel();
-        label.setText(text);
-        label.setLabelType(FlatLabel.LabelType.medium);
-        label.setFont(SystemConstant.SYSTEM_STATE_BAR_FONT);
-        label.setForeground(foreground);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setVerticalAlignment(SwingConstants.CENTER);
-        return label;
-    }
-
-    public static FlatLabel createLabel(String text, Font font, Color foreground) {
-        FlatLabel label = new FlatLabel();
-        label.setText(text);
-        label.setLabelType(FlatLabel.LabelType.medium);
-        label.setFont(font);
-        label.setForeground(foreground);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setVerticalAlignment(SwingConstants.CENTER);
-        return label;
-    }
-
-    public static FlatLabel createLabel(String text, FlatLabel.LabelType labelType, Font font, Color foreground) {
-        FlatLabel label = new FlatLabel();
-        label.setText(text);
-        label.setLabelType(labelType);
-        label.setFont(font);
-        label.setForeground(foreground);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setVerticalAlignment(SwingConstants.CENTER);
-        return label;
-    }
-
     public static void casheComponent(boolean isCashe, JLabel label, String componentName) {
         if (isCashe) {
             ObjectUtils.setBean(componentName, label);
         }
     }
 
-    public static FlatLabel getLabel(String componentName) {
+    public static <T> T getLabel(String componentName) {
         return ObjectUtils.getBean(componentName);
     }
+
 
 }
