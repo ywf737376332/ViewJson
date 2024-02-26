@@ -169,7 +169,7 @@ swing + flatlaf + rsyntaxtextarea
 11. 主题改变后，编辑框主题不变(已解决)✅
 12. 新建编辑框后，编辑框主题与当前主题不对应(已解决)✅
 13. 项目打包后，读取不到resource资源文件下的配置✅
-14. 在暗色主题下，RSyntaxTextArea组件行号栏，显示为白色(原因：将编辑框组件添加到RTextScrollPane这个组件时，使用了setViewportView()导致的问题)
+14. 在暗色主题下，RSyntaxTextArea组件行号栏，显示为白色(原因：将编辑框组件添加到RTextScrollPane这个组件时，使用了setViewportView()导致的问题)✅
 ```
 JXMultiSplitPane:又发现了新的可分割窗口,可以考虑拉新的分支进行整合，封装
 可以模仿PhotoShop的窗口分割功能,多窗口并排
