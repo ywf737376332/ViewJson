@@ -7,7 +7,6 @@ import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.UIUtils;
-import com.zhk.toast.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,9 +49,9 @@ public class MainTest extends JFrame {
     private void initUI(JFrame frame) {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        UIManager.put("Toast.useEffectss",true);
+        UIManager.put("Toast.useEffectss", true);
 
-        System.out.println("测试："+UIUtils.getString("ToolTipManager.enableToolTipMode","aaa"));
+        System.out.println("测试：" + UIUtils.getString("ToolTipManager.enableToolTipMode", "aaa"));
 
         JPanel editPanel = new JPanel();
         editPanel.setLayout(new BorderLayout());
@@ -64,9 +63,9 @@ public class MainTest extends JFrame {
 
         JButton btnFormat = new JButton("格式化");
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
-        Notifications.getInstance().setJFrame(frame);
+        //Notifications.getInstance().setJFrame(frame);
         btnFormat.addActionListener(e -> {
-            Notifications.getInstance().show(Notifications.Type.WARNING,"Hello World\n"+"请输入需要格式化的内容");
+            //Notifications.getInstance().show(Notifications.Type.WARNING,"Hello World\n"+"请输入需要格式化的内容");
         });
 
         toolBar.add(btnFormat);

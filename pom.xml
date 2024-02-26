@@ -136,13 +136,6 @@
             <artifactId>jboss-vfs</artifactId>
             <version>3.2.15.Final</version>
         </dependency>-->
-
-        <dependency>
-            <groupId>com.zhk</groupId>
-            <artifactId>swing-toast</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
     </dependencies>
 
 </project>

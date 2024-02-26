@@ -13,7 +13,6 @@ import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
-import com.zhk.toast.Notifications;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -87,8 +86,7 @@ public class MenuEventService {
     public void formatJsonActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            //JOptionPane.showMessageDialog(frame, "请输入json字符串！");
-            Notifications.getInstance().show(Notifications.Type.WARNING,"编辑框内容为空\n"+"请输入json字符串！");
+            JOptionPane.showMessageDialog(frame, "请输入json字符串！");
             return;
         }
         SwingWorker<Boolean, String> swingWorker = new SwingWorker<Boolean, String>() {
@@ -596,6 +594,7 @@ public class MenuEventService {
 
     /**
      * 关闭窗口
+     *
      * @param frame
      */
     public void closeWindowsFrameActionPerformed(JFrame frame) {
@@ -622,7 +621,7 @@ public class MenuEventService {
     private static void saveApplicationConfiguration() {
         PropertiesConfiguration targetProps = ReflectUtils.objectConvertProp(applicationContext);
         String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
-        PropertiesUtil.getInstance().store(applicationRootPath,targetProps);
+        PropertiesUtil.getInstance().store(applicationRootPath, targetProps);
     }
 
 }

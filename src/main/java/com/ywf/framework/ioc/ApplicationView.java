@@ -100,7 +100,7 @@ public class ApplicationView {
 
     private ApplicationView initGUIGlobalFont() {
         try {
-            logger.info("程序UI界面字体初始化,当前字体{}~", applicationContext.getLastSystemThemes());
+            logger.info("程序UI界面字体初始化,当前字体{}", applicationContext.getFontStyle());
             // 全局字体设置
             ConfigurableApplicationContext.FontStyle fontStyle = applicationContext.getFontStyle();
             ChangeUIUtils.initGlobalFont(new Font(fontStyle.getName(), Font.PLAIN, fontStyle.getSize()));
