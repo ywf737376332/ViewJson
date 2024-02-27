@@ -6,6 +6,7 @@ import com.ywf.component.*;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
+import com.ywf.framework.utils.StrUtils;
 import com.ywf.framework.utils.TypeUtils;
 import com.ywf.pojo.StateBarEntity;
 
@@ -72,9 +73,8 @@ public class StateBarEventService {
             @Override
             protected Boolean doInBackground() {
                 String text = rSyntaxTextArea.getText();
-                //TextTypeEnum contentType = JsonUtil.isType(text);
                 TextTypeEnum contentType = TypeUtils.isType(text);
-                StateBarEntity stateBarEntity = new StateBarEntity(contentType, text.length());
+                StateBarEntity stateBarEntity = new StateBarEntity(contentType, StrUtils.counts(text));
                 publish(stateBarEntity);
                 return true;
             }

@@ -1,7 +1,5 @@
 package com.ywf.framework.utils;
 
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.ywf.framework.enums.TextTypeEnum;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Document;
@@ -16,8 +14,6 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class JsonUtil {
     private static String space = "    ";
@@ -211,113 +207,5 @@ public class JsonUtil {
             throw new RuntimeException("Error occurs when pretty-printing xml:\n" + xmlString, e);
         }
     }
-
-
-    /**
-     * 判断内容类型
-     *
-     * @param content
-     * @date 2024/1/21 19:55
-     */
-    public static TextTypeEnum isType(String content) {
-        if (isJsonString(content)) {
-            return TextTypeEnum.JSON;
-        } else if (isURL(content)) {
-            return TextTypeEnum.URL;
-        } else if (isText(content)) {
-            return TextTypeEnum.TEXT;
-        } else if (isXML(content)) {
-            return TextTypeEnum.XML;
-        }
-        return TextTypeEnum.TEXT;
-    }
-
-    /**
-     * 判断是否为普通字符串
-     *
-     * @param content 字符串
-     * @return 是否为json字符串
-     */
-    private static boolean isText(String content) {
-        String text = compressingStr(content);
-        if (StrUtil.isBlank(content)) {
-            return true;
-        }
-        if (text.contains("\\")) {
-            return true;
-        }
-        if (text.startsWith("<") && text.endsWith(">")) {
-            return false;
-        }
-        if (text.startsWith("{") && text.endsWith("}")) {
-            return false;
-        }
-        if (text.startsWith("http")) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 判断是否为json字符串
-     *
-     * @param content 字符串
-     * @return 是否为json字符串
-     */
-    private static boolean isJsonString(String content) {
-        if (StrUtil.isEmpty(content)) {
-            return false;
-        }
-        try {
-            JSONObject.parse(content);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-
-    /**
-     * 判断一个字符是否为网址
-     *
-     * @param content
-     * @date 2023/12/17 13:46
-     */
-    private static boolean isURL(String content) {
-        try {
-            new URL(content);
-            return true;
-        } catch (MalformedURLException e) {
-            return false;
-        }
-    }
-
-    /**
-     * 判断一个字符是否为XML
-     *
-     * @param content
-     * @date 2023/12/17 13:46
-     */
-    private static boolean isXML(String content) {
-        String text = compressingStr(content);
-        try {
-            if (text.startsWith("<") && text.endsWith(">")) {
-                // 防止XXE攻击，禁用DTD加载
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                dbFactory.setNamespaceAware(false);
-                dbFactory.setValidating(false);
-                // 尝试解析字符串为XML文档
-                dbFactory.newDocumentBuilder().parse(new InputSource(new StringReader(text)));
-                // 如果没有抛出异常，则字符串是有效的XML格式
-                return true;
-            }
-            return false;
-        } catch (Exception e) {
-            // 解析过程中出现异常则认为不是有效的XML
-            return false;
-        }
-    }
-
-
 }
 
