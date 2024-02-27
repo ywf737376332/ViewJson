@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.*;
 
 /**
  * TODO
@@ -73,9 +74,14 @@ public class MainTest extends JFrame {
             GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
             fullScreen(frame,btnFullScreen,device,isFullScreen);
         });
-
+        JButton btnLockScreen = new JButton("锁屏");
+        btnLockScreen.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
+        btnLockScreen.addActionListener(e -> {
+            showOverlay(btnLockScreen);
+        });
         toolBar.add(btnFormat);
         toolBar.add(btnFullScreen);
+        toolBar.add(btnLockScreen);
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
         mainPanel.add(toolBar, BorderLayout.NORTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
@@ -103,5 +109,33 @@ public class MainTest extends JFrame {
         }
     }
     boolean isFullScreen = false;
+
+    private static void showOverlay(JButton button) {
+        // 获取当前窗体的尺寸和位置
+        Window window = SwingUtilities.getWindowAncestor(button);
+        Point location = window.getLocation();
+        Dimension size = window.getSize();
+
+        // 创建覆盖组件（JDialog）
+        JDialog overlay = new JDialog((Frame) null, "Overlay", true);
+        overlay.setUndecorated(true); // 移除标题栏
+        overlay.setLayout(new BorderLayout());
+
+        // 设置圆角形状
+        //int width = 830;
+        //int height = 600;
+        //int cornerRadius = 20;
+        //overlay.setShape(new RoundRectangle2D.Double(0, 0, width, height, cornerRadius, cornerRadius));
+        // 添加自定义内容到覆盖组件
+        JLabel label = new JLabel("This is an overlay component.");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        overlay.add(label, BorderLayout.CENTER);
+
+        // 设置覆盖组件的位置和大小
+        overlay.setBounds(location.x, location.y, size.width, size.height);
+
+        // 显示覆盖组件
+        overlay.setVisible(true);
+    }
 
 }
