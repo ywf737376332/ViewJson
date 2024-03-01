@@ -146,10 +146,8 @@ public class MenuBarBuilder {
 
         JMenu themesMenu = new JMenu("主题");
         JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
-        JRadioButtonMenuItem gitHubLightMenuItem = new JRadioButtonMenuItem("GitHub Light");
         JRadioButtonMenuItem arcLightOrangeMenuItem = new JRadioButtonMenuItem("Arc Light Orange");
         JRadioButtonMenuItem solarizedLightMenuItem = new JRadioButtonMenuItem("Solarized Light");
-        JRadioButtonMenuItem darkThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Dark");
         JRadioButtonMenuItem arcDarkOrangeMenuItem = new JRadioButtonMenuItem("Arc Dark Orange");
         JRadioButtonMenuItem gruvboxDarkMediumMenuItem = new JRadioButtonMenuItem("Gruvbox Dark Medium");
         JRadioButtonMenuItem materialDarkerMenuItem = new JRadioButtonMenuItem("Material Darker");
@@ -159,10 +157,8 @@ public class MenuBarBuilder {
         // 组装为单选
         ButtonGroup buttonGroupThemes = new ButtonGroup();
         buttonGroupThemes.add(lightThemesMenuItem);
-        buttonGroupThemes.add(gitHubLightMenuItem);
         buttonGroupThemes.add(arcLightOrangeMenuItem);
         buttonGroupThemes.add(solarizedLightMenuItem);
-        buttonGroupThemes.add(darkThemesMenuItem);
         buttonGroupThemes.add(arcDarkOrangeMenuItem);
         buttonGroupThemes.add(gruvboxDarkMediumMenuItem);
         buttonGroupThemes.add(materialDarkerMenuItem);
@@ -170,10 +166,8 @@ public class MenuBarBuilder {
         buttonGroupThemes.add(nightOwlMenuItem);
 
         themesMenu.add(lightThemesMenuItem);
-        themesMenu.add(gitHubLightMenuItem);
         themesMenu.add(arcLightOrangeMenuItem);
         themesMenu.add(solarizedLightMenuItem);
-        themesMenu.add(darkThemesMenuItem);
         themesMenu.add(arcDarkOrangeMenuItem);
         themesMenu.add(gruvboxDarkMediumMenuItem);
         themesMenu.add(materialDarkerMenuItem);

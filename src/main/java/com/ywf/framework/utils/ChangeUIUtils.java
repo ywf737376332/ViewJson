@@ -5,7 +5,6 @@ import com.formdev.flatlaf.IntelliJTheme;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.JTabbedSplitEditor;
-import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.PopupMenuBuilder;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
@@ -67,7 +66,7 @@ public class ChangeUIUtils {
                 UIManager.setLookAndFeel(themesStyles.getThemesStyles());
             } else {
                 //第三方主题
-                IntelliJTheme.setup(MenuBarBuilder.class.getResourceAsStream(themesStyles.getThemesStyles()));
+                IntelliJTheme.setup(ChangeUIUtils.class.getResourceAsStream(themesStyles.getThemesStyles()));
             }
         } catch (Exception ex) {
             System.err.println("皮肤应用失败，请检查：" + ex.getMessage());
@@ -182,8 +181,10 @@ public class ChangeUIUtils {
     public static void initUIStyle() {
         //滚动条的默认宽度为 。要使它们更宽（或更小），请使用：10
         UIManager.put("ScrollBar.width", 4);
+        //UIManager.put("SplitPane.background", new Color(0, 0, 0, 0));//设置分隔条为红色
+        //UIManager.put("SplitPane.background", UIManager.getColor("control"));
         // 设置滚动条背景色为透明
-        //UIManager.put("ScrollBar.background", new Color(0, 0, 0, 0));
+        //UIManager.put("ScrollBar.background", new Color(1,22,39,200));
         // 设置滚动条颜色为红色
         //UIManager.put("ScrollBar.thumb", new Color(255, 0, 0));
         //UIManager.put("ScrollBar.track", new Color(255, 0, 0, 0));

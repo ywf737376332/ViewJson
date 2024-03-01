@@ -416,9 +416,9 @@
     "RadioButton": {},
     "RadioButtonMenuItem": {},
     "ScrollBar": {
-      "background": "#F5F0E3",
-      "hoverThumbBorderColor": "#4B5A5F47",
-      "hoverThumbColor": "#5D737B47",
+      "background": "#FDF6E3",
+      "hoverThumbBorderColor": "#4B5A5F",
+      "hoverThumbColor": "#5D737B",
       "hoverTrackColor": "",
       "Mac": {
         "hoverThumbBorderColor": "#002B3680",

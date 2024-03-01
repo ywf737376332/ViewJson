@@ -218,7 +218,7 @@
     "Notification.background" : "#4e5467",
     "Notification.MoreButton.background" : "#383c4a",
     "Notification.borderColor" : "#2b2e39",
-    "ScrollBar.background" : "#4e5467",
+    "ScrollBar.background" : "#474C5B",
 
     "Label.foreground" : "#d3dae3",
     "Label.disabledForeground" : "#9ba2ab",
