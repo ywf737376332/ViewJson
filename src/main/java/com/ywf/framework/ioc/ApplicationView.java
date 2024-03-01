@@ -39,7 +39,7 @@ public class ApplicationView {
      */
     public ApplicationView(Class<?> primarySource) {
         startTime = System.nanoTime();
-        logger.info("应用程序启动开始,当前时间：{}~", DateUtil.format(DateUtil.date(startTime / 1000000000), "yyyy-MM-dd HH:mm:ss"));
+        logger.info("应用程序启动开始,当前时间：{}~", DateUtil.now());
         String basePackages = getBasePackages(primarySource);
         String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
         /**
