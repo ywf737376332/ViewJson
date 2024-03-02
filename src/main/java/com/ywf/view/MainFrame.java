@@ -57,7 +57,7 @@ public class MainFrame extends AbstractWindow {
         this.addComponent(editPanel, GlobalKEY.TABBED_SPLIT_EDITOR, tabbedSplitEditor, BorderLayout.CENTER);
 
         // 创建菜单栏
-        JMenuBar menuBar = MenuBarBuilder.createMenuBar(frame);
+        JMenuBar menuBar = MenuBarBuilder.getInstance().createMenuBar(frame);
         // 可拖动工具栏
         JToolBar toolBar = ToolBarBuilder.createToolBar(frame);
         // 底部版权区域

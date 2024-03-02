@@ -1,17 +1,19 @@
 package com.ywf.component;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.action.MenuEventService;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.config.MenuAction;
+import com.ywf.framework.config.MenuBarKit;
 import com.ywf.framework.enums.FontEnum;
 import com.ywf.framework.enums.PictureQualityEnum;
+import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
-import com.ywf.framework.utils.IconUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.util.ResourceBundle;
 
 /**
  * 菜单工具条
@@ -21,257 +23,324 @@ import java.awt.event.KeyEvent;
  */
 public class MenuBarBuilder {
 
+
+    private final static Logger logger = LoggerFactory.getLogger(MenuBarBuilder.class);
     @Autowired
+
     public static ConfigurableApplicationContext applicationContext;
 
-    private static JMenuBar menuBar;
-    private static JCheckBoxMenuItem showToolBarMenuItem;
-    private static JCheckBoxMenuItem showMenuBarMenuItem;
-    private static JMenuItem unescapeMenuItem;
-    private static JMenuItem escapeTabMenuItem;
+    private ResourceBundle resourceBundle;
+    private static final String MSG = "Message";
 
-    public static JMenuBar createMenuBar(JFrame frame) {
+    /**
+     * 文件
+     * 新建
+     * 导出图片
+     * 导出文件
+     * 收藏夹
+     * 退出
+     */
+    private JMenu fileMenu;
+    private MenuAction newTabAction, savePictAction, saveFileAction, favoritesAction, exitAction;
+    private JMenuItem newTabMenuItem, savePictMenuItem, saveFileMenuItem, favoritesMenuItem, exitMenuItem;
 
+    /**
+     * 编辑
+     * 压缩
+     * 转义
+     * 去除转义
+     * 格式化
+     * 查找
+     * 清空
+     */
+    private JMenu editMenu;
+    private MenuAction compressAction, escapeAction, unescapeAction, formatAction, findAction, cleanAction;
+    private JMenuItem compressMenuItem, escapeMenuItem, unescapeMenuItem, formatMenuItem, findMenuItem, cleanMenuItem;
+
+    /**
+     * 设置
+     * 界面字体
+     * 字体样式
+     * 微软雅黑
+     * 华文中宋
+     * ...
+     * 字体大小
+     * 小号
+     * 中等
+     * 常规
+     * ...
+     * 外观菜单
+     * 显示工具栏
+     * 显示菜单栏
+     * 禁止编辑
+     * 自动换行
+     * 显示行号
+     * 图片质量
+     * 低
+     * 中
+     * 高
+     * 中文转码
+     * 转码功能关闭
+     * 中文转Unicode
+     * Unicode转中文
+     */
+    private JMenu setupMenu;
+    private JMenu frameFontMenu, fontStyleMenu, fontSizeMenu;
+    private JMenu facadeMenu;
+    private MenuAction showToolBarAction, showMenuBarAction;
+    private JCheckBoxMenuItem showToolBarMenuItem, showMenuBarMenuItem;
+    private MenuAction editSetupAction, lineSetupAction, showlineNumAction;
+    private JMenuItem editSetupMenuItem, lineSetupMenuItem, showlineNumMenuItem;
+    private JMenu pictureQualityMenu;
+    private PictureQualityRadioButtonMenuItem lowPictureQualityMenuItem, middlePictureQualityMenuItem, hightPictureQualityMenuItem;
+    private JMenu chineseConverMenu;
+    private CHToCNRadioButtonMenuItem chineseConverUnicodeMenuItem, unicodeConverChineseMenuItem, unConverMenuItem;
+    /**
+     * 主题
+     * FlatLaf Light
+     * Arc Light Orange
+     * Solarized Light
+     * Arc Dark Orange
+     * Gruvbox Dark Medium
+     * Material Darker
+     * Material Deep Ocean
+     * Night Owl
+     */
+    private JMenu themesMenu;
+
+    /**
+     * 帮助
+     * 更新日志
+     * 隐私条款
+     * 官方网站
+     * 鸣谢反馈
+     * 关于
+     */
+    private JMenuBar menuBar;
+    private JMenu helpMenu;
+    private MenuAction updateVersionLogAction, privacyPolicyAction, officialWebsiteAction, expressThanksAction, aboutAction;
+    private JMenuItem updateVersionLogMenuItem, privacyPolicyMenuItem, officialWebsiteMenuItem, expressThanksMenuItem, aboutMenuItem;
+
+    volatile private static MenuBarBuilder instance = null;
+
+    private MenuBarBuilder() {
+        init();
+    }
+
+    public static MenuBarBuilder getInstance() {
+        if (instance == null) {
+            synchronized (MenuBarBuilder.class) {
+                if (instance == null) {
+                    instance = new MenuBarBuilder();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private void init() {
+        createMenus();
+        createMenuActions();
+    }
+
+    public JMenuBar createMenuBar(JFrame frame) {
+        return initMenuBar(frame);
+    }
+
+    private JMenuBar initMenuBar(JFrame frame) {
         menuBar = new JMenuBar();
 
-        JMenu fileMenu = new JMenu("文件");
-        JMenuItem newTabMenuItem = new JMenuItem("新建");
-        newTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/newEditer.svg", 12, 12));
-        newTabMenuItem.addActionListener(e -> MenuEventService.getInstance().addTabbedSplitEditorActionPerformed());
-        JMenuItem savePictMenuItem = new JMenuItem("导出图片");
-        savePictMenuItem.setIcon(IconUtils.getSVGIcon("icons/exportPict.svg", 12, 12));
-        savePictMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToImageActionPerformed(frame));
-        JMenuItem saveFileMenuItem = new JMenuItem("导出文件");
-        saveFileMenuItem.setIcon(IconUtils.getSVGIcon("icons/saveCode.svg", 12, 12));
-        saveFileMenuItem.addActionListener(e -> MenuEventService.getInstance().saveJsonToFileActionPerformed(frame));
-        JMenuItem favoritesMenuItem = new JMenuItem("收藏夹");
-        favoritesMenuItem.setIcon(IconUtils.getSVGIcon("icons/favorites.svg", 12, 12));
-        JMenuItem exitMenuItem = new JMenuItem("退出");
-        exitMenuItem.setIcon(IconUtils.getSVGIcon("icons/exit.svg", 12, 12));
-        exitMenuItem.addActionListener(e -> MenuEventService.getInstance().closeWindowsFrameActionPerformed(frame));
+        /**
+         * 文件
+         */
+        menuBar.add(fileMenu);
+        fileMenu.add(newTabMenuItem = createMenuItem(newTabAction));
+        fileMenu.add(savePictMenuItem = createMenuItem(savePictAction));
+        fileMenu.add(saveFileMenuItem = createMenuItem(saveFileAction));
+        fileMenu.add(favoritesMenuItem = createMenuItem(favoritesAction));
+        fileMenu.add(exitMenuItem = createMenuItem(exitAction));
 
-        fileMenu.add(newTabMenuItem);
-        fileMenu.add(savePictMenuItem);
-        fileMenu.add(saveFileMenuItem);
-        fileMenu.add(favoritesMenuItem);
-        fileMenu.add(exitMenuItem);
+        /**
+         * 编辑
+         */
+        menuBar.add(editMenu);
+        editMenu.add(compressMenuItem = createMenuItem(compressAction));
+        editMenu.add(escapeMenuItem = createMenuItem(escapeAction));
+        editMenu.add(unescapeMenuItem = createMenuItem(unescapeAction));
+        editMenu.add(formatMenuItem = createMenuItem(formatAction));
+        editMenu.add(findMenuItem = createMenuItem(findAction));
+        editMenu.add(cleanMenuItem = createMenuItem(cleanAction));
 
-        JMenu editMenu = new JMenu("编辑");
-        JMenuItem compMenuItem = new JMenuItem("压缩");
-        compMenuItem.setIcon(IconUtils.getSVGIcon("icons/comp.svg", 12, 12));
-        compMenuItem.addActionListener(e -> MenuEventService.getInstance().compressionJsonActionPerformed());
-        escapeTabMenuItem = new JMenuItem("转义");
-        escapeTabMenuItem.setIcon(IconUtils.getSVGIcon("icons/escapeCode.svg", 12, 12));
-        escapeTabMenuItem.addActionListener(e -> MenuEventService.getInstance().escapeJsonActionPerformed());
-        unescapeMenuItem = new JMenuItem("去除转义");
-        unescapeMenuItem.setIcon(IconUtils.getSVGIcon("icons/unEscapeCode.svg", 12, 12));
-        unescapeMenuItem.addActionListener(e -> MenuEventService.getInstance().unEscapeJsonActionPerformed());
-        JMenuItem formatMenuItem = new JMenuItem("格式化");
-        formatMenuItem.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg", 12, 12));
-        formatMenuItem.addActionListener(e -> MenuEventService.getInstance().formatJsonActionPerformed(frame));
-        JMenuItem cleanMenuItem = new JMenuItem("清空");
-        cleanMenuItem.setIcon(IconUtils.getSVGIcon("icons/delete.svg", 12, 12));
-        cleanMenuItem.addActionListener(e -> MenuEventService.getInstance().cleanJsonActionPerformed());
-        JMenuItem findRepMenuItem = new JMenuItem("查找");
-        findRepMenuItem.setIcon(IconUtils.getSVGIcon("icons/find.svg", 12, 12));
-        findRepMenuItem.addActionListener(e -> MenuEventService.getInstance().showFindDialogActionPerformed(frame, "查找"));
-        editMenu.add(compMenuItem);
-        editMenu.add(escapeTabMenuItem);
-        editMenu.add(unescapeMenuItem);
-        editMenu.add(formatMenuItem);
-        editMenu.add(cleanMenuItem);
-        editMenu.add(findRepMenuItem);
+        /**
+         * 设置
+         */
+        menuBar.add(setupMenu);
+        setupMenu.add(frameFontMenu);
+        frameFontMenu.add(fontStyleMenu);
+        ButtonGroup fontNameButtonGroup = new ButtonGroup();
+        for (FontEnum.Name value : FontEnum.Name.values()) {
+            JRadioButtonMenuItem fontNameMenuItem = new JRadioButtonMenuItem(value.getName());
+            fontNameButtonGroup.add(fontNameMenuItem);
+            fontStyleMenu.add(fontNameMenuItem);
+        }
+        frameFontMenu.add(fontSizeMenu);
+        ButtonGroup fontSizeButtonGroup = new ButtonGroup();
+        for (FontEnum.Size value : FontEnum.Size.values()) {
+            FontSizeRadioButtonMenuItem fontSizeMenuItem = new FontSizeRadioButtonMenuItem(value.getDesc(), value.getSize());
+            fontSizeButtonGroup.add(fontSizeMenuItem);
+            fontSizeMenu.add(fontSizeMenuItem);
+        }
+        MenuEventService.getInstance().applyFrameFontActionPerformed(fontStyleMenu, fontSizeMenu);
 
+        setupMenu.add(facadeMenu);
+        facadeMenu.add(showToolBarMenuItem = createCheckBoxMenu(showToolBarAction));
+        facadeMenu.add(showMenuBarMenuItem = createCheckBoxMenu(showMenuBarAction));
 
-        JMenu setupMenu = new JMenu("设置");
-        // 界面字体
-        JMenu frameFontMenu = createFrameFontMenu();
+        setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
+        setupMenu.add(lineSetupMenuItem = createCheckBoxMenu(lineSetupAction));
+        setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
 
-        JMenu facadeMenu = new JMenu("外观菜单");
-        showToolBarMenuItem = new JCheckBoxMenuItem("显示工具栏");
-        showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());
-        showToolBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
-        showMenuBarMenuItem = new JCheckBoxMenuItem("显示菜单栏");
-        showMenuBarMenuItem.setSelected(applicationContext.getShowMenuBarState());
-        showMenuBarMenuItem.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
-        facadeMenu.add(showToolBarMenuItem);
-        facadeMenu.add(showMenuBarMenuItem);
-
-        JCheckBoxMenuItem editSetupMenuItem = new JCheckBoxMenuItem("禁止编辑");
-        editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
-        editSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().editSwitchActionPerformed());
-
-        JCheckBoxMenuItem lineSetupMenuItem = new JCheckBoxMenuItem("自动换行");
-        lineSetupMenuItem.setSelected(applicationContext.getTextAreaBreakLineState());
-        lineSetupMenuItem.addActionListener(e -> MenuEventService.getInstance().lineSetupActionPerformed());
-
-        JCheckBoxMenuItem showlineNumMenuItem = new JCheckBoxMenuItem("显示行号");
-        showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
-        showlineNumMenuItem.addActionListener(e -> MenuEventService.getInstance().showLineNumActionPerformed());
-
-        JMenu pictureQualityMenu = new JMenu("图片质量");
-        PictureQualityRadioButtonMenuItem lowPictureQualityMenuItem = new PictureQualityRadioButtonMenuItem("低", PictureQualityEnum.LOW_PICTURE_QUALITY.getPictureQualityState());
-        PictureQualityRadioButtonMenuItem middlePictureQualityMenuItem = new PictureQualityRadioButtonMenuItem("中", PictureQualityEnum.MIDDLE_PICTURE_QUALITY.getPictureQualityState());
-        PictureQualityRadioButtonMenuItem hightPictureQualityMenuItem = new PictureQualityRadioButtonMenuItem("高", PictureQualityEnum.HEIGHT_PICTURE_QUALITY.getPictureQualityState());
-        ButtonGroup pictureQualityBtn = new ButtonGroup();
-        pictureQualityBtn.add(lowPictureQualityMenuItem);
-        pictureQualityBtn.add(middlePictureQualityMenuItem);
-        pictureQualityBtn.add(hightPictureQualityMenuItem);
-        pictureQualityMenu.add(lowPictureQualityMenuItem);
-        pictureQualityMenu.add(middlePictureQualityMenuItem);
-        pictureQualityMenu.add(hightPictureQualityMenuItem);
+        setupMenu.add(pictureQualityMenu);
+        ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
+        for (PictureQualityEnum value : PictureQualityEnum.values()) {
+            PictureQualityRadioButtonMenuItem pictureQualityMenuItem = new PictureQualityRadioButtonMenuItem(value.getPictureQualityDesc(), value.getPictureQualityState());
+            pictureQualityButtonGroup.add(pictureQualityMenuItem);
+            pictureQualityMenu.add(pictureQualityMenuItem);
+        }
         MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);
 
-        JMenu chineseConverMenu = new JMenu("中文转码");
-        CHToCNRadioButtonMenuItem chineseConverUnicodeMenuItem = new CHToCNRadioButtonMenuItem("中文转Unicode", TextConvertEnum.CH_TO_UN.getConverType());
-        CHToCNRadioButtonMenuItem unicodeConverChineseMenuItem = new CHToCNRadioButtonMenuItem("Unicode转中文", TextConvertEnum.UN_TO_CH.getConverType());
-        CHToCNRadioButtonMenuItem unConverMenuItem = new CHToCNRadioButtonMenuItem("转码功能关闭", TextConvertEnum.CONVERT_CLOSED.getConverType());
-
+        setupMenu.add(chineseConverMenu);
         ButtonGroup chineseConverButtonGroup = new ButtonGroup();
-        chineseConverButtonGroup.add(unConverMenuItem);
-        chineseConverButtonGroup.add(chineseConverUnicodeMenuItem);
-        chineseConverButtonGroup.add(unicodeConverChineseMenuItem);
-        chineseConverMenu.add(unConverMenuItem);
-        chineseConverMenu.add(chineseConverUnicodeMenuItem);
-        chineseConverMenu.add(unicodeConverChineseMenuItem);
+        for (TextConvertEnum value : TextConvertEnum.values()) {
+            CHToCNRadioButtonMenuItem chineseConverMenuItem = new CHToCNRadioButtonMenuItem(value.getConverDesc(), value.getConverType());
+            chineseConverButtonGroup.add(chineseConverMenuItem);
+            chineseConverMenu.add(chineseConverMenuItem);
+        }
         MenuEventService.getInstance().chineseConverActionPerformed(chineseConverMenu);
 
-        setupMenu.add(frameFontMenu);
-        setupMenu.add(facadeMenu);
-        setupMenu.add(editSetupMenuItem);
-        setupMenu.add(lineSetupMenuItem);
-        setupMenu.add(showlineNumMenuItem);
-        setupMenu.add(pictureQualityMenu);
-        setupMenu.add(chineseConverMenu);
-
-        JMenu themesMenu = new JMenu("主题");
-        JRadioButtonMenuItem lightThemesMenuItem = new JRadioButtonMenuItem("FlatLaf Light");
-        JRadioButtonMenuItem arcLightOrangeMenuItem = new JRadioButtonMenuItem("Arc Light Orange");
-        JRadioButtonMenuItem solarizedLightMenuItem = new JRadioButtonMenuItem("Solarized Light");
-        JRadioButtonMenuItem arcDarkOrangeMenuItem = new JRadioButtonMenuItem("Arc Dark Orange");
-        JRadioButtonMenuItem gruvboxDarkMediumMenuItem = new JRadioButtonMenuItem("Gruvbox Dark Medium");
-        JRadioButtonMenuItem materialDarkerMenuItem = new JRadioButtonMenuItem("Material Darker");
-        JRadioButtonMenuItem materialDeepOceanMenuItem = new JRadioButtonMenuItem("Material Deep Ocean");
-        JRadioButtonMenuItem nightOwlMenuItem = new JRadioButtonMenuItem("Night Owl");
-
-        // 组装为单选
+        /**
+         * 主题
+         */
+        menuBar.add(themesMenu);
         ButtonGroup buttonGroupThemes = new ButtonGroup();
-        buttonGroupThemes.add(lightThemesMenuItem);
-        buttonGroupThemes.add(arcLightOrangeMenuItem);
-        buttonGroupThemes.add(solarizedLightMenuItem);
-        buttonGroupThemes.add(arcDarkOrangeMenuItem);
-        buttonGroupThemes.add(gruvboxDarkMediumMenuItem);
-        buttonGroupThemes.add(materialDarkerMenuItem);
-        buttonGroupThemes.add(materialDeepOceanMenuItem);
-        buttonGroupThemes.add(nightOwlMenuItem);
-
-        themesMenu.add(lightThemesMenuItem);
-        themesMenu.add(arcLightOrangeMenuItem);
-        themesMenu.add(solarizedLightMenuItem);
-        themesMenu.add(arcDarkOrangeMenuItem);
-        themesMenu.add(gruvboxDarkMediumMenuItem);
-        themesMenu.add(materialDarkerMenuItem);
-        themesMenu.add(materialDeepOceanMenuItem);
-        themesMenu.add(nightOwlMenuItem);
-        //添加事件
+        for (SystemThemesEnum value : SystemThemesEnum.values()) {
+            JRadioButtonMenuItem themeRadioButtonMenuItem = new JRadioButtonMenuItem(value.getThemesKey());
+            buttonGroupThemes.add(themeRadioButtonMenuItem);
+            themesMenu.add(themeRadioButtonMenuItem);
+        }
         MenuEventService.getInstance().setupThemesActionPerformed(frame, themesMenu);
 
-        JMenu helpMenu = new JMenu("帮助");
-        JMenuItem updateVersionLogMenuItem = new JMenuItem("更新日志");
-        updateVersionLogMenuItem.addActionListener(e -> MenuEventService.getInstance().updateLogActionPerformed());
-        JMenuItem privacyPolicyMenuItem = new JMenuItem("隐私条款");
-        privacyPolicyMenuItem.setEnabled(false);
-        JMenuItem officialWebsiteMenuItem = new JMenuItem("官方网站");
-        officialWebsiteMenuItem.setEnabled(false);
-        JMenuItem expressThanksMenuItem = new JMenuItem("鸣谢反馈");
-        expressThanksMenuItem.setEnabled(false);
-        JMenuItem aboutMenuItem = new JMenuItem("关于");
-        aboutMenuItem.addActionListener(e -> MenuEventService.getInstance().aboutActionPerformed());
-        helpMenu.add(updateVersionLogMenuItem);
-        helpMenu.add(privacyPolicyMenuItem);
-        helpMenu.add(officialWebsiteMenuItem);
-        helpMenu.add(expressThanksMenuItem);
-        helpMenu.add(aboutMenuItem);
-
-        JMenu viewMenu = new JMenu("Beat");
-        JMenuItem htmlMenuItem = new JMenuItem("<html>some <b color=\"red\">HTML</b> <i color=\"blue\">text</i></html>");
-        htmlMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        htmlMenuItem.setMnemonic('O');
-        htmlMenuItem.setIcon(new FlatSVGIcon("icons/menu-cut.svg"));
-        //添加组件
-        viewMenu.add(htmlMenuItem);
-
-        menuBar.add(fileMenu);
-        menuBar.add(editMenu);
-        menuBar.add(setupMenu);
-        menuBar.add(themesMenu);
         menuBar.add(helpMenu);
-        menuBar.setVisible(applicationContext.getShowMenuBarState());
+        helpMenu.add(updateVersionLogMenuItem = createMenuItem(updateVersionLogAction));
+        helpMenu.add(privacyPolicyMenuItem = createMenuItem(privacyPolicyAction));
+        helpMenu.add(officialWebsiteMenuItem = createMenuItem(officialWebsiteAction));
+        helpMenu.add(expressThanksMenuItem = createMenuItem(expressThanksAction));
+        helpMenu.add(aboutMenuItem = createMenuItem(aboutAction));
+
         return menuBar;
     }
 
-    private static JMenu createFrameFontMenu() {
-        JMenu frameFontMenu = new JMenu("界面字体");
-        JMenu fontStyleMenu = new JMenu("字体样式");
-        JMenu fontSizeMenu = new JMenu("字体大小");
-        initFontMenu(fontStyleMenu, fontSizeMenu);
-        frameFontMenu.add(fontStyleMenu);
-        frameFontMenu.add(fontSizeMenu);
-        MenuEventService.getInstance().applyFrameFontActionPerformed(fontStyleMenu, fontSizeMenu);
-        return frameFontMenu;
+    protected JMenuItem createMenuItem(Action a) {
+        return new JMenuItem(a);
     }
 
-    private static void initFontMenu(JMenu fontStyleMenu, JMenu fontSizeMenu) {
-        JRadioButtonMenuItem micYaHeiFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.micYaHei.getName());
-        JRadioButtonMenuItem christmasWorshipFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.christmasWorship.getName());
-        JRadioButtonMenuItem arialFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.arial.getName());
-        JRadioButtonMenuItem blackLetterFontMenuItem = new JRadioButtonMenuItem(FontEnum.Name.blackLetter.getName());
-        ButtonGroup fontStyleButtonGroup = new ButtonGroup();
-        fontStyleButtonGroup.add(micYaHeiFontMenuItem);
-        fontStyleButtonGroup.add(christmasWorshipFontMenuItem);
-        fontStyleButtonGroup.add(arialFontMenuItem);
-        fontStyleButtonGroup.add(blackLetterFontMenuItem);
-        fontStyleMenu.add(micYaHeiFontMenuItem);
-        fontStyleMenu.add(christmasWorshipFontMenuItem);
-        fontStyleMenu.add(arialFontMenuItem);
-        fontStyleMenu.add(blackLetterFontMenuItem);
-
-        FontSizeRadioButtonMenuItem smallFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.small.getDesc(), FontEnum.Size.small.getSize());
-        FontSizeRadioButtonMenuItem mediumFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.medium.getDesc(), FontEnum.Size.medium.getSize());
-        FontSizeRadioButtonMenuItem regularFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.regular.getDesc(), FontEnum.Size.regular.getSize());
-        FontSizeRadioButtonMenuItem largeFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.large.getDesc(), FontEnum.Size.large.getSize());
-        FontSizeRadioButtonMenuItem tooLargeFontMenuItem = new FontSizeRadioButtonMenuItem(FontEnum.Size.tooLarge.getDesc(), FontEnum.Size.tooLarge.getSize());
-        ButtonGroup fontSizeButtonGroup = new ButtonGroup();
-        fontSizeButtonGroup.add(smallFontMenuItem);
-        fontSizeButtonGroup.add(mediumFontMenuItem);
-        fontSizeButtonGroup.add(regularFontMenuItem);
-        fontSizeButtonGroup.add(largeFontMenuItem);
-        fontSizeButtonGroup.add(tooLargeFontMenuItem);
-        fontSizeMenu.add(smallFontMenuItem);
-        fontSizeMenu.add(mediumFontMenuItem);
-        fontSizeMenu.add(regularFontMenuItem);
-        fontSizeMenu.add(largeFontMenuItem);
-        fontSizeMenu.add(tooLargeFontMenuItem);
+    protected JCheckBoxMenuItem createCheckBoxMenu(Action a) {
+        return new JCheckBoxMenuItem(a);
     }
 
-    public static JMenuBar getMenuBar() {
+    /**
+     * 菜单事件初始化
+     */
+    private void createMenuActions() {
+
+        ResourceBundle msg = getResourceBundle();
+
+        newTabAction = new MenuBarKit.NewTabAction();
+        newTabAction.setProperties(msg, "MenuItem.NewTab");
+        savePictAction = new MenuBarKit.SavePictAction();
+        savePictAction.setProperties(msg, "MenuItem.SavePict");
+        saveFileAction = new MenuBarKit.SaveFileAction();
+        saveFileAction.setProperties(msg, "MenuItem.SaveFile");
+        favoritesAction = new MenuBarKit.FavoritesAction();
+        favoritesAction.setProperties(msg, "MenuItem.Favorites");
+        exitAction = new MenuBarKit.ExitAction();
+        exitAction.setProperties(msg, "MenuItem.Exit");
+
+        compressAction = new MenuBarKit.CompressAction();
+        compressAction.setProperties(msg, "MenuItem.Compress");
+        escapeAction = new MenuBarKit.EscapeAction();
+        escapeAction.setProperties(msg, "MenuItem.Escape");
+        unescapeAction = new MenuBarKit.UnescapeAction();
+        unescapeAction.setProperties(msg, "MenuItem.Unescape");
+        formatAction = new MenuBarKit.FormatAction();
+        formatAction.setProperties(msg, "MenuItem.Format");
+        findAction = new MenuBarKit.FindAction();
+        findAction.setProperties(msg, "MenuItem.Find");
+        cleanAction = new MenuBarKit.CleanAction();
+        cleanAction.setProperties(msg, "MenuItem.Clean");
+
+        showToolBarAction = new MenuBarKit.ShowToolBarAction();
+        showToolBarAction.setProperties(msg, "MenuItem.ShowToolBar");
+        showMenuBarAction = new MenuBarKit.ShowMenuBarAction();
+        showMenuBarAction.setProperties(msg, "MenuItem.ShowMenuBar");
+
+        editSetupAction = new MenuBarKit.EditSetupAction();
+        editSetupAction.setProperties(msg, "MenuItem.EditSetup");
+        lineSetupAction = new MenuBarKit.LineSetupAction();
+        lineSetupAction.setProperties(msg, "MenuItem.LineSetup");
+        showlineNumAction = new MenuBarKit.ShowlineNumAction();
+        showlineNumAction.setProperties(msg, "MenuItem.Showline");
+
+        updateVersionLogAction = new MenuBarKit.UpdateVersionLogAction();
+        updateVersionLogAction.setProperties(msg, "MenuItem.UpdateVersionLog");
+        privacyPolicyAction = new MenuBarKit.PrivacyPolicyAction();
+        privacyPolicyAction.setProperties(msg, "MenuItem.PrivacyPolicy");
+        officialWebsiteAction = new MenuBarKit.OfficialWebsiteAction();
+        officialWebsiteAction.setProperties(msg, "MenuItem.OfficialWebsite");
+        expressThanksAction = new MenuBarKit.ExpressThanksAction();
+        expressThanksAction.setProperties(msg, "MenuItem.ExpressThanks");
+        aboutAction = new MenuBarKit.AboutAction();
+        aboutAction.setProperties(msg, "MenuItem.About");
+    }
+
+    private void createMenus() {
+        ResourceBundle msg = getResourceBundle();
+        fileMenu = new JMenu(getMessage(msg, "MenuBar.File"));
+        editMenu = new JMenu(getMessage(msg, "MenuBar.Edit"));
+
+        setupMenu = new JMenu(getMessage(msg, "MenuBar.Setting"));
+        frameFontMenu = new JMenu(getMessage(msg, "MenuItem.FrameFont"));
+        fontStyleMenu = new JMenu(getMessage(msg, "MenuItem.FrameFont.FontStyle"));
+        fontSizeMenu = new JMenu(getMessage(msg, "MenuItem.FrameFont.FontSize"));
+
+        facadeMenu = new JMenu(getMessage(msg, "MenuItem.facadeMenu"));
+        pictureQualityMenu = new JMenu(getMessage(msg, "MenuItem.PictureQuality"));
+        chineseConverMenu = new JMenu(getMessage(msg, "MenuItem.ChineseConver"));
+
+        themesMenu = new JMenu(getMessage(msg, "MenuBar.Theme"));
+        helpMenu = new JMenu(getMessage(msg, "MenuBar.Help"));
+    }
+
+    private ResourceBundle getResourceBundle() {
+        if (resourceBundle == null) {
+            resourceBundle = ResourceBundle.getBundle(MSG);
+        }
+        return resourceBundle;
+    }
+
+    private String getMessage(ResourceBundle msg, String keyRoot) {
+        return msg.getString(keyRoot + ".Name");
+    }
+
+    public JMenuBar getMenuBar() {
         return menuBar;
     }
 
-    public static JCheckBoxMenuItem getShowToolBarMenuItem() {
-        return showToolBarMenuItem;
-    }
-
-    public static JCheckBoxMenuItem getShowMenuBarMenuItem() {
+    public JCheckBoxMenuItem getShowMenuBarMenuItem() {
         return showMenuBarMenuItem;
     }
 
-    public static JMenuItem getUnescapeMenuItem() {
-        return unescapeMenuItem;
+    public JCheckBoxMenuItem getShowToolBarMenuItem() {
+        return showToolBarMenuItem;
     }
-
-    public static JMenuItem getEscapeTabMenuItem() {
-        return escapeTabMenuItem;
-    }
-
 }

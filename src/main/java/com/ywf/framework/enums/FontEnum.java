@@ -12,7 +12,10 @@ public class FontEnum {
         micYaHei("微软雅黑"),
         christmasWorship("华文中宋"),
         arial("黑体"),
-        blackLetter("等线");
+        blackLetter("等线"),
+        StLiti("华文隶书"),
+        YouYuan("幼圆");
+
 
         private String name;
 

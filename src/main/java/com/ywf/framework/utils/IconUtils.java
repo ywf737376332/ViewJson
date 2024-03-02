@@ -37,6 +37,12 @@ public class IconUtils {
         return flatSVGIcon;
     }
 
+    public static ImageIcon getSmallSVGIcon(String svgPath) {
+        ClassLoader classLoader = IconUtils.class.getClassLoader();
+        FlatSVGIcon flatSVGIcon = new FlatSVGIcon(svgPath, 12, 12, classLoader);
+        return flatSVGIcon;
+    }
+
     public static ImageIcon getSVGIcon(String svgPath, int width, int height) {
         ClassLoader classLoader = IconUtils.class.getClassLoader();
         FlatSVGIcon flatSVGIcon = new FlatSVGIcon(svgPath, width, height, classLoader);

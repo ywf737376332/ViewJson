@@ -3,7 +3,6 @@ package com.ywf.action;
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
@@ -438,7 +437,7 @@ public class MenuEventService {
         boolean showToolBar = toolBar.isVisible();
         toolBar.setVisible(!showToolBar);
         // 菜单栏和工具按钮联动修改状态
-        MenuBarBuilder.getShowToolBarMenuItem().setSelected(!showToolBar);
+        MenuBarBuilder.getInstance().getShowToolBarMenuItem().setSelected(!showToolBar);
         PopupMenuBuilder.getInstance().getToolBarShowState().setSelected(!showToolBar);
         applicationContext.setShowToolBarState(!showToolBar);
     }
@@ -449,11 +448,11 @@ public class MenuEventService {
      * @date 2023/12/9 21:40
      */
     public void showMenuBarActionPerformed() {
-        JMenuBar menuBar = MenuBarBuilder.getMenuBar();
+        JMenuBar menuBar = MenuBarBuilder.getInstance().getMenuBar();
         boolean showMenuBar = menuBar.isVisible();
         menuBar.setVisible(!showMenuBar);
         // 菜单栏和工具按钮联动修改状态
-        MenuBarBuilder.getShowMenuBarMenuItem().setSelected(!showMenuBar);
+        MenuBarBuilder.getInstance().getShowMenuBarMenuItem().setSelected(!showMenuBar);
         PopupMenuBuilder.getInstance().getMenuBarShowState().setSelected(!showMenuBar);
         applicationContext.setShowMenuBarState(!showMenuBar);
     }
@@ -527,10 +526,8 @@ public class MenuEventService {
     /**
      * 打开查找对话框
      *
-     * @param title 打开的窗口标题名称
      */
-    public void showFindDialogActionPerformed(JFrame frame, String title) {
-        //PoPupFindPanel.getInstance().showPopup(rSyntaxTextArea);
+    public void showFindDialogActionPerformed() {
         FindPanelBuilder.getLayout().showHideActionPerformed();
     }
 
@@ -576,7 +573,7 @@ public class MenuEventService {
             }
         }
     }
-    
+
     /**
      * 新建可调整宽度的文本编辑器
      */

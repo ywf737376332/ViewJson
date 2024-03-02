@@ -2,7 +2,9 @@ package com.ywf.action;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.formdev.flatlaf.extras.components.FlatLabel;
-import com.ywf.component.*;
+import com.ywf.component.JSONRSyntaxTextArea;
+import com.ywf.component.LabelBarBuilder;
+import com.ywf.component.StateLabel;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
@@ -90,7 +92,6 @@ public class StateBarEventService {
                     fileLengthLabel.setText("<html><span color=\"#107C41\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + stateBarEntity.getTextLength() + "词" + "</span></html>");
                     rSyntaxTextArea.setSyntaxEditingStyle(contentType.getSyntaxStyle());
                     rSyntaxTextArea.setTextType(contentType);
-                    setBtnEnableState(contentType);
                 }
             }
         };
@@ -164,25 +165,6 @@ public class StateBarEventService {
                 timer.stop();
             }
         });
-    }
-
-    /**
-     * xml状态此按钮功能禁用
-     *
-     * @param contentType
-     */
-    private void setBtnEnableState(TextTypeEnum contentType) {
-        if (contentType.equals(TextTypeEnum.XML)) {
-            ToolBarBuilder.getBtnEscape().setEnabled(false);
-            ToolBarBuilder.getBtnUnescape().setEnabled(false);
-            MenuBarBuilder.getEscapeTabMenuItem().setEnabled(false);
-            MenuBarBuilder.getUnescapeMenuItem().setEnabled(false);
-        } else {
-            ToolBarBuilder.getBtnEscape().setEnabled(true);
-            ToolBarBuilder.getBtnUnescape().setEnabled(true);
-            MenuBarBuilder.getEscapeTabMenuItem().setEnabled(true);
-            MenuBarBuilder.getUnescapeMenuItem().setEnabled(true);
-        }
     }
 
 }
