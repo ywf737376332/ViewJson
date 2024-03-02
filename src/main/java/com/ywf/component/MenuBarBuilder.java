@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -323,7 +324,7 @@ public class MenuBarBuilder {
 
     private ResourceBundle getResourceBundle() {
         if (resourceBundle == null) {
-            resourceBundle = ResourceBundle.getBundle(MSG);
+            resourceBundle = ResourceBundle.getBundle(MSG, Locale.getDefault());
         }
         return resourceBundle;
     }

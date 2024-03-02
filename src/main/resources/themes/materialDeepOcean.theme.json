@@ -1013,7 +1013,7 @@
       "translucentBackground": "bg"
     },
     "PopupMenuSeparator": {
-      "height": 10,
+      "height": 6,
       "stripeWidth": 2,
       "stripeIndent": 5,
       "withToEdge": 4,
@@ -1193,7 +1193,7 @@
     "Separator": {
       "background": "second",
       "foreground": "second",
-      "separatorColor": "border"
+      "separatorColor": "second"
     },
     "Settings": {
       "Spotlight.borderColor": "accent"

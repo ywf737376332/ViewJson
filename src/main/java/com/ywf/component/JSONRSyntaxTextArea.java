@@ -12,6 +12,7 @@ import org.fife.ui.rtextarea.RecordableTextAction;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -81,7 +82,7 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
      */
     private JPopupMenu initPopupMenu(JSONRSyntaxTextArea syntaxTextArea) {
         JPopupMenu menu = new JPopupMenu();
-        menu.setPopupSize(160, 289);
+        menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
         menu.add(newEditorMenuItem = createPopupMenuItem(newEditorAction));
         menu.add(closeEditorMenuItem = createPopupMenuItem(closeEditorAction));
         menu.addSeparator();
@@ -174,7 +175,7 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
 
     private static ResourceBundle getResourceBundle() {
         if (resourceBundle == null) {
-            resourceBundle = ResourceBundle.getBundle(MSG);
+            resourceBundle = ResourceBundle.getBundle(MSG, Locale.getDefault());
         }
         return resourceBundle;
     }

@@ -69,8 +69,8 @@
     "MenuItem.background" : "#383c4a",
     "MenuItem.acceleratorForeground" : "#d3dae3",
     "MenuItem.disabledForeground" : "#9ba2ab",
-    "PopupMenuSeparator.height" : "2",
-    "Separator.separatorColor" : "#9ba2ab",
+    "PopupMenuSeparator.height" : "6",
+    "Separator.separatorColor" : "#404651",
     "Group.separatorColor" : "#9ba2ab",
 
     "Tree.background" : "#404651",

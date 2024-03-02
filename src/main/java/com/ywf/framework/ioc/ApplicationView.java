@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Locale;
 
 /**
  * 项目启动主类
@@ -59,6 +60,9 @@ public class ApplicationView {
         Assert.notNull(primarySource, "PrimarySources must not be null");
         applicationView = configLoadHandler.appViewInit(basePackages);
         ObjectUtils.setBean(GlobalKEY.MAIN_FRAME, applicationView._this);
+        Locale.setDefault(new Locale("en", "US"));
+        //Locale.setDefault(new Locale("zh", "CN"));
+
     }
 
     public static ApplicationContext run(Class<?> primarySource, String... args) {
