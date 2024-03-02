@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
 
 /**
- * TODO
+ * 菜单事件基类
  *
  * @Author YWF
  * @Date 2024/3/1 22:19
