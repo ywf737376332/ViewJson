@@ -433,7 +433,7 @@ public class MenuEventService {
      * @date 2023/12/9 21:40
      */
     public void showToolBarActionPerformed() {
-        JToolBar toolBar = ToolBarBuilder.getToolBar();
+        JToolBar toolBar = ToolBarBuilder.getInstance().getToolBar();
         boolean showToolBar = toolBar.isVisible();
         toolBar.setVisible(!showToolBar);
         // 菜单栏和工具按钮联动修改状态

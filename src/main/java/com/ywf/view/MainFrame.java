@@ -57,7 +57,7 @@ public class MainFrame extends AbstractWindow {
         // 创建菜单栏
         JMenuBar menuBar = MenuBarBuilder.getInstance().createMenuBar(frame);
         // 可拖动工具栏
-        JToolBar toolBar = ToolBarBuilder.createToolBar(frame);
+        JToolBar toolBar = ToolBarBuilder.getInstance().createToolBar(frame);
         // 底部版权区域
         JPanel panelBottom = PanelView.createPanelBottom(frame);
         editPanel.add(FindPanelBuilder.createFindPanel(), BorderLayout.SOUTH);

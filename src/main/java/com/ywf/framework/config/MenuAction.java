@@ -20,10 +20,17 @@ public abstract class MenuAction extends AbstractAction {
 
     public abstract void actionPerformedImpl(ActionEvent e);
 
+    public void setProperties(ResourceBundle msg, String keyRoot, IconSize iconSize) {
+        setName(msg.getString(keyRoot + ".Name"));
+        if (msg.containsKey(keyRoot + ".Icon")) {
+            setSmallIcon(IconUtils.getSVGIcon(msg.getString(keyRoot + ".Icon"), iconSize.getSize(), iconSize.getSize()));
+        }
+    }
+
     public void setProperties(ResourceBundle msg, String keyRoot) {
         setName(msg.getString(keyRoot + ".Name"));
         if (msg.containsKey(keyRoot + ".Icon")) {
-            setSmallIcon(IconUtils.getSmallSVGIcon(msg.getString(keyRoot + ".Icon")));
+            setSmallIcon(IconUtils.getSVGIcon(msg.getString(keyRoot + ".Icon"), IconSize.small.getSize(), IconSize.small.getSize()));
         }
     }
 
@@ -35,5 +42,25 @@ public abstract class MenuAction extends AbstractAction {
         putValue(SMALL_ICON, smallIcon);
     }
 
+
+    public enum IconSize {
+        small(12),
+        medium(14),
+        large(16);
+
+        private int size;
+
+        IconSize(int size) {
+            this.size = size;
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public void setSize(int size) {
+            this.size = size;
+        }
+    }
 
 }

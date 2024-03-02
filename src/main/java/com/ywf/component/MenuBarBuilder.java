@@ -27,7 +27,6 @@ public class MenuBarBuilder {
 
     private final static Logger logger = LoggerFactory.getLogger(MenuBarBuilder.class);
     @Autowired
-
     public static ConfigurableApplicationContext applicationContext;
 
     private ResourceBundle resourceBundle;
@@ -71,6 +70,9 @@ public class MenuBarBuilder {
      * ...外观菜单
      * ......显示工具栏
      * ......显示菜单栏
+     * ...系统语言
+     * ......中文
+     * ......英文
      * ...禁止编辑
      * ...自动换行
      * ...显示行号
@@ -253,7 +255,6 @@ public class MenuBarBuilder {
     private void createMenuActions() {
 
         ResourceBundle msg = getResourceBundle();
-
         newTabAction = new MenuBarKit.NewTabAction();
         newTabAction.setProperties(msg, "MenuItem.NewTab");
         savePictAction = new MenuBarKit.SavePictAction();

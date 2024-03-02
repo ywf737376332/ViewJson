@@ -1,6 +1,7 @@
 package com.ywf.framework.config;
 
 import com.ywf.action.MenuEventService;
+import com.ywf.action.QRCodeEventService;
 import com.ywf.component.MenuBarBuilder;
 import com.ywf.framework.utils.ObjectUtils;
 import org.slf4j.Logger;
@@ -169,6 +170,27 @@ public class MenuBarKit {
         @Override
         public void actionPerformedImpl(ActionEvent e) {
             MenuEventService.getInstance().showLineNumActionPerformed();
+        }
+    }
+
+    public static class CopyCodeAction extends MenuAction {
+        @Override
+        public void actionPerformedImpl(ActionEvent e) {
+            MenuEventService.getInstance().copyJsonActionPerformed(frame);
+        }
+    }
+
+    public static class CopyPictAction extends MenuAction {
+        @Override
+        public void actionPerformedImpl(ActionEvent e) {
+            MenuEventService.getInstance().copyJsonToPictActionPerformed(frame);
+        }
+    }
+
+    public static class ShowQrcodeAction extends MenuAction {
+        @Override
+        public void actionPerformedImpl(ActionEvent e) {
+            QRCodeEventService.getInstance().showQrcodeActionPerformed(frame);
         }
     }
 
