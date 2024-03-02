@@ -50,19 +50,16 @@ public class MainFrame extends AbstractWindow {
 
     private void initUI(JFrame frame) {
         JPanel mainPanel = PanelView.createPanelMain();
-
         // 右侧JSON格式化区域
         JPanel editPanel = PanelView.createEditPanel();
         JTabbedSplitEditor tabbedSplitEditor = new JTabbedSplitEditor(new BorderLayout(), _this);
         this.addComponent(editPanel, GlobalKEY.TABBED_SPLIT_EDITOR, tabbedSplitEditor, BorderLayout.CENTER);
-
         // 创建菜单栏
         JMenuBar menuBar = MenuBarBuilder.getInstance().createMenuBar(frame);
         // 可拖动工具栏
         JToolBar toolBar = ToolBarBuilder.createToolBar(frame);
         // 底部版权区域
         JPanel panelBottom = PanelView.createPanelBottom(frame);
-
         editPanel.add(FindPanelBuilder.createFindPanel(), BorderLayout.SOUTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
         mainPanel.add(panelBottom, BorderLayout.SOUTH);
