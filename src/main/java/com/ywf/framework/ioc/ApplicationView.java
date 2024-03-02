@@ -10,6 +10,7 @@ import com.ywf.framework.handle.ConfigLoadHandler;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.ObjectUtils;
+import com.ywf.framework.utils.StrUtils;
 import com.ywf.view.MainFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,14 +61,12 @@ public class ApplicationView {
         Assert.notNull(primarySource, "PrimarySources must not be null");
         applicationView = configLoadHandler.appViewInit(basePackages);
         ObjectUtils.setBean(GlobalKEY.MAIN_FRAME, applicationView._this);
-        Locale.setDefault(new Locale("en", "US"));
-        //Locale.setDefault(new Locale("zh", "CN"));
-
     }
 
     public static ApplicationContext run(Class<?> primarySource, String... args) {
         return new ApplicationView(primarySource)
                 .initThemesUI()
+                .i18NInit()
                 .appGuiInit()
                 .initGUIGlobalFont()
                 .cacheGlobalComponent();
@@ -86,6 +85,21 @@ public class ApplicationView {
             });
         } catch (Exception e) {
             logger.error("APP界面加载失败", e);
+        }
+        return this;
+    }
+
+    /**
+     * 国际化
+     *
+     * @return
+     */
+    public ApplicationView i18NInit() {
+        try {
+            String[] language = StrUtils.strSplit(applicationContext.getSystemLanguage());
+            Locale.setDefault(new Locale(language[0], language[1]));
+        } catch (Exception e) {
+            logger.error("APP国际化失败", e);
         }
         return this;
     }

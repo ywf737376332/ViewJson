@@ -32,6 +32,8 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     private Integer chineseConverState;
     // 图片质量
     private Integer pictureQualityState;
+    // 系统语言
+    private String systemLanguage;
     // 屏幕大小
     private ScreenSize screenSize;
     // 字体样式
@@ -178,6 +180,15 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         this.pictureQualityState = pictureQualityState;
     }
 
+
+    public String getSystemLanguage() {
+        return systemLanguage;
+    }
+
+    public void setSystemLanguage(String systemLanguage) {
+        this.systemLanguage = systemLanguage;
+    }
+
     public ScreenSize getScreenSize() {
         return screenSize;
     }
@@ -205,6 +216,7 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                 ", lastSystemThemes='" + lastSystemThemes + '\'' +
                 ", chineseConverState=" + chineseConverState +
                 ", pictureQualityState=" + pictureQualityState +
+                ", systemLanguage='" + systemLanguage + '\'' +
                 ", screenSize=" + screenSize +
                 ", fontStyle=" + fontStyle +
                 '}';
@@ -215,11 +227,11 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ConfigurableApplicationContext that = (ConfigurableApplicationContext) o;
-        return Objects.equals(textAreaEditState, that.textAreaEditState) && Objects.equals(textAreaBreakLineState, that.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, that.textAreaShowlineNumState) && Objects.equals(showToolBarState, that.showToolBarState) && Objects.equals(showMenuBarState, that.showMenuBarState) && Objects.equals(lastSystemThemes, that.lastSystemThemes) && Objects.equals(chineseConverState, that.chineseConverState) && Objects.equals(pictureQualityState, that.pictureQualityState) && Objects.equals(screenSize, that.screenSize) && Objects.equals(fontStyle, that.fontStyle);
+        return Objects.equals(textAreaEditState, that.textAreaEditState) && Objects.equals(textAreaBreakLineState, that.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, that.textAreaShowlineNumState) && Objects.equals(showToolBarState, that.showToolBarState) && Objects.equals(showMenuBarState, that.showMenuBarState) && Objects.equals(lastSystemThemes, that.lastSystemThemes) && Objects.equals(chineseConverState, that.chineseConverState) && Objects.equals(pictureQualityState, that.pictureQualityState) && Objects.equals(systemLanguage, that.systemLanguage) && Objects.equals(screenSize, that.screenSize) && Objects.equals(fontStyle, that.fontStyle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(textAreaEditState, textAreaBreakLineState, textAreaShowlineNumState, showToolBarState, showMenuBarState, lastSystemThemes, chineseConverState, pictureQualityState, screenSize, fontStyle);
+        return Objects.hash(textAreaEditState, textAreaBreakLineState, textAreaShowlineNumState, showToolBarState, showMenuBarState, lastSystemThemes, chineseConverState, pictureQualityState, systemLanguage, screenSize, fontStyle);
     }
 }

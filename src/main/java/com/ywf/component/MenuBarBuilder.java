@@ -60,30 +60,28 @@ public class MenuBarBuilder {
 
     /**
      * 设置
-     * 界面字体
-     * 字体样式
-     * 微软雅黑
-     * 华文中宋
-     * ...
-     * 字体大小
-     * 小号
-     * 中等
-     * 常规
-     * ...
-     * 外观菜单
-     * 显示工具栏
-     * 显示菜单栏
-     * 禁止编辑
-     * 自动换行
-     * 显示行号
-     * 图片质量
-     * 低
-     * 中
-     * 高
-     * 中文转码
-     * 转码功能关闭
-     * 中文转Unicode
-     * Unicode转中文
+     * ...界面字体
+     * ......字体样式
+     * .........微软雅黑
+     * .........华文中宋
+     * ......字体大小
+     * .........小号
+     * .........中等
+     * .........常规
+     * ...外观菜单
+     * ......显示工具栏
+     * ......显示菜单栏
+     * ...禁止编辑
+     * ...自动换行
+     * ...显示行号
+     * ...图片质量
+     * ......低
+     * ......中
+     * ......高
+     * ...中文转码
+     * ......转码功能关闭
+     * ......中文转Unicode
+     * ......Unicode转中文
      */
     private JMenu setupMenu;
     private JMenu frameFontMenu, fontStyleMenu, fontSizeMenu;
@@ -98,24 +96,24 @@ public class MenuBarBuilder {
     private CHToCNRadioButtonMenuItem chineseConverUnicodeMenuItem, unicodeConverChineseMenuItem, unConverMenuItem;
     /**
      * 主题
-     * FlatLaf Light
-     * Arc Light Orange
-     * Solarized Light
-     * Arc Dark Orange
-     * Gruvbox Dark Medium
-     * Material Darker
-     * Material Deep Ocean
-     * Night Owl
+     * ...FlatLaf Light
+     * ...Arc Light Orange
+     * ...Solarized Light
+     * ...Arc Dark Orange
+     * ...Gruvbox Dark Medium
+     * ...Material Darker
+     * ...Material Deep Ocean
+     * ...Night Owl
      */
     private JMenu themesMenu;
 
     /**
      * 帮助
-     * 更新日志
-     * 隐私条款
-     * 官方网站
-     * 鸣谢反馈
-     * 关于
+     * ...更新日志
+     * ...隐私条款
+     * ...官方网站
+     * ...鸣谢反馈
+     * ...关于
      */
     private JMenuBar menuBar;
     private JMenu helpMenu;

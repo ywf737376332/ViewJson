@@ -14,4 +14,9 @@ public class StrUtils {
         }
         return JsonUtil.compressingStr(str).length();
     }
+
+    public static String[] strSplit(String str) {
+        return str.split("_");
+    }
+
 }
