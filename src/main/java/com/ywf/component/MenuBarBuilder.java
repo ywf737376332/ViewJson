@@ -194,7 +194,9 @@ public class MenuBarBuilder {
 
         setupMenu.add(facadeMenu);
         facadeMenu.add(showToolBarMenuItem = createCheckBoxMenu(showToolBarAction));
+        showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());
         facadeMenu.add(showMenuBarMenuItem = createCheckBoxMenu(showMenuBarAction));
+        showMenuBarMenuItem.setSelected(applicationContext.getShowMenuBarState());
 
         setupMenu.add(languageMenu);
         ButtonGroup languageButtonGroup = new ButtonGroup();
@@ -206,8 +208,11 @@ public class MenuBarBuilder {
         MenuEventService.getInstance().setupLanguageActionPerformed(languageMenu);
 
         setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
+        editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
         setupMenu.add(lineSetupMenuItem = createCheckBoxMenu(lineSetupAction));
+        lineSetupMenuItem.setSelected(applicationContext.getTextAreaBreakLineState());
         setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
+        showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
 
         setupMenu.add(pictureQualityMenu);
         ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
@@ -245,7 +250,7 @@ public class MenuBarBuilder {
         helpMenu.add(officialWebsiteMenuItem = createMenuItem(officialWebsiteAction));
         helpMenu.add(expressThanksMenuItem = createMenuItem(expressThanksAction));
         helpMenu.add(aboutMenuItem = createMenuItem(aboutAction));
-
+        menuBar.setVisible(applicationContext.getShowMenuBarState());
         return menuBar;
     }
 
