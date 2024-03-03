@@ -24,6 +24,6 @@ public class GlobalKEY extends JFrame implements Serializable {
     /**
      * 系统设置配置参数
      */
-    public static final String USER_PRPPERTIES_CONFIG = PREFIX + "user:dir#";
-    public static final String DEFAULT_PRPPERTIES_CONFIG = PREFIX + "root#:dir";
+    public static final String USER_PRPPERTIES_CONFIG = PREFIX + "user:dir#config";
+    public static final String DEFAULT_PRPPERTIES_CONFIG = PREFIX + "root:dir#config";
 }
