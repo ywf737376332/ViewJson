@@ -1,5 +1,6 @@
 package com.ywf.component;
 
+import com.ywf.action.ResourceBundleService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.MenuAction;
 import com.ywf.framework.config.MenuBarKit;
@@ -10,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicToolBarUI;
 import java.awt.*;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -25,7 +25,7 @@ public class ToolBarBuilder {
 
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
-    private ResourceBundle resourceBundle;
+    private static ResourceBundle resourceBundle;
     private static final String MSG = "Message";
 
     private JToolBar toolBar;
@@ -51,6 +51,7 @@ public class ToolBarBuilder {
     }
 
     private void init() {
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         createButtonActions();
     }
 
@@ -77,7 +78,7 @@ public class ToolBarBuilder {
     }
 
     private JToolBar initToolBar() {
-        ResourceBundle msg = getResourceBundle();
+        ResourceBundle msg = resourceBundle;
         JToolBar tool = new JToolBar(getMessage(msg, "ToolBar"));
         tool.setUI(new BasicToolBarUI());
         // 需要绘制边框
@@ -100,34 +101,27 @@ public class ToolBarBuilder {
      * 菜单事件初始化
      */
     private void createButtonActions() {
-        ResourceBundle msg = getResourceBundle();
+        ResourceBundle msg = resourceBundle;
         formatAction = new MenuBarKit.FormatAction();
-        formatAction.setProperties(msg, "MenuItem.Format",MenuAction.IconSize.medium);
+        formatAction.setProperties(msg, "MenuItem.Format", MenuAction.IconSize.medium);
         compressAction = new MenuBarKit.CompressAction();
-        compressAction.setProperties(msg, "MenuItem.Compress",MenuAction.IconSize.medium);
+        compressAction.setProperties(msg, "MenuItem.Compress", MenuAction.IconSize.medium);
         escapeAction = new MenuBarKit.EscapeAction();
-        escapeAction.setProperties(msg, "MenuItem.Escape",MenuAction.IconSize.medium);
+        escapeAction.setProperties(msg, "MenuItem.Escape", MenuAction.IconSize.medium);
         unescapeAction = new MenuBarKit.UnescapeAction();
-        unescapeAction.setProperties(msg, "MenuItem.Unescape",MenuAction.IconSize.medium);
+        unescapeAction.setProperties(msg, "MenuItem.Unescape", MenuAction.IconSize.medium);
 
         copyCodeAction = new MenuBarKit.CopyCodeAction();
-        copyCodeAction.setProperties(msg, "MenuItem.CopyCode",MenuAction.IconSize.medium);
+        copyCodeAction.setProperties(msg, "MenuItem.CopyCode", MenuAction.IconSize.medium);
         copyPictAction = new MenuBarKit.CopyPictAction();
-        copyPictAction.setProperties(msg, "MenuItem.CopyPict",MenuAction.IconSize.medium);
+        copyPictAction.setProperties(msg, "MenuItem.CopyPict", MenuAction.IconSize.medium);
         showQrcodeAction = new MenuBarKit.ShowQrcodeAction();
-        showQrcodeAction.setProperties(msg, "MenuItem.ShowQrcode",MenuAction.IconSize.medium);
+        showQrcodeAction.setProperties(msg, "MenuItem.ShowQrcode", MenuAction.IconSize.medium);
 
         findAction = new MenuBarKit.FindAction();
-        findAction.setProperties(msg, "MenuItem.Find",MenuAction.IconSize.medium);
+        findAction.setProperties(msg, "MenuItem.Find", MenuAction.IconSize.medium);
         cleanAction = new MenuBarKit.CleanAction();
-        cleanAction.setProperties(msg, "MenuItem.Clean",MenuAction.IconSize.medium);
-    }
-
-    private ResourceBundle getResourceBundle() {
-        if (resourceBundle == null) {
-            resourceBundle = ResourceBundle.getBundle(MSG, Locale.getDefault());
-        }
-        return resourceBundle;
+        cleanAction.setProperties(msg, "MenuItem.Clean", MenuAction.IconSize.medium);
     }
 
     private String getMessage(ResourceBundle msg, String keyRoot) {

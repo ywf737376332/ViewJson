@@ -1,6 +1,7 @@
 package com.ywf.component;
 
 import com.ywf.action.MenuEventService;
+import com.ywf.action.ResourceBundleService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.MenuAction;
 import com.ywf.framework.config.MenuBarKit;
@@ -10,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -26,7 +26,7 @@ public class MenuBarBuilder {
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
 
-    private ResourceBundle resourceBundle;
+    private static ResourceBundle resourceBundle;
     private static final String MSG = "Message";
 
     /**
@@ -138,6 +138,7 @@ public class MenuBarBuilder {
     }
 
     private void init() {
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         createMenus();
         createMenuActions();
     }
@@ -261,17 +262,17 @@ public class MenuBarBuilder {
      */
     private void createMenuActions() {
 
-        ResourceBundle msg = getResourceBundle();
+        ResourceBundle msg = resourceBundle;
         newTabAction = new MenuBarKit.NewTabAction();
-        newTabAction.setProperties(msg, "MenuItem.NewTab");
+        newTabAction.setProperties(resourceBundle, "MenuItem.NewTab");
         savePictAction = new MenuBarKit.SavePictAction();
-        savePictAction.setProperties(msg, "MenuItem.SavePict");
+        savePictAction.setProperties(resourceBundle, "MenuItem.SavePict");
         saveFileAction = new MenuBarKit.SaveFileAction();
-        saveFileAction.setProperties(msg, "MenuItem.SaveFile");
+        saveFileAction.setProperties(resourceBundle, "MenuItem.SaveFile");
         favoritesAction = new MenuBarKit.FavoritesAction();
-        favoritesAction.setProperties(msg, "MenuItem.Favorites");
+        favoritesAction.setProperties(resourceBundle, "MenuItem.Favorites");
         exitAction = new MenuBarKit.ExitAction();
-        exitAction.setProperties(msg, "MenuItem.Exit");
+        exitAction.setProperties(resourceBundle, "MenuItem.Exit");
 
         compressAction = new MenuBarKit.CompressAction();
         compressAction.setProperties(msg, "MenuItem.Compress");
@@ -329,16 +330,8 @@ public class MenuBarBuilder {
         helpMenu = new JMenu(getMessage("MenuBar.Help"));
     }
 
-    private ResourceBundle getResourceBundle() {
-        if (resourceBundle == null) {
-            resourceBundle = ResourceBundle.getBundle(MSG, Locale.getDefault());
-        }
-        return resourceBundle;
-    }
-
     private String getMessage(String keyRoot) {
-        ResourceBundle msg = getResourceBundle();
-        return msg.getString(keyRoot + ".Name");
+        return resourceBundle.getString(keyRoot + ".Name");
     }
 
     public JMenuBar getMenuBar() {
