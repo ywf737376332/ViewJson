@@ -1,0 +1,19 @@
+{
+  "textAreaEditState" : true,
+  "textAreaBreakLineState" : true,
+  "textAreaShowlineNumState" : true,
+  "showToolBarState" : true,
+  "showMenuBarState" : true,
+  "lastSystemThemes" : "FlatLaf Light",
+  "chineseConverState" : 2,
+  "pictureQualityState" : 1,
+  "systemLanguage" : "zh_CN",
+  "screenSize" : {
+    "width" : 1354,
+    "height" : 912
+  },
+  "fontStyle" : {
+    "name" : "黑体",
+    "size" : 18
+  }
+}

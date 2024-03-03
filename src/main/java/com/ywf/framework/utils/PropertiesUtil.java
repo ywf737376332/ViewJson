@@ -2,8 +2,6 @@ package com.ywf.framework.utils;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import com.ywf.action.StateBarEventService;
-import com.ywf.framework.init.SysConfigInit;
-import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
@@ -11,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Iterator;
 
 /**
  * 配置文件读取
@@ -105,38 +102,6 @@ public class PropertiesUtil {
         } catch (ConfigurationException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static void main(String[] args) {
-        try {
-
-            PropertiesUtil propertiesUtil = PropertiesUtil.getInstance();
-            String sysConfigFilePath = SysConfigInit.getApplicationRunRootPath();
-            String rootPath = propertiesUtil.getResourcePath("config/application.properties");
-
-            PropertiesConfiguration configuration = propertiesUtil.load(sysConfigFilePath);
-            ConfigurableApplicationContext applicationConfig = new ConfigurableApplicationContext();
-            //System.out.println("applicationConfig:"+applicationConfig.toString());
-            //applicationConfig = propertiesToObject(configuration,ApplicationConfig.class);
-            //System.out.println("applicationConfig:"+applicationConfig.toString());
-            propertiesUtil.setValue("pictureQualityState", "12412312");
-
-            ConfigurableApplicationContext application = ReflectUtils.propConvertObject(configuration, applicationConfig);
-            //propertiesToObject(configuration,applicationConfig.getClass());
-            System.out.println("application:" + application.toString());
-            Iterator<String> iterator = configuration.getKeys();
-            while (iterator.hasNext()) {
-                String key = iterator.next();
-                System.out.println("K:" + key+" V:"+configuration.getProperty(key));
-            }
-            application.setScreenSize(new ConfigurableApplicationContext.ScreenSize(50, 200));
-            PropertiesConfiguration targetProps = ReflectUtils.objectConvertProp(application);
-            propertiesUtil.store(sysConfigFilePath, targetProps);
-            //System.out.println("configuration:"+configuration.getString("pictureQualityState"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
 }

@@ -43,7 +43,7 @@ public class ApplicationView {
         startTime = System.nanoTime();
         logger.info("应用程序启动开始,当前时间：{}~", DateUtil.now());
         String basePackages = getBasePackages(primarySource);
-        String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
+        String applicationRootPath = SysConfigInit.getSystemRootFilePath();
         /**
          * 首次启动时，加载系统配置文件到应用运行的用户根目录
          */

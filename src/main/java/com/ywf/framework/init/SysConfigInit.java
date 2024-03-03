@@ -15,8 +15,6 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Iterator;
 
-;
-
 /**
  * 启动资源加载
  *
@@ -31,7 +29,7 @@ public class SysConfigInit extends ApplicationContext {
 
     public static void initConfigToApplicationRunRoot() {
         // 系统配置文件初始化
-        configFileInit(getApplicationRunRootPath());
+        configFileInit(getSystemRootFilePath());
         // 系统配置属性初始化
         appRootConfigInitInit();
     }
@@ -62,7 +60,7 @@ public class SysConfigInit extends ApplicationContext {
          * 获取程序运行的根目录
          */
         logger.info("加载应用配置信息到用户目录，程序开始执行~");
-        String appRunUserPath = getApplicationRunRootPath();
+        String appRunUserPath = getSystemRootFilePath();
         ResourceContext resourceUserRunContext = new ResourceContext(appRunUserPath, ResourceContext.FILE_TYPE);
         PropertiesConfiguration userRunProperties = resourceUserRunContext.getResource();
         ObjectUtils.setBean(GlobalKEY.USER_PRPPERTIES_CONFIG, userRunProperties);
@@ -96,7 +94,7 @@ public class SysConfigInit extends ApplicationContext {
      *
      * @date 2023/12/3 20:04
      */
-    public static String getApplicationRunRootPath() {
+    public static String getSystemRootFilePath() {
         // 获取用户目录
         String userHome = SYSTEM_CONFIG_HOME;
         // 创建文件夹路径
@@ -106,20 +104,15 @@ public class SysConfigInit extends ApplicationContext {
     }
 
     /**
-     * 获取系统配置文件
-     * config/application.properties
+     * 获取用户配置目录
      *
      * @date 2023/12/3 20:04
      */
-    public static String getApplicationResourcePath(String resourceName) {
-        ClassLoader classLoader = ResourceUtil.class.getClassLoader();
-        URL resourceUrl = classLoader.getResource(resourceName);
-        if (resourceUrl != null) {
-            return resourceUrl.getPath();
-        } else {
-            return null;
-        }
+    public static String getSystemRootPath() {
+        // 获取用户目录
+        String userHome = SYSTEM_CONFIG_HOME;
+        // 创建文件夹路径
+        return userHome + SYSTEM_CONFIG_FOLDER_PATH;
     }
-
 
 }

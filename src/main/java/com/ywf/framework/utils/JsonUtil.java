@@ -1,5 +1,9 @@
 package com.ywf.framework.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ywf.framework.enums.TextTypeEnum;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Document;
@@ -16,7 +20,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 public class JsonUtil {
-    private static String space = "    ";
+    private static final String FOUR_SPACE = "    ";
     private static boolean existLeft = false;
 
     private JsonUtil() {
@@ -126,7 +130,7 @@ public class JsonUtil {
     private static String indent(int number) {
         StringBuffer result = new StringBuffer();
         for (int i = 0; i < number; i++) {
-            result.append(space);
+            result.append(FOUR_SPACE);
         }
         return result.toString();
     }
@@ -205,6 +209,28 @@ public class JsonUtil {
             return out.toString();
         } catch (Exception e) {
             throw new RuntimeException("Error occurs when pretty-printing xml:\n" + xmlString, e);
+        }
+    }
+
+    /**
+     * 将对象按以格式化json的方式写出
+     * 使用的json为Jackson
+     *
+     * @param obj obj
+     * @return 格式化的json字符串
+     * @throws JsonProcessingException JsonProcessingException
+     */
+    public static String formatJSONObject(Object obj) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            // 配置四个空格的缩进
+            DefaultPrettyPrinter.Indenter indenter = new DefaultIndenter(FOUR_SPACE, DefaultIndenter.SYS_LF);
+            DefaultPrettyPrinter printer = new DefaultPrettyPrinter();
+            printer.indentObjectsWith(indenter); // 缩进JSON对象
+            printer.indentArraysWith(indenter);  // 缩进JSON数组
+            return mapper.writer(printer).writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("JSON格式化失败：" + e.getMessage());
         }
     }
 }

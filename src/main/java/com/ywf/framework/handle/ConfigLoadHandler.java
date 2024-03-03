@@ -1,5 +1,6 @@
 package com.ywf.framework.handle;
 
+import cn.hutool.json.JSONUtil;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.annotation.PropertySource;
@@ -77,7 +78,7 @@ public class ConfigLoadHandler {
             Object configInstance = ReflectUtils.constructInstance(configClass);
             // 将Properties配置文件转换为配置类
             Object instanceObject = ReflectUtils.propConvertObject(configuration, configInstance);
-            logger.info("配置类实例化信息{}", instanceObject);
+            logger.info("配置类实例化信息{}", JSONUtil.toJsonStr(instanceObject));
             //对有Autowired注解的属性字段实例化注入
             fieldInstances(instanceObject, fieldClassesAnno);
             logger.info("配置类实例化结束~");
@@ -97,7 +98,7 @@ public class ConfigLoadHandler {
             Class<?> declaringClass = field.getDeclaringClass();
             try {
                 field.set(declaringClass, config);
-                logger.info("属性注入:{}", field.getDeclaringClass().getName()+"."+field.getName());
+                logger.info("属性注入:{}", field.getDeclaringClass().getName() + "." + field.getName());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }

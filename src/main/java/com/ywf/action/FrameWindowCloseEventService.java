@@ -43,7 +43,7 @@ public class FrameWindowCloseEventService extends WindowAdapter {
      */
     public static void saveApplicationConfiguration() {
         PropertiesConfiguration targetProps = ReflectUtils.objectConvertProp(applicationContext);
-        String applicationRootPath = SysConfigInit.getApplicationRunRootPath();
+        String applicationRootPath = SysConfigInit.getSystemRootFilePath();
         PropertiesUtil.getInstance().store(applicationRootPath, targetProps);
         logger.info("当前用户配置信息保存成功：{}", JSONUtil.toJsonStr(applicationContext));
     }
