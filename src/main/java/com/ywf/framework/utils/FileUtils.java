@@ -3,10 +3,7 @@ package com.ywf.framework.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ywf.framework.ioc.ResourceContext;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * 文件工具类
@@ -16,6 +13,9 @@ import java.io.InputStream;
  */
 public class FileUtils {
 
+    public static final int FILE_TYPE = 1;
+    public static final int STREAM_TYPE = 2;
+
     /**
      * 读取JSON文件为实体对象
      *
@@ -24,15 +24,25 @@ public class FileUtils {
      * @param <T>
      * @return
      */
-    public static <T> T readJSONFile(String resourceUrl, Class<T> classType) {
-        T object;
-        try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream(resourceUrl)) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            object = objectMapper.readValue(inputStream, classType);
-        } catch (IOException e) {
-            throw new RuntimeException("JSON文件加载失败：" + e.getMessage());
+    public static <T> T readJSONFile(String resourceUrl, Class<T> classType, int resourceType) {
+        switch (resourceType) {
+            case FILE_TYPE:
+                try (FileReader reader = new FileReader(resourceUrl)) {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    return objectMapper.readValue(reader, classType);
+                } catch (IOException e) {
+                    throw new RuntimeException("JSON文件加载失败：" + e.getMessage());
+                }
+            case STREAM_TYPE:
+                try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream(resourceUrl)) {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    return objectMapper.readValue(inputStream, classType);
+                } catch (IOException e) {
+                    throw new RuntimeException("JSON文件加载失败：" + e.getMessage());
+                }
+            default:
+                return null;
         }
-        return object;
     }
 
     /**
