@@ -503,6 +503,27 @@ public class MenuEventService {
     }
 
     /**
+     * 设置界面语言事件注册
+     *
+     * @param languageMenu
+     * @date 2023/12/16 22:13
+     */
+    public void setupLanguageActionPerformed(JMenu languageMenu) {
+        String language = applicationContext.getSystemLanguage();
+        for (Component menuComponent : languageMenu.getMenuComponents()) {
+            if (menuComponent instanceof LanguageRadioButtonMenuItem) {
+                LanguageRadioButtonMenuItem languageRadioMenuitem = (LanguageRadioButtonMenuItem) menuComponent;
+                if (language.equals(languageRadioMenuitem.getLanguageKey())) {
+                    languageRadioMenuitem.setSelected(true);
+                }
+                languageRadioMenuitem.addActionListener(e -> {
+                    applicationContext.setSystemLanguage(languageRadioMenuitem.getLanguageKey());
+                });
+            }
+        }
+    }
+
+    /**
      * 图片质量按钮组事件注册
      *
      * @param pictureQualityMenu
@@ -525,7 +546,6 @@ public class MenuEventService {
 
     /**
      * 打开查找对话框
-     *
      */
     public void showFindDialogActionPerformed() {
         FindPanelBuilder.getLayout().showHideActionPerformed();

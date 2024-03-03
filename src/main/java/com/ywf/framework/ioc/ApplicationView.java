@@ -98,6 +98,7 @@ public class ApplicationView {
         try {
             String[] language = StrUtils.strSplit(applicationContext.getSystemLanguage());
             Locale.setDefault(new Locale(language[0], language[1]));
+            JComponent.setDefaultLocale(Locale.getDefault());
         } catch (Exception e) {
             logger.error("APP国际化失败", e);
         }

@@ -4,10 +4,7 @@ import com.ywf.action.MenuEventService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.MenuAction;
 import com.ywf.framework.config.MenuBarKit;
-import com.ywf.framework.enums.FontEnum;
-import com.ywf.framework.enums.PictureQualityEnum;
-import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.enums.TextConvertEnum;
+import com.ywf.framework.enums.*;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +86,7 @@ public class MenuBarBuilder {
     private JMenu frameFontMenu, fontStyleMenu, fontSizeMenu;
     private JMenu facadeMenu;
     private MenuAction showToolBarAction, showMenuBarAction;
+    private JMenu languageMenu;
     private JCheckBoxMenuItem showToolBarMenuItem, showMenuBarMenuItem;
     private MenuAction editSetupAction, lineSetupAction, showlineNumAction;
     private JMenuItem editSetupMenuItem, lineSetupMenuItem, showlineNumMenuItem;
@@ -197,6 +195,15 @@ public class MenuBarBuilder {
         facadeMenu.add(showToolBarMenuItem = createCheckBoxMenu(showToolBarAction));
         facadeMenu.add(showMenuBarMenuItem = createCheckBoxMenu(showMenuBarAction));
 
+        setupMenu.add(languageMenu);
+        ButtonGroup languageButtonGroup = new ButtonGroup();
+        for (LanguageEnum value : LanguageEnum.values()) {
+            LanguageRadioButtonMenuItem languageRadioMenuitem = new LanguageRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getLanguage() + "_" + value.getCountry());
+            languageButtonGroup.add(languageRadioMenuitem);
+            languageMenu.add(languageRadioMenuitem);
+        }
+        MenuEventService.getInstance().setupLanguageActionPerformed(languageMenu);
+
         setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
         setupMenu.add(lineSetupMenuItem = createCheckBoxMenu(lineSetupAction));
         setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
@@ -304,21 +311,22 @@ public class MenuBarBuilder {
     }
 
     private void createMenus() {
-        ResourceBundle msg = getResourceBundle();
-        fileMenu = new JMenu(getMessage(msg, "MenuBar.File"));
-        editMenu = new JMenu(getMessage(msg, "MenuBar.Edit"));
+        fileMenu = new JMenu(getMessage("MenuBar.File"));
+        editMenu = new JMenu(getMessage("MenuBar.Edit"));
 
-        setupMenu = new JMenu(getMessage(msg, "MenuBar.Setting"));
-        frameFontMenu = new JMenu(getMessage(msg, "MenuItem.FrameFont"));
-        fontStyleMenu = new JMenu(getMessage(msg, "MenuItem.FrameFont.FontStyle"));
-        fontSizeMenu = new JMenu(getMessage(msg, "MenuItem.FrameFont.FontSize"));
+        setupMenu = new JMenu(getMessage("MenuBar.Setting"));
+        frameFontMenu = new JMenu(getMessage("MenuItem.FrameFont"));
+        fontStyleMenu = new JMenu(getMessage("MenuItem.FrameFont.FontStyle"));
+        fontSizeMenu = new JMenu(getMessage("MenuItem.FrameFont.FontSize"));
 
-        facadeMenu = new JMenu(getMessage(msg, "MenuItem.facadeMenu"));
-        pictureQualityMenu = new JMenu(getMessage(msg, "MenuItem.PictureQuality"));
-        chineseConverMenu = new JMenu(getMessage(msg, "MenuItem.ChineseConver"));
+        facadeMenu = new JMenu(getMessage("MenuItem.facadeMenu"));
+        languageMenu = new JMenu(getMessage("MenuItem.languageMenu"));
 
-        themesMenu = new JMenu(getMessage(msg, "MenuBar.Theme"));
-        helpMenu = new JMenu(getMessage(msg, "MenuBar.Help"));
+        pictureQualityMenu = new JMenu(getMessage("MenuItem.PictureQuality"));
+        chineseConverMenu = new JMenu(getMessage("MenuItem.ChineseConver"));
+
+        themesMenu = new JMenu(getMessage("MenuBar.Theme"));
+        helpMenu = new JMenu(getMessage("MenuBar.Help"));
     }
 
     private ResourceBundle getResourceBundle() {
@@ -328,7 +336,8 @@ public class MenuBarBuilder {
         return resourceBundle;
     }
 
-    private String getMessage(ResourceBundle msg, String keyRoot) {
+    private String getMessage(String keyRoot) {
+        ResourceBundle msg = getResourceBundle();
         return msg.getString(keyRoot + ".Name");
     }
 
