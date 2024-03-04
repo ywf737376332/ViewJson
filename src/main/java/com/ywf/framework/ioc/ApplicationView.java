@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.handle.ConfigLoadHandler;
@@ -81,7 +82,7 @@ public class ApplicationView {
         // 创建界面
         try {
             SwingUtilities.invokeLater(() -> {
-                applicationView.createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
+                applicationView.createAndShowGUI(MessageConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
             });
         } catch (Exception e) {
             logger.error("APP界面加载失败", e);

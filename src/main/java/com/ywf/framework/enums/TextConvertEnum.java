@@ -8,14 +8,16 @@ package com.ywf.framework.enums;
  */
 public enum TextConvertEnum {
 
-    CONVERT_CLOSED(0, "转码功能关闭"),
-    CH_TO_UN(1, "中文转Unicode"),
-    UN_TO_CH(2, "Unicode转中文");
+    CONVERT_CLOSED("MenuItem.Chinese.ConvertClosed",0, "转码功能关闭"),
+    CH_TO_UN("MenuItem.Chinese.ChToUn",1, "中文转Unicode"),
+    UN_TO_CH("MenuItem.Chinese.UnToCh",2, "Unicode转中文");
 
+    private String messageKey;
     private int converType;
     private String converDesc;
 
-    TextConvertEnum(int converType, String converDesc) {
+    TextConvertEnum(String messageKey,int converType, String converDesc) {
+        this.messageKey = messageKey;
         this.converType = converType;
         this.converDesc = converDesc;
     }
@@ -29,19 +31,15 @@ public enum TextConvertEnum {
         return null;
     }
 
+    public String getMessageKey() {
+        return messageKey;
+    }
+
     public int getConverType() {
         return converType;
     }
 
-    public void setConverType(int converType) {
-        this.converType = converType;
-    }
-
     public String getConverDesc() {
         return converDesc;
-    }
-
-    public void setConverDesc(String converDesc) {
-        this.converDesc = converDesc;
     }
 }

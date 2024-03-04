@@ -6,6 +6,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.LocationEnum;
 import com.ywf.framework.enums.SystemThemesEnum;
@@ -88,7 +89,7 @@ public class MenuEventService {
     public void formatJsonActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, "请输入json字符串！");
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         SwingWorker<Boolean, String> swingWorker = new SwingWorker<Boolean, String>() {
@@ -177,7 +178,7 @@ public class MenuEventService {
     public void copyJsonActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, "内容不能为空！");
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         try {
@@ -202,7 +203,7 @@ public class MenuEventService {
     public void copyJsonToPictActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, "内容不能为空！");
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         try {
@@ -264,7 +265,7 @@ public class MenuEventService {
     public void saveJsonToFileActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, "保存的内容不能为空！");
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         JFileChooser fileChooser = new JFileChooser();
@@ -295,7 +296,7 @@ public class MenuEventService {
     public void saveJsonToImageActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, "内容不能为空！");
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         JFileChooser fileChooser = new JFileChooser();
@@ -324,7 +325,7 @@ public class MenuEventService {
      * 关于对话框
      */
     public void aboutActionPerformed() {
-        JLabel titleLabel = new JLabel(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
+        JLabel titleLabel = new JLabel(MessageConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
         titleLabel.setIcon(IconUtils.getSVGIcon("icons/logo01.svg", 50, 50));
         titleLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "H1");
         String link = "737376332@qq.com";
@@ -636,7 +637,7 @@ public class MenuEventService {
      */
     public void closeWindowsFrameActionPerformed(JFrame frame) {
         int confirmed = JOptionPane.showConfirmDialog(frame,
-                "您是否想退出当前应用？", "确认关闭",
+                MessageConstant.SYSTEM_EXIT_TIP, MessageConstant.SYSTEM_CONFIRM_CLOSE_TIP,
                 JOptionPane.YES_NO_OPTION);
         if (confirmed == JOptionPane.YES_OPTION) {
             // 屏幕尺寸大小保存

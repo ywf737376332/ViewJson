@@ -6,6 +6,7 @@ import com.ywf.component.BasePanel;
 import com.ywf.component.LabelBarBuilder;
 import com.ywf.component.StateLabel;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
@@ -48,7 +49,7 @@ public class PanelView {
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
         FlatLabel labelCopyrightLabel = new FlatLabel();
         labelCopyrightLabel.setIcon(IconUtils.getImageIcon("/icons/auth.png"));
-        labelCopyright = new JLabel("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:9px\">作者：莫斐鱼</span></html>", IconUtils.getSVGIcon("icons/auth.svg", 12, 12), SwingConstants.LEFT);
+        labelCopyright = new JLabel("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + MessageConstant.AUTHOR_TAG + MessageConstant.AUTHOR + "</span></html>", IconUtils.getSVGIcon("icons/auth.svg", 12, 12), SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156, 170, 207));
         labelCopyright.addMouseListener(new CopyrightMouseListener());
 
@@ -58,7 +59,7 @@ public class PanelView {
         panelStateBar.setPreferredSize(new Dimension(560, 20));
         panelStateBar.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-        FlatLabel runTimeLabel = LabelBarBuilder.createLabel("运行时长：");
+        FlatLabel runTimeLabel = LabelBarBuilder.createLabel(MessageConstant.RUNTIME_TAG);
         runTimeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         StateLabel runTimeValue = LabelBarBuilder.createGlobalLabel(GlobalKEY.STATE_BAR_RUN_TIME);
         runTimeValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
@@ -66,13 +67,13 @@ public class PanelView {
         Timer timer = new Timer(1000, e -> StateBarEventService.getInstance().stateBarTimeActionPerformed(runTimeValue));
         StateBarEventService.getInstance().frameFocusActionPerformed(frame, timer);
 
-        FlatLabel fileTypeLabel = LabelBarBuilder.createLabel("内容类型：");
+        FlatLabel fileTypeLabel = LabelBarBuilder.createLabel(MessageConstant.CONTEXT_TYPE_TAG);
         fileTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
         FlatLabel fileTypeValue = LabelBarBuilder.createGlobalLabel(new Color(167, 179, 211), GlobalKEY.STATE_BAR_TEXT_TYPE);
         fileTypeValue.setText("<html><span color=\"#389FD6\" style=\"font-size:9px\">文本类型</span></html>");
         fileTypeValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
-        FlatLabel fileLengthLabel = LabelBarBuilder.createLabel("字数统计：");
+        FlatLabel fileLengthLabel = LabelBarBuilder.createLabel(MessageConstant.WORDS_NUMS_TAG);
         fileLengthLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         FlatLabel fileLengthValue = LabelBarBuilder.createGlobalLabel(new Color(167, 179, 211), GlobalKEY.STATE_BAR_TEXT_LENGTH);
         fileLengthValue.setText("<html><span color=\"#107C41\" style=\"font-size:9px\">0词</span></html>");

@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.ywf.component.TextAreaBuilder;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.UIUtils;
@@ -28,7 +29,7 @@ public class MainTest extends JFrame {
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         FlatLaf.registerCustomDefaultsSource("com.zhk.toast.theme");
         FlatLightLaf.setup();
-        new MainTest().createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
+        new MainTest().createAndShowGUI(MessageConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
     }
 
     public void createAndShowGUI(String title) {
@@ -65,7 +66,7 @@ public class MainTest extends JFrame {
         JButton btnFormat = new JButton("格式化");
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
         btnFormat.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "请输入json字符串！");
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
         });
         JButton btnFullScreen = new JButton("全屏");
         btnFullScreen.setIcon(IconUtils.getSVGIcon("icons/fullScreen.svg"));

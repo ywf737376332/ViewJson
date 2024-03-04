@@ -4,6 +4,7 @@ import com.formdev.flatlaf.extras.FlatSVGUtils;
 
 import com.formdev.flatlaf.extras.components.FlatProgressBar;
 import com.formdev.flatlaf.ui.FlatProgressBarUI;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.ConvertUtils;
 import com.ywf.framework.utils.IconUtils;
@@ -40,7 +41,7 @@ public class DemoSplit extends JFrame {
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
-        new DemoSplit().createAndShowGUI(SystemConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
+        new DemoSplit().createAndShowGUI(MessageConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
     }
 
     public void createAndShowGUI(String title) {

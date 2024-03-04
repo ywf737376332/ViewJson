@@ -11,9 +11,9 @@ public enum LanguageEnum {
     CHINESE("MenuItem.Chinese","zh","CN"),
     ENGLISH("MenuItem.English","en","US");
 
-    String messageKey;
-    String language;
-    String country;
+    private String messageKey;
+    private String language;
+    private String country;
 
     LanguageEnum(String messageKey, String language, String country) {
         this.messageKey = messageKey;

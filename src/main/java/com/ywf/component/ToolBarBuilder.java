@@ -28,7 +28,6 @@ public class ToolBarBuilder {
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
     private static ResourceBundle resourceBundle;
-    private static final String MSG = "Message";
 
     private JToolBar toolBar;
     private JButton btnFormat, btnCompress, btnEscape, btnUnescape, btnCopyCode, btnCopyPict, btnShowQrcode, btnFind, btnClean;

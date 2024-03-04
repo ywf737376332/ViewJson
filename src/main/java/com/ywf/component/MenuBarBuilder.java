@@ -27,7 +27,6 @@ public class MenuBarBuilder {
     public static ConfigurableApplicationContext applicationContext;
 
     private static ResourceBundle resourceBundle;
-    private static final String MSG = "Message";
 
     /**
      * 文件
@@ -179,14 +178,14 @@ public class MenuBarBuilder {
         frameFontMenu.add(fontStyleMenu);
         ButtonGroup fontNameButtonGroup = new ButtonGroup();
         for (FontEnum.Name value : FontEnum.Name.values()) {
-            JRadioButtonMenuItem fontNameMenuItem = new JRadioButtonMenuItem(value.getName());
+            FontNameRadioButtonMenuItem fontNameMenuItem = new FontNameRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getName());
             fontNameButtonGroup.add(fontNameMenuItem);
             fontStyleMenu.add(fontNameMenuItem);
         }
         frameFontMenu.add(fontSizeMenu);
         ButtonGroup fontSizeButtonGroup = new ButtonGroup();
         for (FontEnum.Size value : FontEnum.Size.values()) {
-            FontSizeRadioButtonMenuItem fontSizeMenuItem = new FontSizeRadioButtonMenuItem(value.getDesc(), value.getSize());
+            FontSizeRadioButtonMenuItem fontSizeMenuItem = new FontSizeRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getSize());
             fontSizeButtonGroup.add(fontSizeMenuItem);
             fontSizeMenu.add(fontSizeMenuItem);
         }
@@ -217,7 +216,7 @@ public class MenuBarBuilder {
         setupMenu.add(pictureQualityMenu);
         ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
         for (PictureQualityEnum value : PictureQualityEnum.values()) {
-            PictureQualityRadioButtonMenuItem pictureQualityMenuItem = new PictureQualityRadioButtonMenuItem(value.getPictureQualityDesc(), value.getPictureQualityState());
+            PictureQualityRadioButtonMenuItem pictureQualityMenuItem = new PictureQualityRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getPictureQualityState());
             pictureQualityButtonGroup.add(pictureQualityMenuItem);
             pictureQualityMenu.add(pictureQualityMenuItem);
         }
@@ -226,7 +225,7 @@ public class MenuBarBuilder {
         setupMenu.add(chineseConverMenu);
         ButtonGroup chineseConverButtonGroup = new ButtonGroup();
         for (TextConvertEnum value : TextConvertEnum.values()) {
-            CHToCNRadioButtonMenuItem chineseConverMenuItem = new CHToCNRadioButtonMenuItem(value.getConverDesc(), value.getConverType());
+            CHToCNRadioButtonMenuItem chineseConverMenuItem = new CHToCNRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getConverType());
             chineseConverButtonGroup.add(chineseConverMenuItem);
             chineseConverMenu.add(chineseConverMenuItem);
         }

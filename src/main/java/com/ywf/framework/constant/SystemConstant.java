@@ -18,15 +18,14 @@ public class SystemConstant implements Serializable {
     /**
      * 全局主要字体
      */
-    public static final Font SYSTEM_DEFAULT_FONT = new Font(FontEnum.Name.micYaHei.getName(), Font.PLAIN, FontEnum.Size.regular.getSize());
-    public static final Font SYSTEM_STATE_BAR_FONT = new Font(FontEnum.Name.micYaHei.getName(), Font.PLAIN, FontEnum.Size.medium.getSize());
+    public static final Font SYSTEM_DEFAULT_FONT = new Font(FontEnum.Name.MicYaHei.getName(), Font.PLAIN, FontEnum.Size.regular.getSize());
+    public static final Font SYSTEM_STATE_BAR_FONT = new Font(FontEnum.Name.MicYaHei.getName(), Font.PLAIN, FontEnum.Size.medium.getSize());
 
     /**
      * 窗口标题及版本号
      */
     public static final String SYSTEM_LOGO = "/icons/logo01.svg";
-    public static final String SYSTEM_TITLE = "JSON工具";   // 窗口最小宽度
-    public static final String SYSTEM_VERSION = "V5.0";   // 窗口最小宽度
+    public static final String SYSTEM_VERSION = "V5.0";   // 版本号
 
     /**
      * 窗口大小最小值

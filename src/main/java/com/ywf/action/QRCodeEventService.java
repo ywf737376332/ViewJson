@@ -4,6 +4,7 @@ import com.ywf.component.DialogBuilder;
 import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.JTabbedSplitEditor;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.utils.ImageUtils;
 import com.ywf.framework.utils.ObjectUtils;
 import org.slf4j.Logger;
@@ -49,7 +50,7 @@ public class QRCodeEventService {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         String text = rSyntaxTextArea.getText();
         if ("".equals(text)) {
-            JOptionPane.showMessageDialog(frame, "内容不能为空！");
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         try {

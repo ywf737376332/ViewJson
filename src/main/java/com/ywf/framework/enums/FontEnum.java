@@ -9,18 +9,23 @@ package com.ywf.framework.enums;
 public class FontEnum {
 
     public enum Name {
-        micYaHei("微软雅黑"),
-        christmasWorship("华文中宋"),
-        arial("黑体"),
-        blackLetter("等线"),
-        StLiti("华文隶书"),
-        YouYuan("幼圆");
+        MicYaHei("MenuItem.FontName.MicYaHei","微软雅黑"),
+        ChristmasWorship("MenuItem.FontName.ChristmasWorship","华文中宋"),
+        Arial("MenuItem.FontName.Arial","黑体"),
+        BlackLetter("MenuItem.FontName.BlackLetter","等线"),
+        StLiti("MenuItem.FontName.StLiti","华文隶书"),
+        YouYuan("MenuItem.FontName.YouYuan","幼圆");
 
-
+        private String msgKey;
         private String name;
 
-        Name(String name) {
+        Name(String msgKey, String name) {
+            this.msgKey = msgKey;
             this.name = name;
+        }
+
+        public String getMsgKey() {
+            return msgKey;
         }
 
         public String getName() {
@@ -29,19 +34,25 @@ public class FontEnum {
     }
 
     public enum Size {
-        mini(8, "迷你"),
-        small(10, "小号"),
-        medium(12, "中等"),
-        regular(14, "常规"),
-        large(16, "大号"),
-        tooLarge(18, "特大号");
+        mini("MenuItem.FontSize.Mini",8, "迷你"),
+        small("MenuItem.FontSize.Small",10, "小号"),
+        medium("MenuItem.FontSize.Medium",12, "中等"),
+        regular("MenuItem.FontSize.Regular",14, "常规"),
+        large("MenuItem.FontSize.Large",16, "大号"),
+        tooLarge("MenuItem.FontSize.TooLarge",18, "特大号");
 
+        private String msgKey;
         private int size;
         private String desc;
 
-        Size(int size, String desc) {
+        Size(String msgKey,int size, String desc) {
+            this.msgKey = msgKey;
             this.size = size;
             this.desc = desc;
+        }
+
+        public String getMsgKey() {
+            return msgKey;
         }
 
         public int getSize() {
