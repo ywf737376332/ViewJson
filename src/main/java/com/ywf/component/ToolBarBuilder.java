@@ -90,7 +90,7 @@ public class ToolBarBuilder {
         // 鼠标悬停时高亮显示按钮
         tool.setOrientation(LocationEnum.convertToolbarLocation(applicationContext.getToolBarLocation()));
         tool.setRollover(true);
-        tool.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
+        tool.setBorder(LocationEnum.convertToolBarBorder(applicationContext.getToolBarLocation())); // 设置边框颜色和宽度
         tool.setMargin(new Insets(2, 10, 2, 10));
         tool.setVisible(applicationContext.getShowToolBarState());
         // 工具条位置监听

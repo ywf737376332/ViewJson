@@ -621,8 +621,10 @@ public class MenuEventService {
         toolBar.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals("orientation")) {
                 int orientation = (Integer) evt.getNewValue();
-                applicationContext.setToolBarLocation(LocationEnum.convertLayoutLocation(orientation));
-                System.out.println("orientation：" + orientation);
+                String layoutLocation = LocationEnum.convertLayoutLocation(orientation);
+                applicationContext.setToolBarLocation(layoutLocation);
+                toolBar.setBorder(LocationEnum.convertToolBarBorder(layoutLocation));
+                toolBar.repaint();
             }
         });
     }
