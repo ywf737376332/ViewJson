@@ -5,7 +5,7 @@ import com.ywf.action.ResourceBundleService;
 import java.util.ResourceBundle;
 
 /**
- * TODO
+ * 国际化常量
  *
  * @Author YWF
  * @Date 2024/3/4 17:37
@@ -38,7 +38,7 @@ public class MessageConstant {
     /**
      * 作者
      */
-    public static final String AUTHOR = getSepMessage("StateBar.Author");
+    public static final String AUTHOR = getMessage("StateBar.Author");
 
     /**
      * 内容类型
@@ -65,7 +65,102 @@ public class MessageConstant {
      */
     public static final String SYSTEM_CONFIRM_CLOSE_TIP = getMessage("System.Confirm.Close.Tip");
 
+    /**
+     * 保存文件提示
+     */
+    public static final String SYSTEM_SAVE_FILE_TAG = getMessage("System.SaveFile.Tag");
 
+    /**
+     * JSON文件
+     * 图片文件
+     */
+    public static final String SYSTEM_JSON_FILE_TYPE = getMessage("System.FileType.Json");
+    public static final String SYSTEM_IMAGE_FILE_TYPE = getMessage("System.FileType.Image");
+
+    /**
+     * 已将格式化后的JSON结果复制到剪贴板！
+     */
+    public static final String SYSTEM_COPY_JSON_SUCCESS_TIP = getMessage("System.CopyJsonSuccess.Tip");
+
+    /**
+     * 内容复制失败！
+     */
+    public static final String SYSTEM_COPY_JSON_FAIL_TIP = getMessage("System.CopyJsonFail.Tip");
+
+    /**
+     * 图片已复制到剪贴板！
+     */
+    public static final String SYSTEM_COPY_IMAGE_SUCCESS_TIP = getMessage("System.CopyImageSuccess.Tip");
+
+    /**
+     * 图片复制失败！
+     */
+    public static final String SYSTEM_COPY_IMAGE_FAIL_TIP = getMessage("System.CopyImageFail.Tip");
+
+    /**
+     * 图片已保存
+     */
+    public static final String SYSTEM_IMAGE_SAVE_SUCCESS = getSepMessage("System.Image.SaveSuccess");
+
+    /**
+     * 图片保存失败
+     */
+    public static final String SYSTEM_IMAGE_SAVE_FAIL = getMessage("System.Image.SaveFail");
+
+    /**
+     * 文件已保存
+     */
+    public static final String SYSTEM_FILE_SAVE_SUCCESS = getSepMessage("System.File.SaveSuccess");
+
+    /**
+     * 文件保存失败
+     */
+    public static final String SYSTEM_FILE_SAVE_FAIL = getMessage("System.File.SaveFail");
+
+    /**
+     * 二维码展示
+     */
+    public static final String SYSTEM_SHOW_QRCODE = getMessage("System.Show.QRcode");
+
+    /**
+     * 二维码生成失败
+     */
+    public static final String SYSTEM_GRENT_QRCODE_FAIL = getMessage("System.GenerateQRcode.Fail");
+
+    /**
+     * 错误
+     */
+    public static final String SYSTEM_ERROR_TIP = getMessage("System.Error.Tip");
+
+    /**
+     * 提示
+     */
+    public static final String SYSTEM_WARN_TIP = getMessage("System.Warn.Tip");
+
+    /**
+     * 查找
+     */
+    public static final String SYSTEM_FIND = getMessage("System.Find");
+
+    /**
+     * 请输入您要查找的内容...
+     */
+    public static final String SYSTEM_FIND_CONTENT_TIP = getMessage("System.FindContent.Tip");
+
+    /**
+     * 下一个
+     */
+    public static final String SYSTEM_FIND_NEXT = getMessage("System.Find.Next");
+
+    /**
+     * 上一个
+     */
+    public static final String SYSTEM_FIND_PREVIOUS = getMessage("System.Find.Previous");
+
+    /**
+     * 0个匹配项
+     */
+    public static final String SYSTEM_FIND_RESULTS_TIP = getMessage("System.FindResults.Tip");
 
     private static String getSepMessage(String keyRoot) {
         return resourceBundle.getString(keyRoot + ".Name") + Separator;

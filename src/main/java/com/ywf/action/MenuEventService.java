@@ -28,10 +28,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -89,7 +86,7 @@ public class MenuEventService {
     public void formatJsonActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         SwingWorker<Boolean, String> swingWorker = new SwingWorker<Boolean, String>() {
@@ -178,7 +175,7 @@ public class MenuEventService {
     public void copyJsonActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         try {
@@ -186,11 +183,11 @@ public class MenuEventService {
                 StringSelection stringSelection = new StringSelection(rSyntaxTextArea.getText());
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(stringSelection, null);
-                JOptionPane.showMessageDialog(frame, "已将格式化后的JSON结果复制到剪贴板！");
+                JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_COPY_JSON_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             });
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "呢欧容复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-            throw new RuntimeException("呢欧容复制失败: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_JSON_FAIL_TIP + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
+            throw new RuntimeException("内容复制失败: " + e.getMessage());
         }
     }
 
@@ -203,7 +200,7 @@ public class MenuEventService {
     public void copyJsonToPictActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         try {
@@ -217,43 +214,11 @@ public class MenuEventService {
                 g2d.dispose();
                 // 保存图片到剪贴板
                 ImageUtils.imageToClipboard(image);
-                JOptionPane.showMessageDialog(frame, "图片已复制到剪贴板！");
+                JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             });
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "图片复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_IMAGE_FAIL_TIP + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("图片复制失败: " + e.getMessage());
-        }
-    }
-
-    /**
-     * 按钮初始化事件,改变焦点颜色（没用）
-     *
-     * @param toolbar
-     */
-    public void toolBarForButtonListener(JToolBar toolbar) {
-        for (Component component : toolbar.getComponents()) {
-            if (component instanceof JButton) {
-                component.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                component.addMouseListener(new MouseAdapter() {
-                    JButton button = (JButton) component;
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        button.setForeground(Color.WHITE);
-                        if ("清空内容".equals(button.getText())) {
-                            button.setBackground(new Color(255, 87, 34));
-                        } else {
-                            button.setBackground(new Color(30, 173, 250));
-                        }
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        button.setForeground(Color.BLACK);
-                        button.setBackground(UIManager.getColor("control"));
-                    }
-                });
-            }
         }
     }
 
@@ -265,23 +230,23 @@ public class MenuEventService {
     public void saveJsonToFileActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        FileFilter fileFilter = new FileNameExtensionFilter("JSON文件", "json");
+        FileFilter fileFilter = new FileNameExtensionFilter(MessageConstant.SYSTEM_JSON_FILE_TYPE, "json");
         fileChooser.setFileFilter(fileFilter);
-        fileChooser.setDialogTitle("保存文件");
+        fileChooser.setDialogTitle(MessageConstant.SYSTEM_SAVE_FILE_TAG);
         if (fileChooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             try {
                 FileWriter fileWriter = new FileWriter(fileToSave + SystemConstant.SAVE_JSON_EXTENSION);
                 fileWriter.write(rSyntaxTextArea.getText());
                 fileWriter.close();
-                JOptionPane.showMessageDialog(frame, "文件已保存： " + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION);
+                JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_FILE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "文件保存失败" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_FILE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
                 throw new RuntimeException("Error saving file: " + e.getMessage());
             }
         }
@@ -296,13 +261,13 @@ public class MenuEventService {
     public void saveJsonToImageActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         JFileChooser fileChooser = new JFileChooser();
-        FileFilter fileFilter = new FileNameExtensionFilter("图片文件", "png");
+        FileFilter fileFilter = new FileNameExtensionFilter(MessageConstant.SYSTEM_IMAGE_FILE_TYPE, "png");
         fileChooser.setFileFilter(fileFilter);
-        fileChooser.setDialogTitle("保存文件");
+        fileChooser.setDialogTitle(MessageConstant.SYSTEM_SAVE_FILE_TAG);
         int userSelection = fileChooser.showSaveDialog(frame);
         int pictureScale = applicationContext.getPictureQualityState();
         if (userSelection == JFileChooser.APPROVE_OPTION) {
@@ -314,8 +279,9 @@ public class MenuEventService {
             g2d.dispose();
             try {
                 ImageIO.write(image, "png", new File(fileToSave.getPath() + SystemConstant.SAVE_IMAGE_EXTENSION));
-                JOptionPane.showMessageDialog(frame, "图片已保存： " + fileToSave.getAbsolutePath() + SystemConstant.SAVE_IMAGE_EXTENSION);
+                JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_IMAGE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_IMAGE_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_IMAGE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
                 throw new RuntimeException("Error saving image: " + e.getMessage());
             }
         }

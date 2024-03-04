@@ -50,12 +50,12 @@ public class QRCodeEventService {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         String text = rSyntaxTextArea.getText();
         if ("".equals(text)) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         try {
             ImageIcon icon = ImageUtils.generatorQRCode(text);
-            DialogBuilder.ShowImageDialog(frame, "二维码展示", icon).setVisible(true);
+            DialogBuilder.ShowImageDialog(frame, MessageConstant.SYSTEM_SHOW_QRCODE, icon).setVisible(true);
         } catch (RuntimeException e) {
             logger.error("二维码生成失败：{}",e.fillInStackTrace());
         }

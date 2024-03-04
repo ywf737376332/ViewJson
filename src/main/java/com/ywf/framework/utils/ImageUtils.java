@@ -8,6 +8,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.ywf.framework.constant.MessageConstant;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +44,7 @@ public class ImageUtils {
             BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
             icon = new ImageIcon(image);
         } catch (WriterException e) {
-            JOptionPane.showMessageDialog(null, "二维码生成失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_GRENT_QRCODE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("二维码生成失败！" + e);
         }
         return icon;
@@ -57,7 +58,7 @@ public class ImageUtils {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(transferable, null);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "图片复制失败！" + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_IMAGE_FAIL_TIP + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("图片复制失败: " + e.getMessage());
         }
     }

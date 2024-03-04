@@ -5,6 +5,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.formdev.flatlaf.extras.components.FlatTextField;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.layout.FindPanelLayout;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.ObjectUtils;
@@ -42,10 +43,10 @@ public class FindPanelBuilder {
 
         JPanel findPanel = new JPanel(new BorderLayout());
         findPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // 设置边框为10像素的空白边框
-        JLabel findLabel = new JLabel("查找:  ", IconUtils.getSVGIcon("icons/find.svg", 16, 16), SwingConstants.RIGHT);
+        JLabel findLabel = new JLabel(MessageConstant.SYSTEM_FIND, IconUtils.getSVGIcon("icons/find.svg", 16, 16), SwingConstants.RIGHT);
         findPanel.add(findLabel, BorderLayout.WEST);
         fieldFind = new FlatTextField();
-        fieldFind.setPlaceholderText("请输入您要查找的内容...");
+        fieldFind.setPlaceholderText(MessageConstant.SYSTEM_FIND_CONTENT_TIP);
         fieldFind.setPadding(new Insets(0, 5, 0, 5));
         fieldFind.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, new Color(130, 128, 128, 130)));
         fieldFind.setShowClearButton(true);
@@ -69,9 +70,9 @@ public class FindPanelBuilder {
         findPanel.add(fieldFind, BorderLayout.CENTER);
 
         JPanel findBtnPanel = new JPanel(new FlowLayout(5, 5, FlowLayout.RIGHT));
-        JButton buttonNext = new JButton("下一个");
+        JButton buttonNext = new JButton(MessageConstant.SYSTEM_FIND_NEXT);
         buttonNext.addActionListener(e -> nextFindActionPerformed());
-        JButton buttonUp = new JButton("上一个");
+        JButton buttonUp = new JButton(MessageConstant.SYSTEM_FIND_PREVIOUS);
         buttonUp.addActionListener(e -> prevFindActionPerformed());
         searchResultLabel = new FlatLabel();
         searchResultLabel.setText(updateSearchResultCounts(0));
@@ -251,7 +252,7 @@ public class FindPanelBuilder {
      * 搜索结果状态栏显示文本
      */
     private static String updateSearchResultCounts(int searchResultCount) {
-        return "<html><span color=\"#849BD9\">" + searchResultCount + " 个匹配项</span>";
+        return "<html><span color=\"#849BD9\">" + searchResultCount + MessageConstant.SYSTEM_FIND_RESULTS_TIP + "</span>";
     }
 
     /**
