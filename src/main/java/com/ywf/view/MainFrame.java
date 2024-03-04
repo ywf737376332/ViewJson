@@ -64,7 +64,7 @@ public class MainFrame extends AbstractWindow {
         mainPanel.add(editPanel, BorderLayout.CENTER);
         mainPanel.add(panelBottom, BorderLayout.SOUTH);
         frame.setJMenuBar(menuBar);
-        frame.getContentPane().add(toolBar, BorderLayout.NORTH);
+        frame.getContentPane().add(toolBar, applicationContext.getToolBarLocation());
         frame.getContentPane().add(mainPanel);
     }
 }

@@ -8,6 +8,7 @@
   "chineseConverState" : 2,
   "pictureQualityState" : 1,
   "systemLanguage" : "zh_CN",
+  "toolBarLocation" : "West",
   "screenSize" : {
     "width" : 1354,
     "height" : 912

@@ -18,11 +18,11 @@ public class ApplicationContext implements Serializable {
      */
     public static final String SYSTEM_CONFIG_HOME = System.getProperty("user.home");
     public static final String SYSTEM_CONFIG_FOLDER_PATH = File.separator + "jsonView";
-    public static final String SYSTEM_CONFIG_FILE_PATH = File.separator + "jsonView.properties";
+    public static final String SYSTEM_CONFIG_FILE_PATH = File.separator + "jsonView.json";
 
     /**
      * 系统设置配置参数
      */
-    public static final String DEFAULT_RESOURCE_PATH = "config/application.properties";
+    public static final String DEFAULT_RESOURCE_PATH = "config/application.json";
 
 }

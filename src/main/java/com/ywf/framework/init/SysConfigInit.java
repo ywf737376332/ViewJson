@@ -1,19 +1,17 @@
 package com.ywf.framework.init;
 
-import cn.hutool.core.io.resource.ResourceUtil;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.ioc.ApplicationContext;
-import com.ywf.framework.ioc.ResourceContext;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.ywf.framework.utils.FileUtils;
 import com.ywf.framework.utils.ObjectUtils;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import com.ywf.framework.utils.ReflectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
-import java.util.Iterator;
 
 /**
  * 启动资源加载
@@ -61,29 +59,19 @@ public class SysConfigInit extends ApplicationContext {
          */
         logger.info("加载应用配置信息到用户目录，程序开始执行~");
         String appRunUserPath = getSystemRootFilePath();
-        ResourceContext resourceUserRunContext = new ResourceContext(appRunUserPath, ResourceContext.FILE_TYPE);
-        PropertiesConfiguration userRunProperties = resourceUserRunContext.getResource();
-        ObjectUtils.setBean(GlobalKEY.USER_PRPPERTIES_CONFIG, userRunProperties);
+        ConfigurableApplicationContext applicationContextUser = FileUtils.readJSONFile(appRunUserPath, ConfigurableApplicationContext.class, FileUtils.FILE_TYPE);
+
+        ObjectUtils.setBean(GlobalKEY.USER_PRPPERTIES_CONFIG, applicationContextUser);
         /**
          * 读取系统默认的配置文件
          */
         String resourcePath = DEFAULT_RESOURCE_PATH;
-        ResourceContext resourceDefaultContext = new ResourceContext(resourcePath, ResourceContext.STREAM_TYPE);
-        PropertiesConfiguration defaultProperties = resourceDefaultContext.getResource();
-        ObjectUtils.setBean(GlobalKEY.DEFAULT_PRPPERTIES_CONFIG, defaultProperties);
-        Iterator<String> iterator = defaultProperties.getKeys();
-        int counts = 0;
-        while (iterator.hasNext()) {
-            String key = iterator.next();
-            if (!userRunProperties.containsKey(key)) {
-                Object value = defaultProperties.getProperty(key);
-                userRunProperties.setProperty(key, value);
-                counts++;
-                logger.info("配置加载中... 加载次数：{}, 键：{},值：{}",counts,key,value);
-            }
-        }
+        ConfigurableApplicationContext applicationContextDefault = FileUtils.readJSONFile(resourcePath, ConfigurableApplicationContext.class, FileUtils.STREAM_TYPE);
+        ObjectUtils.setBean(GlobalKEY.DEFAULT_PRPPERTIES_CONFIG, applicationContextDefault);
+
+        int counts = ReflectUtils.copyObjectFiledValue(applicationContextDefault, applicationContextUser);
         if (counts > 0) {
-            resourceUserRunContext.store();
+            FileUtils.saveJSONFile(applicationContextUser, appRunUserPath);
             logger.info("加载应用配置信息到用户目录，映射结束，配置信息保存到文件");
         }
         logger.info("加载应用配置信息到用户目录，程序执行结束~");

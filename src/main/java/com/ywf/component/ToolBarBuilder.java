@@ -1,9 +1,11 @@
 package com.ywf.component;
 
+import com.ywf.action.MenuEventService;
 import com.ywf.action.ResourceBundleService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.MenuAction;
 import com.ywf.framework.config.MenuBarKit;
+import com.ywf.framework.enums.LocationEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,10 +88,13 @@ public class ToolBarBuilder {
         // 可移动工具栏
         tool.setFloatable(true);
         // 鼠标悬停时高亮显示按钮
+        tool.setOrientation(LocationEnum.convertToolbarLocation(applicationContext.getToolBarLocation()));
         tool.setRollover(true);
         tool.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(130, 128, 128, 130))); // 设置边框颜色和宽度
         tool.setMargin(new Insets(2, 10, 2, 10));
         tool.setVisible(applicationContext.getShowToolBarState());
+        // 工具条位置监听
+        MenuEventService.getInstance().toolBarLocationChangedEventListener(tool);
         return tool;
     }
 

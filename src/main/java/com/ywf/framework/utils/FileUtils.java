@@ -1,5 +1,6 @@
 package com.ywf.framework.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ywf.framework.ioc.ResourceContext;
 
@@ -25,23 +26,34 @@ public class FileUtils {
      * @return
      */
     public static <T> T readJSONFile(String resourceUrl, Class<T> classType, int resourceType) {
+        ObjectMapper objectMapper = new ObjectMapper();
         switch (resourceType) {
             case FILE_TYPE:
                 try (FileReader reader = new FileReader(resourceUrl)) {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    return objectMapper.readValue(reader, classType);
+                    return convertObject(objectMapper, reader, classType);
                 } catch (IOException e) {
                     throw new RuntimeException("JSON文件加载失败：" + e.getMessage());
                 }
             case STREAM_TYPE:
                 try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream(resourceUrl)) {
-                    ObjectMapper objectMapper = new ObjectMapper();
                     return objectMapper.readValue(inputStream, classType);
                 } catch (IOException e) {
                     throw new RuntimeException("JSON文件加载失败：" + e.getMessage());
                 }
             default:
                 return null;
+        }
+    }
+
+    private static <T> T convertObject(ObjectMapper objectMapper, FileReader reader, Class<T> classType) {
+        try {
+            return objectMapper.readValue(reader, classType);
+        } catch (IOException e) {
+            try {
+                return objectMapper.readValue("{}", classType);
+            } catch (JsonProcessingException jsonProcessingException) {
+                throw new RuntimeException("JSON文件加载失败：" + e.getMessage());
+            }
         }
     }
 

@@ -3,8 +3,8 @@ package com.ywf.framework.utils;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.WeakConcurrentMap;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +13,6 @@ import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 /**
  * 利用反射将Properties对象转换为对象
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class ReflectUtils {
 
-    private static final Log LOG = LogFactory.getLog(ReflectUtils.class);
+    private final static Logger logger = LoggerFactory.getLogger(ReflectUtils.class);
 
     /**
      * 字段缓存
@@ -138,7 +137,7 @@ public class ReflectUtils {
                 }
                 Object val = sourceProps.getProperty(name);
                 if (val == null) {
-                    LOG.warn("当前字段：【" + name + "】为空");
+                    logger.warn("当前字段：【{}】为空", name);
                 }
                 setValues(target, name, typeName, val);
             } catch (NoSuchMethodException e) {
@@ -237,4 +236,45 @@ public class ReflectUtils {
         }
     }
 
+    /**
+     * 通过反射获取属性的值
+     *
+     * @param obj       对象
+     * @param fieldName 属性名称
+     * @param <T>
+     * @return
+     */
+    public static <T> Object getFieldValue(T obj, String fieldName) {
+        Class<?> clazz = obj.getClass();
+        try {
+            Field field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.get(obj);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException("不存在该属性名：" + e.getMessage());
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("字段访问受限：" + e.getMessage());
+        }
+    }
+
+    public static <T> int copyObjectFiledValue(T defaultSettings, T userSettings) {
+        int counts = 0;
+        for (Field field : getFields(userSettings.getClass())) {
+            field.setAccessible(true);
+            try {
+                field.setAccessible(true);
+                Object fieldValue = field.get(userSettings);
+                String fieldName = field.getName();
+                if (fieldValue == null) {
+                    Object defaultValue = getFieldValue(defaultSettings, fieldName);
+                    field.set(userSettings, defaultValue);
+                    counts++;
+                    logger.info("配置拷贝中... 拷贝次数：{}, 属性名称：{},默认值：{}", counts, fieldName, defaultValue);
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return counts;
+    }
 }

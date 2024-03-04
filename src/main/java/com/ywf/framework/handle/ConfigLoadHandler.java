@@ -5,9 +5,9 @@ import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.annotation.PropertySource;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.framework.utils.ReflectUtils;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -71,18 +71,14 @@ public class ConfigLoadHandler {
         Set<Field> fieldClassesAnno = reflections.getFieldsAnnotatedWith(Autowired.class);
         logger.info("扫描实例化注入的类:{}", fieldClassesAnno);
         // 从本地文件Properties中夹在配置文件到Properties
-        PropertiesConfiguration configuration = ObjectUtils.getBean(GlobalKEY.USER_PRPPERTIES_CONFIG);
+        ConfigurableApplicationContext applicationContext = ObjectUtils.getBean(GlobalKEY.USER_PRPPERTIES_CONFIG);
+        logger.info("配置类属性字段实例化注入开始~");
         for (Class<?> configClass : configClassesAnno) {
-            logger.info("配置类实例化开始~");
-            // 创建配置类
-            Object configInstance = ReflectUtils.constructInstance(configClass);
-            // 将Properties配置文件转换为配置类
-            Object instanceObject = ReflectUtils.propConvertObject(configuration, configInstance);
-            logger.info("配置类实例化信息{}", JSONUtil.toJsonStr(instanceObject));
+            logger.info("配置类实例化信息{}", JSONUtil.toJsonStr(applicationContext));
             //对有Autowired注解的属性字段实例化注入
-            fieldInstances(instanceObject, fieldClassesAnno);
-            logger.info("配置类实例化结束~");
+            fieldInstances(applicationContext, fieldClassesAnno);
         }
+        logger.info("配置类属性字段实例化注入结束~");
     }
 
     /**

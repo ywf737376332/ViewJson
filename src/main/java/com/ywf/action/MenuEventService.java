@@ -7,6 +7,7 @@ import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.enums.LocationEnum;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
@@ -26,7 +27,10 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -606,6 +610,21 @@ public class MenuEventService {
      */
     public void closeTabbedSplitEditorActionPerformed(RTextArea syntaxTextArea) {
         tabbedSplitEditor.closeAbleTabbed(syntaxTextArea);
+    }
+
+    /**
+     * 工具栏位置改变事件
+     *
+     * @param toolBar
+     */
+    public void toolBarLocationChangedEventListener(JToolBar toolBar) {
+        toolBar.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals("orientation")) {
+                int orientation = (Integer) evt.getNewValue();
+                applicationContext.setToolBarLocation(LocationEnum.convertLayoutLocation(orientation));
+                System.out.println("orientation：" + orientation);
+            }
+        });
     }
 
     /**

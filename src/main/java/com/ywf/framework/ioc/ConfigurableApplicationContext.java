@@ -3,7 +3,6 @@ package com.ywf.framework.ioc;
 import com.ywf.framework.annotation.PropertySource;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * 应用配置类
@@ -34,6 +33,8 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     private Integer pictureQualityState;
     // 系统语言
     private String systemLanguage;
+    // 工具栏方向
+    private String toolBarLocation;
     // 屏幕大小
     private ScreenSize screenSize;
     // 字体样式
@@ -180,7 +181,6 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         this.pictureQualityState = pictureQualityState;
     }
 
-
     public String getSystemLanguage() {
         return systemLanguage;
     }
@@ -205,6 +205,18 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         this.fontStyle = fontStyle;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getToolBarLocation() {
+        return toolBarLocation;
+    }
+
+    public void setToolBarLocation(String toolBarLocation) {
+        this.toolBarLocation = toolBarLocation;
+    }
+
     @Override
     public String toString() {
         return "ConfigurableApplicationContext{" +
@@ -217,21 +229,9 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                 ", chineseConverState=" + chineseConverState +
                 ", pictureQualityState=" + pictureQualityState +
                 ", systemLanguage='" + systemLanguage + '\'' +
+                ", toolBarLocation=" + toolBarLocation +
                 ", screenSize=" + screenSize +
                 ", fontStyle=" + fontStyle +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ConfigurableApplicationContext that = (ConfigurableApplicationContext) o;
-        return Objects.equals(textAreaEditState, that.textAreaEditState) && Objects.equals(textAreaBreakLineState, that.textAreaBreakLineState) && Objects.equals(textAreaShowlineNumState, that.textAreaShowlineNumState) && Objects.equals(showToolBarState, that.showToolBarState) && Objects.equals(showMenuBarState, that.showMenuBarState) && Objects.equals(lastSystemThemes, that.lastSystemThemes) && Objects.equals(chineseConverState, that.chineseConverState) && Objects.equals(pictureQualityState, that.pictureQualityState) && Objects.equals(systemLanguage, that.systemLanguage) && Objects.equals(screenSize, that.screenSize) && Objects.equals(fontStyle, that.fontStyle);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(textAreaEditState, textAreaBreakLineState, textAreaShowlineNumState, showToolBarState, showMenuBarState, lastSystemThemes, chineseConverState, pictureQualityState, systemLanguage, screenSize, fontStyle);
     }
 }
