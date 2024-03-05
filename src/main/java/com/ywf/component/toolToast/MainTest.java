@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
 
 /**
  * TODO
@@ -48,8 +47,12 @@ public class MainTest extends JFrame {
         setVisible(true);
     }
 
+    private JPanel mainPanel;
+    //private JToolBar toolBar;
+    private boolean showToolBarText = true;
+
     private void initUI(JFrame frame) {
-        JPanel mainPanel = new JPanel();
+        mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         UIManager.put("Toast.useEffectss", true);
 
@@ -60,38 +63,15 @@ public class MainTest extends JFrame {
         editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // 设置外边距
         editPanel.add(TextAreaBuilder.scrollTextArea());
         //初始化可创建多个的多文本编辑区
-        JToolBar toolBar = new JToolBar("工具栏");
-        toolBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
-
-        JButton btnFormat = new JButton("格式化");
-        btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
-        btnFormat.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
-        });
-        JButton btnFullScreen = new JButton("全屏");
-        btnFullScreen.setIcon(IconUtils.getSVGIcon("icons/fullScreen.svg"));
-        btnFullScreen.addActionListener(e -> {
-            // 获取默认设备的GraphicsDevice对象
-            GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-            fullScreen(frame,btnFullScreen,device,isFullScreen);
-        });
-        JButton btnLockScreen = new JButton("锁屏");
-        btnLockScreen.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
-        btnLockScreen.addActionListener(e -> {
-            showOverlay(btnLockScreen);
-        });
-        toolBar.add(btnFormat);
-        toolBar.add(btnFullScreen);
-        toolBar.add(btnLockScreen);
-        toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
+        JToolBar toolBar = createToolBar(frame);
         mainPanel.add(toolBar, BorderLayout.NORTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
         frame.add(mainPanel);
 
     }
 
-    private void fullScreen(JFrame frame, JButton btnFullScreen,GraphicsDevice device, boolean isFullScreen){
-        if (!isFullScreen){
+    private void fullScreen(JFrame frame, JButton btnFullScreen, GraphicsDevice device, boolean isFullScreen) {
+        if (!isFullScreen) {
             // 设置全屏模式
            /* device.setFullScreenWindow(frame);
             int w = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -101,7 +81,7 @@ public class MainTest extends JFrame {
             frame.setLocation(-10,0);*/
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             this.isFullScreen = true;
-        }else {
+        } else {
             /*btnFullScreen.setIcon(IconUtils.getSVGIcon("icons/fullScreen.svg"));
             // 设置全屏模式
             device.setFullScreenWindow(null);*/
@@ -109,6 +89,7 @@ public class MainTest extends JFrame {
             this.isFullScreen = false;
         }
     }
+
     boolean isFullScreen = false;
 
     private static void showOverlay(JButton button) {
@@ -137,6 +118,49 @@ public class MainTest extends JFrame {
 
         // 显示覆盖组件
         overlay.setVisible(true);
+    }
+
+    private JToolBar createToolBar(JFrame frame) {
+        JToolBar toolBar = new JToolBar("工具栏");
+        toolBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+
+        JButton btnFormat = new JButton();
+        if (showToolBarText) {
+            btnFormat.setText("格式化");
+        }
+        btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
+        btnFormat.addActionListener(e -> {
+            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
+            mainPanel.remove(toolBar);
+            JToolBar tool = createToolBar(frame);
+            mainPanel.add(tool, BorderLayout.NORTH);
+            mainPanel.revalidate();
+            mainPanel.repaint();
+            showToolBarText = !showToolBarText;
+        });
+        JButton btnFullScreen = new JButton();
+        if (showToolBarText) {
+            btnFullScreen.setText("全屏");
+        }
+        btnFullScreen.setIcon(IconUtils.getSVGIcon("icons/fullScreen.svg"));
+        btnFullScreen.addActionListener(e -> {
+            // 获取默认设备的GraphicsDevice对象
+            GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            fullScreen(frame, btnFullScreen, device, isFullScreen);
+        });
+        JButton btnLockScreen = new JButton();
+        if (showToolBarText) {
+            btnLockScreen.setText("锁屏");
+        }
+        btnLockScreen.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
+        btnLockScreen.addActionListener(e -> {
+            showOverlay(btnLockScreen);
+        });
+        toolBar.add(btnFormat);
+        toolBar.add(btnFullScreen);
+        toolBar.add(btnLockScreen);
+        toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
+        return toolBar;
     }
 
 }

@@ -20,8 +20,11 @@ public abstract class MenuAction extends AbstractAction {
 
     public abstract void actionPerformedImpl(ActionEvent e);
 
-    public void setProperties(ResourceBundle msg, String keyRoot, IconSize iconSize) {
-        setName(msg.getString(keyRoot + ".Name"));
+    public void setProperties(ResourceBundle msg, String keyRoot, IconSize iconSize, boolean showText) {
+        System.out.println("显示菜单名称设置状态：" + showText);
+        if (showText) {
+            setName(msg.getString(keyRoot + ".Name"));
+        }
         if (msg.containsKey(keyRoot + ".Icon")) {
             setSmallIcon(IconUtils.getSVGIcon(msg.getString(keyRoot + ".Icon"), iconSize.getSize(), iconSize.getSize()));
         }

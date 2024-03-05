@@ -622,6 +622,9 @@ public class MenuEventService {
         }
     }
 
+    /**
+     * 官网跳转
+     */
     public void linkWebSiteActionPerformed() {
         if (Desktop.isDesktopSupported()) {
             try {
@@ -630,6 +633,17 @@ public class MenuEventService {
                 throw new RuntimeException("官网跳转失败: " + exception.getMessage());
             }
         }
+    }
+
+    /**
+     * 显示/隐藏工具栏文本
+     *
+     * @param frame
+     */
+    public void showToolBarTextActionPerformed(JFrame frame) {
+        applicationContext.setShowToolBarText(!applicationContext.getShowToolBarText());
+        ToolBarBuilder toolBarBuilder = ToolBarBuilder.getInstance();
+        toolBarBuilder.refreshToolBar(frame);
     }
 
 }

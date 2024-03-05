@@ -35,6 +35,8 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     private String systemLanguage;
     // 工具栏方向
     private String toolBarLocation;
+    // 是否显示工具栏文字
+    private Boolean showToolBarText;
     // 官网
     private String webSiteUrl;
     // 屏幕大小
@@ -219,6 +221,14 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         this.toolBarLocation = toolBarLocation;
     }
 
+    public Boolean getShowToolBarText() {
+        return showToolBarText;
+    }
+
+    public void setShowToolBarText(Boolean showToolBarText) {
+        this.showToolBarText = showToolBarText;
+    }
+
     public String getWebSiteUrl() {
         return webSiteUrl;
     }
@@ -240,6 +250,7 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                 ", pictureQualityState=" + pictureQualityState +
                 ", systemLanguage='" + systemLanguage + '\'' +
                 ", toolBarLocation='" + toolBarLocation + '\'' +
+                ", showToolBarText=" + showToolBarText +
                 ", webSiteUrl='" + webSiteUrl + '\'' +
                 ", screenSize=" + screenSize +
                 ", fontStyle=" + fontStyle +

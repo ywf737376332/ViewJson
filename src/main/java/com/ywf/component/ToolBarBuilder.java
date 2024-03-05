@@ -3,10 +3,12 @@ package com.ywf.component;
 import com.ywf.action.MenuEventService;
 import com.ywf.action.ResourceBundleService;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.config.MenuAction;
 import com.ywf.framework.config.MenuBarKit;
 import com.ywf.framework.enums.LocationEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.ywf.framework.utils.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,26 +108,42 @@ public class ToolBarBuilder {
      */
     private void createButtonActions() {
         ResourceBundle msg = resourceBundle;
+        boolean showText = applicationContext.getShowToolBarText();
         formatAction = new MenuBarKit.FormatAction();
-        formatAction.setProperties(msg, "MenuItem.Format", MenuAction.IconSize.medium);
+        formatAction.setProperties(msg, "MenuItem.Format", MenuAction.IconSize.medium, showText);
         compressAction = new MenuBarKit.CompressAction();
-        compressAction.setProperties(msg, "MenuItem.Compress", MenuAction.IconSize.medium);
+        compressAction.setProperties(msg, "MenuItem.Compress", MenuAction.IconSize.medium, showText);
         escapeAction = new MenuBarKit.EscapeAction();
-        escapeAction.setProperties(msg, "MenuItem.Escape", MenuAction.IconSize.medium);
+        escapeAction.setProperties(msg, "MenuItem.Escape", MenuAction.IconSize.medium, showText);
         unescapeAction = new MenuBarKit.UnescapeAction();
-        unescapeAction.setProperties(msg, "MenuItem.Unescape", MenuAction.IconSize.medium);
+        unescapeAction.setProperties(msg, "MenuItem.Unescape", MenuAction.IconSize.medium, showText);
 
         copyCodeAction = new MenuBarKit.CopyCodeAction();
-        copyCodeAction.setProperties(msg, "MenuItem.CopyCode", MenuAction.IconSize.medium);
+        copyCodeAction.setProperties(msg, "MenuItem.CopyCode", MenuAction.IconSize.medium, showText);
         copyPictAction = new MenuBarKit.CopyPictAction();
-        copyPictAction.setProperties(msg, "MenuItem.CopyPict", MenuAction.IconSize.medium);
+        copyPictAction.setProperties(msg, "MenuItem.CopyPict", MenuAction.IconSize.medium, showText);
         showQrcodeAction = new MenuBarKit.ShowQrcodeAction();
-        showQrcodeAction.setProperties(msg, "MenuItem.ShowQrcode", MenuAction.IconSize.medium);
+        showQrcodeAction.setProperties(msg, "MenuItem.ShowQrcode", MenuAction.IconSize.medium, showText);
 
         findAction = new MenuBarKit.FindAction();
-        findAction.setProperties(msg, "MenuItem.Find", MenuAction.IconSize.medium);
+        findAction.setProperties(msg, "MenuItem.Find", MenuAction.IconSize.medium, showText);
         cleanAction = new MenuBarKit.CleanAction();
-        cleanAction.setProperties(msg, "MenuItem.Clean", MenuAction.IconSize.medium);
+        cleanAction.setProperties(msg, "MenuItem.Clean", MenuAction.IconSize.medium, showText);
+    }
+
+    /**
+     * 刷新工具条
+     *
+     * @param frame
+     */
+    public void refreshToolBar(JFrame frame) {
+        JFrame mainFrame = ObjectUtils.getBean(GlobalKEY.MAIN_FRAME);
+        mainFrame.remove(toolBar);
+        toolBar.removeAll();
+        createButtonActions();
+        mainFrame.add(createToolBar(frame), BorderLayout.NORTH);
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
 
     private String getMessage(ResourceBundle msg, String keyRoot) {

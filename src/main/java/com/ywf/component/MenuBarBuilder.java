@@ -84,9 +84,9 @@ public class MenuBarBuilder {
     private JMenu setupMenu;
     private JMenu frameFontMenu, fontStyleMenu, fontSizeMenu;
     private JMenu facadeMenu;
-    private MenuAction showToolBarAction, showMenuBarAction;
+    private MenuAction showToolBarAction, showMenuBarAction, showToolBarTextAction;
     private JMenu languageMenu;
-    private JCheckBoxMenuItem showToolBarMenuItem, showMenuBarMenuItem;
+    private JCheckBoxMenuItem showToolBarMenuItem, showMenuBarMenuItem, showToolBarTextMenuItem;
     private MenuAction editSetupAction, lineSetupAction, showlineNumAction;
     private JMenuItem editSetupMenuItem, lineSetupMenuItem, showlineNumMenuItem;
     private JMenu pictureQualityMenu;
@@ -196,6 +196,8 @@ public class MenuBarBuilder {
         showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());
         facadeMenu.add(showMenuBarMenuItem = createCheckBoxMenu(showMenuBarAction));
         showMenuBarMenuItem.setSelected(applicationContext.getShowMenuBarState());
+        facadeMenu.add(showToolBarTextMenuItem = createCheckBoxMenu(showToolBarTextAction));
+        showToolBarTextMenuItem.setSelected(applicationContext.getShowToolBarText());
 
         setupMenu.add(languageMenu);
         ButtonGroup languageButtonGroup = new ButtonGroup();
@@ -297,6 +299,8 @@ public class MenuBarBuilder {
         showToolBarAction.setProperties(msg, "MenuItem.ShowToolBar");
         showMenuBarAction = new MenuBarKit.ShowMenuBarAction();
         showMenuBarAction.setProperties(msg, "MenuItem.ShowMenuBar");
+        showToolBarTextAction = new MenuBarKit.ShowToolBarTextAction();
+        showToolBarTextAction.setProperties(msg, "MenuItem.ShowToolBarText");
 
         editSetupAction = new MenuBarKit.EditSetupAction();
         editSetupAction.setProperties(msg, "MenuItem.EditSetup");

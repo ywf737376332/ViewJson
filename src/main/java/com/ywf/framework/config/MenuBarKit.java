@@ -194,4 +194,11 @@ public class MenuBarKit {
         }
     }
 
+    public static class ShowToolBarTextAction extends MenuAction {
+        @Override
+        public void actionPerformedImpl(ActionEvent e) {
+            MenuEventService.getInstance().showToolBarTextActionPerformed(frame);
+        }
+    }
+
 }
