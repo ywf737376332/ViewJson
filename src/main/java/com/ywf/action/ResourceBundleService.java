@@ -22,6 +22,7 @@ public class ResourceBundleService {
 
     private ResourceBundleService() {
         resourceBundle = ResourceBundle.getBundle(MSG, Locale.getDefault());
+        logger.info("国际化资源文件初始化成功,当前系统语言：{} ~~~",Locale.getDefault());
     }
 
     public static ResourceBundleService getInstance() {

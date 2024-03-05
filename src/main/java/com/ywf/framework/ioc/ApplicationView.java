@@ -57,6 +57,10 @@ public class ApplicationView {
         configLoadHandler = new ConfigLoadHandler(basePackages);
         configLoadHandler.configLoadAutowired(basePackages, applicationRootPath);
         /**
+         * 国际化语言设置,必须在构造方法中执行,提前到国际化类加载之前
+         */
+        i18NInit();
+        /**
          * 主界面实例化
          */
         Assert.notNull(primarySource, "PrimarySources must not be null");
@@ -67,7 +71,6 @@ public class ApplicationView {
     public static ApplicationContext run(Class<?> primarySource, String... args) {
         return new ApplicationView(primarySource)
                 .initThemesUI()
-                .i18NInit()
                 .appGuiInit()
                 .initGUIGlobalFont()
                 .cacheGlobalComponent();
@@ -95,15 +98,15 @@ public class ApplicationView {
      *
      * @return
      */
-    public ApplicationView i18NInit() {
+    public void i18NInit() {
         try {
             String[] language = StrUtils.strSplit(applicationContext.getSystemLanguage());
             Locale.setDefault(new Locale(language[0], language[1]));
             JComponent.setDefaultLocale(Locale.getDefault());
+            logger.info("国际化资源语言设置：{}，{}", language, Locale.getDefault());
         } catch (Exception e) {
             logger.error("APP国际化失败", e);
         }
-        return this;
     }
 
     private ApplicationView initThemesUI() {

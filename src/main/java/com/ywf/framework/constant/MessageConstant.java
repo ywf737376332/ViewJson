@@ -26,6 +26,36 @@ public class MessageConstant {
     public static final String SYSTEM_TITLE = getMessage("System.Title");
 
     /**
+     * 词
+     */
+    public static final String SYSTEM_STATE_BAR_WORDS = getMessage("System.StateBar.Words");
+
+    /**
+     * 文本类型
+     */
+    public static final String SYSTEM_DEFAULT_LANGUAGE_TYPE = getMessage("Language.Type.Text");
+
+    /**
+     * 天
+     */
+    public static final String SYSTEM_STATE_BAR_DAYS = getMessage("System.StateBar.Days");
+
+    /**
+     * 小时
+     */
+    public static final String SYSTEM_STATE_BAR_HOURS = getMessage("System.StateBar.Hours");
+
+    /**
+     * 分钟
+     */
+    public static final String SYSTEM_STATE_BAR_MINUTES = getMessage("System.StateBar.Minutes");
+
+    /**
+     * 秒
+     */
+    public static final String SYSTEM_STATE_BAR_SECONDS = getMessage("System.StateBar.Seconds");
+
+    /**
      * 运行时长
      */
     public static final String RUNTIME_TAG = getSepMessage("StateBar.RunTime");
@@ -136,6 +166,11 @@ public class MessageConstant {
      * 提示
      */
     public static final String SYSTEM_WARN_TIP = getMessage("System.Warn.Tip");
+
+    /**
+     * 更新日志
+     */
+    public static final String SYSTEM_VERSION_LOG = getMessage("System.Version.Log");
 
     /**
      * 查找

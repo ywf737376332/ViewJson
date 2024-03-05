@@ -70,13 +70,13 @@ public class PanelView {
         FlatLabel fileTypeLabel = LabelBarBuilder.createLabel(MessageConstant.CONTEXT_TYPE_TAG);
         fileTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
         FlatLabel fileTypeValue = LabelBarBuilder.createGlobalLabel(new Color(167, 179, 211), GlobalKEY.STATE_BAR_TEXT_TYPE);
-        fileTypeValue.setText("<html><span color=\"#389FD6\" style=\"font-size:9px\">文本类型</span></html>");
+        fileTypeValue.setText("<html><span color=\"#389FD6\" style=\"font-size:9px\">" + MessageConstant.SYSTEM_DEFAULT_LANGUAGE_TYPE + "</span></html>");
         fileTypeValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         FlatLabel fileLengthLabel = LabelBarBuilder.createLabel(MessageConstant.WORDS_NUMS_TAG);
         fileLengthLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         FlatLabel fileLengthValue = LabelBarBuilder.createGlobalLabel(new Color(167, 179, 211), GlobalKEY.STATE_BAR_TEXT_LENGTH);
-        fileLengthValue.setText("<html><span color=\"#107C41\" style=\"font-size:9px\">0词</span></html>");
+        fileLengthValue.setText("<html><span color=\"#107C41\" style=\"font-size:9px\">0" + MessageConstant.SYSTEM_STATE_BAR_WORDS + "</span></html>");
         fileLengthValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         panelStateBar.add(runTimeLabel);

@@ -6,6 +6,7 @@ import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.LabelBarBuilder;
 import com.ywf.component.StateLabel;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.utils.StrUtils;
@@ -19,6 +20,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * 状态栏事件监听
@@ -28,10 +30,12 @@ import java.util.List;
  */
 public class StateBarEventService {
 
+    private ResourceBundle resourceBundle;
 
     volatile private static StateBarEventService instance = null;
 
     private StateBarEventService() {
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
     }
 
     public static StateBarEventService getInstance() {
@@ -88,8 +92,8 @@ public class StateBarEventService {
                     FlatLabel labelTypeLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_TYPE);
                     FlatLabel fileLengthLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_LENGTH);
                     TextTypeEnum contentType = stateBarEntity.getContentType();
-                    labelTypeLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + contentType.getDiscription() + "</span></html>");
-                    fileLengthLabel.setText("<html><span color=\"#107C41\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + stateBarEntity.getTextLength() + "词" + "</span></html>");
+                    labelTypeLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + getMessage(contentType.getMessageKey()) + "</span></html>");
+                    fileLengthLabel.setText("<html><span color=\"#107C41\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + stateBarEntity.getTextLength() + MessageConstant.SYSTEM_STATE_BAR_WORDS + "</span></html>");
                     rSyntaxTextArea.setSyntaxEditingStyle(contentType.getSyntaxStyle());
                     rSyntaxTextArea.setTextType(contentType);
                 }
@@ -137,11 +141,12 @@ public class StateBarEventService {
         minutes = minutes - hours * 60;
         hours = hours - days * 24;
         if (days != 0)
-            return sb.append(days).append(" 天 ").append(hours).append(" 小时 ").append(minutes).append(" 分钟 ").append(seconds).append(" 秒").toString();
+            return sb.append(days).append(MessageConstant.SYSTEM_STATE_BAR_DAYS).append(hours).append(MessageConstant.SYSTEM_STATE_BAR_HOURS).append(minutes).append(MessageConstant.SYSTEM_STATE_BAR_MINUTES).append(seconds).append(MessageConstant.SYSTEM_STATE_BAR_SECONDS).toString();
         if (hours != 0)
-            return sb.append(hours).append(" 小时 ").append(minutes).append(" 分钟 ").append(seconds).append(" 秒").toString();
-        if (minutes != 0) return sb.append(minutes).append(" 分钟 ").append(seconds).append(" 秒").toString();
-        return seconds + " 秒";
+            return sb.append(hours).append(MessageConstant.SYSTEM_STATE_BAR_HOURS).append(minutes).append(MessageConstant.SYSTEM_STATE_BAR_MINUTES).append(seconds).append(MessageConstant.SYSTEM_STATE_BAR_SECONDS).toString();
+        if (minutes != 0)
+            return sb.append(minutes).append(MessageConstant.SYSTEM_STATE_BAR_MINUTES).append(seconds).append(MessageConstant.SYSTEM_STATE_BAR_SECONDS).toString();
+        return seconds + MessageConstant.SYSTEM_STATE_BAR_SECONDS;
         //return sb.append(days).append(" 天 ").append(hours).append(" 小时 ").append(minutes).append(" 分钟 ").append(seconds).append(" 秒").toString();
     }
 
@@ -167,4 +172,7 @@ public class StateBarEventService {
         });
     }
 
+    private String getMessage(String keyRoot) {
+        return resourceBundle.getString(keyRoot + ".Name");
+    }
 }
