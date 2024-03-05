@@ -111,14 +111,21 @@ public class ApplicationView {
     }
 
     private ApplicationView initThemesUI() {
-        try {
-            logger.info("程序UI主题初始化,当前主题{}~", applicationContext.getLastSystemThemes());
-            // 全局主题设置
-            SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
-            ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
-        } catch (Exception e) {
-            logger.error("初始化主题失败", e);
-        }
+        SwingWorker<Boolean, Void> swingWorker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() {
+                try {
+                    logger.info("程序UI主题初始化,当前主题{}~", applicationContext.getLastSystemThemes());
+                    // 全局主题设置
+                    SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
+                    ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
+                } catch (Exception e) {
+                    logger.error("初始化主题失败", e);
+                }
+                return true;
+            }
+        };
+        swingWorker.execute();
         return this;
     }
 

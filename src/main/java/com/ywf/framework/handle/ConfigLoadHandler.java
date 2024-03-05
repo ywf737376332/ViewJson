@@ -1,11 +1,11 @@
 package com.ywf.framework.handle;
 
-import cn.hutool.json.JSONUtil;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.annotation.PropertySource;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.ywf.framework.utils.JsonUtil;
 import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.framework.utils.ReflectUtils;
 import org.reflections.Reflections;
@@ -74,7 +74,7 @@ public class ConfigLoadHandler {
         ConfigurableApplicationContext applicationContext = ObjectUtils.getBean(GlobalKEY.USER_PRPPERTIES_CONFIG);
         logger.info("配置类属性字段实例化注入开始~");
         for (Class<?> configClass : configClassesAnno) {
-            logger.info("配置类实例化信息{}", JSONUtil.toJsonStr(applicationContext));
+            logger.info("配置类实例化信息{}", JsonUtil.formatJSONObject(applicationContext));
             //对有Autowired注解的属性字段实例化注入
             fieldInstances(applicationContext, fieldClassesAnno);
         }
