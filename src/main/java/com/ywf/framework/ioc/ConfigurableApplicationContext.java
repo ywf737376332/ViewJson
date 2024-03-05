@@ -35,6 +35,8 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     private String systemLanguage;
     // 工具栏方向
     private String toolBarLocation;
+    // 官网
+    private String webSiteUrl;
     // 屏幕大小
     private ScreenSize screenSize;
     // 字体样式
@@ -217,6 +219,14 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         this.toolBarLocation = toolBarLocation;
     }
 
+    public String getWebSiteUrl() {
+        return webSiteUrl;
+    }
+
+    public void setWebSiteUrl(String webSiteUrl) {
+        this.webSiteUrl = webSiteUrl;
+    }
+
     @Override
     public String toString() {
         return "ConfigurableApplicationContext{" +
@@ -229,7 +239,8 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                 ", chineseConverState=" + chineseConverState +
                 ", pictureQualityState=" + pictureQualityState +
                 ", systemLanguage='" + systemLanguage + '\'' +
-                ", toolBarLocation=" + toolBarLocation +
+                ", toolBarLocation='" + toolBarLocation + '\'' +
+                ", webSiteUrl='" + webSiteUrl + '\'' +
                 ", screenSize=" + screenSize +
                 ", fontStyle=" + fontStyle +
                 '}';

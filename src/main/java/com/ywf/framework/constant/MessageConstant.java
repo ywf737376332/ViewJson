@@ -168,9 +168,9 @@ public class MessageConstant {
     public static final String SYSTEM_WARN_TIP = getMessage("System.Warn.Tip");
 
     /**
-     * 更新日志
+     * 功能介绍
      */
-    public static final String SYSTEM_VERSION_LOG = getMessage("System.Version.Log");
+    public static final String SYSTEM_VERSION_LOG = getMessage("MenuItem.FeatureIntroduction");
 
     /**
      * 查找

@@ -246,8 +246,10 @@ public class MenuBarBuilder {
         menuBar.add(helpMenu);
         helpMenu.add(updateVersionLogMenuItem = createMenuItem(updateVersionLogAction));
         helpMenu.add(privacyPolicyMenuItem = createMenuItem(privacyPolicyAction));
+        privacyPolicyMenuItem.setEnabled(false);
         helpMenu.add(officialWebsiteMenuItem = createMenuItem(officialWebsiteAction));
         helpMenu.add(expressThanksMenuItem = createMenuItem(expressThanksAction));
+        expressThanksMenuItem.setEnabled(false);
         helpMenu.add(aboutMenuItem = createMenuItem(aboutAction));
         menuBar.setVisible(applicationContext.getShowMenuBarState());
         return menuBar;
@@ -304,7 +306,7 @@ public class MenuBarBuilder {
         showlineNumAction.setProperties(msg, "MenuItem.Showline");
 
         updateVersionLogAction = new MenuBarKit.UpdateVersionLogAction();
-        updateVersionLogAction.setProperties(msg, "MenuItem.UpdateVersionLog");
+        updateVersionLogAction.setProperties(msg, "MenuItem.FeatureIntroduction");
         privacyPolicyAction = new MenuBarKit.PrivacyPolicyAction();
         privacyPolicyAction.setProperties(msg, "MenuItem.PrivacyPolicy");
         officialWebsiteAction = new MenuBarKit.OfficialWebsiteAction();

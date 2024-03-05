@@ -120,7 +120,7 @@ public class MenuBarKit {
     public static class OfficialWebsiteAction extends MenuAction {
         @Override
         public void actionPerformedImpl(ActionEvent e) {
-
+            MenuEventService.getInstance().linkWebSiteActionPerformed();
         }
     }
 

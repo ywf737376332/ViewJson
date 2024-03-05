@@ -9,6 +9,7 @@
   "pictureQualityState" : 1,
   "systemLanguage" : "zh_CN",
   "toolBarLocation" : "West",
+  "webSiteUrl": "https://gitee.com/yufei88/ViewJSON.git",
   "screenSize" : {
     "width" : 1354,
     "height" : 912
