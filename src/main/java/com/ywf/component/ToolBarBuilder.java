@@ -141,7 +141,7 @@ public class ToolBarBuilder {
         mainFrame.remove(toolBar);
         toolBar.removeAll();
         createButtonActions();
-        mainFrame.add(createToolBar(frame), BorderLayout.NORTH);
+        mainFrame.add(createToolBar(frame), applicationContext.getToolBarLocation());
         mainFrame.revalidate();
         mainFrame.repaint();
     }
