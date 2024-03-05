@@ -27,6 +27,11 @@ public abstract class MenuAction extends AbstractAction {
         if (msg.containsKey(keyRoot + ".Icon")) {
             setSmallIcon(IconUtils.getSVGIcon(msg.getString(keyRoot + ".Icon"), iconSize.getSize(), iconSize.getSize()));
         }
+        setToolTipText(msg.getString(keyRoot + ".Name"));
+        // 鼠标悬停提示 MenuItem.Format.Tip=\u683c\u5f0f\u5316
+        //if (msg.containsKey(keyRoot + ".Tip")) {
+        //    setToolTipText(msg.getString(keyRoot + ".Tip"));
+        //}
     }
 
     public void setProperties(ResourceBundle msg, String keyRoot) {
@@ -36,14 +41,17 @@ public abstract class MenuAction extends AbstractAction {
         }
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         putValue(NAME, name);
     }
 
-    public void setSmallIcon(Icon smallIcon) {
-        putValue(SMALL_ICON, smallIcon);
+    private void setSmallIcon(Icon smallIcon) {
+        putValue(LARGE_ICON_KEY, smallIcon);
     }
 
+    private void setToolTipText(String msgTip) {
+        putValue(SHORT_DESCRIPTION, msgTip);
+    }
 
     public enum IconSize {
         small(12),

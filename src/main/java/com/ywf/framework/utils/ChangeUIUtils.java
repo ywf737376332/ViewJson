@@ -90,14 +90,16 @@ public class ChangeUIUtils {
      */
     public static void changeTextAreaThemes(String style) {
         JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
-        LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
-        for (JScrollPane scrollPane : sp) {
-            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
-            try {
-                Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style), SystemConstant.SYSTEM_DEFAULT_FONT);
-                theme.apply(rSyntaxTextArea);
-            } catch (IOException e) {
-                System.err.println("textAreaThemes apply error");
+        if (tabbedSplitEditor != null) {
+            LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
+            for (JScrollPane scrollPane : sp) {
+                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
+                try {
+                    Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style), SystemConstant.SYSTEM_DEFAULT_FONT);
+                    theme.apply(rSyntaxTextArea);
+                } catch (IOException e) {
+                    System.err.println("textAreaThemes apply error");
+                }
             }
         }
     }
