@@ -532,16 +532,16 @@ public class MenuEventService {
         //字体样式事件批量扫描注册
         Component[] fontStyleMenuComponents = fontStyleMenu.getMenuComponents();
         for (Component fontStyleMenuComponent : fontStyleMenuComponents) {
-            if (fontStyleMenuComponent instanceof JRadioButtonMenuItem) {
-                JRadioButtonMenuItem fontMenuItem = (JRadioButtonMenuItem) fontStyleMenuComponent;
-                if (fontMenuItem.getText().equals(applicationContext.getFontStyle().getName())) {
+            if (fontStyleMenuComponent instanceof FontNameRadioButtonMenuItem) {
+                FontNameRadioButtonMenuItem fontMenuItem = (FontNameRadioButtonMenuItem) fontStyleMenuComponent;
+                if (fontMenuItem.getFontName().equals(applicationContext.getFontStyle().getName())) {
                     fontMenuItem.setSelected(true);
                 }
                 fontMenuItem.addActionListener(e -> {
                     //此事件，解决修改字体后，搜索框界面布局混乱问题
                     FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
-                    ChangeUIUtils.changeGlobalFont(new Font(fontMenuItem.getText(), Font.PLAIN, applicationContext.getFontStyle().getSize()));
-                    applicationContext.getFontStyle().setName(fontMenuItem.getText());
+                    ChangeUIUtils.changeGlobalFont(new Font(fontMenuItem.getFontName(), Font.PLAIN, applicationContext.getFontStyle().getSize()));
+                    applicationContext.getFontStyle().setName(fontMenuItem.getFontName());
                     ChangeUIUtils.updateViewUI();
                 });
             }
