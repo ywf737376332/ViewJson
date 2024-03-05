@@ -71,8 +71,8 @@ public class ApplicationView {
     public static ApplicationContext run(Class<?> primarySource, String... args) {
         return new ApplicationView(primarySource)
                 .initThemesUI()
-                .appGuiInit()
                 .initGUIGlobalFont()
+                .appGuiInit()
                 .cacheGlobalComponent();
     }
 
@@ -85,6 +85,7 @@ public class ApplicationView {
         // 创建界面
         try {
             SwingUtilities.invokeLater(() -> {
+                logger.info("程序UI界面绘制~~~");
                 applicationView.createAndShowGUI(MessageConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
             });
         } catch (Exception e) {
@@ -111,7 +112,7 @@ public class ApplicationView {
 
     private ApplicationView initThemesUI() {
         try {
-            logger.info("程序UI界面初始化,当前主题{}~", applicationContext.getLastSystemThemes());
+            logger.info("程序UI主题初始化,当前主题{}~", applicationContext.getLastSystemThemes());
             // 全局主题设置
             SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
             ChangeUIUtils.changeUIStyle(applicationView, themesStyles);
@@ -123,7 +124,7 @@ public class ApplicationView {
 
     private ApplicationView initGUIGlobalFont() {
         try {
-            logger.info("程序UI界面字体初始化,当前字体{}", applicationContext.getFontStyle());
+            logger.info("程序UI字体初始化,当前字体{}", applicationContext.getFontStyle());
             // 全局字体设置
             ConfigurableApplicationContext.FontStyle fontStyle = applicationContext.getFontStyle();
             ChangeUIUtils.changeGlobalFont(new Font(fontStyle.getName(), Font.PLAIN, fontStyle.getSize()));

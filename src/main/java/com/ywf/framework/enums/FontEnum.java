@@ -34,12 +34,12 @@ public class FontEnum {
     }
 
     public enum Size {
-        mini("MenuItem.FontSize.Mini",8, "迷你"),
-        small("MenuItem.FontSize.Small",10, "小号"),
-        medium("MenuItem.FontSize.Medium",12, "中等"),
-        regular("MenuItem.FontSize.Regular",14, "常规"),
-        large("MenuItem.FontSize.Large",16, "大号"),
-        tooLarge("MenuItem.FontSize.TooLarge",18, "特大号");
+        mini("MenuItem.FontSize.Mini",10, "迷你"),
+        small("MenuItem.FontSize.Small",12, "小号"),
+        medium("MenuItem.FontSize.Medium",14, "中等"),
+        regular("MenuItem.FontSize.Regular",16, "常规"),
+        large("MenuItem.FontSize.Large",18, "大号"),
+        tooLarge("MenuItem.FontSize.TooLarge",20, "特大号");
 
         private String msgKey;
         private int size;
