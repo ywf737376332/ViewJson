@@ -1,5 +1,6 @@
 package com.ywf.framework.utils;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
@@ -223,6 +224,8 @@ public class JsonUtil {
     public static String formatJSONObject(Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
+            // 配置输出时汉字转Unicode字符
+            mapper.getFactory().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
             // 配置四个空格的缩进
             DefaultPrettyPrinter.Indenter indenter = new DefaultIndenter(FOUR_SPACE, DefaultIndenter.SYS_LF);
             DefaultPrettyPrinter printer = new DefaultPrettyPrinter();
