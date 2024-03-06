@@ -8,6 +8,8 @@ import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.undo.UndoManager;
@@ -21,6 +23,8 @@ import java.io.IOException;
  * @Date 2023/11/25 18:58
  */
 public class TextAreaBuilder {
+
+    private final static Logger logger = LoggerFactory.getLogger(TextAreaBuilder.class);
 
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
@@ -56,6 +60,12 @@ public class TextAreaBuilder {
         rTextScrollPane.setFoldIndicatorEnabled(true);
         //监听文档变化
         StateBarEventService.getInstance().textAreaDocumentActionPerformed(syntaxTextArea);
+        try {
+            Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath), SystemConstant.SYSTEM_DEFAULT_FONT);
+            theme.apply(syntaxTextArea);
+        } catch (IOException ioe) {
+            logger.error("JSONRSyntaxTextArea主题应用失败，请检查！" + ioe.getMessage());
+        }
         return rTextScrollPane;
     }
 
@@ -74,12 +84,6 @@ public class TextAreaBuilder {
         textArea.setLineWrap(applicationContext.getTextAreaBreakLineState());
         textArea.setChineseConverState(applicationContext.getChineseConverState());
         textArea.revalidate();
-        try {
-            Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath), SystemConstant.SYSTEM_DEFAULT_FONT);
-            theme.apply(textArea);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
         return textArea;
     }
 }
