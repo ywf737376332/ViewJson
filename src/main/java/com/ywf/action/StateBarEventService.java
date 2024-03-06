@@ -92,8 +92,8 @@ public class StateBarEventService {
                     FlatLabel labelTypeLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_TYPE);
                     FlatLabel fileLengthLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_LENGTH);
                     TextTypeEnum contentType = stateBarEntity.getContentType();
-                    labelTypeLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + getMessage(contentType.getMessageKey()) + "</span></html>");
-                    fileLengthLabel.setText("<html><span color=\"#107C41\" style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + stateBarEntity.getTextLength() + MessageConstant.SYSTEM_STATE_BAR_WORDS + "</span></html>");
+                    labelTypeLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + getMessage(contentType.getMessageKey()) + "</span></html>");
+                    fileLengthLabel.setText("<html><span color=\"#107C41\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + stateBarEntity.getTextLength() + MessageConstant.SYSTEM_STATE_BAR_WORDS + "</span></html>");
                     rSyntaxTextArea.setSyntaxEditingStyle(contentType.getSyntaxStyle());
                     rSyntaxTextArea.setTextType(contentType);
                 }
@@ -121,7 +121,7 @@ public class StateBarEventService {
             @Override
             protected void process(List<String> chunks) {
                 String countTime = chunks.get(chunks.size() - 1);
-                runTimeValue.setText("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + countTime + "</span></html>");
+                runTimeValue.setText("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + countTime + "</span></html>");
                 runTimeValue.setValue(countTime);
             }
         };

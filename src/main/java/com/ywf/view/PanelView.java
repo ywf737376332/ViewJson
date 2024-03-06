@@ -49,7 +49,7 @@ public class PanelView {
         panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
         FlatLabel labelCopyrightLabel = new FlatLabel();
         labelCopyrightLabel.setIcon(IconUtils.getImageIcon("/icons/auth.png"));
-        labelCopyright = new JLabel("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + MessageConstant.AUTHOR_TAG + MessageConstant.AUTHOR + "</span></html>", IconUtils.getSVGIcon("icons/auth.svg", 12, 12), SwingConstants.LEFT);
+        labelCopyright = new JLabel("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + MessageConstant.AUTHOR_TAG + MessageConstant.AUTHOR + "</span></html>", IconUtils.getSVGIcon("icons/auth.svg", 12, 12), SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156, 170, 207));
         labelCopyright.addMouseListener(new CopyrightMouseListener());
 
@@ -70,13 +70,13 @@ public class PanelView {
         FlatLabel fileTypeLabel = LabelBarBuilder.createLabel(MessageConstant.CONTEXT_TYPE_TAG);
         fileTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
         FlatLabel fileTypeValue = LabelBarBuilder.createGlobalLabel(new Color(167, 179, 211), GlobalKEY.STATE_BAR_TEXT_TYPE);
-        fileTypeValue.setText("<html><span color=\"#389FD6\" style=\"font-size:9px\">" + MessageConstant.SYSTEM_DEFAULT_LANGUAGE_TYPE + "</span></html>");
+        fileTypeValue.setText("<html><span color=\"#389FD6\" style=\"font-size:10px\">" + MessageConstant.SYSTEM_DEFAULT_LANGUAGE_TYPE + "</span></html>");
         fileTypeValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         FlatLabel fileLengthLabel = LabelBarBuilder.createLabel(MessageConstant.WORDS_NUMS_TAG);
         fileLengthLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         FlatLabel fileLengthValue = LabelBarBuilder.createGlobalLabel(new Color(167, 179, 211), GlobalKEY.STATE_BAR_TEXT_LENGTH);
-        fileLengthValue.setText("<html><span color=\"#107C41\" style=\"font-size:9px\">0" + MessageConstant.SYSTEM_STATE_BAR_WORDS + "</span></html>");
+        fileLengthValue.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">0" + MessageConstant.SYSTEM_STATE_BAR_WORDS + "</span></html>");
         fileLengthValue.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         panelStateBar.add(runTimeLabel);

@@ -6,9 +6,11 @@ import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.JTabbedSplitEditor;
 import com.ywf.component.PopupMenuBuilder;
+import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ioc.ResourceContext;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.slf4j.Logger;
@@ -32,6 +34,9 @@ public class ChangeUIUtils {
 
     private final static Logger logger = LoggerFactory.getLogger(ChangeUIUtils.class);
 
+    @Autowired
+    public static ConfigurableApplicationContext applicationContext;
+
     /**
      * 主题改变工具类类
      *
@@ -43,19 +48,22 @@ public class ChangeUIUtils {
         initUIStyle();
         // 全局主题应用
         initGlobalTheme(themesStyles);
+        changeTextAreaThemes(themesStyles);
         // 其他个别组件主题应用
         initGlobalOtherTheme(frame);
-        // 更新UI
+        // 刷新UI界面
         updateViewUI();
     }
 
     /**
-     * 更新当前UI的外观
-     * 隐藏动画快照，以确保在更新过程中不会出现闪烁或不连贯的视觉效果,可以提供更平滑和一致的用户体验
+     * FlatAnimatedLafChange.hideSnapshotWithAnimation()这个方法的主要作用是在切换 Look and Feel 时提供一个视觉上的过渡效果，提升用户体验。
+     * 如果你不需要动画效果，也可以使用其他方法，如 FlatLaf.updateUI()，直接更新 UI 而没有动画过渡。
      */
     public static void updateViewUI() {
-        FlatLaf.updateUI();
+        // 改变TextArea编辑框的字体,避免全局字体改变后,编辑框字体也发生变化
+        initTextAreaFont();
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
+        FlatLaf.updateUI();
     }
 
 
@@ -73,29 +81,32 @@ public class ChangeUIUtils {
         }
     }
 
+    /**
+     * 更新传入组件的UI
+     *
+     * @param frame
+     */
     private static void initGlobalOtherTheme(JFrame frame) {
         if (PopupMenuBuilder.getInstance().getContextMenu() != null) {
             // 菜单主题应用
             SwingUtilities.updateComponentTreeUI(PopupMenuBuilder.getInstance().getContextMenu());
         }
-        //树组件主题应用
-        SwingUtilities.updateComponentTreeUI(frame);
     }
 
     /**
      * 富文本组件主题改变
      *
-     * @param style
+     * @param themesStyles
      * @date 2023/12/2 15:32
      */
-    public static void changeTextAreaThemes(String style) {
+    public static void changeTextAreaThemes(SystemThemesEnum themesStyles) {
         JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
         if (tabbedSplitEditor != null) {
             LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
             for (JScrollPane scrollPane : sp) {
                 JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
                 try {
-                    Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(style), SystemConstant.SYSTEM_DEFAULT_FONT);
+                    Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(themesStyles.getTextAreaStyles()), SystemConstant.SYSTEM_DEFAULT_FONT);
                     theme.apply(rSyntaxTextArea);
                 } catch (IOException e) {
                     System.err.println("textAreaThemes apply error");
@@ -113,7 +124,7 @@ public class ChangeUIUtils {
             LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
             for (JScrollPane scrollPane : sp) {
                 JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
-                rSyntaxTextArea.setFont(SystemConstant.SYSTEM_DEFAULT_FONT);
+                rSyntaxTextArea.setFont(new FontUIResource(applicationContext.getEditorFontStyle().getName(), Font.PLAIN, applicationContext.getEditorFontStyle().getSize()));
             }
         }
     }
@@ -145,8 +156,9 @@ public class ChangeUIUtils {
                 UIManager.put(key, fontRes);
             }
         }
-        // 改变TextArea编辑框的字体,避免全局字体改变后,编辑框字体也发生变化
-        initTextAreaFont();
+        // 刷新UI界面
+        updateViewUI();
+
     }
 
     /**

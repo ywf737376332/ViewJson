@@ -46,7 +46,7 @@ public class LabelBarBuilder {
 
     public static FlatLabel createLabel(String text) {
         FlatLabel label = new FlatLabel();
-        label.setText("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:9px\">" + text + "</span></html>");
+        label.setText("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + text + "</span></html>");
         label.setLabelType(FlatLabel.LabelType.medium);
         label.setForeground(new Color(167, 179, 211));
         label.setHorizontalAlignment(SwingConstants.CENTER);

@@ -338,8 +338,6 @@ public class MenuEventService {
                     String name = radioButtonMenuItem.getText();
                     SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
                     ChangeUIUtils.changeUIStyle(frame, themesStyles);
-                    // 改变多文本内容的主题
-                    ChangeUIUtils.changeTextAreaThemes(themesStyles.getTextAreaStyles());
                     // 保存上一次选定的主题
                     applicationContext.setLastSystemThemes(themesStyles.getThemesKey());
                 });
@@ -542,7 +540,6 @@ public class MenuEventService {
                     FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
                     ChangeUIUtils.changeGlobalFont(new Font(fontMenuItem.getFontName(), Font.PLAIN, applicationContext.getFontStyle().getSize()));
                     applicationContext.getFontStyle().setName(fontMenuItem.getFontName());
-                    ChangeUIUtils.updateViewUI();
                 });
             }
         }
@@ -559,7 +556,6 @@ public class MenuEventService {
                     FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
                     ChangeUIUtils.changeGlobalFont(new Font(applicationContext.getFontStyle().getName(), Font.PLAIN, fontSizeMenuItem.getFontSize()));
                     applicationContext.getFontStyle().setSize(fontSizeMenuItem.getFontSize());
-                    ChangeUIUtils.updateViewUI();
                 });
             }
         }

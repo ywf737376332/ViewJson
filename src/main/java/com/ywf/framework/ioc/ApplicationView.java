@@ -135,7 +135,6 @@ public class ApplicationView {
             // 全局字体设置
             ConfigurableApplicationContext.FontStyle fontStyle = applicationContext.getFontStyle();
             ChangeUIUtils.changeGlobalFont(new Font(fontStyle.getName(), Font.PLAIN, fontStyle.getSize()));
-            ChangeUIUtils.updateViewUI();
         } catch (Exception e) {
             logger.error("初始化字体失败", e);
         }

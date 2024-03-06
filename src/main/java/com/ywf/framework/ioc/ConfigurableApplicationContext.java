@@ -41,8 +41,10 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     private String webSiteUrl;
     // 屏幕大小
     private ScreenSize screenSize;
-    // 字体样式
+    // 软件界面字体样式
     private FontStyle fontStyle;
+    // 软件界面字体样式
+    private EditorFontStyle editorFontStyle;
 
     public static class FontStyle {
         private String name;
@@ -114,6 +116,43 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
             return "ScreenSize{" +
                     "width=" + width +
                     ", height=" + height +
+                    '}';
+        }
+    }
+
+    public static class EditorFontStyle {
+        private String name;
+        private Integer size;
+
+        public EditorFontStyle() {
+        }
+
+        public EditorFontStyle(String name, Integer size) {
+            this.name = name;
+            this.size = size;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getSize() {
+            return size;
+        }
+
+        public void setSize(Integer size) {
+            this.size = size;
+        }
+
+        @Override
+        public String toString() {
+            return "EditorFontStyle{" +
+                    "name='" + name + '\'' +
+                    ", size=" + size +
                     '}';
         }
     }
@@ -209,8 +248,12 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         this.fontStyle = fontStyle;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public EditorFontStyle getEditorFontStyle() {
+        return editorFontStyle;
+    }
+
+    public void setEditorFontStyle(EditorFontStyle editorFontStyle) {
+        this.editorFontStyle = editorFontStyle;
     }
 
     public String getToolBarLocation() {

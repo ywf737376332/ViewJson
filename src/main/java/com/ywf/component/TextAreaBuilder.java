@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.io.IOException;
@@ -66,6 +67,9 @@ public class TextAreaBuilder {
         } catch (IOException ioe) {
             logger.error("JSONRSyntaxTextArea主题应用失败，请检查！" + ioe.getMessage());
         }
+        // 必须等Xml初始化结束后，在设置字体，不然xml没设置字体，先用代码设置后，会被覆盖
+        syntaxTextArea.setFont(new FontUIResource(applicationContext.getEditorFontStyle().getName(), Font.PLAIN, applicationContext.getEditorFontStyle().getSize()));
+        logger.info("编辑框字体加载成功,当前字体：{}", syntaxTextArea.getFont());
         return rTextScrollPane;
     }
 
