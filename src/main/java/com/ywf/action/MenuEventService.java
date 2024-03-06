@@ -14,6 +14,7 @@ import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
+import com.ywf.view.MainFrame;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
@@ -477,7 +478,7 @@ public class MenuEventService {
      * @param languageMenu
      * @date 2023/12/16 22:13
      */
-    public void setupLanguageActionPerformed(JMenu languageMenu) {
+    public void setupLanguageActionPerformed(JFrame frame, JMenu languageMenu) {
         String language = applicationContext.getSystemLanguage();
         for (Component menuComponent : languageMenu.getMenuComponents()) {
             if (menuComponent instanceof LanguageRadioButtonMenuItem) {
@@ -487,6 +488,7 @@ public class MenuEventService {
                 }
                 languageRadioMenuitem.addActionListener(e -> {
                     applicationContext.setSystemLanguage(languageRadioMenuitem.getLanguageKey());
+                    //resartWindowFrameActionPerformed(frame);
                 });
             }
         }
@@ -614,7 +616,7 @@ public class MenuEventService {
             StateLabel statusLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_RUN_TIME);
             logger.info("程序运行时长：{}", statusLabel.getValue());
             frame.dispose();
-            System.exit(0); // 退出程序
+            //System.exit(0); // 退出程序
         }
     }
 
@@ -640,6 +642,31 @@ public class MenuEventService {
         applicationContext.setShowToolBarText(!applicationContext.getShowToolBarText());
         ToolBarBuilder toolBarBuilder = ToolBarBuilder.getInstance();
         toolBarBuilder.refreshToolBar(frame);
+    }
+
+    /**
+     * 系统重启
+     */
+    public void resartWindowFrameActionPerformed(JFrame frame) {
+        frame.dispose();
+        frame.getContentPane().removeAll(); // 移除所有组件
+        frame.revalidate(); // 重新验证布局
+        frame.repaint(); // 重绘界面
+        applicationContext.setScreenSize(new ConfigurableApplicationContext.ScreenSize(frame.getWidth(), frame.getHeight()));
+        // 退出应用时，保存所有配置项到本地
+        FrameWindowCloseEventService.saveApplicationConfiguration();
+        SwingUtilities.invokeLater(() -> {
+            try {
+                int num = 5;
+                while (num-- > 0) {
+                    System.out.println("正在重启中~~~" + num);
+                    Thread.sleep(1000);
+                }
+                ((MainFrame) Window.getWindows()[0]).createAndShowGUI(MessageConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
 }

@@ -207,7 +207,7 @@ public class MenuBarBuilder {
             languageButtonGroup.add(languageRadioMenuitem);
             languageMenu.add(languageRadioMenuitem);
         }
-        MenuEventService.getInstance().setupLanguageActionPerformed(languageMenu);
+        MenuEventService.getInstance().setupLanguageActionPerformed(frame, languageMenu);
 
         setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
         editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
