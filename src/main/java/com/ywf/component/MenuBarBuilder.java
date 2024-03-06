@@ -157,6 +157,7 @@ public class MenuBarBuilder {
         fileMenu.add(savePictMenuItem = createMenuItem(savePictAction));
         fileMenu.add(saveFileMenuItem = createMenuItem(saveFileAction));
         fileMenu.add(favoritesMenuItem = createMenuItem(favoritesAction));
+        favoritesMenuItem.setEnabled(false);
         fileMenu.add(exitMenuItem = createMenuItem(exitAction));
 
         /**

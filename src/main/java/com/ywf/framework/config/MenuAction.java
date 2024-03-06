@@ -46,7 +46,7 @@ public abstract class MenuAction extends AbstractAction {
     }
 
     private void setSmallIcon(Icon smallIcon) {
-        putValue(LARGE_ICON_KEY, smallIcon);
+        putValue(SMALL_ICON, smallIcon);
     }
 
     private void setToolTipText(String msgTip) {
