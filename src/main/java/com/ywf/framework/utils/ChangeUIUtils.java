@@ -58,12 +58,14 @@ public class ChangeUIUtils {
     /**
      * FlatAnimatedLafChange.hideSnapshotWithAnimation()这个方法的主要作用是在切换 Look and Feel 时提供一个视觉上的过渡效果，提升用户体验。
      * 如果你不需要动画效果，也可以使用其他方法，如 FlatLaf.updateUI()，直接更新 UI 而没有动画过渡。
+     * <p>
+     * 此代码的执行顺序不能变，必须在界面刷新后，再重新初始化一次编辑框字体，避免编辑框字体被重置
      */
     public static void updateViewUI() {
-        // 改变TextArea编辑框的字体,避免全局字体改变后,编辑框字体也发生变化
-        initTextAreaFont();
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
         FlatLaf.updateUI();
+        // 改变TextArea编辑框的字体,避免全局字体改变后,编辑框字体也发生变化
+        initTextAreaFont();
     }
 
 
