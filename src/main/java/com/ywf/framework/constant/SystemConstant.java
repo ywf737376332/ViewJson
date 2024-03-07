@@ -20,6 +20,7 @@ public class SystemConstant implements Serializable {
      */
     public static final Font SYSTEM_DEFAULT_FONT = new Font(FontEnum.Name.MicYaHei.getName(), Font.PLAIN, FontEnum.Size.regular.getSize());
     public static final Font SYSTEM_STATE_BAR_FONT = new Font(FontEnum.Name.MicYaHei.getName(), Font.PLAIN, FontEnum.Size.medium.getSize());
+    public static final Font SYSTEM_WATERMARK_FONT = new Font(FontEnum.Name.MicYaHei.getName(), Font.PLAIN, FontEnum.Size.large.getSize());
 
     /**
      * 窗口标题及版本号

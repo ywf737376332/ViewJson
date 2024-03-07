@@ -208,11 +208,7 @@ public class MenuEventService {
             SwingUtilities.invokeLater(() -> {
                 int pictureScale = applicationContext.getPictureQualityState();
                 //绘制图片
-                BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * pictureScale, rSyntaxTextArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
-                Graphics2D g2d = image.createGraphics();
-                g2d.scale(pictureScale, pictureScale); // 根据画布大小调整缩放比例
-                rSyntaxTextArea.print(g2d);
-                g2d.dispose();
+                BufferedImage image = ImageUtils.generateTextAreaImage(rSyntaxTextArea, pictureScale);
                 // 保存图片到剪贴板
                 ImageUtils.imageToClipboard(image);
                 JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
