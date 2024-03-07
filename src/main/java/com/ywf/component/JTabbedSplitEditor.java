@@ -54,7 +54,7 @@ public class JTabbedSplitEditor extends JPanel {
         removeComponents(page);
         cacheComment(component);
         int componentCount = getEditorComponentCount();
-        page.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(130, 128, 128, 130)));
+        page.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 3)); // 设置外边距
         switch (componentCount) {
             case 1:
                 page.add(getComment(1), BorderLayout.CENTER);

@@ -29,7 +29,7 @@ public class PanelView {
         JPanel panelMain = new BasePanel();
         panelMain.setMinimumSize(new Dimension(235, 600));
         panelMain.setOpaque(false); // 设置为透明，以便边框可见
-        panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
+        //panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
         panelMain.setLayout(new BorderLayout());
         return panelMain;
     }
@@ -37,7 +37,7 @@ public class PanelView {
     public static JPanel createEditPanel() {
         JPanel editPanel = new BasePanel();
         editPanel.setOpaque(false); // 设置为透明，以便边框可见
-        editPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
+        editPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(130, 128, 128, 130)));
         editPanel.setLayout(new BorderLayout());
         return editPanel;
     }
@@ -46,7 +46,7 @@ public class PanelView {
         JPanel panelBottom = new BasePanel();
         // 设置边距
         JPanel panelBottomText = new BasePanel();
-        panelBottomText.setBorder(BorderFactory.createEmptyBorder(1, 20, 0, 20)); // 设置外边距
+        panelBottomText.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20)); // 设置外边距
         FlatLabel labelCopyrightLabel = new FlatLabel();
         labelCopyrightLabel.setIcon(IconUtils.getImageIcon("/icons/auth.png"));
         labelCopyright = new JLabel("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + MessageConstant.AUTHOR_TAG + MessageConstant.AUTHOR + "</span></html>", IconUtils.getSVGIcon("icons/auth.svg", 12, 12), SwingConstants.LEFT);

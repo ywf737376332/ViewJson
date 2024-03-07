@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public enum LocationEnum {
 
-    TOP(BorderLayout.NORTH, SwingConstants.HORIZONTAL, BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(130, 128, 128, 130))),
+    TOP(BorderLayout.NORTH, SwingConstants.HORIZONTAL, BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(130, 128, 128, 130))),
     LEFT(BorderLayout.WEST, SwingConstants.VERTICAL, BorderFactory.createMatteBorder(1, 0, 0, 1, new Color(130, 128, 128, 130)));
 
     private String layoutLocation;
