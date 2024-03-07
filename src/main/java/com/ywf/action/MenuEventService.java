@@ -3,6 +3,7 @@ package com.ywf.action;
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
+import com.ywf.AppMain;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
@@ -14,7 +15,6 @@ import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
-import com.ywf.view.MainFrame;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
@@ -38,6 +38,10 @@ import java.net.URISyntaxException;
 import java.time.Year;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ScheduledExecutorService;
 
 
 /**
@@ -643,7 +647,7 @@ public class MenuEventService {
     /**
      * 系统重启
      */
-    public void resartWindowFrameActionPerformed(JFrame frame) {
+    /*public void resartWindowFrameActionPerformed(JFrame frame) {
         frame.dispose();
         frame.getContentPane().removeAll(); // 移除所有组件
         frame.revalidate(); // 重新验证布局
@@ -663,6 +667,26 @@ public class MenuEventService {
                 throw new RuntimeException(e);
             }
         });
+    }*/
+    public void resartWindowFrameActionPerformed(JFrame frame) {
+        frame.dispose();
+        frame.getContentPane().removeAll(); // 移除所有组件
+        frame.revalidate(); // 重新验证布局
+        frame.repaint(); // 重绘界面
+        applicationContext.setScreenSize(new ConfigurableApplicationContext.ScreenSize(frame.getWidth(), frame.getHeight()));
+        // 退出应用时，保存所有配置项到本地
+        FrameWindowCloseEventService.saveApplicationConfiguration();
+        ScheduledExecutorService schedulerExecutor = Executors.newScheduledThreadPool(2);
+        Callable callable = () -> {
+            String jarPath = AppMain.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String cmd = "cmd /c start /b java -jar " + jarPath + "\\ViewJSON.jar";
+            System.out.println("当前可执行jar的路径：" + cmd);
+            Process p = Runtime.getRuntime().exec(cmd);
+            return p;
+        };
+        FutureTask futureTask = new FutureTask(callable);
+        schedulerExecutor.submit(futureTask);
+        System.exit(0);
     }
 
 }
