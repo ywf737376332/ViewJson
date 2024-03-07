@@ -5,6 +5,8 @@ import cn.hutool.core.swing.clipboard.ImageSelection;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import org.fife.ui.rtextarea.RTextArea;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +22,8 @@ import java.awt.image.BufferedImage;
  */
 public class ImageUtils {
 
+    private final static Logger logger = LoggerFactory.getLogger(ImageUtils.class);
+
     public static BufferedImage generateTextAreaImage(RTextArea textArea, int pictureScale) {
         //绘制文本框的内容到图片上
         BufferedImage originalImage = new BufferedImage(textArea.getWidth() * pictureScale, textArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
@@ -28,9 +32,9 @@ public class ImageUtils {
         textArea.print(g2d);
         // 设置水印文字、颜色、字体和透明度等属性
         String markDateText = DateUtil.now();
-        drawWatermarkText(originalImage, g2d, markDateText, 30, 50);
+        drawWatermarkText(originalImage, g2d, markDateText, pictureScale, 30, 50);
         String markAuthorText = MessageConstant.AUTHOR;
-        drawWatermarkText(originalImage, g2d, markAuthorText, 30, 5);
+        drawWatermarkText(originalImage, g2d, markAuthorText, pictureScale, 30, 5);
         g2d.dispose();
         return originalImage;
     }
@@ -62,8 +66,9 @@ public class ImageUtils {
      * @param rightMargin
      * @param bottomMargin
      */
-    private static void drawWatermarkText(BufferedImage originalImage, Graphics2D graphics2D, String markText, int rightMargin, int bottomMargin) {
-        Color watermarkColor = new Color(130, 128, 128, 130);
+    private static void drawWatermarkText(BufferedImage originalImage, Graphics2D graphics2D, String markText, int pictureScale, int rightMargin, int bottomMargin) {
+        //Color watermarkColor = new Color(130, 128, 128, 130);
+        Color watermarkColor = Color.CYAN;
         Font watermarkFont = SystemConstant.SYSTEM_WATERMARK_FONT;
         float transparency = 0.5f; // 透明度，范围从0.0（完全透明）到1.0（完全不透明）
         // 设置水印文字的透明度
@@ -72,8 +77,8 @@ public class ImageUtils {
         graphics2D.setColor(watermarkColor);
         graphics2D.setFont(watermarkFont);
         // 计算水印文字的位置
-        int x = originalImage.getWidth() - graphics2D.getFontMetrics().stringWidth(markText) - rightMargin;
-        int y = originalImage.getHeight() - graphics2D.getFontMetrics().getHeight() - bottomMargin;
+        int x = originalImage.getWidth() / pictureScale - graphics2D.getFontMetrics().stringWidth(markText) - rightMargin;
+        int y = originalImage.getHeight() / pictureScale - graphics2D.getFontMetrics().getHeight() - bottomMargin;
         // 在新的BufferedImage对象上绘制水印文字
         graphics2D.drawString(markText, x, y);
     }
