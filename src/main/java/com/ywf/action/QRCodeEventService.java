@@ -5,8 +5,8 @@ import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.JTabbedSplitEditor;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
-import com.ywf.framework.utils.ImageUtils;
 import com.ywf.framework.utils.ObjectUtils;
+import com.ywf.framework.utils.QRCodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,10 +54,10 @@ public class QRCodeEventService {
             return;
         }
         try {
-            ImageIcon icon = ImageUtils.generatorQRCode(text);
+            ImageIcon icon = QRCodeUtils.generateColorQRCode(text, 460);
             DialogBuilder.ShowImageDialog(frame, MessageConstant.SYSTEM_SHOW_QRCODE, icon).setVisible(true);
         } catch (RuntimeException e) {
-            logger.error("二维码生成失败：{}",e.fillInStackTrace());
+            logger.error("二维码生成失败：{}", e.fillInStackTrace());
         }
     }
 }

@@ -44,7 +44,7 @@ public class DialogBuilder {
         final JDialog dialog = new JDialog(parentFrame, title, true);
         JLabel imageLabel = new JLabel(image);
         // 设置标签的首选大小为图片的大小
-        dialog.setSize(image.getIconWidth() + 50, image.getIconHeight() + 50);
+        dialog.setSize(image.getIconWidth() + 25, image.getIconHeight() + 60);
         dialog.setLayout(new BorderLayout());
         dialog.add(imageLabel, BorderLayout.CENTER);
         dialog.setLocationRelativeTo(parentFrame);
