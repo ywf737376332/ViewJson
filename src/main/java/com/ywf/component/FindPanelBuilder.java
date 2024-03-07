@@ -39,7 +39,7 @@ public class FindPanelBuilder {
         JPanel rootFindPanel = new JPanel();
         layout = new FindPanelLayout(rootFindPanel, 0, 5);
         rootFindPanel.setLayout(layout);
-        rootFindPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, new Color(130, 128, 128, 130)));
+        rootFindPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(130, 128, 128, 130)));
 
         JPanel findPanel = new JPanel(new BorderLayout());
         findPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // 设置边框为10像素的空白边框
@@ -63,8 +63,8 @@ public class FindPanelBuilder {
         regexButton.setRolloverIcon(new FlatSVGIcon("icons/regexHovered.svg"));
         regexButton.setSelectedIcon(new FlatSVGIcon("icons/regexSelected.svg"));
         regexButton.setToolTipText("Regular Expression");
-        searchToolbar.add(matchCaseButton);
         searchToolbar.addSeparator();
+        searchToolbar.add(matchCaseButton);
         searchToolbar.add(regexButton);
         fieldFind.putClientProperty(FlatClientProperties.TEXT_FIELD_TRAILING_COMPONENT, searchToolbar);
         findPanel.add(fieldFind, BorderLayout.CENTER);
