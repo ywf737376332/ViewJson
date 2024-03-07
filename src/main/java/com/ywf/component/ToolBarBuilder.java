@@ -81,8 +81,7 @@ public class ToolBarBuilder {
     }
 
     private JToolBar initToolBar() {
-        ResourceBundle msg = resourceBundle;
-        JToolBar tool = new JToolBar(getMessage(msg, "ToolBar"));
+        JToolBar tool = toolBar != null ? toolBar : new JToolBar();
         tool.setUI(new BasicToolBarUI());
         // 需要绘制边框
         tool.setBorderPainted(true);
