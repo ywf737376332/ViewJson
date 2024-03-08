@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.ywf.framework.enums.TextTypeEnum;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -26,6 +28,8 @@ import java.util.regex.Pattern;
  */
 public class TypeUtils {
 
+    private final static Logger logger = LoggerFactory.getLogger(TypeUtils.class);
+
     public static TextTypeEnum isType(String content) {
         if (isJson(content)) {
             return TextTypeEnum.JSON;
@@ -33,32 +37,47 @@ public class TypeUtils {
             return TextTypeEnum.XML;
         } else if (isURL(content)) {
             return TextTypeEnum.URL;
-        } else if (isJAVA(content)) {
-            return TextTypeEnum.JAVA;
-        } else if (isJavaScript(content)) {
-            return TextTypeEnum.JAVASCRIPT;
         } else if (isSQL(content)) {
             return TextTypeEnum.SQL;
         } else if (isProperties(content)) {
             return TextTypeEnum.PROPERTIES;
         } else if (isYaml(content)) {
             return TextTypeEnum.YAML;
+        } else if (isJAVA(content)) {
+            return TextTypeEnum.JAVA;
+        } else if (isJavaScript(content)) {
+            return TextTypeEnum.JAVASCRIPT;
         }
         return TextTypeEnum.TEXT;
     }
 
-    private static boolean isJAVA(String content) {
+    public static boolean isJAVA(String content) {
+        //JAVA语法至少包含一对(),继续检查
+        if (!StrUtils.hasAnyBrackets(content)) {
+            return false;
+        }
+        // 括号闭合,继续检查
+        if (!isBracketValid(content)) {
+            return false;
+        }
         try {
             String keywordsRegex = "\\b(?:abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|void|volatile|while)\\b";
             Pattern pattern = Pattern.compile(keywordsRegex);
             Matcher matcher = pattern.matcher(content);
-            return matcher.find();
+            if (matcher.find()) {
+                logger.info("当前内容类型：【Java】");
+            }
+            return false;
         } catch (Exception e) {
             return false;
         }
     }
 
     private static boolean isJavaScript(String content) {
+        // 括号闭合，继续检查
+        if (!isBracketValid(content)) {
+            return false;
+        }
         try {
             String keywordsRegex = "\\b(?:break|case|catch|class|const|continue|debugger|default|delete|do|else|export|extends|finally|for|function|if|import|in|instanceof|new|return|super|switch|this|throw|try|typeof|var|void|while|with|yield)\\b";
             Pattern pattern = Pattern.compile(keywordsRegex);
@@ -77,6 +96,7 @@ public class TypeUtils {
         for (String parsedSql : sql.split(";")) {
             try {
                 CCJSqlParserUtil.parse(parsedSql);
+                logger.info("当前内容类型：【Sql】");
                 return true;
             } catch (JSQLParserException e) {
                 return false;
@@ -101,7 +121,11 @@ public class TypeUtils {
             }
         }
         sc.close();
-        return nProps > 0;
+        if (nProps > 0) {
+            logger.info("当前内容类型：【Yaml】");
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -116,6 +140,7 @@ public class TypeUtils {
         }
         try {
             JSONObject.parse(content);
+            logger.info("当前内容类型：【Json】");
             return true;
         } catch (Exception e) {
             return false;
@@ -131,6 +156,7 @@ public class TypeUtils {
     private static boolean isURL(String content) {
         try {
             new URL(content);
+            logger.info("当前内容类型：【Url】");
             return true;
         } catch (MalformedURLException e) {
             return false;
@@ -155,6 +181,7 @@ public class TypeUtils {
                 // 尝试解析字符串为XML文档
                 dbFactory.newDocumentBuilder().parse(new InputSource(new StringReader(text)));
                 // 如果没有抛出异常，则字符串是有效的XML格式
+                logger.info("当前内容类型：【Xml】");
                 return true;
             }
             return false;
@@ -179,10 +206,49 @@ public class TypeUtils {
             if (load == null) {
                 return false;
             }
+            logger.info("当前内容类型：【Yaml】");
             return true;
         } catch (YAMLException e) {
             return false;
         }
+    }
+
+    /**
+     * 检查代码括号是否闭合
+     *
+     * @param s
+     * @return
+     */
+    private static boolean isBracketValid(String s) {
+        if (s == null || s.length() == 0)
+            return false;
+        char[] stack = new char[s.length()];
+        int head = 0;
+        for (char c : s.toCharArray()) {
+            switch (c) {
+                case '{':
+                case '[':
+                case '(':
+                    stack[head++] = c;
+                    break;
+                case '}':
+                    if (head == 0 || stack[--head] != '{') {
+                        return false;
+                    }
+                    break;
+                case ')':
+                    if (head == 0 || stack[--head] != '(') {
+                        return false;
+                    }
+                    break;
+                case ']':
+                    if (head == 0 || stack[--head] != '[') {
+                        return false;
+                    }
+                    break;
+            }
+        }
+        return head == 0;
     }
 
     /**

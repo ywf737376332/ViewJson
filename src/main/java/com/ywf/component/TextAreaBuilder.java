@@ -59,8 +59,6 @@ public class TextAreaBuilder {
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(applicationContext.getTextAreaShowlineNumState());
         rTextScrollPane.setFoldIndicatorEnabled(true);
-        //监听文档变化
-        StateBarEventService.getInstance().textAreaDocumentActionPerformed(syntaxTextArea);
         try {
             Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath), SystemConstant.SYSTEM_DEFAULT_FONT);
             theme.apply(syntaxTextArea);
@@ -70,6 +68,8 @@ public class TextAreaBuilder {
         // 必须等Xml初始化结束后，在设置字体，不然xml没设置字体，先用代码设置后，会被覆盖
         syntaxTextArea.setFont(new FontUIResource(applicationContext.getEditorFontStyle().getName(), Font.PLAIN, applicationContext.getEditorFontStyle().getSize()));
         logger.info("编辑框字体加载成功,当前字体：{}", syntaxTextArea.getFont());
+        //监听文档变化
+        StateBarEventService.getInstance().textAreaDocumentActionPerformed(syntaxTextArea);
         return rTextScrollPane;
     }
 
