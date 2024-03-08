@@ -79,7 +79,9 @@ public class StateBarEventService {
             @Override
             protected Boolean doInBackground() {
                 String text = rSyntaxTextArea.getText();
+                System.out.println("后台现成拿到对的内容A："+text);
                 TextTypeEnum contentType = TypeUtils.isType(text);
+                System.out.println("后台现成拿到对的内容B："+text);
                 StateBarEntity stateBarEntity = new StateBarEntity(contentType, StrUtils.counts(text));
                 publish(stateBarEntity);
                 return true;
