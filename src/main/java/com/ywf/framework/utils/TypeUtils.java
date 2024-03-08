@@ -3,12 +3,17 @@ package com.ywf.framework.utils;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.ywf.framework.enums.TextTypeEnum;
+import net.sf.jsqlparser.JSQLParserException;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import org.xml.sax.InputSource;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.error.YAMLException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,6 +41,8 @@ public class TypeUtils {
             return TextTypeEnum.SQL;
         } else if (isProperties(content)) {
             return TextTypeEnum.PROPERTIES;
+        } else if (isYaml(content)) {
+            return TextTypeEnum.YAML;
         }
         return TextTypeEnum.TEXT;
     }
@@ -63,14 +70,19 @@ public class TypeUtils {
     }
 
     private static boolean isSQL(String content) {
-        try {
-            String keywordsRegex = "\\b(?:SELECT |INSERT |UPDATE |DELETE |CREATE TABLE |ALTER TABLE |TRUNCATE TABLE )\\b";
-            Pattern pattern = Pattern.compile(keywordsRegex);
-            Matcher matcher = pattern.matcher(content.toUpperCase());
-            return matcher.find();
-        } catch (Exception e) {
+        String sql = JsonUtil.compressingStr(content);
+        if (StrUtil.isBlank(sql)) {
             return false;
         }
+        for (String parsedSql : sql.split(";")) {
+            try {
+                CCJSqlParserUtil.parse(parsedSql);
+                return true;
+            } catch (JSQLParserException e) {
+                return false;
+            }
+        }
+        return false;
     }
 
     private static boolean isProperties(String content) {
@@ -148,6 +160,27 @@ public class TypeUtils {
             return false;
         } catch (Exception e) {
             // 解析过程中出现异常则认为不是有效的XML
+            return false;
+        }
+    }
+
+    /**
+     * Yaml类型判断
+     *
+     * @param content
+     * @return
+     */
+    private static boolean isYaml(String content) {
+        try {
+            Yaml yaml = new Yaml();
+            String tmpText = content.replaceAll("^---.*\n", "---\n");
+            tmpText = tmpText.replaceAll("!ruby.*\n", "\n");
+            Map load = yaml.load(tmpText);
+            if (load == null) {
+                return false;
+            }
+            return true;
+        } catch (YAMLException e) {
             return false;
         }
     }
