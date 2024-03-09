@@ -1,6 +1,7 @@
 package com.ywf.component;
 
 import com.ywf.action.StateBarEventService;
+import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.utils.ComponentUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
@@ -54,7 +55,7 @@ public class JTabbedSplitEditor extends JPanel {
         removeComponents(page);
         cacheComment(component);
         int componentCount = getEditorComponentCount();
-        page.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 3)); // 设置外边距
+        page.setBorder(BorderBuilder.leftAndRightEmptyBorder(5, 3)); // 设置外边距
         switch (componentCount) {
             case 1:
                 page.add(getComment(1), BorderLayout.CENTER);

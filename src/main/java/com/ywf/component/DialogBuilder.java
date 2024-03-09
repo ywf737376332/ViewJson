@@ -1,6 +1,6 @@
 package com.ywf.component;
 
-import com.ywf.framework.config.SvgIconFactory;
+import com.ywf.framework.base.SvgIconFactory;
 
 import javax.swing.*;
 import java.awt.*;

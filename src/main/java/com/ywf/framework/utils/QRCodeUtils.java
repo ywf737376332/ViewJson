@@ -80,7 +80,7 @@ public class QRCodeUtils {
                             * (y + 1));
                     int num3 = (int) (162 - (162.0 - 210.0)
                             / matrix.getHeight() * (y + 1));
-                    Color color = new Color(num3, num2, num1);
+                    Color color = new Color(num1, num2, num3);
                     int colorInt = color.getRGB();
                     // 此处可以修改二维码的颜色，可以分别制定二维码和背景的颜色；
                     pixels[y * imageSize + x] = matrix.get(x, y) ? colorInt : 16777215;// 0x000000:0xffffff

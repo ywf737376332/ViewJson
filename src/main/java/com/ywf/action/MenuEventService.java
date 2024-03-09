@@ -7,7 +7,7 @@ import com.ywf.AppMain;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
-import com.ywf.framework.config.SvgIconFactory;
+import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.LocationEnum;

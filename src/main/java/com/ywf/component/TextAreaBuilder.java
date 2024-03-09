@@ -2,6 +2,7 @@ package com.ywf.component;
 
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.config.JSONRSyntaxTextAreaDocumentFilter;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
@@ -42,7 +43,7 @@ public class TextAreaBuilder {
         textAreaSource.setLineWrap(true);
         textAreaSource.setBorder(null);
         textAreaSource.setForeground(new Color(200, 96, 17));
-        textAreaSource.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置边框为10像素的空白边框
+        textAreaSource.setBorder(BorderBuilder.emptyBorder(5)); // 设置边框为10像素的空白边框
         JScrollPane jScrollPane = new JScrollPane();
         jScrollPane.setViewportView(textAreaSource);
         return jScrollPane;
@@ -57,7 +58,7 @@ public class TextAreaBuilder {
         String themesPath = themesStyles != null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
         RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
-        rTextScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        rTextScrollPane.setBorder(BorderBuilder.emptyBorder(0));
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(applicationContext.getTextAreaShowlineNumState());
         rTextScrollPane.setFoldIndicatorEnabled(true);

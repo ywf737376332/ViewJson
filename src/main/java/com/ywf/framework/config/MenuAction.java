@@ -1,5 +1,7 @@
 package com.ywf.framework.config;
 
+import com.ywf.framework.base.SvgIconFactory;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;

@@ -1,5 +1,8 @@
 package com.ywf.framework.enums;
 
+import com.ywf.framework.base.BorderBuilder;
+import com.ywf.framework.base.ThemeColor;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -12,8 +15,8 @@ import java.awt.*;
  */
 public enum LocationEnum {
 
-    TOP(BorderLayout.NORTH, SwingConstants.HORIZONTAL, BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(130, 128, 128, 130))),
-    LEFT(BorderLayout.WEST, SwingConstants.VERTICAL, BorderFactory.createMatteBorder(1, 0, 0, 1, new Color(130, 128, 128, 130)));
+    TOP(BorderLayout.NORTH, SwingConstants.HORIZONTAL, BorderBuilder.topBorder(1, ThemeColor.themeColor)),
+    LEFT(BorderLayout.WEST, SwingConstants.VERTICAL, BorderBuilder.topAndRightBorder(1, ThemeColor.themeColor));
 
     private String layoutLocation;
     private int toolbarLocation;

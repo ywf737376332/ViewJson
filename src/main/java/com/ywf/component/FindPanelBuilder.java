@@ -3,8 +3,10 @@ package com.ywf.component;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.formdev.flatlaf.extras.components.FlatTextField;
+import com.ywf.framework.base.BorderBuilder;
+import com.ywf.framework.base.SvgIconFactory;
+import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.config.GlobalKEY;
-import com.ywf.framework.config.SvgIconFactory;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.layout.FindPanelLayout;
 import com.ywf.framework.utils.ObjectUtils;
@@ -38,16 +40,16 @@ public class FindPanelBuilder {
         JPanel rootFindPanel = new JPanel();
         layout = new FindPanelLayout(rootFindPanel, 0, 5);
         rootFindPanel.setLayout(layout);
-        rootFindPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(130, 128, 128, 130)));
+        rootFindPanel.setBorder(BorderBuilder.topBorder(1, ThemeColor.themeColor));
 
         JPanel findPanel = new JPanel(new BorderLayout());
-        findPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // 设置边框为10像素的空白边框
+        findPanel.setBorder(BorderBuilder.leftEmptyBorder(10)); // 设置左边框为10像素的空白边框
         JLabel findLabel = new JLabel(MessageConstant.SYSTEM_FIND, SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.find), SwingConstants.RIGHT);
         findPanel.add(findLabel, BorderLayout.WEST);
         fieldFind = new FlatTextField();
         fieldFind.setPlaceholderText(MessageConstant.SYSTEM_FIND_CONTENT_TIP);
         fieldFind.setPadding(new Insets(0, 5, 0, 5));
-        fieldFind.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, new Color(130, 128, 128, 130)));
+        fieldFind.setBorder(BorderBuilder.leftAndRightBorder(1, ThemeColor.themeColor));
         fieldFind.setShowClearButton(true);
         fieldFind.getDocument().addDocumentListener(new HighlightDocumentListener());
 
@@ -75,7 +77,7 @@ public class FindPanelBuilder {
         buttonUp.addActionListener(e -> prevFindActionPerformed());
         searchResultLabel = new FlatLabel();
         searchResultLabel.setText(updateSearchResultCounts(0));
-        searchResultLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        searchResultLabel.setBorder(BorderBuilder.leftEmptyBorder(10));
         findBtnPanel.add(buttonNext);
         findBtnPanel.add(buttonUp);
         findBtnPanel.add(searchResultLabel);
@@ -87,7 +89,7 @@ public class FindPanelBuilder {
         findBtnPanel.add(findRight);
 
         btnClose = new JLabel(SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.close));
-        btnClose.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 7)); // 设置边框为10像素的空白边框
+        btnClose.setBorder(BorderBuilder.leftAndRightEmptyBorder(7)); // 设置边框为7像素的空白边框
         btnClose.setBounds(535, 5, 25, 25);
         btnClose.addMouseListener(new ClosePopupMouseListener());
         findRight.add(btnClose, BorderLayout.EAST);
@@ -176,7 +178,7 @@ public class FindPanelBuilder {
                 if ((ignoreCase == true && text.toString().equalsIgnoreCase(key))
                         || (ignoreCase == false && text.toString().equals(key))) {
                     //textArea.requestFocus();////焦点,才能能看到效果
-                    textArea.setForeground(new Color(248, 201, 171));
+                    textArea.setForeground(ThemeColor.findSelectColor);
                     textArea.setSelectionStart(offset);
                     textArea.setSelectionEnd(offset + length);
                     return true;
@@ -199,7 +201,7 @@ public class FindPanelBuilder {
         return layout;
     }
 
-    private static final Highlighter.HighlightPainter HIGHLIGHT = new DefaultHighlighter.DefaultHighlightPainter(new Color(255, 150, 50));
+    private static final Highlighter.HighlightPainter HIGHLIGHT = new DefaultHighlighter.DefaultHighlightPainter(ThemeColor.highLightColor);
     private static boolean isHighlight = false;
 
 

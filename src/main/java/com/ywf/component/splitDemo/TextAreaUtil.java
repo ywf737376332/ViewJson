@@ -1,6 +1,7 @@
 package com.ywf.component.splitDemo;
 
 import com.ywf.component.JSONRSyntaxTextArea;
+import com.ywf.framework.base.BorderBuilder;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -33,7 +34,7 @@ public class TextAreaUtil {
     private static RTextScrollPane createJsonScrollTextArea() {
         JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, "/themes/textAreaThemes/ideaLight.xml");
         RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
-        rTextScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        rTextScrollPane.setBorder(BorderBuilder.emptyBorder(0));
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(true);
         rTextScrollPane.setFoldIndicatorEnabled(true);

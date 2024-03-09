@@ -1,7 +1,7 @@
 package com.ywf.component;
 
 import com.ywf.framework.config.RsTextAreaEditorKit;
-import com.ywf.framework.config.SvgIconFactory;
+import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.enums.TextTypeEnum;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit;

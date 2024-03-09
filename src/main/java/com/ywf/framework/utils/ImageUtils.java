@@ -2,6 +2,7 @@ package com.ywf.framework.utils;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.swing.clipboard.ImageSelection;
+import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import org.fife.ui.rtextarea.RTextArea;
@@ -67,13 +68,12 @@ public class ImageUtils {
      * @param bottomMargin
      */
     private static void drawWatermarkText(BufferedImage originalImage, Graphics2D graphics2D, String markText, int pictureScale, int rightMargin, int bottomMargin) {
-        Color watermarkColor = new Color(130, 128, 128, 130);
         Font watermarkFont = SystemConstant.SYSTEM_WATERMARK_FONT;
         float transparency = 0.5f; // 透明度，范围从0.0（完全透明）到1.0（完全不透明）
         // 设置水印文字的透明度
         graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparency));
         // 设置水印文字的颜色和字体
-        graphics2D.setColor(watermarkColor);
+        graphics2D.setColor(ThemeColor.watermarkColor);
         graphics2D.setFont(watermarkFont);
         // 计算水印文字的位置
         int x = originalImage.getWidth() / pictureScale - graphics2D.getFontMetrics().stringWidth(markText) - rightMargin;

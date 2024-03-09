@@ -1,6 +1,7 @@
 package com.ywf.component;
 
 import com.formdev.flatlaf.extras.components.FlatLabel;
+import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.ObjectUtils;
 
@@ -48,7 +49,7 @@ public class LabelBarBuilder {
         FlatLabel label = new FlatLabel();
         label.setText("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + text + "</span></html>");
         label.setLabelType(FlatLabel.LabelType.medium);
-        label.setForeground(new Color(167, 179, 211));
+        label.setForeground(ThemeColor.stateBarLabelColor);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
         return label;

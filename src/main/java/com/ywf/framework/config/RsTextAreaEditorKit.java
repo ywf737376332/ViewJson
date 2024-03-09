@@ -2,6 +2,7 @@ package com.ywf.framework.config;
 
 import com.ywf.action.MenuEventService;
 import com.ywf.component.JSONRSyntaxTextArea;
+import com.ywf.framework.base.SvgIconFactory;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextAreaEditorKit;
 import org.fife.ui.rtextarea.RecordableTextAction;
