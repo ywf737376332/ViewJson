@@ -5,8 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.ywf.framework.enums.TextTypeEnum;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.yaml.snakeyaml.Yaml;
 
@@ -26,8 +24,6 @@ import java.util.regex.Pattern;
  * @Date 2024/2/22 14:47
  */
 public class TypeUtils {
-
-    private final static Logger logger = LoggerFactory.getLogger(TypeUtils002.class);
 
     public static TextTypeEnum isType(String content) {
         if (isJson(content)) {
