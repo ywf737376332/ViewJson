@@ -17,9 +17,9 @@ public class Main {
 
     public static void main(String[] args) {
         //validate();
-
-        boolean isYaml = isYaml("12312");
-        System.out.println("isYaml:"+isYaml);
+        String message = "textAreaEditState = true";
+        int messageCounts = StrUtils.counts(message);
+        System.out.println("messageCounts:"+messageCounts);
     }
 
     private static void validate() {
@@ -33,20 +33,5 @@ public class Main {
         }
     }
 
-    public static boolean isYaml(String content) {
-        try {
-            Yaml yaml = new Yaml();
-            String tmpText = content.replaceAll("^---.*\n", "---\n");
-            tmpText = tmpText.replaceAll("!ruby.*\n", "\n");
-            Map<String,Object> load = yaml.load(tmpText);
-            System.out.println("校验通过");
-            if (load == null) {
-                return false;
-            }
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
 }

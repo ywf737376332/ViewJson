@@ -2,6 +2,7 @@ package com.ywf.component;
 
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.config.JSONRSyntaxTextAreaDocumentFilter;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.text.AbstractDocument;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.io.IOException;
@@ -68,7 +70,9 @@ public class TextAreaBuilder {
         // 必须等Xml初始化结束后，在设置字体，不然xml没设置字体，先用代码设置后，会被覆盖
         syntaxTextArea.setFont(new FontUIResource(applicationContext.getEditorFontStyle().getName(), Font.PLAIN, applicationContext.getEditorFontStyle().getSize()));
         logger.info("编辑框字体加载成功,当前字体：{}", syntaxTextArea.getFont());
-        //监听文档变化
+        // 给文本编辑器增加过滤器
+        ((AbstractDocument) syntaxTextArea.getDocument()).setDocumentFilter(new JSONRSyntaxTextAreaDocumentFilter(syntaxTextArea));
+        //监听文档变化,统计输入的字符数量和当前文档内容类型识别，同步显示到状态栏
         StateBarEventService.getInstance().textAreaDocumentActionPerformed(syntaxTextArea);
         return rTextScrollPane;
     }
