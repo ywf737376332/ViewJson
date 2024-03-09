@@ -55,7 +55,7 @@ public class ToolBarBuilder {
 
     private void init() {
         resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
-        createButtonActions(MenuAction.IconSize.medium);
+        createButtonActions();
     }
 
     public JToolBar createToolBar(JFrame frame) {
@@ -105,7 +105,8 @@ public class ToolBarBuilder {
     /**
      * 菜单事件初始化
      */
-    private void createButtonActions(MenuAction.IconSize iconSize) {
+    private void createButtonActions() {
+        MenuAction.IconSize iconSize = applicationContext.getShowToolBarText() == true ? MenuAction.IconSize.medium : MenuAction.IconSize.large;
         ResourceBundle msg = resourceBundle;
         boolean showText = applicationContext.getShowToolBarText();
         formatAction = new MenuBarKit.FormatAction();
@@ -139,7 +140,7 @@ public class ToolBarBuilder {
         JFrame mainFrame = ObjectUtils.getBean(GlobalKEY.MAIN_FRAME);
         mainFrame.remove(toolBar);
         toolBar.removeAll();
-        createButtonActions(MenuAction.IconSize.tooLarge);
+        createButtonActions();
         mainFrame.add(createToolBar(frame), applicationContext.getToolBarLocation());
         mainFrame.revalidate();
         mainFrame.repaint();

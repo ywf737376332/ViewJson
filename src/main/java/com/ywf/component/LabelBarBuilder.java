@@ -55,6 +55,16 @@ public class LabelBarBuilder {
         return label;
     }
 
+    /**
+     * 空组件
+     * @return
+     */
+    public static FlatLabel createEmptyLabel() {
+        FlatLabel label = new FlatLabel();
+        label.setPreferredSize(new Dimension(0, 0));
+        return label;
+    }
+
     public static void casheComponent(boolean isCashe, JLabel label, String componentName) {
         if (isCashe) {
             ObjectUtils.setBean(componentName, label);

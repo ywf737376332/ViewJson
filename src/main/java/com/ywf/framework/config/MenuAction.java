@@ -58,7 +58,7 @@ public abstract class MenuAction extends AbstractAction {
         small(12),
         medium(14),
         large(16),
-        tooLarge(16);
+        tooLarge(18);
 
         private int size;
 
