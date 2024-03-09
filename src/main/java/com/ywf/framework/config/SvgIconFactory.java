@@ -21,99 +21,76 @@ public final class SvgIconFactory {
      * @param path 图标路径
      * @return 20*20的图标
      */
-    public static FlatSVGIcon icon(String path) {
-        return new FlatSVGIcon(path, 16, 16);
+    public static FlatSVGIcon icon(String path, int width, int height) {
+        ClassLoader classLoader = SvgIconFactory.class.getClassLoader();
+        return new FlatSVGIcon(path, width, height, classLoader);
     }
 
+    /**
+     * @param path 图标路径
+     * @return 指定颜色的svgIcon
+     */
+    public static FlatSVGIcon miniIcon(String path) {
+        return icon(path, 10, 10);
+    }
+
+    /**
+     * @param path 图标路径
+     * @return 指定颜色的svgIcon
+     */
+    public static FlatSVGIcon smallIcon(String path) {
+        return icon(path, 12, 12);
+    }
+
+    /**
+     * @param path 图标路径
+     * @return 指定颜色的svgIcon
+     */
+    public static FlatSVGIcon mediumIcon(String path) {
+        return icon(path, 14, 14);
+    }
+
+
+    /**
+     * @param path 图标路径
+     * @return 指定颜色的svgIcon
+     */
+    public static FlatSVGIcon largeIcon(String path) {
+        return icon(path, 16, 16);
+    }
 
     /**
      * @param path  图标路径
      * @param color 颜色
      * @return 指定颜色的svgIcon
      */
-    public static FlatSVGIcon icon(String path, @Nonnull Color color) {
-        FlatSVGIcon svgIcon = icon(path);
+    public static FlatSVGIcon icon(String path, int width, int height, @Nonnull Color color) {
+        FlatSVGIcon svgIcon = icon(path, width, height);
         svgIcon.setColorFilter(new FlatSVGIcon.ColorFilter(c -> color));
         return svgIcon;
     }
 
-    public interface Note {
-        String icon = "icons/note.svg";
-        String editor = "icons/note-editor.svg";
-        String plugins = "icons/note-plugins.svg";
-        String sync = "icons/note-sync.svg";
-        String question = "icons/note-question.svg";
+    public interface SystemIcon {
+        String logo = "/icons/logo.svg";
+        String about = "icons/logo.svg";
+        String author = "icons/auth.svg";
     }
 
-
-    public interface Find {
-        String arrowUp = "icons/find/arrow-up.svg";
-        String arrowDown = "icons/find/arrow-down.svg";
-        String close = "icons/find/close.svg";
+    public interface FindIcon {
+        String find = "icons/find.svg";
+        String matchCase = "icons/matchCase.svg";
+        String matchCaseHovered = "icons/matchCaseHovered.svg";
+        String matchCaseSelected = "icons/matchCaseSelected.svg";
+        String regex = "icons/regex.svg";
+        String regexHovered = "icons/regexHovered.svg";
+        String regexSelected = "icons/regexSelected.svg";
+        String close = "icons/close.svg";
+        String closeHovered = "icons/closeRed.svg";
     }
 
-    public interface Menu {
-        String formatter = "icons/menu/formatter.svg";
-        String helper = "icons/menu/helper.svg";
-        String example = "icons/menu/example.svg";
+    public interface TextAreaMenuIcon {
+        String collapseCode = "icons/collapseCode.svg";
+        String newEditor = "icons/newEditer.svg";
+        String closeEditor = "icons/closeTab.svg";
     }
-
-    public interface Category {
-        String trace = "icons/category/trace.svg";
-        String collapseAll = "icons/category/collapse_all.svg";
-    }
-
-
-    public interface Editor {
-        String copy = "icons/editor/copy.svg";
-        String cut = "icons/editor/menu-cut.svg";
-        String paste = "icons/editor/menu-paste.svg";
-        String note = "icons/editor/note.svg";
-    }
-
-    public interface Message {
-        String ok = "icons/auth.svg";
-        String error = "icons/message/close-circle.svg";
-        String warn = "icons/message/info-circle.svg";
-    }
-
-    public interface Formatter {
-        String code = "icons/formatter/format-code.svg";
-        String mysql = "icons/formatter/format-mysql.svg";
-        String json = "icons/formatter/format-json.svg";
-        String json_structure = "icons/formatter/json-structure.svg";
-    }
-
-
-    public interface Common {
-        /**
-         * 搜索图标
-         */
-        String search = "icons/common/search.svg";
-        /**
-         * 透明图标
-         */
-        String transparent = "icons/common/transparent.svg";
-
-        String folder = "icons/common/folder.svg";
-
-        String addFile = "icons/common/add-file.svg";
-
-        String setting = "icons/common/setting.svg";
-
-        String copy = "icons/editor/copy.svg";
-
-        String update = "icons/common/update.svg";
-        String delete = "icons/common/delete.svg";
-        String add = "icons/common/add.svg";
-    }
-
-
-    public interface Tools {
-        /**
-         * 苹果标签
-         */
-        String carbon_title = "icons/tools/carbon-title.svg";
-    }
-
 }

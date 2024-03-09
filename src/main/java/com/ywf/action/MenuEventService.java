@@ -7,6 +7,7 @@ import com.ywf.AppMain;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.config.SvgIconFactory;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.LocationEnum;
@@ -293,7 +294,7 @@ public class MenuEventService {
      */
     public void aboutActionPerformed() {
         JLabel titleLabel = new JLabel(MessageConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
-        titleLabel.setIcon(IconUtils.getSVGIcon("icons/logo01.svg", 50, 50));
+        titleLabel.setIcon(SvgIconFactory.icon(SvgIconFactory.SystemIcon.about, 50, 50));
         titleLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "H1");
         String link = "737376332@qq.com";
         JLabel linkLabel = new JLabel("<html><span>联系方式：</span><a href=737376332@qq.com>" + link + "</a></html>");

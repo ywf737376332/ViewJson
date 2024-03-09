@@ -6,8 +6,8 @@ import com.ywf.component.BasePanel;
 import com.ywf.component.LabelBarBuilder;
 import com.ywf.component.StateLabel;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.config.SvgIconFactory;
 import com.ywf.framework.constant.MessageConstant;
-import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,10 +45,8 @@ public class PanelView {
         JPanel panelBottom = new BasePanel();
         // 设置边距
         JPanel panelBottomText = new BasePanel();
-        panelBottomText.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20)); // 设置外边距
-        FlatLabel labelCopyrightLabel = new FlatLabel();
-        labelCopyrightLabel.setIcon(IconUtils.getImageIcon("/icons/auth.png"));
-        labelCopyright = new JLabel("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + MessageConstant.AUTHOR_TAG + MessageConstant.AUTHOR + "</span></html>", IconUtils.getSVGIcon("icons/auth.svg", 12, 12), SwingConstants.LEFT);
+        panelBottomText.setBorder(BorderFactory.createEmptyBorder(7, 20, 7, 20)); // 设置外边距
+        labelCopyright = new JLabel("<html><span style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + MessageConstant.AUTHOR_TAG + MessageConstant.AUTHOR + "</span></html>", SvgIconFactory.miniIcon(SvgIconFactory.SystemIcon.author), SwingConstants.LEFT);
         labelCopyright.setForeground(new Color(156, 170, 207));
         labelCopyright.addMouseListener(new CopyrightMouseListener());
 

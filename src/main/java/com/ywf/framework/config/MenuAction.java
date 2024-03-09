@@ -1,7 +1,5 @@
 package com.ywf.framework.config;
 
-import com.ywf.framework.utils.IconUtils;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.ResourceBundle;
@@ -25,7 +23,7 @@ public abstract class MenuAction extends AbstractAction {
             setName(msg.getString(keyRoot + ".Name"));
         }
         if (msg.containsKey(keyRoot + ".Icon")) {
-            setSmallIcon(IconUtils.getSVGIcon(msg.getString(keyRoot + ".Icon"), iconSize.getSize(), iconSize.getSize()));
+            setSmallIcon(SvgIconFactory.icon(msg.getString(keyRoot + ".Icon"), iconSize.getSize(), iconSize.getSize()));
         }
         setToolTipText(msg.getString(keyRoot + ".Name"));
         // 鼠标悬停提示 MenuItem.Format.Tip=\u683c\u5f0f\u5316
@@ -37,7 +35,7 @@ public abstract class MenuAction extends AbstractAction {
     public void setProperties(ResourceBundle msg, String keyRoot) {
         setName(msg.getString(keyRoot + ".Name"));
         if (msg.containsKey(keyRoot + ".Icon")) {
-            setSmallIcon(IconUtils.getSVGIcon(msg.getString(keyRoot + ".Icon"), IconSize.small.getSize(), IconSize.small.getSize()));
+            setSmallIcon(SvgIconFactory.smallIcon(msg.getString(keyRoot + ".Icon")));
         }
     }
 
@@ -54,9 +52,11 @@ public abstract class MenuAction extends AbstractAction {
     }
 
     public enum IconSize {
+        mini(10),
         small(12),
         medium(14),
-        large(16);
+        large(16),
+        tooLarge(16);
 
         private int size;
 

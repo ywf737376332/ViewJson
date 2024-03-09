@@ -1,8 +1,8 @@
 package com.ywf.component;
 
 import com.ywf.framework.config.RsTextAreaEditorKit;
+import com.ywf.framework.config.SvgIconFactory;
 import com.ywf.framework.enums.TextTypeEnum;
-import com.ywf.framework.utils.IconUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit;
 import org.fife.ui.rtextarea.RTextArea;
@@ -158,7 +158,7 @@ public class JSONRSyntaxTextArea extends RSyntaxTextArea {
         ResourceBundle msg = getResourceBundle();
         popup.addSeparator();
         foldingMenu = new JMenu(msg.getString("ContextMenu.Folding"));
-        foldingMenu.setIcon(IconUtils.getSVGIcon("icons/collapseCode.svg"));
+        foldingMenu.setIcon(SvgIconFactory.mediumIcon(SvgIconFactory.TextAreaMenuIcon.collapseCode));
         foldingMenu.add(createPopupMenuItem(collapseAllFoldsAction));
         foldingMenu.add(createPopupMenuItem(expandAllFoldsAction));
         popup.add(foldingMenu);

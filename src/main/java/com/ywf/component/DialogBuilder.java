@@ -1,6 +1,6 @@
 package com.ywf.component;
 
-import com.ywf.framework.utils.IconUtils;
+import com.ywf.framework.config.SvgIconFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,8 +36,7 @@ public class DialogBuilder {
      * @date 2023/12/12 23:54
      */
     public static JDialog ShowImageDialog(JFrame parentFrame, String title, String imagePath) {
-        ImageIcon image = IconUtils.getImageIcon(imagePath);
-        return createDialog(parentFrame, title, image);
+        return createDialog(parentFrame, title, SvgIconFactory.mediumIcon(imagePath));
     }
 
     private static JDialog createDialog(JFrame parentFrame, String title, ImageIcon image) {

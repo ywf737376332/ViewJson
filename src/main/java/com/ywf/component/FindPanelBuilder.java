@@ -1,13 +1,12 @@
 package com.ywf.component;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.formdev.flatlaf.extras.components.FlatTextField;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.config.SvgIconFactory;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.layout.FindPanelLayout;
-import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.ObjectUtils;
 
 import javax.swing.*;
@@ -43,7 +42,7 @@ public class FindPanelBuilder {
 
         JPanel findPanel = new JPanel(new BorderLayout());
         findPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // 设置边框为10像素的空白边框
-        JLabel findLabel = new JLabel(MessageConstant.SYSTEM_FIND, IconUtils.getSVGIcon("icons/find.svg", 16, 16), SwingConstants.RIGHT);
+        JLabel findLabel = new JLabel(MessageConstant.SYSTEM_FIND, SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.find), SwingConstants.RIGHT);
         findPanel.add(findLabel, BorderLayout.WEST);
         fieldFind = new FlatTextField();
         fieldFind.setPlaceholderText(MessageConstant.SYSTEM_FIND_CONTENT_TIP);
@@ -54,15 +53,15 @@ public class FindPanelBuilder {
 
         // search toolbar
         JToolBar searchToolbar = new JToolBar();
-        JToggleButton matchCaseButton = new JToggleButton(new FlatSVGIcon("icons/matchCase.svg"));
-        matchCaseButton.setRolloverIcon(new FlatSVGIcon("icons/matchCaseHovered.svg"));
-        matchCaseButton.setSelectedIcon(new FlatSVGIcon("icons/matchCaseSelected.svg"));
-        matchCaseButton.setToolTipText("Match Case");
+        JToggleButton matchCaseButton = new JToggleButton(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.matchCase));
+        matchCaseButton.setRolloverIcon(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.matchCaseHovered));
+        matchCaseButton.setSelectedIcon(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.matchCaseSelected));
+        matchCaseButton.setToolTipText("区分大小写");
         // regex button
-        JToggleButton regexButton = new JToggleButton(new FlatSVGIcon("icons/regex.svg"));
-        regexButton.setRolloverIcon(new FlatSVGIcon("icons/regexHovered.svg"));
-        regexButton.setSelectedIcon(new FlatSVGIcon("icons/regexSelected.svg"));
-        regexButton.setToolTipText("Regular Expression");
+        JToggleButton regexButton = new JToggleButton(SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.regex));
+        regexButton.setRolloverIcon(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.regexHovered));
+        regexButton.setSelectedIcon(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.regexSelected));
+        regexButton.setToolTipText("正则表达式");
         searchToolbar.addSeparator();
         searchToolbar.add(matchCaseButton);
         searchToolbar.add(regexButton);
@@ -87,7 +86,7 @@ public class FindPanelBuilder {
         //findRight.add(checkBox, BorderLayout.EAST);
         findBtnPanel.add(findRight);
 
-        btnClose = new JLabel(IconUtils.getSVGIcon("icons/close.svg", 16, 16));
+        btnClose = new JLabel(SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.close));
         btnClose.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 7)); // 设置边框为10像素的空白边框
         btnClose.setBounds(535, 5, 25, 25);
         btnClose.addMouseListener(new ClosePopupMouseListener());
@@ -117,12 +116,12 @@ public class FindPanelBuilder {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            btnClose.setIcon(IconUtils.getSVGIcon("icons/closeRed.svg", 16, 16));
+            btnClose.setIcon(SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.closeHovered));
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            btnClose.setIcon(IconUtils.getSVGIcon("icons/close.svg", 16, 16));
+            btnClose.setIcon(SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.close));
         }
     }
 

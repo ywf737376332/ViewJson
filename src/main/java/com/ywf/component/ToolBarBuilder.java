@@ -55,7 +55,7 @@ public class ToolBarBuilder {
 
     private void init() {
         resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
-        createButtonActions();
+        createButtonActions(MenuAction.IconSize.medium);
     }
 
     public JToolBar createToolBar(JFrame frame) {
@@ -105,29 +105,29 @@ public class ToolBarBuilder {
     /**
      * 菜单事件初始化
      */
-    private void createButtonActions() {
+    private void createButtonActions(MenuAction.IconSize iconSize) {
         ResourceBundle msg = resourceBundle;
         boolean showText = applicationContext.getShowToolBarText();
         formatAction = new MenuBarKit.FormatAction();
-        formatAction.setProperties(msg, "MenuItem.Format", MenuAction.IconSize.medium, showText);
+        formatAction.setProperties(msg, "MenuItem.Format", iconSize, showText);
         compressAction = new MenuBarKit.CompressAction();
-        compressAction.setProperties(msg, "MenuItem.Compress", MenuAction.IconSize.medium, showText);
+        compressAction.setProperties(msg, "MenuItem.Compress", iconSize, showText);
         escapeAction = new MenuBarKit.EscapeAction();
-        escapeAction.setProperties(msg, "MenuItem.Escape", MenuAction.IconSize.medium, showText);
+        escapeAction.setProperties(msg, "MenuItem.Escape", iconSize, showText);
         unescapeAction = new MenuBarKit.UnescapeAction();
-        unescapeAction.setProperties(msg, "MenuItem.Unescape", MenuAction.IconSize.medium, showText);
+        unescapeAction.setProperties(msg, "MenuItem.Unescape", iconSize, showText);
 
         copyCodeAction = new MenuBarKit.CopyCodeAction();
-        copyCodeAction.setProperties(msg, "MenuItem.CopyCode", MenuAction.IconSize.medium, showText);
+        copyCodeAction.setProperties(msg, "MenuItem.CopyCode", iconSize, showText);
         copyPictAction = new MenuBarKit.CopyPictAction();
-        copyPictAction.setProperties(msg, "MenuItem.CopyPict", MenuAction.IconSize.medium, showText);
+        copyPictAction.setProperties(msg, "MenuItem.CopyPict", iconSize, showText);
         showQrcodeAction = new MenuBarKit.ShowQrcodeAction();
-        showQrcodeAction.setProperties(msg, "MenuItem.ShowQrcode", MenuAction.IconSize.medium, showText);
+        showQrcodeAction.setProperties(msg, "MenuItem.ShowQrcode", iconSize, showText);
 
         findAction = new MenuBarKit.FindAction();
-        findAction.setProperties(msg, "MenuItem.Find", MenuAction.IconSize.medium, showText);
+        findAction.setProperties(msg, "MenuItem.Find", iconSize, showText);
         cleanAction = new MenuBarKit.CleanAction();
-        cleanAction.setProperties(msg, "MenuItem.Clean", MenuAction.IconSize.medium, showText);
+        cleanAction.setProperties(msg, "MenuItem.Clean", iconSize, showText);
     }
 
     /**
@@ -139,14 +139,10 @@ public class ToolBarBuilder {
         JFrame mainFrame = ObjectUtils.getBean(GlobalKEY.MAIN_FRAME);
         mainFrame.remove(toolBar);
         toolBar.removeAll();
-        createButtonActions();
+        createButtonActions(MenuAction.IconSize.tooLarge);
         mainFrame.add(createToolBar(frame), applicationContext.getToolBarLocation());
         mainFrame.revalidate();
         mainFrame.repaint();
-    }
-
-    private String getMessage(ResourceBundle msg, String keyRoot) {
-        return msg.getString(keyRoot + ".Name");
     }
 
     public JToolBar getToolBar() {

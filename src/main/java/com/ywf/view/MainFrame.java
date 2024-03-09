@@ -8,6 +8,7 @@ import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.base.AbstractWindow;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.config.SvgIconFactory;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 
@@ -36,7 +37,7 @@ public class MainFrame extends AbstractWindow {
         setLocation((w - _this.getWidth()) / 2, (h - _this.getHeight()) / 2);
         setMinimumSize(new Dimension(SystemConstant.WINDOWS_MIN_WIDTH, SystemConstant.WINDOWS_MIN_HEIGHT));
         //设置图标
-        setIconImages(FlatSVGUtils.createWindowIconImages(SystemConstant.SYSTEM_LOGO));
+        setIconImages(FlatSVGUtils.createWindowIconImages(SvgIconFactory.SystemIcon.logo));
         // 初始化界面
         initUI(_this);
         // 窗口关闭事件监听

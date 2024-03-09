@@ -25,7 +25,6 @@ public class SystemConstant implements Serializable {
     /**
      * 窗口标题及版本号
      */
-    public static final String SYSTEM_LOGO = "/icons/logo01.svg";
     public static final String SYSTEM_VERSION = "V5.0";   // 版本号
 
     /**

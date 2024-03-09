@@ -2,7 +2,6 @@ package com.ywf.framework.config;
 
 import com.ywf.action.MenuEventService;
 import com.ywf.component.JSONRSyntaxTextArea;
-import com.ywf.framework.utils.IconUtils;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextAreaEditorKit;
 import org.fife.ui.rtextarea.RecordableTextAction;
@@ -39,8 +38,7 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
         private JSONRSyntaxTextArea syntaxTextArea;
 
         public NewEditorAction() {
-            //super(RsTextAreaEditorKit.newEditorAction);
-            super(RsTextAreaEditorKit.newEditorAction, IconUtils.getSVGIcon("icons/newEditer.svg"), null, null, null);
+            super(RsTextAreaEditorKit.newEditorAction, SvgIconFactory.mediumIcon(SvgIconFactory.TextAreaMenuIcon.newEditor), null, null, null);
         }
 
         @Override
@@ -59,8 +57,7 @@ public class RsTextAreaEditorKit extends RTextAreaEditorKit {
         private JSONRSyntaxTextArea syntaxTextArea;
 
         public CloseEditorAction() {
-            //super(RsTextAreaEditorKit.closeEditorAction);
-            super(RsTextAreaEditorKit.closeEditorAction, IconUtils.getSVGIcon("icons/closeTab.svg"), null, null, null);
+            super(RsTextAreaEditorKit.closeEditorAction, SvgIconFactory.mediumIcon(SvgIconFactory.TextAreaMenuIcon.closeEditor), null, null, null);
         }
 
         @Override
