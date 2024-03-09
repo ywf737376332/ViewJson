@@ -5,12 +5,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.ywf.framework.enums.TextTypeEnum;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
+import org.yaml.snakeyaml.Yaml;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +27,8 @@ import java.util.regex.Pattern;
  */
 public class TypeUtils {
 
+    private final static Logger logger = LoggerFactory.getLogger(TypeUtils002.class);
+
     public static TextTypeEnum isType(String content) {
         if (isJson(content)) {
             return TextTypeEnum.JSON;
@@ -30,19 +36,29 @@ public class TypeUtils {
             return TextTypeEnum.XML;
         } else if (isURL(content)) {
             return TextTypeEnum.URL;
-        } else if (isJAVA(content)) {
-            return TextTypeEnum.JAVA;
-        } else if (isJavaScript(content)) {
-            return TextTypeEnum.JAVASCRIPT;
         } else if (isSQL(content)) {
             return TextTypeEnum.SQL;
         } else if (isProperties(content)) {
             return TextTypeEnum.PROPERTIES;
+        } else if (isYaml(content)) {
+            return TextTypeEnum.YAML;
+        } else if (isJAVA(content)) {
+            return TextTypeEnum.JAVA;
+        } else if (isJavaScript(content)) {
+            return TextTypeEnum.JAVASCRIPT;
         }
         return TextTypeEnum.TEXT;
     }
 
-    private static boolean isJAVA(String content) {
+    public static boolean isJAVA(String content) {
+        //JAVA语法至少包含一对(),继续检查
+        if (!StrUtils.hasAnyBrackets(content)) {
+            return false;
+        }
+        // 括号闭合,继续检查
+        /*if (!isBracketValid(content)) {
+            return false;
+        }*/
         try {
             String keywordsRegex = "\\b(?:abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|void|volatile|while)\\b";
             Pattern pattern = Pattern.compile(keywordsRegex);
@@ -54,6 +70,10 @@ public class TypeUtils {
     }
 
     private static boolean isJavaScript(String content) {
+        // 括号闭合，继续检查
+        if (!isBracketValid(content)) {
+            return false;
+        }
         try {
             String keywordsRegex = "\\b(?:break|case|catch|class|const|continue|debugger|default|delete|do|else|export|extends|finally|for|function|if|import|in|instanceof|new|return|super|switch|this|throw|try|typeof|var|void|while|with|yield)\\b";
             Pattern pattern = Pattern.compile(keywordsRegex);
@@ -157,6 +177,65 @@ public class TypeUtils {
             // 解析过程中出现异常则认为不是有效的XML
             return false;
         }
+    }
+
+    /**
+     * Yaml类型判断
+     *
+     * @param content
+     * @return
+     */
+    public static boolean isYaml(String content) {
+        try {
+            Yaml yaml = new Yaml();
+            String tmpText = content.replaceAll("^---.*\n", "---\n");
+            tmpText = tmpText.replaceAll("!ruby.*\n", "\n");
+            Map<String, Object> load = yaml.load(tmpText);
+            if (load == null) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 检查代码括号是否闭合
+     *
+     * @param s
+     * @return
+     */
+    private static boolean isBracketValid(String s) {
+        if (s == null || s.length() == 0)
+            return false;
+        char[] stack = new char[s.length()];
+        int head = 0;
+        for (char c : s.toCharArray()) {
+            switch (c) {
+                case '{':
+                case '[':
+                case '(':
+                    stack[head++] = c;
+                    break;
+                case '}':
+                    if (head == 0 || stack[--head] != '{') {
+                        return false;
+                    }
+                    break;
+                case ')':
+                    if (head == 0 || stack[--head] != '(') {
+                        return false;
+                    }
+                    break;
+                case ']':
+                    if (head == 0 || stack[--head] != '[') {
+                        return false;
+                    }
+                    break;
+            }
+        }
+        return head == 0;
     }
 
     /**

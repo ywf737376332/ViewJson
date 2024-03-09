@@ -29,7 +29,6 @@ public class PanelView {
         JPanel panelMain = new BasePanel();
         panelMain.setMinimumSize(new Dimension(235, 600));
         panelMain.setOpaque(false); // 设置为透明，以便边框可见
-        //panelMain.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置外边距
         panelMain.setLayout(new BorderLayout());
         return panelMain;
     }

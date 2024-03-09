@@ -31,6 +31,9 @@ import java.util.ResourceBundle;
 public class StateBarEventService {
 
     private ResourceBundle resourceBundle;
+    private FlatLabel labelTypeValue;
+    private FlatLabel fileLengthValue;
+    private StateBarEntity stateBarEntity;
 
     volatile private static StateBarEventService instance = null;
 
@@ -70,6 +73,7 @@ public class StateBarEventService {
             @Override
             public void changedUpdate(DocumentEvent e) {
                 // 不需要处理文档更改事件
+                updateStateUI(rSyntaxTextArea);
             }
         });
     }
@@ -79,10 +83,8 @@ public class StateBarEventService {
             @Override
             protected Boolean doInBackground() {
                 String text = rSyntaxTextArea.getText();
-                System.out.println("后台现成拿到对的内容A："+text);
                 TextTypeEnum contentType = TypeUtils.isType(text);
-                System.out.println("后台现成拿到对的内容B："+text);
-                StateBarEntity stateBarEntity = new StateBarEntity(contentType, StrUtils.counts(text));
+                stateBarEntity = new StateBarEntity(contentType, StrUtils.counts(text));
                 publish(stateBarEntity);
                 return true;
             }
@@ -91,11 +93,11 @@ public class StateBarEventService {
             protected void process(List<StateBarEntity> chunks) {
                 StateBarEntity stateBarEntity = chunks.get(chunks.size() - 1);
                 if (ObjectUtil.isNotNull(stateBarEntity)) {
-                    FlatLabel labelTypeLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_TYPE);
-                    FlatLabel fileLengthLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_LENGTH);
+                    // 首次获取状态栏组件,作为整个类的属性
+                    getInstanceLabel();
                     TextTypeEnum contentType = stateBarEntity.getContentType();
-                    labelTypeLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + getMessage(contentType.getMessageKey()) + "</span></html>");
-                    fileLengthLabel.setText("<html><span color=\"#107C41\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + stateBarEntity.getTextLength() + MessageConstant.SYSTEM_STATE_BAR_WORDS + "</span></html>");
+                    labelTypeValue.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + getMessage(contentType.getMessageKey()) + "</span></html>");
+                    fileLengthValue.setText("<html><span color=\"#107C41\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + stateBarEntity.getTextLength() + MessageConstant.SYSTEM_STATE_BAR_WORDS + "</span></html>");
                     rSyntaxTextArea.setSyntaxEditingStyle(contentType.getSyntaxStyle());
                     rSyntaxTextArea.setTextType(contentType);
                 }
@@ -176,5 +178,14 @@ public class StateBarEventService {
 
     private String getMessage(String keyRoot) {
         return resourceBundle.getString(keyRoot + ".Name");
+    }
+
+    private void getInstanceLabel() {
+        if (labelTypeValue == null) {
+            labelTypeValue = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_TYPE);
+        }
+        if (fileLengthValue == null) {
+            fileLengthValue = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_TEXT_LENGTH);
+        }
     }
 }

@@ -67,8 +67,7 @@ public class ImageUtils {
      * @param bottomMargin
      */
     private static void drawWatermarkText(BufferedImage originalImage, Graphics2D graphics2D, String markText, int pictureScale, int rightMargin, int bottomMargin) {
-        //Color watermarkColor = new Color(130, 128, 128, 130);
-        Color watermarkColor = Color.CYAN;
+        Color watermarkColor = new Color(130, 128, 128, 130);
         Font watermarkFont = SystemConstant.SYSTEM_WATERMARK_FONT;
         float transparency = 0.5f; // 透明度，范围从0.0（完全透明）到1.0（完全不透明）
         // 设置水印文字的透明度

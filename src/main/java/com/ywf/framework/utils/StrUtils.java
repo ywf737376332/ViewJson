@@ -24,12 +24,9 @@ public class StrUtils {
      */
     public static int counts(String str) {
         if (str == null) {
-            logger.info("字数统计str：【{}】", str);
             return 0;
         }
-        int counts = JsonUtil.compressingStr(JsonUtil.escapeJSON(str)).length();
-        logger.info("字数统计：【{}】", counts);
-        return counts;
+        return JsonUtil.compressingStr(str).length();
     }
 
     /**
