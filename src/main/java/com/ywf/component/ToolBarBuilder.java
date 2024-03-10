@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicToolBarUI;
-import java.awt.*;
 import java.util.ResourceBundle;
 
 /**
@@ -91,7 +90,6 @@ public class ToolBarBuilder {
         tool.setOrientation(LocationEnum.convertToolbarLocation(applicationContext.getToolBarLocation()));
         tool.setRollover(true);
         tool.setBorder(LocationEnum.convertToolBarBorder(applicationContext.getToolBarLocation())); // 设置边框颜色和宽度
-        tool.setMargin(new Insets(2, 10, 2, 10));
         tool.setVisible(applicationContext.getShowToolBarState());
         // 工具条位置监听
         MenuEventService.getInstance().toolBarLocationChangedEventListener(tool);
@@ -99,7 +97,12 @@ public class ToolBarBuilder {
     }
 
     protected JButton createButton(Action a) {
-        return new JButton(a);
+        JButton button = new JButton(a);
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+        button.setVerticalAlignment(SwingConstants.CENTER);
+        button.setBorderPainted(false); // 去掉边框
+        button.setFocusPainted(false); // 去掉焦点边框
+        return button;
     }
 
     /**
