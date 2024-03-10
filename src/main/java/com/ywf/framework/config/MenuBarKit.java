@@ -113,7 +113,7 @@ public class MenuBarKit {
     public static class PrivacyPolicyAction extends MenuAction {
         @Override
         public void actionPerformedImpl(ActionEvent e) {
-
+            MenuEventService.getInstance().privacyPolicyActionPerformed();
         }
     }
 
@@ -127,7 +127,7 @@ public class MenuBarKit {
     public static class ExpressThanksAction extends MenuAction {
         @Override
         public void actionPerformedImpl(ActionEvent e) {
-
+            MenuEventService.getInstance().expressThanksActionPerformed();
         }
     }
 

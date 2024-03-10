@@ -122,12 +122,12 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
 
     public static class EditorFontStyle {
         private String name;
-        private Integer size;
+        private Float size;
 
         public EditorFontStyle() {
         }
 
-        public EditorFontStyle(String name, Integer size) {
+        public EditorFontStyle(String name, Float size) {
             this.name = name;
             this.size = size;
         }
@@ -140,11 +140,11 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
             this.name = name;
         }
 
-        public Integer getSize() {
+        public Float getSize() {
             return size;
         }
 
-        public void setSize(Integer size) {
+        public void setSize(Float size) {
             this.size = size;
         }
 

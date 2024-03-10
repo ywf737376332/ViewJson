@@ -37,6 +37,8 @@ public class ChangeUIUtils {
     @Autowired
     public static ConfigurableApplicationContext applicationContext;
 
+    private static Font fileBaseFont;
+
     /**
      * 主题改变工具类类
      *
@@ -121,14 +123,7 @@ public class ChangeUIUtils {
      * 改变多文本框的字体
      */
     public static void initTextAreaFont() {
-        JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
-        if (tabbedSplitEditor != null) {
-            LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
-            for (JScrollPane scrollPane : sp) {
-                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
-                rSyntaxTextArea.setFont(new FontUIResource(applicationContext.getEditorFontStyle().getName(), Font.PLAIN, applicationContext.getEditorFontStyle().getSize()));
-            }
-        }
+        changeTextAreaFont(getReadFileFonts());
     }
 
     /**
@@ -140,7 +135,11 @@ public class ChangeUIUtils {
             LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
             for (JScrollPane scrollPane : sp) {
                 JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
+                //logger.warn("编辑框字体改变前：{}", rSyntaxTextArea.getFont());
                 rSyntaxTextArea.setFont(font);
+                //logger.warn("编辑框字体改变后：{}", rSyntaxTextArea.getFont());
+                rSyntaxTextArea.revalidate();
+                rSyntaxTextArea.repaint();
             }
         }
     }
@@ -160,18 +159,21 @@ public class ChangeUIUtils {
         }
         // 刷新UI界面
         updateViewUI();
-
     }
 
     /**
      * 获取系统字体列表
      */
-    public static void getSystemFonts() {
+    public static boolean getSystemFonts(String fontName) {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String[] availableFontFamilyNames = ge.getAvailableFontFamilyNames();
         for (String fontFamilyName : availableFontFamilyNames) {
-            logger.info("系统字体：{}", fontFamilyName);
+            //logger.info("系统字体：{}", fontFamilyName);
+            if (fontName.equals(fontFamilyName)) {
+                return true;
+            }
         }
+        return false;
     }
 
     /**
@@ -180,13 +182,24 @@ public class ChangeUIUtils {
      * @return
      */
     public static Font getReadFileFonts() {
-        try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream("config/micYaHei.ttc")) {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-            Font sizedFont = font.deriveFont(14f);
-            return sizedFont;
-        } catch (IOException | FontFormatException e) {
-            throw new RuntimeException("资源文件加载失败：" + e.getMessage());
+        if (fileBaseFont == null) {
+            /**
+             * DejaVuSansMono.ttf
+             * JetBrainsMono.ttf
+             * Monaco.ttf
+             */
+            ConfigurableApplicationContext.EditorFontStyle editorFontStyle = applicationContext.getEditorFontStyle();
+            String fontFileName = "fonts/" + editorFontStyle.getName() + ".ttf";
+            System.out.println("fontFileName:" + fontFileName);
+            try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream(fontFileName)) {
+                Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+                fileBaseFont = font.deriveFont(editorFontStyle.getSize());
+                return fileBaseFont;
+            } catch (IOException | FontFormatException e) {
+                throw new RuntimeException("资源文件加载失败：" + e.getMessage());
+            }
         }
+        return fileBaseFont;
     }
 
     /**

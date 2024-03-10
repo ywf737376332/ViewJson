@@ -7,6 +7,7 @@ import com.ywf.framework.config.MenuAction;
 import com.ywf.framework.config.MenuBarKit;
 import com.ywf.framework.enums.*;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.ywf.framework.utils.ChangeUIUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -179,9 +180,12 @@ public class MenuBarBuilder {
         frameFontMenu.add(fontStyleMenu);
         ButtonGroup fontNameButtonGroup = new ButtonGroup();
         for (FontEnum.Name value : FontEnum.Name.values()) {
-            FontNameRadioButtonMenuItem fontNameMenuItem = new FontNameRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getName());
-            fontNameButtonGroup.add(fontNameMenuItem);
-            fontStyleMenu.add(fontNameMenuItem);
+            // 确保每一个字体都存在于系统中
+            if (ChangeUIUtils.getSystemFonts(value.getName())){
+                FontNameRadioButtonMenuItem fontNameMenuItem = new FontNameRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getName());
+                fontNameButtonGroup.add(fontNameMenuItem);
+                fontStyleMenu.add(fontNameMenuItem);
+            }
         }
         frameFontMenu.add(fontSizeMenu);
         ButtonGroup fontSizeButtonGroup = new ButtonGroup();
@@ -249,10 +253,10 @@ public class MenuBarBuilder {
         menuBar.add(helpMenu);
         helpMenu.add(updateVersionLogMenuItem = createMenuItem(updateVersionLogAction));
         helpMenu.add(privacyPolicyMenuItem = createMenuItem(privacyPolicyAction));
-        privacyPolicyMenuItem.setEnabled(false);
+        //privacyPolicyMenuItem.setEnabled(false);
         helpMenu.add(officialWebsiteMenuItem = createMenuItem(officialWebsiteAction));
         helpMenu.add(expressThanksMenuItem = createMenuItem(expressThanksAction));
-        expressThanksMenuItem.setEnabled(false);
+        //expressThanksMenuItem.setEnabled(false);
         helpMenu.add(aboutMenuItem = createMenuItem(aboutAction));
         menuBar.setVisible(applicationContext.getShowMenuBarState());
         return menuBar;

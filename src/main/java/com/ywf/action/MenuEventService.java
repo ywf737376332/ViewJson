@@ -6,8 +6,8 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.AppMain;
 import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
-import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.base.SvgIconFactory;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.LocationEnum;
@@ -319,6 +319,19 @@ public class MenuEventService {
         JLabel linkLabel = new JLabel("<html>" + "<span>最近一次更新2024年3月5日：</span>" + "<ol type=\"1\" style=\"float:left\">" + "<li>工具条新增新建按钮，点击新建时，增加新的选项卡.</li>" + "<li>删除左侧富文本框，增加JSON树显示.</li>" + "<li>系统托盘驻留功能.</li>" + "<li>最下方显示，工具格式化次数.</li>" + "<li>系统托盘驻留功能.</li>" + "<li>搜索功能.</li>" + "<li>窗口大小本地文件记录.</li>" + "<li>增加记录上一次选定的主题颜色.</li>" + "<li>报文分享为二维码.</li>" + "<li>增加按钮栏工具是否显示，某个按钮是否显示功能.</li>" + "<li>增加复制图片功能.</li>" + "</ol>" + "</html>");
         JOptionPane.showMessageDialog(null, new Object[]{linkLabel}, MessageConstant.SYSTEM_VERSION_LOG, JOptionPane.PLAIN_MESSAGE);
     }
+
+    /**
+     * 隐私政策
+     */
+    public void privacyPolicyActionPerformed() {
+    }
+
+    /**
+     * 感谢捐赠
+     */
+    public void expressThanksActionPerformed() {
+    }
+
 
     /**
      * 修改主题按钮组事件注册

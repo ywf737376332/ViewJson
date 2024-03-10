@@ -4,9 +4,9 @@ import com.ywf.action.StateBarEventService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.config.JSONRSyntaxTextAreaDocumentFilter;
-import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.ywf.framework.utils.ChangeUIUtils;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import javax.swing.text.AbstractDocument;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
@@ -62,14 +61,16 @@ public class TextAreaBuilder {
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(applicationContext.getTextAreaShowlineNumState());
         rTextScrollPane.setFoldIndicatorEnabled(true);
+        Font baseFont = ChangeUIUtils.getReadFileFonts();
         try {
-            Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath), SystemConstant.SYSTEM_DEFAULT_FONT);
+            Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));
             theme.apply(syntaxTextArea);
         } catch (IOException ioe) {
             logger.error("JSONRSyntaxTextArea主题应用失败，请检查！" + ioe.getMessage());
         }
         // 必须等Xml初始化结束后，在设置字体，不然xml没设置字体，先用代码设置后，会被覆盖
-        syntaxTextArea.setFont(new FontUIResource(applicationContext.getEditorFontStyle().getName(), Font.PLAIN, applicationContext.getEditorFontStyle().getSize()));
+        //syntaxTextArea.setFont(new Font(applicationContext.getEditorFontStyle().getName(), Font.PLAIN, applicationContext.getEditorFontStyle().getSize()));
+        syntaxTextArea.setFont(baseFont);
         logger.info("编辑框字体加载成功,当前字体：{}", syntaxTextArea.getFont());
         // 给文本编辑器增加过滤器
         ((AbstractDocument) syntaxTextArea.getDocument()).setDocumentFilter(new JSONRSyntaxTextAreaDocumentFilter(syntaxTextArea));
