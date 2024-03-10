@@ -1,9 +1,9 @@
 package com.ywf.component.splitDemo;
 
 import com.formdev.flatlaf.extras.FlatSVGUtils;
-
 import com.formdev.flatlaf.extras.components.FlatProgressBar;
-import com.formdev.flatlaf.ui.FlatProgressBarUI;
+import com.ywf.component.loading.BackgroundTaskKit;
+import com.ywf.component.loading.LoadingModal;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.ConvertUtils;
@@ -14,15 +14,12 @@ import org.jdesktop.swingx.JXStatusBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 
 /**
@@ -83,7 +80,7 @@ public class DemoSplit extends JFrame {
 
         JButton btnFormat = new JButton("格式化");
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
-        //btnFormat.addActionListener(e -> formatActionPerformed());
+        btnFormat.addActionListener(e -> formatActionPerformed());
 
         JButton btnComp = new JButton("压 缩");
         btnComp.setIcon(IconUtils.getSVGIcon("icons/comp.svg"));
@@ -107,11 +104,11 @@ public class DemoSplit extends JFrame {
         toolBar.add(btnClose);
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
         JPanel statusPanel = new JPanel();
-        statusPanel.setBorder(BorderFactory.createMatteBorder(1,0, 1, 0, Color.LIGHT_GRAY));
+        statusPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.LIGHT_GRAY));
         statusPanel.setLayout(new BorderLayout());
 
         JXStatusBar statusInfoBar = new JXStatusBar();
-        statusInfoBar.setLayout(new FlowLayout(FlowLayout.CENTER,10,0));
+        statusInfoBar.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
         JLabel labelTime = new JLabel("时间：2004年02月05日");
         labelTime.setBorder(BorderFactory.createEmptyBorder(0, 29, 0, 20));
         statusInfoBar.add(labelTime);
@@ -139,6 +136,9 @@ public class DemoSplit extends JFrame {
 
     }
 
+    private void formatActionPerformed() {
+        LoadingModal.create(_this, new BackgroundTaskKit.NewTabAction()).showModal();
+    }
 
 
     public static void createNewTabActionPerformed() {
@@ -146,7 +146,7 @@ public class DemoSplit extends JFrame {
         LinkedList<RTextScrollPane> list = TextAreaUtil.getList();
         int counts = list.size();
         double weight = 1.0 / counts;
-        logger.info("当前宽度:{},当前计数：{}",weight,counts);
+        logger.info("当前宽度:{},当前计数：{}", weight, counts);
         if (counts == 2) {
             msp.add(tp, FiveHorizontalSplitPaneModel.P2);
             splitPaneModel.p1.setWeight(weight);
@@ -155,15 +155,15 @@ public class DemoSplit extends JFrame {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     if (SwingUtilities.isLeftMouseButton(e)) {
-                        double s = ConvertUtils.toDouble("0.0"+list.get(0).getWidth());
-                        System.out.println("分隔条位置已改变！"+ s);
+                        double s = ConvertUtils.toDouble("0.0" + list.get(0).getWidth());
+                        System.out.println("分隔条位置已改变！" + s);
                         splitPaneModel.p2.setWeight(0.2);
                         msp.revalidate();
                         msp.repaint();
                     }
                 }
             });
-        }else if (counts == 3) {
+        } else if (counts == 3) {
             msp.add(tp, FiveHorizontalSplitPaneModel.P3);
             splitPaneModel.p1.setWeight(weight);
             splitPaneModel.p2.setWeight(weight);
@@ -172,13 +172,13 @@ public class DemoSplit extends JFrame {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     if (SwingUtilities.isLeftMouseButton(e)) {
-                        double s = ConvertUtils.toDouble("0.0"+list.get(0).getWidth());
-                        System.out.println("分隔条位置已改变！"+ s);
+                        double s = ConvertUtils.toDouble("0.0" + list.get(0).getWidth());
+                        System.out.println("分隔条位置已改变！" + s);
                         splitPaneModel.p3.setWeight(s);
                     }
                 }
             });
-        }else if (counts == 4) {
+        } else if (counts == 4) {
             msp.add(tp, FiveHorizontalSplitPaneModel.P4);
             splitPaneModel.p1.setWeight(weight);
             splitPaneModel.p2.setWeight(weight);

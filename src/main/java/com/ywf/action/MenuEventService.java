@@ -5,6 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.AppMain;
 import com.ywf.component.*;
+import com.ywf.component.loading.BackgroundTaskKit;
+import com.ywf.component.loading.LoadingModal;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.config.GlobalKEY;
@@ -15,7 +17,10 @@ import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
-import com.ywf.framework.utils.*;
+import com.ywf.framework.utils.ChangeUIUtils;
+import com.ywf.framework.utils.ComponentUtils;
+import com.ywf.framework.utils.JsonUtil;
+import com.ywf.framework.utils.ObjectUtils;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
@@ -210,14 +215,17 @@ public class MenuEventService {
             return;
         }
         try {
-            SwingUtilities.invokeLater(() -> {
+            LoadingModal.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(applicationContext, rSyntaxTextArea)).showModal();
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+
+            /*SwingUtilities.invokeLater(() -> {
                 int pictureScale = applicationContext.getPictureQualityState();
                 //绘制图片
                 BufferedImage image = ImageUtils.generateTextAreaImage(rSyntaxTextArea, pictureScale);
                 // 保存图片到剪贴板
                 ImageUtils.imageToClipboard(image);
                 JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
-            });
+            });*/
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_IMAGE_FAIL_TIP + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("图片复制失败: " + e.getMessage());
