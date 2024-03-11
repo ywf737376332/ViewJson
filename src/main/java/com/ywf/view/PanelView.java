@@ -84,9 +84,9 @@ public class PanelView {
         panelStateBar.add(fileLengthLabel);
         panelStateBar.add(fileLengthValue);
 
-        FlatLabel tip = LabelBarBuilder.createGlobalLabel(ThemeColor.stateBarLabelColor,GlobalKEY.STATE_BAR_COST_TIME);
-        tip.setBorder(BorderBuilder.leftEmptyBorder(20));
-        panelStateBar.add(tip);
+        FlatLabel tipMessage = LabelBarBuilder.createGlobalLabel(ThemeColor.stateBarLabelColor, GlobalKEY.STATE_BAR_COST_TIME);
+        tipMessage.setBorder(BorderBuilder.leftEmptyBorder(20));
+        panelStateBar.add(tipMessage);
 
         panelBottomText.setLayout(new BorderLayout());
         panelBottomText.add(panelStateBar, BorderLayout.WEST);

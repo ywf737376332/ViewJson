@@ -623,7 +623,7 @@ public class MenuEventService {
             StateLabel statusLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_RUN_TIME);
             logger.info("程序运行时长：{}", statusLabel.getValue());
             frame.dispose();
-            //System.exit(0); // 退出程序
+            System.exit(0); // 退出程序
         }
     }
 
