@@ -1,6 +1,9 @@
 package com.ywf.component.loading;
 
+import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.DialogBuilder;
+import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.utils.ObjectUtils;
 
 import javax.swing.*;
 
@@ -17,7 +20,7 @@ public class LoadingBuild {
     private JDialog dialog;
     private final LoadingLabel loadingLabel;
 
-    public LoadingBuild(JFrame frame, BackgroundTask backgroundKit) {
+    private LoadingBuild(JFrame frame, BackgroundTask backgroundKit) {
         this.frame = frame;
         loadingLabel = new LoadingLabel();
         this.backgroundKit = backgroundKit;
@@ -40,7 +43,7 @@ public class LoadingBuild {
      * @return
      */
     public LoadingBuild showModal() {
-        dialog = DialogBuilder.showMoadlDialog(frame, 380, 80);
+        dialog = DialogBuilder.showMoadlDialog(frame);
         loadingLabel.setHorizontalAlignment(SwingConstants.CENTER);
         dialog.add(loadingLabel);
         //后台任务
@@ -66,6 +69,8 @@ public class LoadingBuild {
                 loadingLabel.stopAnimation();
                 dialog.setVisible(false);
                 backgroundKit.successTips();
+                FlatLabel tipLabel = ObjectUtils.getBean(GlobalKEY.STATE_BAR_COST_TIME);
+                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "当前操作耗时"+loadingLabel.getCostTime() +"毫秒" + "</span></html>");
             }
         };
         swingWorker.execute();

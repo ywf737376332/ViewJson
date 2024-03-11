@@ -9,6 +9,7 @@ import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
+import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.framework.utils.StrUtils;
 import com.ywf.framework.utils.TimeUtils;
 import com.ywf.framework.utils.TypeUtils;
@@ -54,7 +55,7 @@ public class StateBarEventService {
     }
 
     /**
-     * 文本框监听事件
+     * 文本框内容监听事件
      *
      * @param rSyntaxTextArea
      * @date 2023/12/17 14:35
@@ -76,6 +77,20 @@ public class StateBarEventService {
                 // 不需要处理文档更改事件
                 updateStateUI(rSyntaxTextArea);
             }
+        });
+    }
+
+    /**
+     * 监听鼠标的行和列位置
+     *
+     * @param rSyntaxTextArea
+     */
+    public void mouseLineAndColumnDocumentActionPerformed(JSONRSyntaxTextArea rSyntaxTextArea) {
+        rSyntaxTextArea.addCaretListener(e -> {
+            FlatLabel tipLabel = ObjectUtils.getBean(GlobalKEY.STATE_BAR_COST_TIME);
+            int lineNumber = rSyntaxTextArea.getCaretLineNumber() + 1;
+            int columnNumber = rSyntaxTextArea.getCaretOffsetFromLineStart() + 1;
+            tipLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + "行:" + lineNumber + " 列:" + columnNumber + "</span></html>");
         });
     }
 

@@ -65,9 +65,9 @@ public class DialogBuilder {
         int radius = 20;
         JDialog dialog = new JDialog(frame, Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setUndecorated(true);
-        dialog.setLocationRelativeTo(frame);
         dialog.setResizable(false);
         dialog.setSize(width, height);
+        dialog.setLocationRelativeTo(frame);
         //位置计算
         Dimension frameSize = frame.getSize();
         Dimension dialogSize = dialog.getSize();

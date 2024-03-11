@@ -55,9 +55,8 @@ public class PanelView {
         // 状态栏
         JPanel panelStateBar = new JPanel();
         panelStateBar.setBorder(BorderBuilder.topEmptyBorder(1)); // 设置外边距
-        panelStateBar.setPreferredSize(new Dimension(560, 20));
+        panelStateBar.setPreferredSize(new Dimension(580, 20));
         panelStateBar.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-
         FlatLabel runTimeLabel = LabelBarBuilder.createLabel(MessageConstant.RUNTIME_TAG);
         runTimeLabel.setBorder(BorderBuilder.emptyBorder(0));
         StateLabel runTimeValue = LabelBarBuilder.createGlobalLabel(GlobalKEY.STATE_BAR_RUN_TIME);
@@ -85,8 +84,12 @@ public class PanelView {
         panelStateBar.add(fileLengthLabel);
         panelStateBar.add(fileLengthValue);
 
+        FlatLabel tip = LabelBarBuilder.createGlobalLabel(ThemeColor.stateBarLabelColor,GlobalKEY.STATE_BAR_COST_TIME);
+        tip.setBorder(BorderBuilder.leftEmptyBorder(20));
+
         panelBottomText.setLayout(new BorderLayout());
         panelBottomText.add(panelStateBar, BorderLayout.WEST);
+        panelBottomText.add(tip, BorderLayout.CENTER);
         panelBottomText.add(labelCopyright, BorderLayout.EAST);
 
         panelBottom.setLayout(new BorderLayout());

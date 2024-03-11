@@ -20,15 +20,18 @@ import java.util.ArrayList;
 public class LoadingLabel extends JLabel {
     private final transient AnimeIcon icon = new AnimeIcon();
     public static long nowTime = 0L;
+    private long costTime = 0L;
+
     private final Timer animator = new Timer(100, e -> {
         nowTime++;
         this.setText(MessageConstant.SYSTEM_LOADING_TIP.replace("{{nowTime}}", String.valueOf(nowTime)));
         this.setFont(SystemConstant.SYSTEM_WATERMARK_FONT);
+        setCostTime(nowTime);
         icon.next();
         repaint();
     });
 
-    protected LoadingLabel() {
+    public LoadingLabel() {
         super();
         setIcon(icon);
         addHierarchyListener(e -> {
@@ -47,6 +50,14 @@ public class LoadingLabel extends JLabel {
         icon.setRunning(false);
         animator.stop();
         nowTime = 0;
+    }
+
+    public long getCostTime() {
+        return costTime;
+    }
+
+    public void setCostTime(long costTime) {
+        this.costTime = costTime;
     }
 }
 
