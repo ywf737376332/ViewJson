@@ -7,6 +7,7 @@ import com.ywf.AppMain;
 import com.ywf.component.*;
 import com.ywf.component.loading.BackgroundTaskKit;
 import com.ywf.component.loading.LoadingBuild;
+import com.ywf.component.toast.Toast;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.config.GlobalKEY;
@@ -97,7 +98,8 @@ public class MenuEventService {
     public void formatJsonActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            Toast.error(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         SwingWorker<Boolean, String> swingWorker = new SwingWorker<Boolean, String>() {

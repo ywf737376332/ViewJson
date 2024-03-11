@@ -2,11 +2,13 @@ package com.ywf.component.loading;
 
 import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.toast.TipDialog;
+import com.ywf.component.toast.Toast;
 import com.ywf.component.toast.ToastBuild;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.ImageUtils;
+import com.ywf.framework.utils.WindowUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,8 +52,9 @@ public class BackgroundTaskKit {
 
         @Override
         public void successTips() {
+            Toast.success(WindowUtils.getFrame(), MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP);
             //TipDialog test = new TipDialog((JFrame)Window.getWindows()[0], "测试文本");
-            ToastBuild.create((JFrame)Window.getWindows()[0]).showTips(MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP);
+            //ToastBuild.create((JFrame)Window.getWindows()[0]).showTips(MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP);
             //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
         }
     }

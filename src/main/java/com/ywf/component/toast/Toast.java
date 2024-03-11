@@ -1,24 +1,16 @@
 package com.ywf.component.toast;
 
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.RenderingHints;
-import java.awt.Window;
+import com.ywf.framework.constant.SystemConstant;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.swing.JWindow;
 
 /**
  * 吐司提示框组件
- *
  *
  * @author YWF
  * @since:2024-2-28
@@ -36,38 +28,53 @@ public class Toast extends JWindow {
     private Color background;
     private Color foreground;
 
-    /**
-     *
-     * @param parent
-     *            父窗体 (Frame Dialog Window)
-     * @param message
-     *            消息
-     * @param period
-     *            显示时间
-     */
-    public Toast(Window parent, String message, int period) {
-        this(parent, message, period, 0);
+    public static void show(Window parent, String message, int period, int type) {
+        new Toast(parent, message, period*1000, type).start();
+    }
 
+    public static void info(Window parent, String message, int period) {
+        new Toast(parent, message, period*1000, 0).start();
+    }
+
+    public static void info(Window parent, String message) {
+        new Toast(parent, message, 3000, 0).start();
+    }
+
+    public static void error(Window parent, String message, int period) {
+        new Toast(parent, message, period*1000, 2).start();
+    }
+
+    public static void error(Window parent, String message) {
+        new Toast(parent, message, 3000, 2).start();
+    }
+
+    public static void success(Window parent, String message, int period) {
+        new Toast(parent, message, period*1000, 1).start();
+    }
+
+    public static void success(Window parent, String message) {
+        new Toast(parent, message, 3000, 1).start();
+    }
+
+    private Toast(Window parent) {
+        super(parent);
     }
 
     /**
-     *
      * @param parent
      * @param message
      * @param period
-     * @param type
-     *            提示类型 msg:黑色背景色 success :浅蓝色背景色  error: 粉红色背景色
+     * @param type    提示类型 msg:黑色背景色 success :浅蓝色背景色  error: 粉红色背景色
      */
-    public Toast(Window parent, String message, int period, int type) {
+    private Toast(Window parent, String message, int period, int type) {
         super(parent);
         this.message = message;
         this.period = period;
-        font = new Font("宋体", Font.PLAIN, 14);
+        font = SystemConstant.SYSTEM_WATERMARK_FONT;
         setSize(getStringSize(font, true, message));
         // 相对JFrame的位置
         setLocationRelativeTo(parent);
         installTheme(type);
-
     }
 
     @Override
@@ -105,6 +112,7 @@ public class Toast extends JWindow {
 
     /**
      * 修改消息
+     *
      * @param message
      */
     public void setMessage(String message) {
@@ -146,12 +154,9 @@ public class Toast extends JWindow {
     /**
      * 得到字符串的宽-高
      *
-     * @param font
-     *            字体
-     * @param isAntiAliased
-     *            反锯齿
-     * @param text
-     *            文本
+     * @param font          字体
+     * @param isAntiAliased 反锯齿
+     * @param text          文本
      * @return
      */
     private Dimension getStringSize(Font font, boolean isAntiAliased,

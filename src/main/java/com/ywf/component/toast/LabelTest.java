@@ -29,8 +29,6 @@ public class LabelTest {
         /**
          * 1-吐司组件的使用
          */
-        final Toast toast = new Toast(frame, "北京市没有权限访问", 5000, Toast.error);
-
         JLabel label = new JLabel("text");
         panel.add(label);
         JButton start = new JButton("start");
@@ -41,7 +39,7 @@ public class LabelTest {
                 /**
                  * 2-显示吐司组件
                  */
-                toast.start();
+                Toast.success(frame, "北京市没有权限访问");
 
 
             }
@@ -56,12 +54,26 @@ public class LabelTest {
                 /**
                  * 3-修改组件消息提示内容
                  */
-                toast.setMessage(Math.random() + "");
+                Toast.error(frame, "北京市没有权限访问");
 
             }
         });
 
+        JButton info = new JButton("update message");
+        info.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /**
+                 * 3-修改组件消息提示内容
+                 */
+                //Toast.info(frame, "北京市没有权限访问");
+                Toast.show(frame,"哈哈哈哈哈哈",1,Toast.success);
+            }
+        });
+
         panel.add(update);
+        panel.add(info);
         frame.add(panel);
         frame.setSize(960, 660);
         frame.setLocationRelativeTo(null);
