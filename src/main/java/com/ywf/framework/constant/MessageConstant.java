@@ -26,9 +26,14 @@ public class MessageConstant {
     public static final String SYSTEM_TITLE = getMessage("System.Title");
 
     /**
-     *  正在加载中... 当前耗时: " + nowTime++ + " 毫秒
+     * 正在加载中... 当前耗时: " + nowTime++ + " 毫秒
      */
     public static final String SYSTEM_LOADING_TIP = getMessage("System.Loading.Tip");
+
+    /**
+     * 操作耗时: "+costTime +" 毫秒
+     */
+    public static final String SYSTEM_LOADING_COST_TIME_TIP = getMessage("System.LoadingCostTime.Tip");
 
     /**
      * 词

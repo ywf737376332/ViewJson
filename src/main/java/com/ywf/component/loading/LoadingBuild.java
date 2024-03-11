@@ -3,6 +3,7 @@ package com.ywf.component.loading;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.DialogBuilder;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.utils.ObjectUtils;
 
 import javax.swing.*;
@@ -70,7 +71,7 @@ public class LoadingBuild {
                 dialog.setVisible(false);
                 backgroundKit.successTips();
                 FlatLabel tipLabel = ObjectUtils.getBean(GlobalKEY.STATE_BAR_COST_TIME);
-                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "操作耗时: "+loadingLabel.getCostTime() +" 毫秒" + "</span></html>");
+                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + String.format(MessageConstant.SYSTEM_LOADING_COST_TIME_TIP,loadingLabel.getCostTime()) + "</span></html>");
             }
         };
         swingWorker.execute();

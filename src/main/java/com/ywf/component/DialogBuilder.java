@@ -46,7 +46,7 @@ public class DialogBuilder {
     }
 
     public static JDialog showMoadlDialog(JFrame parentFrame) {
-        return createModalDialog(parentFrame, parentFrame.getWidth() - 20, parentFrame.getHeight() - 12);
+        return createModalDialog(parentFrame, parentFrame.getWidth() - 16, parentFrame.getHeight() - 7);
     }
 
     private static JDialog createDialog(JFrame parentFrame, String title, ImageIcon image) {
@@ -73,7 +73,7 @@ public class DialogBuilder {
         Dimension dialogSize = dialog.getSize();
         int x = (frameSize.width - dialogSize.width) / 2;
         int y = (frameSize.height - dialogSize.height) / 2;
-        dialog.setLocation(frame.getX() + x, frame.getY() + y - 5);
+        dialog.setLocation(frame.getX() + x, frame.getY() + y - 3);
         // 圆角
         Shape shape = new RoundRectangle2D.Double(0, 0, dialog.getWidth(), dialog.getHeight(), radius, radius);
         dialog.setShape(shape);
