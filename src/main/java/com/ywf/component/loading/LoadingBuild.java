@@ -65,6 +65,7 @@ public class LoadingBuild {
                 }
                 loadingLabel.stopAnimation();
                 dialog.setVisible(false);
+                backgroundKit.successTips();
             }
         };
         swingWorker.execute();

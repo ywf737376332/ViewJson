@@ -214,7 +214,7 @@ public class MenuEventService {
             JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(applicationContext, rSyntaxTextArea)).showModal();
+        LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(rSyntaxTextArea)).showModal();
     }
 
     /**

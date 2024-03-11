@@ -1,12 +1,15 @@
 package com.ywf.component.loading;
 
+import com.ywf.framework.base.ThemeColor;
+import com.ywf.framework.constant.MessageConstant;
+import com.ywf.framework.constant.SystemConstant;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.HierarchyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * 加载中图标
@@ -18,7 +21,9 @@ public class LoadingLabel extends JLabel {
     private final transient AnimeIcon icon = new AnimeIcon();
     public static long nowTime = 0L;
     private final Timer animator = new Timer(100, e -> {
-        this.setText(" 加载中...当前耗时: " + nowTime++ + " 毫秒");
+        nowTime++;
+        this.setText(MessageConstant.SYSTEM_LOADING_TIP.replace("{{nowTime}}", String.valueOf(nowTime)));
+        this.setFont(SystemConstant.SYSTEM_WATERMARK_FONT);
         icon.next();
         repaint();
     });
@@ -46,7 +51,7 @@ public class LoadingLabel extends JLabel {
 }
 
 class AnimeIcon implements Icon {
-    private static final Color ELLIPSE_COLOR = Color.BLUE;
+    private static final Color ELLIPSE_COLOR = ThemeColor.loadingColor;
     private final java.util.List<Shape> list = new ArrayList<>();
     private final Dimension dim;
     private boolean running;
@@ -78,7 +83,8 @@ class AnimeIcon implements Icon {
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.setPaint(Optional.ofNullable(c).map(Component::getBackground).orElse(Color.WHITE));
+        //g2.setPaint(Optional.ofNullable(c).map(Component::getBackground).orElse(Color.WHITE));
+        g2.setPaint(ThemeColor.noColor);
         g2.fillRect(x, y, getIconWidth(), getIconHeight());
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setPaint(ELLIPSE_COLOR);

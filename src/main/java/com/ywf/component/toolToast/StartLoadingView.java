@@ -1,5 +1,7 @@
 package com.ywf.component.toolToast;
 
+import com.ywf.framework.base.SvgIconFactory;
+
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
@@ -25,7 +27,7 @@ public class StartLoadingView extends JWindow implements Runnable {
     public StartLoadingView() {
 
         // 创建标签,并在标签上放置一张图片
-        label = new JLabel(new ImageIcon("D:\\素材\\07.jpg"));//这里放页面要展示的图片
+        label = new JLabel(SvgIconFactory.icon(SvgIconFactory.SystemIcon.about,50,50,Color.BLUE));//这里放页面要展示的图片
         label.setBounds(0, 0, LOAD_WIDTH, LOAD_HEIGHT - 15);
         // 创建进度条
         progressbar = new JProgressBar();

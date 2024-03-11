@@ -26,6 +26,11 @@ public class MessageConstant {
     public static final String SYSTEM_TITLE = getMessage("System.Title");
 
     /**
+     *  正在加载中... 当前耗时: " + nowTime++ + " 毫秒
+     */
+    public static final String SYSTEM_LOADING_TIP = getMessage("System.Loading.Tip");
+
+    /**
      * 词
      */
     public static final String SYSTEM_STATE_BAR_WORDS = getMessage("System.StateBar.Words");
@@ -196,6 +201,7 @@ public class MessageConstant {
      * 0个匹配项
      */
     public static final String SYSTEM_FIND_RESULTS_TIP = getMessage("System.FindResults.Tip");
+
 
     private static String getSepMessage(String keyRoot) {
         return resourceBundle.getString(keyRoot + ".Name") + Separator;

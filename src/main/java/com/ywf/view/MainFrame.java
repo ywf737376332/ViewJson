@@ -7,8 +7,8 @@ import com.ywf.component.*;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.annotation.MainView;
 import com.ywf.framework.base.AbstractWindow;
-import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.base.SvgIconFactory;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 

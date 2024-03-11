@@ -1,6 +1,7 @@
 package com.ywf.component;
 
 import com.ywf.framework.base.SvgIconFactory;
+import com.ywf.framework.base.ThemeColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,7 +80,7 @@ public class DialogBuilder {
         dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         int color = 0x22_FF_00_00;
         //dialog.setBackground(new Color(color, true));
-        dialog.setBackground(new Color(123, 121, 121, 60));
+        dialog.setBackground(ThemeColor.loadingModalColor);
         return dialog;
     }
 

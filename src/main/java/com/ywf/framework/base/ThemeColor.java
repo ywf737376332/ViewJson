@@ -17,6 +17,8 @@ public final class ThemeColor {
     public static final Color watermarkColor = new Color(130, 128, 128, 130);
     public static final Color highLightColor = new Color(255, 150, 50);
     public static final Color stateBarLabelColor = new Color(167, 179, 211);
+    public static final Color loadingColor = new Color(221, 105, 0, 255);
+    public static final Color loadingModalColor = new Color(123, 121, 121, 180);
 
     /**
      * @param color 颜色

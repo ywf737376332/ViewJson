@@ -10,4 +10,6 @@ public interface TaskBase {
 
     void actionPerformedImpl();
 
+    void successTips();
+
 }

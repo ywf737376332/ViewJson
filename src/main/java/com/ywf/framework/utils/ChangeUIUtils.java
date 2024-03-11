@@ -190,7 +190,6 @@ public class ChangeUIUtils {
              */
             ConfigurableApplicationContext.EditorFontStyle editorFontStyle = applicationContext.getEditorFontStyle();
             String fontFileName = "fonts/" + editorFontStyle.getName() + ".ttf";
-            System.out.println("fontFileName:" + fontFileName);
             try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream(fontFileName)) {
                 Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
                 fileBaseFont = font.deriveFont(editorFontStyle.getSize());

@@ -16,4 +16,7 @@ public abstract class BackgroundTask extends SwingWorker<Boolean, Void> implemen
     }
 
     public abstract void actionPerformedImpl();
+
+    public abstract void successTips();
+
 }
