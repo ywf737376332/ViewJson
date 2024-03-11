@@ -26,18 +26,22 @@ public class ImageUtils {
     private final static Logger logger = LoggerFactory.getLogger(ImageUtils.class);
 
     public static BufferedImage generateTextAreaImage(RTextArea textArea, int pictureScale) {
-        //绘制文本框的内容到图片上
-        BufferedImage originalImage = new BufferedImage(textArea.getWidth() * pictureScale, textArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = originalImage.createGraphics();
-        g2d.scale(pictureScale, pictureScale); // 根据画布大小调整缩放比例
-        textArea.print(g2d);
-        // 设置水印文字、颜色、字体和透明度等属性
-        String markDateText = DateUtil.now();
-        drawWatermarkText(originalImage, g2d, markDateText, pictureScale, 30, 50);
-        String markAuthorText = MessageConstant.AUTHOR;
-        drawWatermarkText(originalImage, g2d, markAuthorText, pictureScale, 30, 5);
-        g2d.dispose();
-        return originalImage;
+        try {
+            //绘制文本框的内容到图片上
+            BufferedImage originalImage = new BufferedImage(textArea.getWidth() * pictureScale, textArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2d = originalImage.createGraphics();
+            g2d.scale(pictureScale, pictureScale); // 根据画布大小调整缩放比例
+            textArea.print(g2d);
+            // 设置水印文字、颜色、字体和透明度等属性
+            String markDateText = DateUtil.now();
+            drawWatermarkText(originalImage, g2d, markDateText, pictureScale, 30, 50);
+            String markAuthorText = MessageConstant.AUTHOR;
+            drawWatermarkText(originalImage, g2d, markAuthorText, pictureScale, 30, 5);
+            g2d.dispose();
+            return originalImage;
+        }catch (Exception e){
+            throw new RuntimeException("剪贴板图片复制失败: " + e.getMessage());
+        }
     }
 
     /**

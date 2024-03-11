@@ -43,7 +43,6 @@ public class QRCodeUtils {
             // 返回二进制图片
             icon = new ImageIcon(image);
         } catch (WriterException e) {
-            JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_GRENT_QRCODE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("二维码生成失败！" + e);
         }
         return icon;

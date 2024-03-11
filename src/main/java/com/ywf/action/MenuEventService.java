@@ -214,22 +214,7 @@ public class MenuEventService {
             JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        try {
-            LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(applicationContext, rSyntaxTextArea)).showModal();
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
-
-            /*SwingUtilities.invokeLater(() -> {
-                int pictureScale = applicationContext.getPictureQualityState();
-                //绘制图片
-                BufferedImage image = ImageUtils.generateTextAreaImage(rSyntaxTextArea, pictureScale);
-                // 保存图片到剪贴板
-                ImageUtils.imageToClipboard(image);
-                JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
-            });*/
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_IMAGE_FAIL_TIP + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
-            throw new RuntimeException("图片复制失败: " + e.getMessage());
-        }
+        LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(applicationContext, rSyntaxTextArea)).showModal();
     }
 
     /**

@@ -55,9 +55,10 @@ public class QRCodeEventService {
         }
         try {
             ImageIcon icon = QRCodeUtils.generateColorQRCode(text, 460);
-            DialogBuilder.ShowImageDialog(frame, MessageConstant.SYSTEM_SHOW_QRCODE, icon).setVisible(true);
+            DialogBuilder.showImageDialog(frame, MessageConstant.SYSTEM_SHOW_QRCODE, icon).setVisible(true);
         } catch (RuntimeException e) {
             logger.error("二维码生成失败：{}", e.fillInStackTrace());
+            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_GRENT_QRCODE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
         }
     }
 }

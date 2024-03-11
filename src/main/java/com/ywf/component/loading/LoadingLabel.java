@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public class LoadingLabel extends JLabel {
     private final transient AnimeIcon icon = new AnimeIcon();
-    public static long nowTime = 1L;
+    public static long nowTime = 0L;
     private final Timer animator = new Timer(100, e -> {
         this.setText(" 加载中...当前耗时: " + nowTime++ + " 毫秒");
         icon.next();
@@ -41,6 +41,7 @@ public class LoadingLabel extends JLabel {
     public void stopAnimation() {
         icon.setRunning(false);
         animator.stop();
+        nowTime = 0;
     }
 }
 

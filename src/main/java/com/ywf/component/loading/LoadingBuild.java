@@ -1,7 +1,8 @@
 package com.ywf.component.loading;
 
+import com.ywf.component.DialogBuilder;
+
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * 加载中遮罩层
@@ -14,33 +15,40 @@ public class LoadingBuild {
     private JFrame frame;
     private BackgroundTask backgroundKit;
     private JDialog dialog;
-    private final LoadingLabel loadingLabel = new LoadingLabel();
+    private final LoadingLabel loadingLabel;
 
     public LoadingBuild(JFrame frame, BackgroundTask backgroundKit) {
         this.frame = frame;
+        loadingLabel = new LoadingLabel();
         this.backgroundKit = backgroundKit;
     }
 
+    /**
+     * 初始化遮罩层
+     *
+     * @param frame
+     * @param backgroundKit
+     * @return
+     */
     public static LoadingBuild create(JFrame frame, BackgroundTask backgroundKit) {
         return new LoadingBuild(frame, backgroundKit);
     }
 
-
+    /**
+     * 展示模态遮罩层
+     *
+     * @return
+     */
     public LoadingBuild showModal() {
-        dialog = new JDialog(frame, Dialog.ModalityType.APPLICATION_MODAL);
-        dialog.setUndecorated(true);
-        dialog.setBounds(frame.getBounds());
+        dialog = DialogBuilder.showMoadlDialog(frame, 380, 80);
         loadingLabel.setHorizontalAlignment(SwingConstants.CENTER);
         dialog.add(loadingLabel);
-        dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        int color = 0x22_FF_00_00;
-        //dialog.setBackground(new Color(color, true));
-        dialog.setBackground(new Color(123, 121, 121, 160));
+        //后台任务
         doBackground();
         return this;
     }
 
-    public LoadingBuild doBackground() {
+    private LoadingBuild doBackground() {
         loadingLabel.startAnimation();
         SwingWorker<Boolean, Void> swingWorker = new SwingWorker<Boolean, Void>() {
             @Override
