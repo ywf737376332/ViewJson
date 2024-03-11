@@ -70,7 +70,7 @@ public class LoadingBuild {
                 dialog.setVisible(false);
                 backgroundKit.successTips();
                 FlatLabel tipLabel = ObjectUtils.getBean(GlobalKEY.STATE_BAR_COST_TIME);
-                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "当前操作耗时"+loadingLabel.getCostTime() +"毫秒" + "</span></html>");
+                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "操作耗时: "+loadingLabel.getCostTime() +" 毫秒" + "</span></html>");
             }
         };
         swingWorker.execute();

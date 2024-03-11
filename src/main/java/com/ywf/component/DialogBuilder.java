@@ -46,7 +46,7 @@ public class DialogBuilder {
     }
 
     public static JDialog showMoadlDialog(JFrame parentFrame) {
-        return createModalDialog(parentFrame, parentFrame.getWidth() - 16, parentFrame.getHeight() - 8);
+        return createModalDialog(parentFrame, parentFrame.getWidth() - 20, parentFrame.getHeight() - 12);
     }
 
     private static JDialog createDialog(JFrame parentFrame, String title, ImageIcon image) {

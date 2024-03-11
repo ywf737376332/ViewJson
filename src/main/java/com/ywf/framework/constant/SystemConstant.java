@@ -30,7 +30,7 @@ public class SystemConstant implements Serializable {
     /**
      * 窗口大小最小值
      */
-    public static final int WINDOWS_MIN_WIDTH = 930;   // 窗口最小宽度
+    public static final int WINDOWS_MIN_WIDTH = 980;   // 窗口最小宽度
     public static final int WINDOWS_MIN_HEIGHT = 680;    // 窗口最小高度
 
     /**

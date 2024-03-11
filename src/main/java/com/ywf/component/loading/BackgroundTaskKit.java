@@ -37,7 +37,7 @@ public class BackgroundTaskKit {
         @Override
         public void actionPerformedImpl() {
             try {
-                //Thread.sleep(8000);
+                Thread.sleep(8000);
                 int pictureScale = applicationContext.getPictureQualityState();
                 //绘制图片
                 BufferedImage image = ImageUtils.generateTextAreaImage(rSyntaxTextArea, pictureScale);
