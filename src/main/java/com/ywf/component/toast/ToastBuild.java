@@ -75,7 +75,6 @@ public class ToastBuild {
         // 30秒 后执行该任务
         timer.schedule(new TimerTask() {
             public void run() {
-                System.out.println("运行：");
                 dialog.setVisible(false);
                 dialog.dispose();
             }
