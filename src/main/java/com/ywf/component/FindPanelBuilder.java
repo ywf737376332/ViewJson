@@ -272,6 +272,7 @@ public class FindPanelBuilder {
 
         @Override
         public void changedUpdate(DocumentEvent e) {
+            setTextAreaContentHighlight();
         }
     }
 
