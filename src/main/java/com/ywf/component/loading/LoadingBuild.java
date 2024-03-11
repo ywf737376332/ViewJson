@@ -9,24 +9,24 @@ import java.awt.*;
  * @Author YWF
  * @Date 2024/3/10 19:35
  */
-public class LoadingModal {
+public class LoadingBuild {
 
     private JFrame frame;
     private BackgroundTask backgroundKit;
     private JDialog dialog;
     private final LoadingLabel loadingLabel = new LoadingLabel();
 
-    public LoadingModal(JFrame frame, BackgroundTask backgroundKit) {
+    public LoadingBuild(JFrame frame, BackgroundTask backgroundKit) {
         this.frame = frame;
         this.backgroundKit = backgroundKit;
     }
 
-    public static LoadingModal create(JFrame frame, BackgroundTask backgroundKit) {
-        return new LoadingModal(frame, backgroundKit);
+    public static LoadingBuild create(JFrame frame, BackgroundTask backgroundKit) {
+        return new LoadingBuild(frame, backgroundKit);
     }
 
 
-    public LoadingModal showModal() {
+    public LoadingBuild showModal() {
         dialog = new JDialog(frame, Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setUndecorated(true);
         dialog.setBounds(frame.getBounds());
@@ -40,7 +40,7 @@ public class LoadingModal {
         return this;
     }
 
-    public LoadingModal doBackground() {
+    public LoadingBuild doBackground() {
         loadingLabel.startAnimation();
         SwingWorker<Boolean, Void> swingWorker = new SwingWorker<Boolean, Void>() {
             @Override

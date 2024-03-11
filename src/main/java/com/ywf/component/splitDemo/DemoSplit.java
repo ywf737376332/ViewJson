@@ -3,7 +3,7 @@ package com.ywf.component.splitDemo;
 import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.formdev.flatlaf.extras.components.FlatProgressBar;
 import com.ywf.component.loading.BackgroundTaskKit;
-import com.ywf.component.loading.LoadingModal;
+import com.ywf.component.loading.LoadingBuild;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.utils.ConvertUtils;
@@ -137,7 +137,7 @@ public class DemoSplit extends JFrame {
     }
 
     private void formatActionPerformed() {
-        LoadingModal.create(_this, new BackgroundTaskKit.NewTabAction()).showModal();
+        LoadingBuild.create(_this, new BackgroundTaskKit.NewTabAction()).showModal();
     }
 
 

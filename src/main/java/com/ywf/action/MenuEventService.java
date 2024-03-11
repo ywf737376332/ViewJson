@@ -6,7 +6,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.ywf.AppMain;
 import com.ywf.component.*;
 import com.ywf.component.loading.BackgroundTaskKit;
-import com.ywf.component.loading.LoadingModal;
+import com.ywf.component.loading.LoadingBuild;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.config.GlobalKEY;
@@ -215,7 +215,7 @@ public class MenuEventService {
             return;
         }
         try {
-            LoadingModal.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(applicationContext, rSyntaxTextArea)).showModal();
+            LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(applicationContext, rSyntaxTextArea)).showModal();
             JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
 
             /*SwingUtilities.invokeLater(() -> {
