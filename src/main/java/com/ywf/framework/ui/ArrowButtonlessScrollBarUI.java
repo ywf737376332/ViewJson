@@ -21,25 +21,9 @@ public class ArrowButtonlessScrollBarUI extends BasicScrollBarUI {
     }
 
     @Override
-    protected Dimension getMinimumThumbSize() {
-        return new Dimension(0, 0);
-    }
-
-    /**
-     * 重写滚动条的大小
-     *
-     * @param c
-     * @return
-     */
-    @Override
-    public Dimension getPreferredSize(JComponent c) {
-        return new Dimension(8, c.getHeight());
-    }
-
-    @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
         Graphics2D g2 = (Graphics2D) g.create();
-        // 滚动条背景色
+        //g2.setPaint(trackColor);
         g2.setPaint(ThemeColor.noColor);
         g2.fill(r);
         g2.dispose();
@@ -69,6 +53,7 @@ public class ArrowButtonlessScrollBarUI extends BasicScrollBarUI {
         }
     }
 }
+
 
 /**
  * 滚动条下方按钮
