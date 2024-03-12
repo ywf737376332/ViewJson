@@ -18,10 +18,7 @@ import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
-import com.ywf.framework.utils.ChangeUIUtils;
-import com.ywf.framework.utils.ComponentUtils;
-import com.ywf.framework.utils.JsonUtil;
-import com.ywf.framework.utils.ObjectUtils;
+import com.ywf.framework.utils.*;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
@@ -188,18 +185,15 @@ public class MenuEventService {
     public void copyJsonActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            Toast.error(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         try {
-            SwingUtilities.invokeLater(() -> {
-                StringSelection stringSelection = new StringSelection(rSyntaxTextArea.getText());
-                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                clipboard.setContents(stringSelection, null);
-                JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_COPY_JSON_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
-            });
+            LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonAction(rSyntaxTextArea)).showModal();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_JSON_FAIL_TIP + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_JSON_FAIL_TIP + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
+            Toast.error(frame, MessageConstant.SYSTEM_COPY_JSON_FAIL_TIP);
             throw new RuntimeException("内容复制失败: " + e.getMessage());
         }
     }
@@ -213,7 +207,8 @@ public class MenuEventService {
     public void copyJsonToPictActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            Toast.error(WindowUtils.getFrame(), MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(rSyntaxTextArea)).showModal();
@@ -227,7 +222,8 @@ public class MenuEventService {
     public void saveJsonToFileActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            Toast.error(WindowUtils.getFrame(), MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         JFileChooser fileChooser = new JFileChooser();
@@ -241,9 +237,11 @@ public class MenuEventService {
                 FileWriter fileWriter = new FileWriter(fileToSave + SystemConstant.SAVE_JSON_EXTENSION);
                 fileWriter.write(rSyntaxTextArea.getText());
                 fileWriter.close();
-                JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_FILE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+                //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_FILE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+                Toast.success(frame, MessageConstant.SYSTEM_FILE_SAVE_SUCCESS);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_FILE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
+                Toast.error(frame, MessageConstant.SYSTEM_FILE_SAVE_FAIL);
                 throw new RuntimeException("Error saving file: " + e.getMessage());
             }
         }
@@ -258,7 +256,8 @@ public class MenuEventService {
     public void saveJsonToImageActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+            Toast.error(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
         JFileChooser fileChooser = new JFileChooser();
@@ -276,9 +275,11 @@ public class MenuEventService {
             g2d.dispose();
             try {
                 ImageIO.write(image, "png", new File(fileToSave.getPath() + SystemConstant.SAVE_IMAGE_EXTENSION));
-                JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_IMAGE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_IMAGE_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+                //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_IMAGE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_IMAGE_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+                Toast.success(frame, MessageConstant.SYSTEM_IMAGE_SAVE_SUCCESS);
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_IMAGE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_IMAGE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
+                Toast.error(frame, MessageConstant.SYSTEM_IMAGE_SAVE_FAIL);
                 throw new RuntimeException("Error saving image: " + e.getMessage());
             }
         }

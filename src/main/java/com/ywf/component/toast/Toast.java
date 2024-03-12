@@ -18,8 +18,10 @@ import java.util.TimerTask;
 public class Toast extends JWindow {
 
     private static final long serialVersionUID = 1L;
+    private final static int leftAndRight = 80;
+    private final static int topAndBottom = 30;
     private String message = "";
-    private final Insets insets = new Insets(12, 24, 12, 24);
+    private final Insets insets = new Insets(topAndBottom, leftAndRight, topAndBottom, leftAndRight);
     private int period = 1500;
     private Font font;
     public static final int msg = 0;// 提示 黑色背景色
@@ -29,31 +31,31 @@ public class Toast extends JWindow {
     private Color foreground;
 
     public static void show(Window parent, String message, int period, int type) {
-        new Toast(parent, message, period*1000, type).start();
+        new Toast(parent, message, period * 1000, type).start();
     }
 
     public static void info(Window parent, String message, int period) {
-        new Toast(parent, message, period*1000, 0).start();
+        new Toast(parent, message, period * 1000, 0).start();
     }
 
     public static void info(Window parent, String message) {
-        new Toast(parent, message, 3000, 0).start();
+        new Toast(parent, message, 1500, 0).start();
     }
 
     public static void error(Window parent, String message, int period) {
-        new Toast(parent, message, period*1000, 2).start();
+        new Toast(parent, message, period * 1000, 2).start();
     }
 
     public static void error(Window parent, String message) {
-        new Toast(parent, message, 3000, 2).start();
+        new Toast(parent, message, 1500, 2).start();
     }
 
     public static void success(Window parent, String message, int period) {
-        new Toast(parent, message, period*1000, 1).start();
+        new Toast(parent, message, period * 1000, 1).start();
     }
 
     public static void success(Window parent, String message) {
-        new Toast(parent, message, 3000, 1).start();
+        new Toast(parent, message, 1500, 1).start();
     }
 
     private Toast(Window parent) {

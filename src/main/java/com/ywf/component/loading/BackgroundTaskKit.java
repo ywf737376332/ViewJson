@@ -1,17 +1,16 @@
 package com.ywf.component.loading;
 
 import com.ywf.component.JSONRSyntaxTextArea;
-import com.ywf.component.toast.TipDialog;
 import com.ywf.component.toast.Toast;
-import com.ywf.component.toast.ToastBuild;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.ImageUtils;
 import com.ywf.framework.utils.WindowUtils;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.image.BufferedImage;
 
 /**
@@ -56,6 +55,24 @@ public class BackgroundTaskKit {
             //TipDialog test = new TipDialog((JFrame)Window.getWindows()[0], "测试文本");
             //ToastBuild.create((JFrame)Window.getWindows()[0]).showTips(MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP);
             //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public static class CopyJsonAction extends BackgroundTask{
+        private JSONRSyntaxTextArea rSyntaxTextArea;
+        public CopyJsonAction(JSONRSyntaxTextArea rSyntaxTextArea) {
+            this.rSyntaxTextArea = rSyntaxTextArea;
+        }
+        @Override
+        public void actionPerformedImpl() {
+            StringSelection stringSelection = new StringSelection(rSyntaxTextArea.getText());
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelection, null);
+        }
+
+        @Override
+        public void successTips() {
+            Toast.success(WindowUtils.getFrame(), MessageConstant.SYSTEM_COPY_JSON_SUCCESS_TIP);
         }
     }
 
