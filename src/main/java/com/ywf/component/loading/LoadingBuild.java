@@ -71,7 +71,8 @@ public class LoadingBuild {
                 dialog.setVisible(false);
                 backgroundKit.successTips();
                 FlatLabel tipLabel = ObjectUtils.getBean(GlobalKEY.STATE_BAR_COST_TIME);
-                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + String.format(MessageConstant.SYSTEM_LOADING_COST_TIME_TIP,loadingLabel.getCostTime()) + "</span></html>");
+                long costTime = loadingLabel.getCostTime();
+                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + String.format(MessageConstant.SYSTEM_LOADING_COST_TIME_TIP,costTime>0?costTime:1) + "</span></html>");
             }
         };
         swingWorker.execute();
