@@ -107,9 +107,26 @@ public class Toast extends JWindow {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                setVisible(false);
+                // 渐隐效果关闭
+                close();
             }
         }, period);
+    }
+
+    public void close() {
+        // 渐隐效果
+        float translucent = 1.0f;
+        while (translucent > 0) {
+            setOpacity(translucent);
+            translucent -= 0.02f;
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        setVisible(false);
+        dispose();
     }
 
     /**

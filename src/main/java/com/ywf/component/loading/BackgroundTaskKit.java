@@ -52,17 +52,16 @@ public class BackgroundTaskKit {
         @Override
         public void successTips() {
             Toast.success(WindowUtils.getFrame(), MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP);
-            //TipDialog test = new TipDialog((JFrame)Window.getWindows()[0], "测试文本");
-            //ToastBuild.create((JFrame)Window.getWindows()[0]).showTips(MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP);
-            //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_IMAGE_SUCCESS_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    public static class CopyJsonAction extends BackgroundTask{
+    public static class CopyJsonAction extends BackgroundTask {
         private JSONRSyntaxTextArea rSyntaxTextArea;
+
         public CopyJsonAction(JSONRSyntaxTextArea rSyntaxTextArea) {
             this.rSyntaxTextArea = rSyntaxTextArea;
         }
+
         @Override
         public void actionPerformedImpl() {
             StringSelection stringSelection = new StringSelection(rSyntaxTextArea.getText());

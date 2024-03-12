@@ -48,7 +48,15 @@ public class TextAreaBuilder {
         return jScrollPane;
     }
 
-    public static JScrollPane createScrollEditorPane(String context,int width,int height) {
+    /**
+     * 创建带滚动条的富文本框
+     *
+     * @param context
+     * @param width
+     * @param height
+     * @return
+     */
+    public static JScrollPane createScrollEditorPane(String context, int width, int height) {
         JEditorPane editorPane = new JEditorPane();
         editorPane.setEditable(false);
         editorPane.setBorder(BorderBuilder.emptyBorder(3));
@@ -61,7 +69,7 @@ public class TextAreaBuilder {
     }
 
     /**
-     * Json编辑器
+     * 带滚动框的Json编辑器
      */
     public static RTextScrollPane createJsonScrollTextArea() {
         SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
