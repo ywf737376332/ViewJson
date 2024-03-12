@@ -1,5 +1,6 @@
 package com.ywf.component;
 
+import com.ywf.action.MenuEventService;
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.BorderBuilder;
@@ -20,8 +21,6 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 /**
@@ -48,19 +47,9 @@ public class TextAreaBuilder {
         textAreaSource.setBorder(null);
         textAreaSource.setForeground(new Color(200, 96, 17));
         textAreaSource.setBorder(BorderBuilder.emptyBorder(5)); // 设置边框为10像素的空白边框
+        MenuEventService.getInstance().textAreaScrollBarHoverActionPerformed(textAreaSource);
         EditScrollPane jScrollPane = new EditScrollPane(textAreaSource);
         jScrollPane.setRowHeaderView(new LineNumberView(textAreaSource));
-        textAreaSource.addMouseListener(new MouseAdapter() {
-            @Override public void mouseEntered(MouseEvent e) {
-                JScrollPane sp = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, (Component) e.getSource());
-                sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-            }
-
-            @Override public void mouseExited(MouseEvent e) {
-                JScrollPane sp = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, (Component) e.getSource());
-                sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-            }
-        });
         return jScrollPane;
     }
 

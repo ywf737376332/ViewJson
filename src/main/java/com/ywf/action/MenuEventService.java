@@ -10,7 +10,6 @@ import com.ywf.component.loading.BackgroundTaskKit;
 import com.ywf.component.loading.LoadingBuild;
 import com.ywf.component.toast.Toast;
 import com.ywf.framework.annotation.Autowired;
-import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
@@ -32,8 +31,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -45,8 +42,6 @@ import java.net.URISyntaxException;
 import java.time.Year;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
@@ -714,6 +709,27 @@ public class MenuEventService {
         FutureTask futureTask = new FutureTask(callable);
         schedulerExecutor.submit(futureTask);
         System.exit(0);
+    }
+
+    /**
+     * 鼠标移上去显示滚动条
+     *
+     * @param textArea
+     */
+    public void textAreaScrollBarHoverActionPerformed(JTextArea textArea) {
+        textArea.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                JScrollPane sp = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, (Component) e.getSource());
+                sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                JScrollPane sp = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, (Component) e.getSource());
+                sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+            }
+        });
     }
 
 }
