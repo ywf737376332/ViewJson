@@ -74,7 +74,7 @@ public class DialogBuilder {
 
             @Override
             public void run() {
-                dialog.setTitle("<html><span style=\"float:right\">" + title + "，关闭倒计时：" + count-- + "秒</span></html>");
+                dialog.setTitle("<html><span style=\"float:right\"><b>" + title + "</b>，关闭倒计时：" + count-- + "秒</span></html>");
                 if (count < 0) {
                     dialog.setVisible(false);
                     timer.cancel();
@@ -97,7 +97,7 @@ public class DialogBuilder {
 
             @Override
             public void run() {
-                dialog.setTitle("<html><span style=\"float:right\">" + title + "，关闭倒计时：" + count-- + "秒</span></html>");
+                dialog.setTitle("<html><span style=\"float:right\"><b>" + title + "</b>，关闭倒计时：" + count-- + "秒</span></html>");
                 if (count < 0) {
                     dialog.setVisible(false);
                     timer.cancel();
