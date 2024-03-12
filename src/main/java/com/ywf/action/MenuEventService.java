@@ -10,6 +10,7 @@ import com.ywf.component.loading.BackgroundTaskKit;
 import com.ywf.component.loading.LoadingBuild;
 import com.ywf.component.toast.Toast;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
@@ -44,6 +45,8 @@ import java.net.URISyntaxException;
 import java.time.Year;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
@@ -322,6 +325,47 @@ public class MenuEventService {
      * 隐私政策
      */
     public void privacyPolicyActionPerformed() {
+        String message = ("本软件为JSON工具，由于文斐开发并发布。用户在安装、使用本软件时，需遵守以下条款和条件：\n" +
+                "\n" +
+                "1.许可范围：本软件的许可范围仅限于个人使用，禁止用于商业用途或任何形式的盈利活动。\n" +
+                "\n" +
+                "2.版权保护：本软件的所有知识产权归于文斐所有，用户不得以任何形式复制、修改、传播、分发或出售本软件的任何部分。\n" +
+                "\n" +
+                "3.免责声明：本软件按“原样”提供，不提供任何明示或暗示的保证，包括但不限于适销性、特定目的适用性和非侵权性的保证。对于因使用本软件而造成的任何损失、损害或法律纠纷，于文斐概不负责。\n" +
+                "\n" +
+                "4.更新和维护：于文斐有权随时对本软件进行更新和改进，并在必要时发布补丁程序或新版本。用户应定期检查并下载最新版本的软件，以确保其功能和安全性。\n" +
+                "\n" +
+                "5.终止：如果用户违反了本许可协议的任何条款，于文斐有权立即终止用户的使用权，并保留追究法律责任的权利。\n" +
+                "\n" +
+                "6.法律适用和管辖：本许可协议受中华人民共和国法律管辖。如发生争议，双方应友好协商解决；协商不成的，任何一方均有权向有管辖权的人民法院提起诉讼。\n" +
+                "\n" +
+                "请在使用本软件之前认真阅读并理解本许可协议的所有内容，感谢您的理解和支持！\n" +
+                "\n" +
+                "发布者：于文斐\n" +
+                "日期：2024年1月1日");
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setText(message);
+        editorPane.setEditable(false);
+        editorPane.setBorder(BorderBuilder.emptyBorder(3));
+        editorPane.setFocusable(false);
+        JScrollPane scrollPane = new JScrollPane(editorPane);
+        scrollPane.setSize(new Dimension(600, 500));
+        final Dialog dialog = DialogBuilder.showDialog(WindowUtils.getFrame(), "hhh", scrollPane);
+
+        java.util.Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int count = 5;
+
+            @Override
+            public void run() {
+                dialog.setTitle("正在关闭：" + count--);
+                dialog.removeAll();
+                dialog.setVisible(false);
+                timer.cancel();
+            }
+        }, 5000, 1000);
+        dialog.add(scrollPane, BorderLayout.CENTER);
+        dialog.setVisible(true);
     }
 
     /**

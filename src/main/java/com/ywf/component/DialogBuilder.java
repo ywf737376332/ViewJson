@@ -41,6 +41,10 @@ public class DialogBuilder {
         return createDialog(parentFrame, title, SvgIconFactory.mediumIcon(imagePath));
     }
 
+    public static JDialog showDialog(JFrame parentFrame, String title, Component component) {
+        return createDialog(parentFrame, title, component);
+    }
+
     public static JDialog showMoadlDialog(JFrame parentFrame, int width, int height) {
         return createModalDialog(parentFrame, width, height);
     }
@@ -56,6 +60,16 @@ public class DialogBuilder {
         dialog.setSize(image.getIconWidth() + 25, image.getIconHeight() + 60);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         dialog.add(imageLabel);
+        dialog.setLocationRelativeTo(parentFrame);
+        dialog.setResizable(false);
+        return dialog;
+    }
+
+    private static JDialog createDialog(JFrame parentFrame, String title, Component component) {
+        final JDialog dialog = new JDialog(parentFrame, title, true);
+        // 设置标签的首选大小为图片的大小
+        dialog.setSize(component.getWidth() + 25, component.getHeight() + 60);
+        dialog.add(component);
         dialog.setLocationRelativeTo(parentFrame);
         dialog.setResizable(false);
         return dialog;
