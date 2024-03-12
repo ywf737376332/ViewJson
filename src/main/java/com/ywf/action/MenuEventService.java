@@ -317,51 +317,19 @@ public class MenuEventService {
      * 更新日志对话框
      */
     public void updateLogActionPerformed() {
-        JLabel linkLabel = new JLabel("<html>" + "<span>最近一次更新2024年3月5日：</span>" + "<ol type=\"1\" style=\"float:left\">" + "<li>工具条新增新建按钮，点击新建时，增加新的选项卡.</li>" + "<li>删除左侧富文本框，增加JSON树显示.</li>" + "<li>系统托盘驻留功能.</li>" + "<li>最下方显示，工具格式化次数.</li>" + "<li>系统托盘驻留功能.</li>" + "<li>搜索功能.</li>" + "<li>窗口大小本地文件记录.</li>" + "<li>增加记录上一次选定的主题颜色.</li>" + "<li>报文分享为二维码.</li>" + "<li>增加按钮栏工具是否显示，某个按钮是否显示功能.</li>" + "<li>增加复制图片功能.</li>" + "</ol>" + "</html>");
-        JOptionPane.showMessageDialog(null, new Object[]{linkLabel}, MessageConstant.SYSTEM_VERSION_LOG, JOptionPane.PLAIN_MESSAGE);
+        String message = "<html><body><center><h3>JSON工具功能介绍：</h3></center><ol><li>支持JSON，XML报文的格式化显示，压缩，转义，去除转义，复制报文内容。</li><li>支持JSON，XML报文内容的中中文和Unicode互转。</li><li>支持报文内容复制到剪贴板。</li><li>支持L报文内容生成图片复制到剪贴板。</li><li>支持报文内容分享为二维码图片，实现任何收集扫码器的内容识别。</li><li>支持报文内容的查找，高亮显示功能。</li><li>支持一键清空报文内容。</li><li>支持报文内容导出为文件。</li><li>支持报文内容导出为图片，图片带有水印，图片可选择清晰度。</li><li>编辑器可识别JSON，XML,Properties,Sql,JavaScript,Java,Yaml的内容类型。</li><li>编辑器可设置行号是否显示。</li><li>编辑器可设置是否自动换行。</li><li>编辑器可设置内容是否可编辑。</li><li>可支持并排显示四个编辑器,方便实现代码对比。</li><li>软件支持八种主题的设置。</li><li>软件支持字体字号的设置。</li></ol><p style=\"text-align:right;font-weight:blod\">2024年3月5日</p><p style=\"text-align:right;font-weight:blod\">莫斐鱼</p></body></html>";
+        JScrollPane scrollPane = TextAreaBuilder.createScrollEditorPane(message, 600, 500);
+        final Dialog dialog = DialogBuilder.showDialog(WindowUtils.getFrame(), "隐私协议", scrollPane, 30);
+        dialog.setVisible(true);
     }
 
     /**
      * 隐私政策
      */
     public void privacyPolicyActionPerformed() {
-        String message = ("本软件为JSON工具，由于文斐开发并发布。用户在安装、使用本软件时，需遵守以下条款和条件：\n" +
-                "\n" +
-                "1.许可范围：本软件的许可范围仅限于个人使用，禁止用于商业用途或任何形式的盈利活动。\n" +
-                "\n" +
-                "2.版权保护：本软件的所有知识产权归于文斐所有，用户不得以任何形式复制、修改、传播、分发或出售本软件的任何部分。\n" +
-                "\n" +
-                "3.免责声明：本软件按“原样”提供，不提供任何明示或暗示的保证，包括但不限于适销性、特定目的适用性和非侵权性的保证。对于因使用本软件而造成的任何损失、损害或法律纠纷，于文斐概不负责。\n" +
-                "\n" +
-                "4.更新和维护：于文斐有权随时对本软件进行更新和改进，并在必要时发布补丁程序或新版本。用户应定期检查并下载最新版本的软件，以确保其功能和安全性。\n" +
-                "\n" +
-                "5.终止：如果用户违反了本许可协议的任何条款，于文斐有权立即终止用户的使用权，并保留追究法律责任的权利。\n" +
-                "\n" +
-                "6.法律适用和管辖：本许可协议受中华人民共和国法律管辖。如发生争议，双方应友好协商解决；协商不成的，任何一方均有权向有管辖权的人民法院提起诉讼。\n" +
-                "\n" +
-                "请在使用本软件之前认真阅读并理解本许可协议的所有内容，感谢您的理解和支持！\n" +
-                "\n" +
-                "发布者：于文斐\n" +
-                "日期：2024年1月1日");
-        JEditorPane editorPane = TextAreaBuilder.createScrollEditorPane(600, 500);
-        editorPane.setText(message);
-        JScrollPane scrollPane = new JScrollPane(editorPane);
-        scrollPane.setSize(new Dimension(600, 500));
-        final Dialog dialog = DialogBuilder.showDialog(WindowUtils.getFrame(), "隐私协议", scrollPane);
-        java.util.Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int count = 10;
-
-            @Override
-            public void run() {
-                dialog.setTitle("<html><span style=\"float:right\">" + "隐私协议，关闭倒计时：" + count-- + "秒</span></html>");
-                if (count < 0) {
-                    dialog.setVisible(false);
-                    timer.cancel();
-                }
-            }
-        }, 0, 1000);
-        dialog.add(scrollPane, BorderLayout.CENTER);
+        String message = ("<html><body><h3>本软件为JSON工具，由莫斐鱼开发并发布。用户在安装、使用本软件时，需遵守以下条款和条件：</h3><ol><li>许可范围：本软件的许可范围仅限于个人使用，禁止用于商业用途或任何形式的盈利活动。</li><li>版权保护：本软件的所有知识产权归莫斐鱼所有，用户不得以任何形式复制、修改、传播、分发或出售本软件的任何部分。</li><li>免责声明：本软件按“原样”提供，不提供任何明示或暗示的保证，包括但不限于适销性、特定目的适用性和非侵权性的保证。对于因使用本软件而造成的任何损失、损害或法律纠纷，莫斐鱼概不负责。</li><li>更新和维护：莫斐鱼有权随时对本软件进行更新和改进，并在必要时发布补丁程序或新版本。用户应定期检查并下载最新版本的软件，以确保其功能和安全性。</li><li>终止：如果用户违反了本许可协议的任何条款，莫斐鱼有权立即终止用户的使用权，并保留追究法律责任的权利。</li><li>法律适用和管辖：本许可协议受中华人民共和国法律管辖。如发生争议，双方应友好协商解决；协商不成的，任何一方均有权向有管辖权的人民法院提起诉讼。</li></ol><p style=\"text-indent: 2em\">请在使用本软件之前认真阅读并理解本许可协议的所有内容，感谢您的理解和支持！</p><p style=\"text-align:right;font-weight:blod\">发布者：莫斐鱼</p><p style=\"text-align:right;font-weight:blod\">日期：2024年1月1日</p></body></html>");
+        JScrollPane scrollPane = TextAreaBuilder.createScrollEditorPane(message, 600, 500);
+        final Dialog dialog = DialogBuilder.showDialog(WindowUtils.getFrame(), "隐私协议", scrollPane, 10);
         dialog.setVisible(true);
     }
 
@@ -369,6 +337,9 @@ public class MenuEventService {
      * 感谢捐赠
      */
     public void expressThanksActionPerformed() {
+        ImageIcon icon = IconUtils.getIcon("/images/pay.png");
+        final JDialog dialog = DialogBuilder.showImageDialog(WindowUtils.getFrame(), "鸣谢反馈", icon, 20);
+        dialog.setVisible(true);
     }
 
 

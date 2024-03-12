@@ -6,6 +6,8 @@ import com.ywf.framework.base.ThemeColor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 图片组件工厂
@@ -26,7 +28,11 @@ public class DialogBuilder {
      * @date 2023/12/12 23:54
      */
     public static JDialog showImageDialog(JFrame parentFrame, String title, ImageIcon image) {
-        return createDialog(parentFrame, title, image);
+        return createDialog(parentFrame, title, image, 20);
+    }
+
+    public static JDialog showImageDialog(JFrame parentFrame, String title, ImageIcon image, int timeout) {
+        return createDialog(parentFrame, title, image, timeout);
     }
 
     /**
@@ -38,11 +44,11 @@ public class DialogBuilder {
      * @date 2023/12/12 23:54
      */
     public static JDialog showImageDialog(JFrame parentFrame, String title, String imagePath) {
-        return createDialog(parentFrame, title, SvgIconFactory.mediumIcon(imagePath));
+        return createDialog(parentFrame, title, SvgIconFactory.mediumIcon(imagePath), 30);
     }
 
-    public static JDialog showDialog(JFrame parentFrame, String title, Component component) {
-        return createDialog(parentFrame, title, component);
+    public static JDialog showDialog(JFrame parentFrame, String title, Component component, int timeout) {
+        return createTimeDialog(parentFrame, title, component, timeout);
     }
 
     public static JDialog showMoadlDialog(JFrame parentFrame, int width, int height) {
@@ -53,7 +59,7 @@ public class DialogBuilder {
         return createModalDialog(parentFrame, parentFrame.getWidth() - 16, parentFrame.getHeight() - 7);
     }
 
-    private static JDialog createDialog(JFrame parentFrame, String title, ImageIcon image) {
+    private static JDialog createDialog(JFrame parentFrame, String title, ImageIcon image, int timeout) {
         final JDialog dialog = new JDialog(parentFrame, title, true);
         JLabel imageLabel = new JLabel(image);
         // 设置标签的首选大小为图片的大小
@@ -62,16 +68,43 @@ public class DialogBuilder {
         dialog.add(imageLabel);
         dialog.setLocationRelativeTo(parentFrame);
         dialog.setResizable(false);
+        java.util.Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int count = timeout;
+
+            @Override
+            public void run() {
+                dialog.setTitle("<html><span style=\"float:right\">" + title + "，关闭倒计时：" + count-- + "秒</span></html>");
+                if (count < 0) {
+                    dialog.setVisible(false);
+                    timer.cancel();
+                }
+            }
+        }, 0, 1000);
         return dialog;
     }
 
-    private static JDialog createDialog(JFrame parentFrame, String title, Component component) {
+    private static JDialog createTimeDialog(JFrame parentFrame, String title, Component component, int timeout) {
         final JDialog dialog = new JDialog(parentFrame, title, true);
         // 设置标签的首选大小为图片的大小
         dialog.setSize(component.getWidth() + 25, component.getHeight() + 60);
         dialog.add(component);
         dialog.setLocationRelativeTo(parentFrame);
         dialog.setResizable(false);
+        java.util.Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int count = timeout;
+
+            @Override
+            public void run() {
+                dialog.setTitle("<html><span style=\"float:right\">" + title + "，关闭倒计时：" + count-- + "秒</span></html>");
+                if (count < 0) {
+                    dialog.setVisible(false);
+                    timer.cancel();
+                }
+            }
+        }, 0, 1000);
+        dialog.add(component, BorderLayout.CENTER);
         return dialog;
     }
 

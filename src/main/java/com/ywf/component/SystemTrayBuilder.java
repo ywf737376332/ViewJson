@@ -20,8 +20,8 @@ public class SystemTrayBuilder {
                 SystemTray tray = SystemTray.getSystemTray();
                 PopupMenu popup = new PopupMenu();
                 MenuItem exitItem = new MenuItem("Exit");
-                Image image = IconUtils.getIcon("/icons/logo10.png");
-                TrayIcon trayIcon = new TrayIcon(image, "JSON格式化工具", popup);
+                //Image image = IconUtils.getIcon("/icons/logo10.png");
+                TrayIcon trayIcon = null;//new TrayIcon(image, "JSON格式化工具", popup);
                 exitItem.addActionListener(e -> closeWindowsActionPerformed(frame, systemProperties));
                 popup.add(exitItem);
                 trayIcon.setImageAutoSize(true);

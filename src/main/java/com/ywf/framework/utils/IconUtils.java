@@ -21,14 +21,14 @@ public class IconUtils {
      * @param iconPath 图标路径
      * @return Image对象
      */
-    public static Image getIcon(String iconPath) {
+    public static ImageIcon getIcon(String iconPath) {
         Image image;
         try {
             image = ImageIO.read(IconUtils.class.getResource(iconPath));
         } catch (IOException e) {
             throw new RuntimeException("图标文件未找到：" + iconPath);
         }
-        return image;
+        return new ImageIcon(image);
     }
 
     public static ImageIcon getSVGIcon(String svgPath) {
