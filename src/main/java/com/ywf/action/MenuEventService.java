@@ -343,27 +343,24 @@ public class MenuEventService {
                 "\n" +
                 "发布者：于文斐\n" +
                 "日期：2024年1月1日");
-        JEditorPane editorPane = new JEditorPane();
+        JEditorPane editorPane = TextAreaBuilder.createScrollEditorPane(600, 500);
         editorPane.setText(message);
-        editorPane.setEditable(false);
-        editorPane.setBorder(BorderBuilder.emptyBorder(3));
-        editorPane.setFocusable(false);
         JScrollPane scrollPane = new JScrollPane(editorPane);
         scrollPane.setSize(new Dimension(600, 500));
-        final Dialog dialog = DialogBuilder.showDialog(WindowUtils.getFrame(), "hhh", scrollPane);
-
+        final Dialog dialog = DialogBuilder.showDialog(WindowUtils.getFrame(), "隐私协议", scrollPane);
         java.util.Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-            int count = 5;
+            int count = 10;
 
             @Override
             public void run() {
-                dialog.setTitle("正在关闭：" + count--);
-                dialog.removeAll();
-                dialog.setVisible(false);
-                timer.cancel();
+                dialog.setTitle("<html><span style=\"float:right\">" + "隐私协议，关闭倒计时：" + count-- + "秒</span></html>");
+                if (count < 0) {
+                    dialog.setVisible(false);
+                    timer.cancel();
+                }
             }
-        }, 5000, 1000);
+        }, 0, 1000);
         dialog.add(scrollPane, BorderLayout.CENTER);
         dialog.setVisible(true);
     }

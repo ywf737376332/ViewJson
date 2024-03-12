@@ -48,6 +48,13 @@ public class TextAreaBuilder {
         return jScrollPane;
     }
 
+    public static JEditorPane createScrollEditorPane(int width, int height) {
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setEditable(false);
+        editorPane.setBorder(BorderBuilder.emptyBorder(3));
+        editorPane.setFocusable(false);
+        return editorPane;
+    }
 
     /**
      * Json编辑器
