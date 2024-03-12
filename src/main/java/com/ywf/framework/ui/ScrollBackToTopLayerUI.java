@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
- * 底部向上滚动
+ * 底部滚动条一键向上滚动
  *
  * @Author YWF
  * @Date 2024/3/12 17:21

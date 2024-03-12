@@ -12,6 +12,7 @@ import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ioc.ResourceContext;
+import com.ywf.framework.ui.ArrowButtonlessScrollBarUI;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,14 +135,34 @@ public class ChangeUIUtils {
         if (tabbedSplitEditor != null) {
             LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
             for (JScrollPane scrollPane : sp) {
-                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
-                //logger.warn("编辑框字体改变前：{}", rSyntaxTextArea.getFont());
-                rSyntaxTextArea.setFont(font);
-                //logger.warn("编辑框字体改变后：{}", rSyntaxTextArea.getFont());
-                rSyntaxTextArea.revalidate();
-                rSyntaxTextArea.repaint();
+                // 重置滚动条UI,避免重新应用主题后，滚动条UI被还原
+                initJSONAreaScrollBarUi(scrollPane);
+                // 重置滚动条UI,避免重新应用主题后，编辑框字体被还原
+                initJSONAreaFontStyle(scrollPane, font);
             }
         }
+    }
+
+    /**
+     * 重新设置JScrollPane的下拉条UI
+     *
+     * @param scrollPane
+     */
+    private static void initJSONAreaScrollBarUi(JScrollPane scrollPane) {
+        scrollPane.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+        scrollPane.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+    }
+
+    /**
+     * 重新设置编辑框字体
+     *
+     * @param scrollPane
+     */
+    private static void initJSONAreaFontStyle(JScrollPane scrollPane, Font font) {
+        JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
+        //logger.warn("编辑框字体改变前：{}", rSyntaxTextArea.getFont());
+        rSyntaxTextArea.setFont(font);
+        //logger.warn("编辑框字体改变后：{}", rSyntaxTextArea.getFont());
     }
 
     /**
@@ -208,7 +229,7 @@ public class ChangeUIUtils {
      */
     public static void initUIStyle() {
         //滚动条的默认宽度为 。要使它们更宽（或更小），请使用：10
-        UIManager.put("ScrollBar.width", 4);
+        //UIManager.put("ScrollBar.width", 4);
         //UIManager.put("SplitPane.background", new Color(0, 0, 0, 0));//设置分隔条为红色
         //UIManager.put("SplitPane.background", UIManager.getColor("control"));
         // 设置滚动条背景色为透明

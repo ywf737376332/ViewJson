@@ -1,17 +1,18 @@
 package com.ywf.framework.ui;
 
-import javax.swing.*;
+import org.fife.ui.rtextarea.RTextScrollPane;
+
 import java.awt.*;
 
 /**
- * TODO
+ * JSON编辑框滚动面板重写
  *
  * @Author YWF
- * @Date 2024/3/12 17:53
+ * @Date 2024/3/12 20:46
  */
-public class JSONScrollPane extends JScrollPane {
+public class RJSONScrollPane extends RTextScrollPane {
 
-    public JSONScrollPane(Component view) {
+    public RJSONScrollPane(Component view) {
         super(view);
     }
 

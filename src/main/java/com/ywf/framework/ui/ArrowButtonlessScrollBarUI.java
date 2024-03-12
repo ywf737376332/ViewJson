@@ -1,9 +1,14 @@
 package com.ywf.framework.ui;
 
+import com.ywf.framework.base.ThemeColor;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
+/**
+ * 自定义滚动条UI
+ */
 public class ArrowButtonlessScrollBarUI extends BasicScrollBarUI {
     @Override
     protected JButton createDecreaseButton(int orientation) {
@@ -17,18 +22,25 @@ public class ArrowButtonlessScrollBarUI extends BasicScrollBarUI {
 
     @Override
     protected Dimension getMinimumThumbSize() {
-        return new Dimension(20, 20);
+        return new Dimension(0, 0);
     }
 
+    /**
+     * 重写滚动条的大小
+     *
+     * @param c
+     * @return
+     */
     @Override
     public Dimension getPreferredSize(JComponent c) {
-        return new Dimension(50, c.getHeight());
+        return new Dimension(8, c.getHeight());
     }
 
     @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.setPaint(trackColor);
+        // 滚动条背景色
+        g2.setPaint(ThemeColor.noColor);
         g2.fill(r);
         g2.dispose();
     }
@@ -58,6 +70,9 @@ public class ArrowButtonlessScrollBarUI extends BasicScrollBarUI {
     }
 }
 
+/**
+ * 滚动条下方按钮
+ */
 class ZeroSizeButton extends JButton {
     private static final Dimension ZERO_SIZE = new Dimension();
 

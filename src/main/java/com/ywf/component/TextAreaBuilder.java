@@ -6,8 +6,9 @@ import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.config.JSONRSyntaxTextAreaDocumentFilter;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
-import com.ywf.framework.ui.JSONScrollPane;
+import com.ywf.framework.ui.EditScrollPane;
 import com.ywf.framework.ui.LineNumberView;
+import com.ywf.framework.ui.RJSONScrollPane;
 import com.ywf.framework.utils.ChangeUIUtils;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -45,7 +46,7 @@ public class TextAreaBuilder {
         textAreaSource.setBorder(null);
         textAreaSource.setForeground(new Color(200, 96, 17));
         textAreaSource.setBorder(BorderBuilder.emptyBorder(5)); // 设置边框为10像素的空白边框
-        JSONScrollPane jScrollPane = new JSONScrollPane(textAreaSource);
+        EditScrollPane jScrollPane = new EditScrollPane(textAreaSource);
         jScrollPane.setRowHeaderView(new LineNumberView(textAreaSource));
         return jScrollPane;
     }
@@ -65,7 +66,7 @@ public class TextAreaBuilder {
         editorPane.setFocusable(false);
         editorPane.setContentType("text/html");
         editorPane.setText(context);
-        JScrollPane scrollPane = new JScrollPane(editorPane);
+        EditScrollPane scrollPane = new EditScrollPane(editorPane);
         scrollPane.setSize(new Dimension(width, height));
         return scrollPane;
     }
@@ -77,7 +78,7 @@ public class TextAreaBuilder {
         SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
         String themesPath = themesStyles != null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
-        RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
+        RJSONScrollPane rTextScrollPane = new RJSONScrollPane(syntaxTextArea);
         rTextScrollPane.setBorder(BorderBuilder.emptyBorder(0));
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(applicationContext.getTextAreaShowlineNumState());
