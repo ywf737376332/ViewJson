@@ -6,13 +6,18 @@ import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
+import com.ywf.framework.ui.ScrollBackToTopIcon;
+import com.ywf.framework.ui.ScrollBackToTopLayerUI;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.UIUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.plaf.LayerUI;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Path2D;
 
 /**
  * TODO
@@ -61,7 +66,7 @@ public class MainTest extends JFrame {
         JPanel editPanel = new JPanel();
         editPanel.setLayout(new BorderLayout());
         editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // 设置外边距
-        editPanel.add(TextAreaBuilder.scrollTextArea());
+        editPanel.add(new JLayer<>(TextAreaBuilder.scrollTextArea(), new ScrollBackToTopLayerUI()));
         //初始化可创建多个的多文本编辑区
         JToolBar toolBar = createToolBar(frame);
         mainPanel.add(toolBar, BorderLayout.NORTH);

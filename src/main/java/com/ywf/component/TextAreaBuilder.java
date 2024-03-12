@@ -6,6 +6,8 @@ import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.config.JSONRSyntaxTextAreaDocumentFilter;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.ywf.framework.ui.JSONScrollPane;
+import com.ywf.framework.ui.LineNumberView;
 import com.ywf.framework.utils.ChangeUIUtils;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -43,8 +45,8 @@ public class TextAreaBuilder {
         textAreaSource.setBorder(null);
         textAreaSource.setForeground(new Color(200, 96, 17));
         textAreaSource.setBorder(BorderBuilder.emptyBorder(5)); // 设置边框为10像素的空白边框
-        JScrollPane jScrollPane = new JScrollPane();
-        jScrollPane.setViewportView(textAreaSource);
+        JSONScrollPane jScrollPane = new JSONScrollPane(textAreaSource);
+        jScrollPane.setRowHeaderView(new LineNumberView(textAreaSource));
         return jScrollPane;
     }
 

@@ -2,6 +2,7 @@ package com.ywf.component;
 
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.base.BorderBuilder;
+import com.ywf.framework.ui.ScrollBackToTopLayerUI;
 import com.ywf.framework.utils.ComponentUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
@@ -156,8 +157,8 @@ public class JTabbedSplitEditor extends JPanel {
      * @param index
      * @return
      */
-    public JComponent getComment(int index) {
-        return pages.get(index - 1);
+    public JLayer<JScrollPane> getComment(int index) {
+        return new JLayer<>(pages.get(index - 1), new ScrollBackToTopLayerUI());
     }
 
     /**
