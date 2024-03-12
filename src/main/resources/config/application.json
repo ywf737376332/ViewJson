@@ -20,7 +20,7 @@
     "size" : 16
   },
   "editorFontStyle": {
-    "name" : "Monaco",
+    "name" : "JetBrainsMono",
     "size" : 16
   }
 }
