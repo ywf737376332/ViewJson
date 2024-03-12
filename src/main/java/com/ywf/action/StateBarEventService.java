@@ -9,11 +9,11 @@ import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.init.SysConfigInit;
-import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.framework.utils.StrUtils;
 import com.ywf.framework.utils.TimeUtils;
 import com.ywf.framework.utils.TypeUtils;
 import com.ywf.pojo.StateBarEntity;
+import com.ywf.view.PanelView;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -87,7 +87,7 @@ public class StateBarEventService {
      */
     public void mouseLineAndColumnDocumentActionPerformed(JSONRSyntaxTextArea rSyntaxTextArea) {
         rSyntaxTextArea.addCaretListener(e -> {
-            FlatLabel tipLabel = ObjectUtils.getBean(GlobalKEY.STATE_BAR_COST_TIME);
+            FlatLabel tipLabel = PanelView.getTipMessage();
             int lineNumber = rSyntaxTextArea.getCaretLineNumber() + 1;
             int columnNumber = rSyntaxTextArea.getCaretOffsetFromLineStart() + 1;
             tipLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + "行:" + lineNumber + " 列:" + columnNumber + "</span></html>");

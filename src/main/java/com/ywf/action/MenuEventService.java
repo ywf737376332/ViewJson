@@ -3,6 +3,7 @@ package com.ywf.action;
 import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.AppMain;
 import com.ywf.component.*;
 import com.ywf.component.loading.BackgroundTaskKit;
@@ -19,6 +20,7 @@ import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
+import com.ywf.view.PanelView;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
@@ -238,10 +240,10 @@ public class MenuEventService {
                 fileWriter.write(rSyntaxTextArea.getText());
                 fileWriter.close();
                 //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_FILE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
-                Toast.success(frame, MessageConstant.SYSTEM_FILE_SAVE_SUCCESS);
+                Toast.success(frame, MessageConstant.SYSTEM_FILE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION);
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_FILE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
-                Toast.error(frame, MessageConstant.SYSTEM_FILE_SAVE_FAIL);
+                //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_FILE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
+                Toast.error(frame, MessageConstant.SYSTEM_FILE_SAVE_FAIL + e.getMessage());
                 throw new RuntimeException("Error saving file: " + e.getMessage());
             }
         }
@@ -276,10 +278,10 @@ public class MenuEventService {
             try {
                 ImageIO.write(image, "png", new File(fileToSave.getPath() + SystemConstant.SAVE_IMAGE_EXTENSION));
                 //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_IMAGE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_IMAGE_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
-                Toast.success(frame, MessageConstant.SYSTEM_IMAGE_SAVE_SUCCESS);
+                Toast.success(frame, MessageConstant.SYSTEM_IMAGE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_IMAGE_EXTENSION);
             } catch (IOException e) {
                 //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_IMAGE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
-                Toast.error(frame, MessageConstant.SYSTEM_IMAGE_SAVE_FAIL);
+                Toast.error(frame, MessageConstant.SYSTEM_IMAGE_SAVE_FAIL + e.getMessage());
                 throw new RuntimeException("Error saving image: " + e.getMessage());
             }
         }
@@ -499,6 +501,9 @@ public class MenuEventService {
                 languageRadioMenuitem.addActionListener(e -> {
                     applicationContext.setSystemLanguage(languageRadioMenuitem.getLanguageKey());
                     //resartWindowFrameActionPerformed(frame);
+                    FlatLabel tipLabel = PanelView.getTipMessage();
+                    tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "语言切换成功，等待下次重启生效！" + "</span></html>");
+                    Toast.info(frame, "语言切换成功，等待下次重启生效！");
                 });
             }
         }

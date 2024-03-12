@@ -5,6 +5,7 @@ import com.ywf.component.DialogBuilder;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.utils.ObjectUtils;
+import com.ywf.view.PanelView;
 
 import javax.swing.*;
 
@@ -70,7 +71,7 @@ public class LoadingBuild {
                 loadingLabel.stopAnimation();
                 dialog.setVisible(false);
                 backgroundKit.successTips();
-                FlatLabel tipLabel = ObjectUtils.getBean(GlobalKEY.STATE_BAR_COST_TIME);
+                FlatLabel tipLabel = PanelView.getTipMessage();
                 long costTime = loadingLabel.getCostTime();
                 tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + String.format(MessageConstant.SYSTEM_LOADING_COST_TIME_TIP,costTime>0?costTime:1) + "</span></html>");
             }

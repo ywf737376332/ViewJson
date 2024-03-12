@@ -26,6 +26,7 @@ import java.util.Random;
 public class PanelView {
 
     private static JLabel labelCopyright;
+    private static FlatLabel tipMessage;
 
     public static JPanel createPanelMain() {
         JPanel panelMain = new BasePanel();
@@ -84,7 +85,7 @@ public class PanelView {
         panelStateBar.add(fileLengthLabel);
         panelStateBar.add(fileLengthValue);
 
-        FlatLabel tipMessage = LabelBarBuilder.createGlobalLabel(ThemeColor.stateBarLabelColor, GlobalKEY.STATE_BAR_COST_TIME);
+        tipMessage = LabelBarBuilder.createGlobalLabel(ThemeColor.stateBarLabelColor, GlobalKEY.STATE_BAR_COST_TIME);
         tipMessage.setBorder(BorderBuilder.leftEmptyBorder(20));
         panelStateBar.add(tipMessage);
 
@@ -134,5 +135,9 @@ public class PanelView {
             int b = random.nextInt(256);
             return new Color(r, g, b);
         }
+    }
+
+    public static FlatLabel getTipMessage() {
+        return tipMessage;
     }
 }
