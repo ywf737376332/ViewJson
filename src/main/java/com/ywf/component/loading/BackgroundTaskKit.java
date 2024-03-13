@@ -1,17 +1,12 @@
 package com.ywf.component.loading;
 
-import cn.hutool.core.text.UnicodeUtil;
-import cn.hutool.core.util.StrUtil;
 import com.ywf.component.JSONRSyntaxTextArea;
 import com.ywf.component.toast.Toast;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.enums.TextConvertEnum;
-import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.ImageUtils;
-import com.ywf.framework.utils.JsonUtil;
 import com.ywf.framework.utils.WindowUtils;
 
 import javax.imageio.ImageIO;
@@ -89,42 +84,6 @@ public class BackgroundTaskKit {
         @Override
         public void successTips() {
             Toast.success(WindowUtils.getFrame(), MessageConstant.SYSTEM_COPY_JSON_SUCCESS_TIP);
-        }
-    }
-
-    public static class FormatJsonAction extends BackgroundTask {
-        private JSONRSyntaxTextArea rSyntaxTextArea;
-        private String formatAfterText = null;
-
-        public FormatJsonAction(JSONRSyntaxTextArea rSyntaxTextArea) {
-            this.rSyntaxTextArea = rSyntaxTextArea;
-        }
-
-        @Override
-        public void actionPerformedImpl() {
-            String text = rSyntaxTextArea.getText();
-            TextTypeEnum textType = rSyntaxTextArea.getTextType();
-            int converState = rSyntaxTextArea.getChineseConverState();
-            switch (TextConvertEnum.findConverEnumByState(converState)) {
-                case CH_TO_UN:
-                    // 1.先替换回车后面的空格
-                    // 2.再替换回车和换行，
-                    text = UnicodeUtil.toUnicode(text.replaceAll("(?<=\\n)[ \\t]+", "").replaceAll("[\\t\\n\\r]", ""));
-                    formatAfterText = JsonUtil.contentFormat(textType, text);
-                    break;
-                case UN_TO_CH:
-                    formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toString(text));
-                    break;
-                default:
-                    formatAfterText = JsonUtil.contentFormat(textType, text);
-            }
-        }
-
-        @Override
-        public void successTips() {
-            if (StrUtil.isNotBlank(formatAfterText)) {
-                rSyntaxTextArea.setText(formatAfterText);
-            }
         }
     }
 
