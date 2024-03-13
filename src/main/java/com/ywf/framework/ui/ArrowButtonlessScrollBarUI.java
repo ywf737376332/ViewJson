@@ -10,6 +10,9 @@ import java.awt.*;
  * 自定义滚动条UI
  */
 public class ArrowButtonlessScrollBarUI extends BasicScrollBarUI {
+
+    private static final int scrollBarSize = 16;
+
     @Override
     protected JButton createDecreaseButton(int orientation) {
         return new ZeroSizeButton();
@@ -20,6 +23,26 @@ public class ArrowButtonlessScrollBarUI extends BasicScrollBarUI {
         return new ZeroSizeButton();
     }
 
+    /**
+     * 设置滚动条的大小
+     *
+     * @param c
+     * @return
+     */
+    @Override
+    public Dimension getPreferredSize(JComponent c) {
+        return (scrollbar.getOrientation() == JScrollBar.VERTICAL)
+                ? new Dimension(scrollBarWidth - 2, 48)
+                : new Dimension(48, scrollBarWidth - 2);
+    }
+
+    /**
+     * 画滚动条的背景
+     *
+     * @param g
+     * @param c
+     * @param r
+     */
     @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
         Graphics2D g2 = (Graphics2D) g.create();
