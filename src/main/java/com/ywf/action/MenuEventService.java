@@ -509,8 +509,8 @@ public class MenuEventService {
                     applicationContext.setSystemLanguage(languageRadioMenuitem.getLanguageKey());
                     //resartWindowFrameActionPerformed(frame);
                     FlatLabel tipLabel = PanelView.getTipMessage();
-                    tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "语言切换成功，等待下次重启生效！" + "</span></html>");
-                    Toast.info(frame, "语言切换成功，下次重启后生效！");
+                    tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "语言切换成功，重启后生效！" + "</span></html>");
+                    Toast.info(frame, "语言切换成功，重启后生效！");
                 });
             }
         }

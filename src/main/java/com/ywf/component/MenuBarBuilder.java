@@ -180,12 +180,11 @@ public class MenuBarBuilder {
         frameFontMenu.add(fontStyleMenu);
         ButtonGroup fontNameButtonGroup = new ButtonGroup();
         for (FontEnum.Name value : FontEnum.Name.values()) {
-            // 确保每一个字体都存在于系统中
-            if (ChangeUIUtils.getSystemFonts(value.getName())){
-                FontNameRadioButtonMenuItem fontNameMenuItem = new FontNameRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getName());
-                fontNameButtonGroup.add(fontNameMenuItem);
-                fontStyleMenu.add(fontNameMenuItem);
-            }
+            // 确保每一个字体都存在于系统中,此方法取消，系统在英文环境中得到的全部是英文字体
+            //if (ChangeUIUtils.getSystemFonts(value.getName())){}
+            FontNameRadioButtonMenuItem fontNameMenuItem = new FontNameRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getName());
+            fontNameButtonGroup.add(fontNameMenuItem);
+            fontStyleMenu.add(fontNameMenuItem);
         }
         frameFontMenu.add(fontSizeMenu);
         ButtonGroup fontSizeButtonGroup = new ButtonGroup();
