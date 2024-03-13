@@ -1,5 +1,7 @@
 package com.ywf.component.loading;
 
+import com.ywf.framework.utils.WindowUtils;
+
 import javax.swing.*;
 
 /**
@@ -9,6 +11,9 @@ import javax.swing.*;
  * @Date 2024/3/10 19:59
  */
 public abstract class BackgroundTask extends SwingWorker<Boolean, Void> implements TaskBase {
+
+    protected JFrame frame = WindowUtils.getFrame();
+
     @Override
     protected Boolean doInBackground() {
         actionPerformedImpl();

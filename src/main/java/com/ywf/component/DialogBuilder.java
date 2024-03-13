@@ -51,12 +51,12 @@ public class DialogBuilder {
         return createTimeDialog(parentFrame, title, component, timeout);
     }
 
-    public static JDialog showMoadlDialog(JFrame parentFrame, int width, int height) {
-        return createModalDialog(parentFrame, width, height);
+    public static JDialog showMoadlDialog(JFrame parentFrame, boolean hasModalColor, int width, int height) {
+        return createModalDialog(parentFrame, hasModalColor, width, height);
     }
 
-    public static JDialog showMoadlDialog(JFrame parentFrame) {
-        return createModalDialog(parentFrame, parentFrame.getWidth() - 16, parentFrame.getHeight() - 7);
+    public static JDialog showMoadlDialog(JFrame parentFrame, boolean hasModalColor) {
+        return createModalDialog(parentFrame, hasModalColor, parentFrame.getWidth() - 16, parentFrame.getHeight() - 7);
     }
 
     private static JDialog createDialog(JFrame parentFrame, String title, ImageIcon image, int timeout) {
@@ -108,7 +108,7 @@ public class DialogBuilder {
         return dialog;
     }
 
-    private static JDialog createModalDialog(JFrame frame, int width, int height) {
+    private static JDialog createModalDialog(JFrame frame, boolean hasModalColor, int width, int height) {
         int radius = 20;
         JDialog dialog = new JDialog(frame, Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setUndecorated(true);
@@ -124,10 +124,9 @@ public class DialogBuilder {
         // 圆角
         Shape shape = new RoundRectangle2D.Double(0, 0, dialog.getWidth(), dialog.getHeight(), radius, radius);
         dialog.setShape(shape);
-        dialog.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        int color = 0x22_FF_00_00;
-        //dialog.setBackground(new Color(color, true));
-        dialog.setBackground(ThemeColor.loadingModalColor);
+        dialog.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Color color = hasModalColor ? ThemeColor.loadingModalColor : ThemeColor.noColor;
+        dialog.setBackground(color);
         return dialog;
     }
 

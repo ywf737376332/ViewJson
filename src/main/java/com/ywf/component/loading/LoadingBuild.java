@@ -2,9 +2,7 @@ package com.ywf.component.loading;
 
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.DialogBuilder;
-import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
-import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.view.PanelView;
 
 import javax.swing.*;
@@ -44,8 +42,8 @@ public class LoadingBuild {
      *
      * @return
      */
-    public LoadingBuild showModal() {
-        dialog = DialogBuilder.showMoadlDialog(frame);
+    public LoadingBuild showModal(boolean hasModalColor) {
+        dialog = DialogBuilder.showMoadlDialog(frame, hasModalColor, 380, 88);
         loadingLabel.setHorizontalAlignment(SwingConstants.CENTER);
         dialog.add(loadingLabel);
         //后台任务
@@ -73,7 +71,7 @@ public class LoadingBuild {
                 backgroundKit.successTips();
                 FlatLabel tipLabel = PanelView.getTipMessage();
                 long costTime = loadingLabel.getCostTime();
-                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + String.format(MessageConstant.SYSTEM_LOADING_COST_TIME_TIP,costTime>0?costTime:1) + "</span></html>");
+                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + String.format(MessageConstant.SYSTEM_LOADING_COST_TIME_TIP, costTime > 0 ? costTime : 1) + "</span></html>");
             }
         };
         swingWorker.execute();

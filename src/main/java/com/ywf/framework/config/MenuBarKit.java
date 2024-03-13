@@ -64,7 +64,7 @@ public class MenuBarKit {
     public static class CompressAction extends MenuAction {
         @Override
         public void actionPerformedImpl(ActionEvent e) {
-            MenuEventService.getInstance().compressionJsonActionPerformed();
+            MenuEventService.getInstance().compressionJsonActionPerformed(frame);
         }
     }
 

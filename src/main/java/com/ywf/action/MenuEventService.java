@@ -1,7 +1,5 @@
 package com.ywf.action;
 
-import cn.hutool.core.text.UnicodeUtil;
-import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.AppMain;
@@ -16,8 +14,6 @@ import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.LocationEnum;
 import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.enums.TextConvertEnum;
-import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
 import com.ywf.view.PanelView;
@@ -26,22 +22,17 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
@@ -95,61 +86,34 @@ public class MenuEventService {
     public void formatJsonActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             Toast.error(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
-        SwingWorker<Boolean, String> swingWorker = new SwingWorker<Boolean, String>() {
-            @Override
-            protected Boolean doInBackground() {
-                String text = rSyntaxTextArea.getText();
-                TextTypeEnum textType = rSyntaxTextArea.getTextType();
-                int converState = rSyntaxTextArea.getChineseConverState();
-                String formatAfterText = null;
-                switch (TextConvertEnum.findConverEnumByState(converState)) {
-                    case CH_TO_UN:
-                        // 1.先替换回车后面的空格
-                        // 2.再替换回车和换行，
-                        text = UnicodeUtil.toUnicode(text.replaceAll("(?<=\\n)[ \\t]+", "").replaceAll("[\\t\\n\\r]", ""));
-                        formatAfterText = JsonUtil.contentFormat(textType, text);
-                        break;
-                    case UN_TO_CH:
-                        formatAfterText = JsonUtil.contentFormat(textType, UnicodeUtil.toString(text));
-                        break;
-                    default:
-                        formatAfterText = JsonUtil.contentFormat(textType, text);
-                }
-                publish(formatAfterText);
-                return true;
-            }
-
-            @Override
-            protected void process(List<String> chunks) {
-                String formatAfterText = chunks.get(chunks.size() - 1);
-                if (StrUtil.isNotBlank(formatAfterText)) {
-                    rSyntaxTextArea.setText(formatAfterText);
-                }
-            }
-        };
-        swingWorker.execute();
+        LoadingBuild.create(frame, new BackgroundTaskKit.FormatJsonAction(rSyntaxTextArea)).showModal(false);
     }
 
     /**
      * 清空文本内容
      */
     public void cleanJsonActionPerformed() {
-        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
-        rSyntaxTextArea.setText("");
-        // 保持光标的焦点
-        rSyntaxTextArea.requestFocusInWindow();
+        SwingUtilities.invokeLater(() -> {
+            JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
+            rSyntaxTextArea.setText("");
+            // 保持光标的焦点
+            rSyntaxTextArea.requestFocusInWindow();
+        });
     }
 
     /**
      * 压缩内容
      */
-    public void compressionJsonActionPerformed() {
+    public void compressionJsonActionPerformed(JFrame frame) {
+        JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
+        if ("".equals(rSyntaxTextArea.getText())) {
+            Toast.error(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
+            return;
+        }
         SwingUtilities.invokeLater(() -> {
-            JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
             String sourceText = rSyntaxTextArea.getText();
             rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText));
         });
@@ -185,17 +149,10 @@ public class MenuEventService {
     public void copyJsonActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             Toast.error(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
-        try {
-            LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonAction(rSyntaxTextArea)).showModal();
-        } catch (Exception e) {
-            //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_COPY_JSON_FAIL_TIP + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
-            Toast.error(frame, MessageConstant.SYSTEM_COPY_JSON_FAIL_TIP);
-            throw new RuntimeException("内容复制失败: " + e.getMessage());
-        }
+        LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonAction(rSyntaxTextArea)).showModal(false);
     }
 
 
@@ -207,11 +164,10 @@ public class MenuEventService {
     public void copyJsonToPictActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             Toast.error(WindowUtils.getFrame(), MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
-        LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(rSyntaxTextArea)).showModal();
+        LoadingBuild.create(frame, new BackgroundTaskKit.CopyJsonToPictAction(rSyntaxTextArea)).showModal(true);
     }
 
     /**
@@ -222,7 +178,6 @@ public class MenuEventService {
     public void saveJsonToFileActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             Toast.error(WindowUtils.getFrame(), MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
@@ -232,18 +187,7 @@ public class MenuEventService {
         fileChooser.setFileFilter(fileFilter);
         fileChooser.setDialogTitle(MessageConstant.SYSTEM_SAVE_FILE_TAG);
         if (fileChooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            try {
-                FileWriter fileWriter = new FileWriter(fileToSave + SystemConstant.SAVE_JSON_EXTENSION);
-                fileWriter.write(rSyntaxTextArea.getText());
-                fileWriter.close();
-                //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_FILE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
-                Toast.success(frame, MessageConstant.SYSTEM_FILE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_JSON_EXTENSION);
-            } catch (IOException e) {
-                //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_FILE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
-                Toast.error(frame, MessageConstant.SYSTEM_FILE_SAVE_FAIL + e.getMessage());
-                throw new RuntimeException("Error saving file: " + e.getMessage());
-            }
+            LoadingBuild.create(frame, new BackgroundTaskKit.SaveJsonToFileAction(rSyntaxTextArea, fileChooser)).showModal(true);
         }
     }
 
@@ -256,7 +200,6 @@ public class MenuEventService {
     public void saveJsonToImageActionPerformed(JFrame frame) {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         if ("".equals(rSyntaxTextArea.getText())) {
-            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
             Toast.error(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
             return;
         }
@@ -267,22 +210,9 @@ public class MenuEventService {
         int userSelection = fileChooser.showSaveDialog(frame);
         int pictureScale = applicationContext.getPictureQualityState();
         if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            BufferedImage image = new BufferedImage(rSyntaxTextArea.getWidth() * pictureScale, rSyntaxTextArea.getHeight() * pictureScale, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2d = image.createGraphics();
-            g2d.scale(pictureScale, pictureScale); // 根据画布大小调整缩放比例
-            rSyntaxTextArea.print(g2d);
-            g2d.dispose();
-            try {
-                ImageIO.write(image, "png", new File(fileToSave.getPath() + SystemConstant.SAVE_IMAGE_EXTENSION));
-                //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_IMAGE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_IMAGE_EXTENSION, MessageConstant.SYSTEM_WARN_TIP, JOptionPane.INFORMATION_MESSAGE);
-                Toast.success(frame, MessageConstant.SYSTEM_IMAGE_SAVE_SUCCESS + fileToSave.getAbsolutePath() + SystemConstant.SAVE_IMAGE_EXTENSION);
-            } catch (IOException e) {
-                //JOptionPane.showMessageDialog(null, MessageConstant.SYSTEM_IMAGE_SAVE_FAIL + e.getMessage(), MessageConstant.SYSTEM_ERROR_TIP, JOptionPane.ERROR_MESSAGE);
-                Toast.error(frame, MessageConstant.SYSTEM_IMAGE_SAVE_FAIL + e.getMessage());
-                throw new RuntimeException("Error saving image: " + e.getMessage());
-            }
+            LoadingBuild.create(frame, new BackgroundTaskKit.SaveJsonToImageAction(rSyntaxTextArea, fileChooser, pictureScale)).showModal(true);
         }
+
     }
 
     /**
@@ -355,11 +285,13 @@ public class MenuEventService {
                     radioButtonMenuItem.setSelected(true);
                 }
                 radioButtonMenuItem.addActionListener(e -> {
-                    String name = radioButtonMenuItem.getText();
-                    SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
-                    ChangeUIUtils.changeUIStyle(frame, themesStyles);
-                    // 保存上一次选定的主题
-                    applicationContext.setLastSystemThemes(themesStyles.getThemesKey());
+                    SwingUtilities.invokeLater(() -> {
+                        String name = radioButtonMenuItem.getText();
+                        SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
+                        ChangeUIUtils.changeUIStyle(frame, themesStyles);
+                        // 保存上一次选定的主题
+                        applicationContext.setLastSystemThemes(themesStyles.getThemesKey());
+                    });
                 });
             }
         }
@@ -372,14 +304,16 @@ public class MenuEventService {
      */
     public void editSwitchActionPerformed() {
         LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
-        for (int i = 0; i < scrollPaneList.size(); i++) {
-            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
-            boolean isEditable = rSyntaxTextArea.isEditable();
-            rSyntaxTextArea.setEditable(!isEditable);
-            if (i == scrollPaneList.size() - 1) {
-                applicationContext.setTextAreaEditState(!isEditable);
+        SwingUtilities.invokeLater(() -> {
+            for (int i = 0; i < scrollPaneList.size(); i++) {
+                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
+                boolean isEditable = rSyntaxTextArea.isEditable();
+                rSyntaxTextArea.setEditable(!isEditable);
+                if (i == scrollPaneList.size() - 1) {
+                    applicationContext.setTextAreaEditState(!isEditable);
+                }
             }
-        }
+        });
     }
 
     /**
@@ -389,14 +323,16 @@ public class MenuEventService {
      */
     public void lineSetupActionPerformed() {
         LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
-        for (int i = 0; i < scrollPaneList.size(); i++) {
-            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
-            boolean breakLine = rSyntaxTextArea.getLineWrap();
-            rSyntaxTextArea.setLineWrap(!breakLine);
-            if (i == scrollPaneList.size() - 1) {
-                applicationContext.setTextAreaBreakLineState(!breakLine);
+        SwingUtilities.invokeLater(() -> {
+            for (int i = 0; i < scrollPaneList.size(); i++) {
+                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
+                boolean breakLine = rSyntaxTextArea.getLineWrap();
+                rSyntaxTextArea.setLineWrap(!breakLine);
+                if (i == scrollPaneList.size() - 1) {
+                    applicationContext.setTextAreaBreakLineState(!breakLine);
+                }
             }
-        }
+        });
     }
 
     /**
@@ -406,14 +342,16 @@ public class MenuEventService {
      */
     public void showLineNumActionPerformed() {
         LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
-        for (int i = 0; i < scrollPaneList.size(); i++) {
-            RTextScrollPane rTextScrollPane = (RTextScrollPane) scrollPaneList.get(i);
-            boolean lineNumbersEnabled = rTextScrollPane.getLineNumbersEnabled();
-            rTextScrollPane.setLineNumbersEnabled(!lineNumbersEnabled);
-            if (i == scrollPaneList.size() - 1) {
-                applicationContext.setTextAreaShowlineNumState(!lineNumbersEnabled);
+        SwingUtilities.invokeLater(() -> {
+            for (int i = 0; i < scrollPaneList.size(); i++) {
+                RTextScrollPane rTextScrollPane = (RTextScrollPane) scrollPaneList.get(i);
+                boolean lineNumbersEnabled = rTextScrollPane.getLineNumbersEnabled();
+                rTextScrollPane.setLineNumbersEnabled(!lineNumbersEnabled);
+                if (i == scrollPaneList.size() - 1) {
+                    applicationContext.setTextAreaShowlineNumState(!lineNumbersEnabled);
+                }
             }
-        }
+        });
     }
 
     /**
@@ -560,10 +498,12 @@ public class MenuEventService {
                     fontMenuItem.setSelected(true);
                 }
                 fontMenuItem.addActionListener(e -> {
-                    //此事件，解决修改字体后，搜索框界面布局混乱问题
-                    FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
-                    ChangeUIUtils.changeGlobalFont(new Font(fontMenuItem.getFontName(), Font.PLAIN, applicationContext.getFontStyle().getSize()));
-                    applicationContext.getFontStyle().setName(fontMenuItem.getFontName());
+                    SwingUtilities.invokeLater(() -> {
+                        //此事件，解决修改字体后，搜索框界面布局混乱问题
+                        FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
+                        ChangeUIUtils.changeGlobalFont(new Font(fontMenuItem.getFontName(), Font.PLAIN, applicationContext.getFontStyle().getSize()));
+                        applicationContext.getFontStyle().setName(fontMenuItem.getFontName());
+                    });
                 });
             }
         }
@@ -576,10 +516,12 @@ public class MenuEventService {
                     fontSizeMenuItem.setSelected(true);
                 }
                 fontSizeMenuItem.addActionListener(e -> {
-                    //此事件，解决修改字体后，搜索框界面布局混乱问题
-                    FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
-                    ChangeUIUtils.changeGlobalFont(new Font(applicationContext.getFontStyle().getName(), Font.PLAIN, fontSizeMenuItem.getFontSize()));
-                    applicationContext.getFontStyle().setSize(fontSizeMenuItem.getFontSize());
+                    SwingUtilities.invokeLater(() -> {
+                        //此事件，解决修改字体后，搜索框界面布局混乱问题
+                        FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
+                        ChangeUIUtils.changeGlobalFont(new Font(applicationContext.getFontStyle().getName(), Font.PLAIN, fontSizeMenuItem.getFontSize()));
+                        applicationContext.getFontStyle().setSize(fontSizeMenuItem.getFontSize());
+                    });
                 });
             }
         }
