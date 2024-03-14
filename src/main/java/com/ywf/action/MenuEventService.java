@@ -33,6 +33,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
@@ -482,7 +483,6 @@ public class MenuEventService {
                 }
                 languageRadioMenuitem.addActionListener(e -> {
                     applicationContext.setSystemLanguage(languageRadioMenuitem.getLanguageKey());
-                    //resartWindowFrameActionPerformed(frame);
                     FlatLabel tipLabel = PanelView.getTipMessage();
                     tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "语言切换成功，重启后生效！" + "</span></html>");
                     Toast.info(frame, "语言切换成功，重启后生效！");
@@ -610,14 +610,14 @@ public class MenuEventService {
                 // 窗口最大换状态不记录屏幕大小
             } else {
                 applicationContext.setScreenSize(new ConfigurableApplicationContext.ScreenSize(frame.getWidth(), frame.getHeight()));
-                // 退出应用时，保存所有配置项到本地
-                FrameWindowCloseEventService.saveApplicationConfiguration();
+                // 退出应用时，保存所有配置项到本地,已做成jvm退出的构字方法,系统启动时注册,后期程序正常关闭还是意外关闭，都会保存配置信息
+                //FrameWindowCloseEventService.saveApplicationConfiguration(applicationContext);
             }
             logger.info("应用程序退出，界面销毁~~~");
             StateLabel statusLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_RUN_TIME);
             logger.info("程序运行时长：{}", statusLabel.getValue());
             frame.dispose();
-            System.exit(0); // 退出程序
+            System.exit(0);
         }
     }
 
@@ -670,24 +670,7 @@ public class MenuEventService {
         });
     }*/
     public void resartWindowFrameActionPerformed(JFrame frame) {
-        frame.dispose();
-        frame.getContentPane().removeAll(); // 移除所有组件
-        frame.revalidate(); // 重新验证布局
-        frame.repaint(); // 重绘界面
-        applicationContext.setScreenSize(new ConfigurableApplicationContext.ScreenSize(frame.getWidth(), frame.getHeight()));
-        // 退出应用时，保存所有配置项到本地
-        FrameWindowCloseEventService.saveApplicationConfiguration();
-        ScheduledExecutorService schedulerExecutor = Executors.newScheduledThreadPool(2);
-        Callable callable = () -> {
-            String jarPath = AppMain.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            String cmd = "cmd /c start /b java -jar " + jarPath + "\\ViewJSON.jar";
-            System.out.println("当前可执行jar的路径：" + cmd);
-            Process p = Runtime.getRuntime().exec(cmd);
-            return p;
-        };
-        FutureTask futureTask = new FutureTask(callable);
-        schedulerExecutor.submit(futureTask);
-        System.exit(0);
+
     }
 
     /**

@@ -2,6 +2,7 @@ package com.ywf.framework.ioc;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
+import com.ywf.action.FrameWindowCloseEventService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
@@ -66,6 +67,8 @@ public class ApplicationView {
         Assert.notNull(primarySource, "PrimarySources must not be null");
         applicationView = configLoadHandler.appViewInit(basePackages);
         ObjectUtils.setBean(GlobalKEY.MAIN_FRAME, applicationView._this);
+        // 注册系统关闭保存配置信息的钩子方法
+        FrameWindowCloseEventService.saveApplicationConfiguration(applicationContext);
     }
 
     public static ApplicationContext run(Class<?> primarySource, String... args) {
