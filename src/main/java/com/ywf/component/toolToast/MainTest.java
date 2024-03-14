@@ -4,9 +4,10 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGUtils;
 import com.ywf.component.TextAreaBuilder;
+import com.ywf.framework.base.SvgIconFactory;
+import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.ui.ScrollBackToTopIcon;
 import com.ywf.framework.ui.ScrollBackToTopLayerUI;
 import com.ywf.framework.utils.IconUtils;
 import com.ywf.framework.utils.UIUtils;
@@ -14,10 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.plaf.LayerUI;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Path2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 /**
  * TODO
@@ -71,6 +71,8 @@ public class MainTest extends JFrame {
         JToolBar toolBar = createToolBar(frame);
         mainPanel.add(toolBar, BorderLayout.NORTH);
         mainPanel.add(editPanel, BorderLayout.CENTER);
+        mainPanel.add(createRightToolBar(frame), BorderLayout.EAST);
+
         frame.add(mainPanel);
 
     }
@@ -167,5 +169,67 @@ public class MainTest extends JFrame {
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
         return toolBar;
     }
+
+    /**
+     * 主题切换时，需要重新计算和设置图标，避免颜色与主题不一致，封装统一刷新方法
+     * 每个按钮进行关闭，在系统设置中配置
+     *
+     */
+    private JToolBar createRightToolBar(JFrame frame) {
+        JToolBar toolBar = new JToolBar("工具栏");
+        toolBar.setPreferredSize(new Dimension(25,0));
+        toolBar.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, ThemeColor.themeColor));
+        toolBar.setOrientation(JToolBar.VERTICAL);
+
+        JButton cnConvertUnBtn = new JButton();
+        Icon btnFormatIcon = makeVerticalTabIcon("中文转码", SvgIconFactory.icon(SvgIconFactory.TextAreaMenuIcon.closeEditor, 12, 12), true);
+        cnConvertUnBtn.setIcon(btnFormatIcon);
+        cnConvertUnBtn.addActionListener(e -> {
+            Icon s = makeVerticalTabIcon("中文转码", SvgIconFactory.icon(SvgIconFactory.TextAreaMenuIcon.closeEditor, 12, 12), true);
+            cnConvertUnBtn.setIcon(s);
+            System.out.println("执行了刷新");
+        });
+
+        JButton btnTranslate = new JButton();
+        Icon translateIcon = makeVerticalTabIcon("中英翻译", SvgIconFactory.icon(SvgIconFactory.TextAreaMenuIcon.closeEditor, 12, 12), true);
+        btnTranslate.setIcon(translateIcon);
+        btnTranslate.addActionListener(e -> {
+        });
+
+        JButton btnHttps = new JButton();
+        Icon httpsIcon = makeVerticalTabIcon("模拟请求", SvgIconFactory.icon(SvgIconFactory.TextAreaMenuIcon.closeEditor, 12, 12), true);
+        btnHttps.setIcon(httpsIcon);
+        btnHttps.addActionListener(e -> {
+        });
+
+        //右侧栏目，可增加别的小工具(翻译，当前时间戳，Unicode，Json树结构，http请求模拟......)，类似于Idea右侧工具
+        toolBar.add(cnConvertUnBtn);
+        toolBar.addSeparator();
+        toolBar.add(btnTranslate);
+        toolBar.addSeparator();
+        toolBar.add(btnHttps);
+        return toolBar;
+    }
+
+    private Icon makeVerticalTabIcon(String title, Icon icon, boolean clockwise) {
+        JLabel label = new JLabel(title, icon, SwingConstants.LEADING);
+        label.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+        Dimension d = label.getPreferredSize();
+        int w = d.height;
+        int h = d.width;
+        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = (Graphics2D) bi.getGraphics();
+        AffineTransform at = clockwise
+                ? AffineTransform.getTranslateInstance(w, 0)
+                : AffineTransform.getTranslateInstance(0, h);
+        at.quadrantRotate(clockwise ? 1 : -1);
+        g2.setTransform(at);
+        SwingUtilities.paintComponent(g2, label, this, 0, 0, d.width, d.height);
+        g2.dispose();
+        return new ImageIcon(bi);
+    }
+
+
 
 }
