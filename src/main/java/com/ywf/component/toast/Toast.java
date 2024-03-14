@@ -18,7 +18,7 @@ import java.util.TimerTask;
 public class Toast extends JWindow {
 
     private static final long serialVersionUID = 1L;
-    private final static int leftAndRight = 80;
+    private final static int leftAndRight = 30;
     private final static int topAndBottom = 30;
     private String message = "";
     private final Insets insets = new Insets(topAndBottom, leftAndRight, topAndBottom, leftAndRight);
