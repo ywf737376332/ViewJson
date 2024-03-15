@@ -2,6 +2,7 @@ package com.ywf.component;
 
 import com.ywf.action.MenuEventService;
 import com.ywf.action.ResourceBundleService;
+import com.ywf.component.toolToast.JSONButton;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.config.MenuAction;
@@ -97,7 +98,7 @@ public class ToolBarBuilder {
     }
 
     protected JButton createButton(Action a) {
-        JButton button = new JButton(a);
+        JButton button = new JSONButton(a);
         button.setHorizontalAlignment(SwingConstants.CENTER);
         button.setVerticalAlignment(SwingConstants.CENTER);
         button.setBorderPainted(false); // 去掉边框

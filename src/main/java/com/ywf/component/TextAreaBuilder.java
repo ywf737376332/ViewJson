@@ -47,7 +47,6 @@ public class TextAreaBuilder {
         textAreaSource.setBorder(null);
         textAreaSource.setForeground(new Color(200, 96, 17));
         textAreaSource.setBorder(BorderBuilder.emptyBorder(5)); // 设置边框为10像素的空白边框
-        MenuEventService.getInstance().textAreaScrollBarHoverActionPerformed(textAreaSource);
         EditScrollPane jScrollPane = new EditScrollPane(textAreaSource);
         jScrollPane.setRowHeaderView(new LineNumberView(textAreaSource));
         return jScrollPane;

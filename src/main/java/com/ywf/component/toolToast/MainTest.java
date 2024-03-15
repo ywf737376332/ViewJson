@@ -3,6 +3,7 @@ package com.ywf.component.toolToast;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGUtils;
+import com.ywf.component.MenuBarBuilder;
 import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.base.ThemeColor;
@@ -16,6 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
@@ -29,6 +32,7 @@ public class MainTest extends JFrame {
 
     static Logger logger = LoggerFactory.getLogger(MainTest.class);
     private JFrame _this = this;
+    private JToolBar toolBar;
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         FlatLaf.registerCustomDefaultsSource("com.zhk.toast.theme");
@@ -52,29 +56,28 @@ public class MainTest extends JFrame {
         setVisible(true);
     }
 
-    private JPanel mainPanel;
-    //private JToolBar toolBar;
-    private boolean showToolBarText = true;
+    private JRootPane rootPane;
 
     private void initUI(JFrame frame) {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        UIManager.put("Toast.useEffectss", true);
+        rootPane = new JRootPane();
+        getContentPane().add(rootPane, BorderLayout.CENTER);
 
-        System.out.println("测试：" + UIUtils.getString("ToolTipManager.enableToolTipMode", "aaa"));
+        JLayeredPane layeredPane = new JLayeredPane();
+        rootPane.getContentPane().add(layeredPane);
 
-        JPanel editPanel = new JPanel();
-        editPanel.setLayout(new BorderLayout());
-        editPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10)); // 设置外边距
-        editPanel.add(new JLayer<>(TextAreaBuilder.scrollTextArea(), new ScrollBackToTopLayerUI()));
+        layeredPane.setLayout(new BorderLayout(0, 0));
+        layeredPane.add(new JLayer<>(TextAreaBuilder.scrollTextArea(), new ScrollBackToTopLayerUI()));
+
         //初始化可创建多个的多文本编辑区
-        JToolBar toolBar = createToolBar(frame);
-        mainPanel.add(toolBar, BorderLayout.NORTH);
-        mainPanel.add(editPanel, BorderLayout.CENTER);
-        mainPanel.add(createRightToolBar(frame), BorderLayout.EAST);
-
-        frame.add(mainPanel);
-
+        toolBar = createToolBar(frame);
+        getContentPane().add(toolBar, BorderLayout.NORTH);
+        JMenuBar menuBar = createMenuBar(frame);
+        frame.setJMenuBar(menuBar);
+        //JToolBar rightToolBar = createRightToolBar();
+        //getContentPane().add(rightToolBar, BorderLayout.EAST);
+        //遮罩层
+        JPanel maskPanel = createModalPanel();
+        rootPane.setGlassPane(maskPanel);
     }
 
     private void fullScreen(JFrame frame, JButton btnFullScreen, GraphicsDevice device, boolean isFullScreen) {
@@ -132,23 +135,15 @@ public class MainTest extends JFrame {
         toolBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 
         JButton btnFormat = new JButton();
-        if (showToolBarText) {
-            btnFormat.setText("格式化");
-        }
+        btnFormat.setText("锁2131屏");
         btnFormat.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
         btnFormat.addActionListener(e -> {
-            //JOptionPane.showMessageDialog(frame, MessageConstant.SYSTEM_EMPTY_CONTENT_TIP);
-            mainPanel.remove(toolBar);
-            JToolBar tool = createToolBar(frame);
-            mainPanel.add(tool, BorderLayout.NORTH);
-            mainPanel.revalidate();
-            mainPanel.repaint();
-            showToolBarText = !showToolBarText;
+            rootPane.getGlassPane().setVisible(true);
+            setToolBarEnabled(toolBar,false);
         });
         JButton btnFullScreen = new JButton();
-        if (showToolBarText) {
-            btnFullScreen.setText("全屏");
-        }
+        btnFullScreen.setText("全屏");
+
         btnFullScreen.setIcon(IconUtils.getSVGIcon("icons/fullScreen.svg"));
         btnFullScreen.addActionListener(e -> {
             // 获取默认设备的GraphicsDevice对象
@@ -156,9 +151,8 @@ public class MainTest extends JFrame {
             fullScreen(frame, btnFullScreen, device, isFullScreen);
         });
         JButton btnLockScreen = new JButton();
-        if (showToolBarText) {
-            btnLockScreen.setText("锁屏");
-        }
+        btnLockScreen.setText("锁屏");
+
         btnLockScreen.setIcon(IconUtils.getSVGIcon("icons/formatCode.svg"));
         btnLockScreen.addActionListener(e -> {
             showOverlay(btnLockScreen);
@@ -175,9 +169,9 @@ public class MainTest extends JFrame {
      * 每个按钮进行关闭，在系统设置中配置
      *
      */
-    private JToolBar createRightToolBar(JFrame frame) {
+    private JToolBar createRightToolBar() {
         JToolBar toolBar = new JToolBar("工具栏");
-        toolBar.setPreferredSize(new Dimension(25,0));
+        toolBar.setPreferredSize(new Dimension(30,0));
         toolBar.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, ThemeColor.themeColor));
         toolBar.setOrientation(JToolBar.VERTICAL);
 
@@ -230,6 +224,42 @@ public class MainTest extends JFrame {
         return new ImageIcon(bi);
     }
 
+    private JMenuBar createMenuBar(JFrame frame) {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("菜单");
+        JMenuItem menuItem = new JMenuItem("菜单项");
+        menuItem.addActionListener(e -> {
+            System.out.println("执行了菜单项");
+        });
+        menu.add(menuItem);
+        menuBar.add(menu);
+        return menuBar;
+    }
 
+
+    private JPanel createModalPanel() {
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(102, 0, 51, 0));
+        JButton xxButton = new JButton("解锁");
+        xxButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                rootPane.getGlassPane().setVisible(false);
+                setToolBarEnabled(toolBar,true);
+            }
+        });
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        panel.add(xxButton);
+        return panel;
+    }
+
+    private void setToolBarEnabled(JToolBar toolBar, boolean enable) {
+        toolBar.setEnabled(enable);
+        for (Component toolBarComponent : toolBar.getComponents()) {
+            if (toolBarComponent instanceof JButton){
+                toolBarComponent.setEnabled(enable);
+            }
+        }
+    }
 
 }
