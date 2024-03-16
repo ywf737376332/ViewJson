@@ -13,10 +13,8 @@ import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ioc.ResourceContext;
 import com.ywf.framework.ui.ArrowButtonlessScrollBarUI;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 import org.fife.ui.rsyntaxtextarea.Theme;
-import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,7 +83,7 @@ public class ChangeUIUtils {
                 IntelliJTheme.setup(ChangeUIUtils.class.getResourceAsStream(themesStyles.getThemesStyles()));
             }
         } catch (Exception ex) {
-            System.err.println("皮肤应用失败，请检查：" + ex.getMessage());
+            logger.error("皮肤应用失败，请检查：{}", ex.getMessage());
         }
     }
 
@@ -117,7 +115,7 @@ public class ChangeUIUtils {
                     Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(themesStyles.getTextAreaStyles()), SystemConstant.SYSTEM_DEFAULT_FONT);
                     theme.apply(rSyntaxTextArea);
                 } catch (IOException e) {
-                    System.err.println("textAreaThemes apply error");
+                    logger.error("textAreaThemes apply error,{}" + e.getMessage());
                 }
             }
         }

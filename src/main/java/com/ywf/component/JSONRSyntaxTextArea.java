@@ -3,8 +3,8 @@ package com.ywf.component;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.config.RsTextAreaEditorKit;
 import com.ywf.framework.enums.TextTypeEnum;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit;
-import org.fife.ui.rsyntaxtextarea.TextEditorPane;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextAreaEditorKit;
 import org.fife.ui.rtextarea.RecordableTextAction;
@@ -22,7 +22,7 @@ import java.util.Set;
  * @Author YWF
  * @Date 2023/12/8 11:32
  */
-public class JSONRSyntaxTextArea extends TextEditorPane {
+public class JSONRSyntaxTextArea extends RSyntaxTextArea {
 
     /**
      * 保存hashCode值，以确保每一个新的组件，hashCode都不相同
