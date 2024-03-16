@@ -82,7 +82,7 @@ public class ChangeUIUtils {
                 IntelliJTheme.setup(ChangeUIUtils.class.getResourceAsStream(themesStyles.getThemesStyles()));
             }
         } catch (Exception ex) {
-            System.err.println("皮肤应用失败，请检查：" + ex.getMessage());
+            logger.error("皮肤应用失败，请检查：{}", ex.getMessage());
         }
     }
 
@@ -114,7 +114,7 @@ public class ChangeUIUtils {
                     Theme theme = Theme.load(ChangeUIUtils.class.getResourceAsStream(themesStyles.getTextAreaStyles()), SystemConstant.SYSTEM_DEFAULT_FONT);
                     theme.apply(rSyntaxTextArea);
                 } catch (IOException e) {
-                    System.err.println("textAreaThemes apply error");
+                    logger.error("textAreaThemes apply error,{}" + e.getMessage());
                 }
             }
         }
