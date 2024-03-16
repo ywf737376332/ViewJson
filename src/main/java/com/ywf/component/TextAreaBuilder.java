@@ -1,9 +1,9 @@
 package com.ywf.component;
 
-import com.ywf.action.MenuEventService;
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.BorderBuilder;
+import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.config.JSONRSyntaxTextAreaDocumentFilter;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
@@ -84,7 +84,6 @@ public class TextAreaBuilder {
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(applicationContext.getTextAreaShowlineNumState());
         rTextScrollPane.setFoldIndicatorEnabled(true);
-        Font baseFont = ChangeUIUtils.getReadFileFonts();
         try {
             Theme theme = Theme.load(TextAreaBuilder.class.getResourceAsStream(themesPath));
             theme.apply(syntaxTextArea);
@@ -92,7 +91,7 @@ public class TextAreaBuilder {
             logger.error("JSONRSyntaxTextArea主题应用失败，请检查！" + ioe.getMessage());
         }
         // 必须等Xml初始化结束后，在设置字体，不然xml没设置字体，先用代码设置后，会被覆盖
-        //syntaxTextArea.setFont(new Font(applicationContext.getEditorFontStyle().getName(), Font.PLAIN, applicationContext.getEditorFontStyle().getSize()));
+        Font baseFont = ChangeUIUtils.getReadFileFonts();
         syntaxTextArea.setFont(baseFont);
         logger.info("编辑框字体加载成功,当前字体：{}", syntaxTextArea.getFont());
         // 给文本编辑器增加过滤器
@@ -115,10 +114,29 @@ public class TextAreaBuilder {
         textArea.setAutoscrolls(true);
         // 读取配置信息中的数据
         textArea.setEditable(applicationContext.getTextAreaEditState());
+        // 开启抗锯齿
+        textArea.setAntiAliasingEnabled(true);
+        // 突出显示“匹配的括号”
+        textArea.setBracketMatchingEnabled(true);
+        textArea.setPaintMatchedBracketPair(true);
+        // 空格和制表符都可以在编辑器中呈现，也可以在行尾字符中呈现，以帮助您识别尾随空格。
+        textArea.setWhitespaceVisible(true);
+        textArea.setEOLMarkersVisible(false);
+
+        // RSyntaxTextArea 可以呈现制表符偏移量，以显示缩进的代码行的级别数。
+        textArea.setPaintTabLines(true);
+        textArea.setTabLineColor(ThemeColor.loadingColor);
+
+        // 分割线
+        textArea.setMarginLineEnabled(true);
+        textArea.setMarginLineColor(ThemeColor.loadingColor);
+        textArea.setMarginLinePosition(120);
+
         // 自动换行功能
         textArea.setLineWrap(applicationContext.getTextAreaBreakLineState());
         textArea.setChineseConverState(applicationContext.getChineseConverState());
         textArea.revalidate();
         return textArea;
     }
+
 }

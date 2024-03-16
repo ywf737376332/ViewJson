@@ -49,35 +49,8 @@ public class MainFrame extends AbstractWindow {
         setVisible(true);
     }
 
-    /*private void initUI(JFrame frame) {
-        JPanel mainPanel = PanelView.createPanelMain();
-        // 右侧JSON格式化区域
-        JPanel editPanel = PanelView.createEditPanel();
-        JTabbedSplitEditor tabbedSplitEditor = new JTabbedSplitEditor(new BorderLayout(), _this);
-        this.addComponent(editPanel, GlobalKEY.TABBED_SPLIT_EDITOR, tabbedSplitEditor, BorderLayout.CENTER);
-        // 创建菜单栏
-        JMenuBar menuBar = MenuBarBuilder.getInstance().createMenuBar(frame);
-        // 可拖动工具栏
-        JToolBar toolBar = ToolBarBuilder.getInstance().createToolBar(frame);
-        // 底部版权区域
-        JPanel panelBottom = PanelView.createPanelBottom(frame);
-        editPanel.add(FindPanelBuilder.createFindPanel(), BorderLayout.SOUTH);
-        mainPanel.add(editPanel, BorderLayout.CENTER);
-        mainPanel.add(panelBottom, BorderLayout.SOUTH);
-        frame.setJMenuBar(menuBar);
-        frame.getContentPane().add(toolBar, applicationContext.getToolBarLocation());
-        frame.getContentPane().add(LabelBarBuilder.createEmptyLabel(), BorderLayout.SOUTH);
-        frame.getContentPane().add(LabelBarBuilder.createEmptyLabel(), BorderLayout.EAST);
-        frame.getContentPane().add(mainPanel);
-    }*/
-
     private void initUI(JFrame frame) {
-        JRootPane rootPane = new JRootPane();
-        frame.getContentPane().add(rootPane, BorderLayout.CENTER);
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setLayout(new BorderLayout(0, 0));
-        rootPane.getContentPane().add(layeredPane);
-
+        Container rootPanel = frame.getContentPane();
         JPanel mainPanel = PanelView.createPanelMain();
         // 右侧JSON格式化区域
         JPanel editPanel = PanelView.createEditPanel();
@@ -93,14 +66,10 @@ public class MainFrame extends AbstractWindow {
         mainPanel.add(editPanel, BorderLayout.CENTER);
         mainPanel.add(panelBottom, BorderLayout.SOUTH);
         frame.setJMenuBar(menuBar);
-        frame.getContentPane().add(toolBar, applicationContext.getToolBarLocation());
-        frame.getContentPane().add(LabelBarBuilder.createEmptyLabel(), BorderLayout.SOUTH);
-        frame.getContentPane().add(LabelBarBuilder.createEmptyLabel(), BorderLayout.EAST);
-        layeredPane.add(mainPanel);
-
-        //遮罩层
-        JPanel maskPanel = LockScreenPanelBuilder.initLockScreenPane(rootPane);
-        rootPane.setGlassPane(maskPanel);
-        rootPane.getGlassPane().setVisible(true);
+        rootPanel.add(toolBar, applicationContext.getToolBarLocation());
+        rootPanel.add(LabelBarBuilder.createEmptyLabel(), BorderLayout.SOUTH);
+        rootPanel.add(LabelBarBuilder.createEmptyLabel(), BorderLayout.EAST);
+        rootPanel.add(mainPanel);
     }
+
 }

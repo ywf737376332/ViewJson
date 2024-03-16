@@ -22,11 +22,15 @@ public class LayeredPaneExample {
         JLabel label1 = new JLabel("Label 1");
         label1.setBounds(50, 50, 100, 30);
         JLabel label2 = new JLabel("Label 2");
-        label2.setBounds(100, 100, 100, 30);
+        label2.setBounds(50, 56, 100, 30);
 
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.red);
+        panel.setSize(120,140);
         // 将标签组件添加到 LayeredPane 中
-        layeredPane.add(label1, Integer.valueOf(1)); // 设置层级为 1
-        layeredPane.add(label2, Integer.valueOf(2)); // 设置层级为 2
+        layeredPane.add(label1, Integer.valueOf(15)); // 设置层级为 1
+        layeredPane.add(label2, Integer.valueOf(10)); // 设置层级为 2
+        layeredPane.add(panel, Integer.valueOf(5)); // 设置层级为 2
 
         // 显示窗口
         frame.setVisible(true);

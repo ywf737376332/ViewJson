@@ -18,7 +18,7 @@ public class CustomJToolBar {
         frame.getContentPane().setLayout(new FlowLayout());
         JToolBar toolBar = new JToolBar(JToolBar.HORIZONTAL);
         frame.getContentPane().add(toolBar);
-        toolBar.setLayout(new GridLayout(1,3));//这里是关键
+        toolBar.setLayout(new GridLayout(3,1));//这里是关键
         JToggleButton button1 = new JToggleButton("Clicked");
         JToggleButton button2 = new JToggleButton("Clicked123");
         JToggleButton button3 = new JToggleButton("Clicked1234567");

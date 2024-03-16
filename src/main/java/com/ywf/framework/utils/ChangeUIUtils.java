@@ -13,7 +13,10 @@ import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ioc.ResourceContext;
 import com.ywf.framework.ui.ArrowButtonlessScrollBarUI;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 import org.fife.ui.rsyntaxtextarea.Theme;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +70,7 @@ public class ChangeUIUtils {
     public static void updateViewUI() {
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
         FlatLaf.updateUI();
-        // 改变TextArea编辑框的字体,避免全局字体改变后,编辑框字体也发生变化
+        // 改变TextArea编辑框的字体,避免全局字体改变后,编辑框字体也发生变化(主题xml中未指定字体，所以在每一次刷新界面就得设置字体)
         initTextAreaFont();
     }
 
@@ -163,6 +166,32 @@ public class ChangeUIUtils {
         //logger.warn("编辑框字体改变前：{}", rSyntaxTextArea.getFont());
         rSyntaxTextArea.setFont(font);
         //logger.warn("编辑框字体改变后：{}", rSyntaxTextArea.getFont());
+    }
+
+    /**
+     * Set the font for all token types.
+     *
+     * @param font The font to use.
+     */
+    public static void setTextEditorFont(Font font) {
+        JTabbedSplitEditor tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
+        if (tabbedSplitEditor != null) {
+            LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
+            for (JScrollPane scrollPane : sp) {
+                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
+                if (font != null) {
+                    SyntaxScheme syntaxScheme = rSyntaxTextArea.getSyntaxScheme();
+                    syntaxScheme = (SyntaxScheme) syntaxScheme.clone();
+                    for (int i = 0; i < syntaxScheme.getStyleCount(); i++) {
+                        if (syntaxScheme.getStyle(i) != null) {
+                            syntaxScheme.getStyle(i).font = font;
+                        }
+                    }
+                    rSyntaxTextArea.setSyntaxScheme(syntaxScheme);
+                    rSyntaxTextArea.setFont(font);
+                }
+            }
+        }
     }
 
     /**
