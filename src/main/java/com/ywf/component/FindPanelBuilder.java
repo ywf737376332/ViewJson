@@ -3,6 +3,7 @@ package com.ywf.component;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.formdev.flatlaf.extras.components.FlatTextField;
+import com.ywf.component.toast.Toast;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.base.ThemeColor;
@@ -10,17 +11,17 @@ import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.layout.FindPanelLayout;
 import com.ywf.framework.utils.ObjectUtils;
+import com.ywf.framework.utils.WindowUtils;
+import org.fife.ui.rtextarea.SearchContext;
+import org.fife.ui.rtextarea.SearchEngine;
+import org.fife.ui.rtextarea.SearchResult;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * 查找对话框绘制
@@ -28,13 +29,18 @@ import java.util.regex.PatternSyntaxException;
  * @Author YWF
  * @Date 2023/12/30 22:39
  */
-public class FindPanelBuilder {
+public final class FindPanelBuilder {
 
     private static FindPanelLayout layout;
     private static JLabel btnClose;
     private static FlatTextField fieldFind;
     private static FlatLabel searchResultLabel;
     private static JTabbedSplitEditor tabbedSplitEditor;
+    private static JToggleButton matchCaseButton;
+    private static JToggleButton regexButton;
+
+    private FindPanelBuilder() {
+    }
 
     public static JPanel createFindPanel() {
         JPanel rootFindPanel = new JPanel();
@@ -55,12 +61,12 @@ public class FindPanelBuilder {
 
         // search toolbar
         JToolBar searchToolbar = new JToolBar();
-        JToggleButton matchCaseButton = new JToggleButton(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.matchCase));
+        matchCaseButton = new JToggleButton(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.matchCase));
         matchCaseButton.setRolloverIcon(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.matchCaseHovered));
         matchCaseButton.setSelectedIcon(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.matchCaseSelected));
         matchCaseButton.setToolTipText("区分大小写");
         // regex button
-        JToggleButton regexButton = new JToggleButton(SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.regex));
+        regexButton = new JToggleButton(SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.regex));
         regexButton.setRolloverIcon(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.regexHovered));
         regexButton.setSelectedIcon(SvgIconFactory.mediumIcon(SvgIconFactory.FindIcon.regexSelected));
         regexButton.setToolTipText("正则表达式");
@@ -84,8 +90,8 @@ public class FindPanelBuilder {
 
         JPanel findRight = new JPanel(new BorderLayout());
         findRight.setPreferredSize(new Dimension(100, 20));
-        //JCheckBox checkBox = new JCheckBox("替换");
-        //findRight.add(checkBox, BorderLayout.EAST);
+        JCheckBox checkBox = new JCheckBox("替换");
+        findRight.add(checkBox, BorderLayout.EAST);
         findBtnPanel.add(findRight);
 
         btnClose = new JLabel(SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.close));
@@ -94,7 +100,7 @@ public class FindPanelBuilder {
         btnClose.addMouseListener(new ClosePopupMouseListener());
         findRight.add(btnClose, BorderLayout.EAST);
         rootFindPanel.add(findPanel, BorderLayout.CENTER);
-        rootFindPanel.add(findBtnPanel, BorderLayout.EAST);
+        //rootFindPanel.add(findBtnPanel, BorderLayout.EAST);
         return rootFindPanel;
     }
 
@@ -131,122 +137,19 @@ public class FindPanelBuilder {
      * 查找下一个
      */
     private static void nextFindActionPerformed() {
-        JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.getFocusEditor();
-        startSegmentFindOrReplaceOperation(syntaxTextArea, fieldFind.getText(), true, true, false);
+        findContentHighlightAction(true);
     }
 
     /**
      * 查找上一个
      */
     private static void prevFindActionPerformed() {
-        JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.getFocusEditor();
-        startSegmentFindOrReplaceOperation(syntaxTextArea, fieldFind.getText(), true, false, false);
-    }
-
-    /**
-     * 文本内容查找定位
-     *
-     * @param key        要查找的字符串
-     * @param ignoreCase 是否区分大小写
-     * @param down       查找方向（向上false，向下true）
-     * @param isFirst    是否从开头开始查找
-     * @return
-     */
-    public static boolean startSegmentFindOrReplaceOperation(JTextArea textArea, String key, boolean ignoreCase, boolean down, boolean isFirst) {
-        int length = key.length();
-        Document doc = textArea.getDocument();
-        int offset = textArea.getCaretPosition();
-        int charsLeft = doc.getLength() - offset;
-        if (charsLeft <= 0) {
-            offset = 0;
-            charsLeft = doc.getLength() - offset;
-        }
-        if (!down) {
-            offset -= length;
-            offset--;
-            charsLeft = offset;
-        }
-        if (isFirst) {
-            offset = 0;
-            charsLeft = doc.getLength() - offset;
-        }
-        Segment text = new Segment();
-        text.setPartialReturn(true);
-        try {
-            while (charsLeft > 0) {
-                doc.getText(offset, length, text);
-                if ((ignoreCase == true && text.toString().equalsIgnoreCase(key))
-                        || (ignoreCase == false && text.toString().equals(key))) {
-                    //textArea.requestFocus();////焦点,才能能看到效果
-                    textArea.setForeground(ThemeColor.findSelectColor);
-                    textArea.setSelectionStart(offset);
-                    textArea.setSelectionEnd(offset + length);
-                    return true;
-                }
-                charsLeft--;
-                if (down) {
-                    offset++;
-                } else {
-                    offset--;
-                }
-            }
-        } catch (Exception e) {
-
-        }
-        return false;
+        findContentHighlightAction(false);
     }
 
     public static FindPanelLayout getLayout() {
         tabbedSplitEditor = ObjectUtils.getBean(GlobalKEY.TABBED_SPLIT_EDITOR);
         return layout;
-    }
-
-    private static final Highlighter.HighlightPainter HIGHLIGHT = new DefaultHighlighter.DefaultHighlightPainter(ThemeColor.highLightColor);
-    private static boolean isHighlight = false;
-
-
-    /**
-     * 查找内容高亮显示
-     *
-     * @date 2024/1/2 23:03
-     */
-    private static void setTextAreaContentHighlight() {
-        SwingUtilities.invokeLater(() -> {
-            JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.getFocusEditor();
-            if (!isHighlight) {
-                int result = setHighlight(syntaxTextArea, fieldFind.getText());
-                searchResultLabel.setText(updateSearchResultCounts(result));
-                syntaxTextArea.repaint();
-                isHighlight = true;
-            } else {
-                syntaxTextArea.getHighlighter().removeAllHighlights();
-                searchResultLabel.setText(updateSearchResultCounts(0));
-                syntaxTextArea.repaint();
-                isHighlight = false;
-            }
-        });
-    }
-
-    private static int setHighlight(JTextComponent jtc, String pattern) {
-        Highlighter highlighter = jtc.getHighlighter();
-        highlighter.removeAllHighlights();
-        Document doc = jtc.getDocument();
-        int counts = 0;
-        try {
-            String text = doc.getText(0, doc.getLength());
-            Matcher matcher = Pattern.compile(pattern).matcher(text);
-            int pos = 0;
-            while (matcher.find(pos) && !matcher.group().isEmpty()) {
-                int start = matcher.start();
-                int end = matcher.end();
-                highlighter.addHighlight(start, end, HIGHLIGHT);
-                pos = end;
-                counts++;
-            }
-        } catch (BadLocationException | PatternSyntaxException ex) {
-            UIManager.getLookAndFeel().provideErrorFeedback(jtc);
-        }
-        return counts;
     }
 
     /**
@@ -262,18 +165,51 @@ public class FindPanelBuilder {
     static class HighlightDocumentListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
-            setTextAreaContentHighlight();
+            //setTextAreaContentHighlight();
+            findAllContentHighlight();
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            setTextAreaContentHighlight();
+            //setTextAreaContentHighlight();
+            findAllContentHighlight();
         }
 
         @Override
         public void changedUpdate(DocumentEvent e) {
-            setTextAreaContentHighlight();
+            //setTextAreaContentHighlight();
+            findAllContentHighlight();
         }
+    }
+
+    private static void findAllContentHighlight() {
+        SwingUtilities.invokeLater(() -> {
+            String text = fieldFind.getText();
+            // 更新状态栏显示文本
+            searchResultLabel.setText(updateSearchResultCounts(findContentHighlight(text, false).getMarkedCount()));
+        });
+    }
+
+    private static void findContentHighlightAction(boolean isNext) {
+        String text = fieldFind.getText();
+        if (text.length() == 0) {
+            return;
+        }
+        boolean found = findContentHighlight(text, isNext).wasFound();
+        if (!found) {
+            Toast.info(WindowUtils.getFrame(), isNext ? "已搜索到最底部，没有更多内容被找到!" : "已搜索到最顶部，没有更多内容被找到");
+        }
+    }
+
+    private static SearchResult findContentHighlight(String keyWord, boolean isNext) {
+        JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.getFocusEditor();
+        SearchContext context = new SearchContext();
+        context.setSearchFor(keyWord);
+        context.setMatchCase(matchCaseButton.isSelected());
+        context.setRegularExpression(regexButton.isSelected());
+        context.setSearchForward(isNext);
+        context.setWholeWord(false);
+        return SearchEngine.find(syntaxTextArea, context);
     }
 
 
