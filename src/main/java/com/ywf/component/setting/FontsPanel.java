@@ -21,14 +21,18 @@ public class FontsPanel extends JPanel {
         init();
         //setBackground(Color.GRAY);
         setPreferredSize(new Dimension(485, 400));
-        setBorder(BorderBuilder.emptyBorder(0,5,5,5));
     }
 
     private void init() {
-        setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         JPanel frameFontPanel = new JPanel();
-        frameFontPanel.setPreferredSize(new Dimension(450,200));
-        frameFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "系统界面字体设置"));
+        frameFontPanel.setPreferredSize(new Dimension(462,200));
+        frameFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "界面字体设置"));
+
+        JList fontList = new JList();
+        ListModel jListModel =  new DefaultComboBoxModel(new String[] { "张三", "李四" });  //数据模型
+        fontList.setModel(jListModel);
+        frameFontPanel.add(fontList);
         add(frameFontPanel);
     }
 
