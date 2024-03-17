@@ -74,7 +74,23 @@ public final class SvgIconFactory {
         String logo = "/icons/logo.svg";
         String about = "icons/logo.svg";
         String author = "icons/auth.svg";
+        String theme = "icons/theme.svg";
+        String fontSet = "icons/fontSet.svg";
+        String systemSet = "icons/systemSet.svg";
+        String systemLog = "icons/systemLog.svg";
     }
+
+    public interface ThemesIcon {
+        String flatLafLightTheme = "icons/themes/flatLafLightTheme.svg";
+        String arcLightOrange = "icons/themes/arcLightOrange.svg";
+        String solarizedLight = "icons/themes/solarizedLight.svg";
+        String arcDarkOrange = "icons/themes/arcDarkOrange.svg";
+        String gruvboxDarkMedium = "icons/themes/gruvboxDarkMedium.svg";
+        String materialDarker = "icons/themes/materialDarker.svg";
+        String materialDeepOcean = "icons/themes/materialDeepOcean.svg";
+        String nightOwl = "icons/themes/nightOwl.svg";
+    }
+
 
     public interface FindIcon {
         String find = "icons/find.svg";

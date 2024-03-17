@@ -4,7 +4,6 @@ import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.components.FlatLabel;
-import com.ywf.AppMain;
 import com.ywf.component.*;
 import com.ywf.component.loading.BackgroundTaskKit;
 import com.ywf.component.loading.LoadingBuild;
@@ -33,16 +32,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.ScheduledExecutorService;
 
 
 /**
@@ -610,8 +604,6 @@ public class MenuEventService {
                 // 窗口最大换状态不记录屏幕大小
             } else {
                 applicationContext.setScreenSize(new ConfigurableApplicationContext.ScreenSize(frame.getWidth(), frame.getHeight()));
-                // 退出应用时，保存所有配置项到本地,已做成jvm退出的构字方法,系统启动时注册,后期程序正常关闭还是意外关闭，都会保存配置信息
-                //FrameWindowCloseEventService.saveApplicationConfiguration(applicationContext);
             }
             logger.info("应用程序退出，界面销毁~~~");
             StateLabel statusLabel = LabelBarBuilder.getLabel(GlobalKEY.STATE_BAR_RUN_TIME);
@@ -646,52 +638,11 @@ public class MenuEventService {
     }
 
     /**
-     * 系统重启
+     * 系统设置
      */
-    /*public void resartWindowFrameActionPerformed(JFrame frame) {
-        frame.dispose();
-        frame.getContentPane().removeAll(); // 移除所有组件
-        frame.revalidate(); // 重新验证布局
-        frame.repaint(); // 重绘界面
-        applicationContext.setScreenSize(new ConfigurableApplicationContext.ScreenSize(frame.getWidth(), frame.getHeight()));
-        // 退出应用时，保存所有配置项到本地
-        FrameWindowCloseEventService.saveApplicationConfiguration();
-        SwingUtilities.invokeLater(() -> {
-            try {
-                int num = 5;
-                while (num-- > 0) {
-                    System.out.println("正在重启中~~~" + num);
-                    Thread.sleep(1000);
-                }
-                ((MainFrame) Window.getWindows()[0]).createAndShowGUI(MessageConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }*/
-    public void resartWindowFrameActionPerformed(JFrame frame) {
-
-    }
-
-    /**
-     * 鼠标移上去显示滚动条
-     *
-     * @param textArea
-     */
-    public void textAreaScrollBarHoverActionPerformed(JTextArea textArea) {
-        textArea.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                JScrollPane sp = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, (Component) e.getSource());
-                sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                JScrollPane sp = (JScrollPane) SwingUtilities.getAncestorOfClass(JScrollPane.class, (Component) e.getSource());
-                sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-            }
-        });
+    public void systemSetupActionPerformed() {
+        SettingTabbedPane tabbedPane = SystemSetupPanelBuilder.createSystemSetupPanel();
+        DialogBuilder.showDialog(WindowUtils.getFrame(), "系统设置菜单", tabbedPane, 100).setVisible(true);
     }
 
 }

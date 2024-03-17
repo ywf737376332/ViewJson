@@ -173,6 +173,13 @@ public class MenuBarKit {
         }
     }
 
+    public static class SystemSetupAction extends MenuAction {
+        @Override
+        public void actionPerformedImpl(ActionEvent e) {
+            MenuEventService.getInstance().systemSetupActionPerformed();
+        }
+    }
+
     public static class CopyCodeAction extends MenuAction {
         @Override
         public void actionPerformedImpl(ActionEvent e) {

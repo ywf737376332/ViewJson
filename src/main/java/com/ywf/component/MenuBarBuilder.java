@@ -7,7 +7,6 @@ import com.ywf.framework.config.MenuAction;
 import com.ywf.framework.config.MenuBarKit;
 import com.ywf.framework.enums.*;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
-import com.ywf.framework.utils.ChangeUIUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,15 +84,13 @@ public class MenuBarBuilder {
     private JMenu setupMenu;
     private JMenu frameFontMenu, fontStyleMenu, fontSizeMenu;
     private JMenu facadeMenu;
-    private MenuAction showToolBarAction, showMenuBarAction, showToolBarTextAction;
+    private MenuAction systemSetupAction, showToolBarAction, showMenuBarAction, showToolBarTextAction;
     private JMenu languageMenu;
     private JCheckBoxMenuItem showToolBarMenuItem, showMenuBarMenuItem, showToolBarTextMenuItem;
     private MenuAction editSetupAction, lineSetupAction, showlineNumAction;
-    private JMenuItem editSetupMenuItem, lineSetupMenuItem, showlineNumMenuItem;
+    private JMenuItem systemSetupMenuItem, editSetupMenuItem, lineSetupMenuItem, showlineNumMenuItem;
     private JMenu pictureQualityMenu;
-    private PictureQualityRadioButtonMenuItem lowPictureQualityMenuItem, middlePictureQualityMenuItem, hightPictureQualityMenuItem;
     private JMenu chineseConverMenu;
-    private CHToCNRadioButtonMenuItem chineseConverUnicodeMenuItem, unicodeConverChineseMenuItem, unConverMenuItem;
     /**
      * 主题
      * ...FlatLaf Light
@@ -176,6 +173,7 @@ public class MenuBarBuilder {
          * 设置
          */
         menuBar.add(setupMenu);
+        setupMenu.add(systemSetupMenuItem = createMenuItem(systemSetupAction));
         setupMenu.add(frameFontMenu);
         frameFontMenu.add(fontStyleMenu);
         ButtonGroup fontNameButtonGroup = new ButtonGroup();
@@ -312,6 +310,8 @@ public class MenuBarBuilder {
         lineSetupAction.setProperties(msg, "MenuItem.LineSetup");
         showlineNumAction = new MenuBarKit.ShowlineNumAction();
         showlineNumAction.setProperties(msg, "MenuItem.Showline");
+        systemSetupAction = new MenuBarKit.SystemSetupAction();
+        systemSetupAction.setProperties(msg, "MenuItem.SystemSetup");
 
         updateVersionLogAction = new MenuBarKit.UpdateVersionLogAction();
         updateVersionLogAction.setProperties(msg, "MenuItem.FeatureIntroduction");

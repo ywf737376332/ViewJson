@@ -103,7 +103,7 @@
 	"TabbedPane.underlineColor" : "#2285E1",
 	"TabbedPane.tabSelectionHeight" : 2,
 	"TabbedPane.background" : "#F5F5F5",
-	"TabbedPane.hoverColor" : "#ffffff",
+	"TabbedPane.hoverColor" : "#8FBFEF",
 
 	"Link.hoverForeground" : "#2285E1",
 	"Link.activeForeground" : "#2285E1",

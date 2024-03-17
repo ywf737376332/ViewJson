@@ -53,6 +53,10 @@ public class BorderBuilder {
         return BorderFactory.createMatteBorder(size, 0, size, 0, color);
     }
 
+    public static Border border(int size, Color color) {
+        return BorderFactory.createMatteBorder(size, size, size, size, color);
+    }
+
     public static Border leftAndRightBorder(int size, Color color) {
         return BorderFactory.createMatteBorder(0, size, 0, size, color);
     }
