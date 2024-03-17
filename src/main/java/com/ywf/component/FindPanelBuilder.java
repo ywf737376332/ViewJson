@@ -90,8 +90,8 @@ public final class FindPanelBuilder {
 
         JPanel findRight = new JPanel(new BorderLayout());
         findRight.setPreferredSize(new Dimension(100, 20));
-        JCheckBox checkBox = new JCheckBox("替换");
-        findRight.add(checkBox, BorderLayout.EAST);
+        //JCheckBox checkBox = new JCheckBox("替换");
+        //findRight.add(checkBox, BorderLayout.EAST);
         findBtnPanel.add(findRight);
 
         btnClose = new JLabel(SvgIconFactory.largeIcon(SvgIconFactory.FindIcon.close));
@@ -100,7 +100,7 @@ public final class FindPanelBuilder {
         btnClose.addMouseListener(new ClosePopupMouseListener());
         findRight.add(btnClose, BorderLayout.EAST);
         rootFindPanel.add(findPanel, BorderLayout.CENTER);
-        //rootFindPanel.add(findBtnPanel, BorderLayout.EAST);
+        rootFindPanel.add(findBtnPanel, BorderLayout.EAST);
         return rootFindPanel;
     }
 
@@ -165,24 +165,21 @@ public final class FindPanelBuilder {
     static class HighlightDocumentListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
-            //setTextAreaContentHighlight();
             findAllContentHighlight();
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            //setTextAreaContentHighlight();
             findAllContentHighlight();
         }
 
         @Override
         public void changedUpdate(DocumentEvent e) {
-            //setTextAreaContentHighlight();
             findAllContentHighlight();
         }
     }
 
-    private static void findAllContentHighlight() {
+    public static void findAllContentHighlight() {
         SwingUtilities.invokeLater(() -> {
             String text = fieldFind.getText();
             // 更新状态栏显示文本
@@ -202,6 +199,9 @@ public final class FindPanelBuilder {
     }
 
     private static SearchResult findContentHighlight(String keyWord, boolean isNext) {
+        if (tabbedSplitEditor == null) {
+            return new SearchResult();
+        }
         JSONRSyntaxTextArea syntaxTextArea = tabbedSplitEditor.getFocusEditor();
         SearchContext context = new SearchContext();
         context.setSearchFor(keyWord);
@@ -211,6 +211,5 @@ public final class FindPanelBuilder {
         context.setWholeWord(false);
         return SearchEngine.find(syntaxTextArea, context);
     }
-
 
 }

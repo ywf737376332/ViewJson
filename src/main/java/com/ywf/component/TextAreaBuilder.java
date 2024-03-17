@@ -94,7 +94,7 @@ public class TextAreaBuilder {
         syntaxTextArea.setFont(baseFont);
         logger.info("编辑框字体加载成功,当前字体：{}", syntaxTextArea.getFont());
         // 给文本编辑器增加过滤器
-        ((AbstractDocument) syntaxTextArea.getDocument()).setDocumentFilter(new JSONRSyntaxTextAreaDocumentFilter(syntaxTextArea));
+        //((AbstractDocument) syntaxTextArea.getDocument()).setDocumentFilter(new JSONRSyntaxTextAreaDocumentFilter(syntaxTextArea));
         //监听文档变化,统计输入的字符数量和当前文档内容类型识别，同步显示到状态栏
         StateBarEventService.getInstance().textAreaDocumentActionPerformed(syntaxTextArea);
         //监听鼠标的行和列位置

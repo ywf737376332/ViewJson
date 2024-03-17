@@ -1,7 +1,6 @@
 package com.ywf.component;
 
 import com.ywf.action.StateBarEventService;
-import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.ui.ScrollBackToTopLayerUI;
 import com.ywf.framework.utils.ComponentUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -287,6 +286,8 @@ public class JTabbedSplitEditor extends JPanel {
                 requestFocusToEditor(rSyntaxTextArea);
                 //监听文档变化
                 StateBarEventService.getInstance().updateStateUI(rSyntaxTextArea);
+                // 查找内容高亮显示
+                FindPanelBuilder.findAllContentHighlight();
             }
         });
     }
