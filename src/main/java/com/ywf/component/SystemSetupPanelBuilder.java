@@ -24,19 +24,12 @@ public final class SystemSetupPanelBuilder {
     }
 
     private static SettingTabbedPane initSystemSetupPanel() {
-        if (tabs == null) {
-            tabs = new SettingTabbedPane();
-            tabs.setSize(600, 500);
-            tabs.addTab("系统主题", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.theme), new JScrollPane(new ThemesPanel()));
-
-            JScrollPane scrollPane = new JScrollPane(new FontsPanel());
-            scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-            scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-            tabs.addTab("字体设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.fontSet), scrollPane);
-            tabs.addTab("系统设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), new JScrollPane(new JTree()));
-            tabs.addTab("日志查看", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemLog), new JScrollPane(new JTextArea()));
-        }
-        tabs.updateUI();
+        SettingTabbedPane tabs = new SettingTabbedPane();
+        tabs.setSize(620, 500);
+        tabs.addTab("系统主题", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.theme), ScrollPaneBuilder.createScrollPane(new ThemesPanel()));
+        tabs.addTab("字体设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.fontSet), ScrollPaneBuilder.createScrollPane(new FontsPanel()));
+        tabs.addTab("系统设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), ScrollPaneBuilder.createScrollPane(new JTree()));
+        tabs.addTab("日志查看", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemLog), ScrollPaneBuilder.createScrollPane(new JTextArea()));
         return tabs;
     }
 
