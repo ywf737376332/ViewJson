@@ -1,6 +1,7 @@
 package com.ywf.component;
 
 import com.ywf.component.setting.FontsPanel;
+import com.ywf.component.setting.SettingOptions;
 import com.ywf.component.setting.ThemesPanel;
 import com.ywf.framework.base.SvgIconFactory;
 
@@ -28,7 +29,7 @@ public final class SystemSetupPanelBuilder {
         tabs.setSize(620, 500);
         tabs.addTab("系统主题", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.theme), ScrollPaneBuilder.createScrollPane(new ThemesPanel()));
         tabs.addTab("字体设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.fontSet), ScrollPaneBuilder.createScrollPane(new FontsPanel()));
-        tabs.addTab("系统设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), ScrollPaneBuilder.createScrollPane(new JTree()));
+        tabs.addTab("系统设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), ScrollPaneBuilder.createScrollPane(new SettingOptions()));
         tabs.addTab("日志查看", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemLog), ScrollPaneBuilder.createScrollPane(new JTextArea()));
         return tabs;
     }

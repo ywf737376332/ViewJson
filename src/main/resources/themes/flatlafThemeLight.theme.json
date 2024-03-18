@@ -137,6 +137,8 @@
 
 	"CheckBox.background" : "#F5F5F5",
 	"RadioButton.background" : "#F5F5F5",
+	"RadioButton.selectionEnabledColor" : "#2285E1",
+	"RadioButton.focusColor" : "#8FBFEF",
 	"Slider.background" : "#F5F5F5",
 	"Spinner.background" : "#F5F5F5",
 	"OptionPane.background" : "#F5F5F5",

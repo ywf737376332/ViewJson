@@ -413,7 +413,12 @@
       "progressColor": "#6B8086",
       "trackColor": "#BAC0B8"
     },
-    "RadioButton": {},
+    "RadioButton": {
+      "foreground": "#586E75",
+      "selectionEnabledShadowColor": "#5F9DE7",
+      "selectionEnabledColor": "#5F9DE7",
+      "focusColor": "#627880"
+    },
     "RadioButtonMenuItem": {},
     "ScrollBar": {
       "background": "#FDF6E3",

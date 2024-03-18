@@ -150,12 +150,15 @@
 
     "CheckBox.background" : "#383c4a",
     "RadioButton.background" : "#383c4a",
+    "RadioButton.selectionEnabledColor" : "#f57900",
+    "RadioButton.focusColor" : "#5c4814",
+
     "Slider.background" : "#383c4a",
     "Spinner.background" : "#383c4a",
     "OptionPane.background" : "#383c4a",
 
     "CompletionPopup":  {
-      "selectionBackground" : "#f5790055",
+      "selectionBackground" : "#f57900",
       "nonFocusedMask": false,
       "matchForeground": "#f57900",
       "selectionInactiveBackground": "#C36200"
