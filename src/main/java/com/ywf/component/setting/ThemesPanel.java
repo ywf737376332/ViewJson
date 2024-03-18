@@ -21,12 +21,12 @@ public class ThemesPanel extends JPanel {
     public ThemesPanel() {
         super();
         init();
-        setPreferredSize(new Dimension(400, 300));
+        setPreferredSize(new Dimension(400, 320));
         setBorder(BorderBuilder.emptyBorder(0,20,20,20));
+        setLayout(new GridLayout(3, 4));
     }
 
     private void init() {
-        setLayout(new GridLayout(3, 3, 0, 0));
         JRadioButton r1 = makeRadioButton("FlatLaf Light", getThemeIcon(SvgIconFactory.ThemesIcon.flatLafLightTheme));
         r1.setSelectedIcon(new SelectedIcon(r1.getIcon(), ThemeColor.authorColor));
 

@@ -2,13 +2,20 @@ package com.ywf.component.setting;
 
 import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.action.ResourceBundleService;
+import com.ywf.component.toolToast.JSONButton;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.enums.LanguageEnum;
+import com.ywf.framework.enums.PictureQualityEnum;
+import com.ywf.framework.enums.TextConvertEnum;
+import com.ywf.framework.init.SysConfigInit;
+import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.ui.ColorRadioButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 /**
@@ -24,24 +31,33 @@ public class SettingOptions extends JPanel {
     public SettingOptions() {
         super();
         resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
-        //setBackground(Color.GRAY);
-        //setPreferredSize(new Dimension(480, 400));
-        setLayout(new BorderLayout(10, 10));
         init();
     }
 
     private void init() {
+        // 创建一个垂直箱容器
+        Box vBox = Box.createVerticalBox();
         //设置语言
         JPanel languageSetting = createLanguageSettingPanel();
         JPanel editorSetting = createEditorSettingPanel();
-
-
-        this.add(languageSetting, BorderLayout.NORTH);
-        this.add(editorSetting, BorderLayout.CENTER);
+        JPanel pictureQualitySetting = createPictureQualitySettingPanel();
+        JPanel chineseConverSetting = createChineseConverSettingPanel();
+        JPanel logViewPanel = createLogViewPanel();
+        // 创建一个 垂直方向胶状 的不可见组件，用于撑满垂直方向剩余的空间（如果有多个该组件，则平分剩余空间）
+        vBox.add(languageSetting);
+        vBox.add(Box.createRigidArea(new Dimension(470,20)));
+        vBox.add(editorSetting);
+        vBox.add(Box.createRigidArea(new Dimension(470,20)));
+        vBox.add(pictureQualitySetting);
+        vBox.add(Box.createRigidArea(new Dimension(470,20)));
+        vBox.add(chineseConverSetting);
+        vBox.add(Box.createRigidArea(new Dimension(470,20)));
+        vBox.add(logViewPanel);
+        this.add(vBox);
     }
 
     private JPanel createLanguageSettingPanel() {
-        JPanel settingPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 5));
+        JPanel settingPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         settingPanel.setBorder(BorderFactory.createTitledBorder("语言设置"));
         ButtonGroup languageButtonGroup = new ButtonGroup();
         for (LanguageEnum value : LanguageEnum.values()) {
@@ -54,16 +70,15 @@ public class SettingOptions extends JPanel {
     }
 
     private JPanel createEditorSettingPanel() {
-        // 语言设置
-        JPanel settingPanel = new JPanel(new GridLayout(10, 1, 10, 20));
+        JPanel settingPanel = new JPanel(new GridLayout(3, 1, 10, 10));
         settingPanel.setBorder(BorderFactory.createTitledBorder("编辑器设置"));
 
         JPanel editEnablePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         editEnablePanel.setBorder(BorderBuilder.bottomBorder(1, ThemeColor.watermarkColor));
         FlatLabel editEnableLabel = new FlatLabel();
-        editEnableLabel.setText("可编辑状态：");
-        ColorRadioButton openRadioButton = new ColorRadioButton("打开");
-        ColorRadioButton closeRadioButton = new ColorRadioButton("关闭");
+        editEnableLabel.setText("是否可编辑：");
+        ColorRadioButton openRadioButton = new ColorRadioButton("是");
+        ColorRadioButton closeRadioButton = new ColorRadioButton("否");
         ButtonGroup editEnableButtonGroup = new ButtonGroup();
         editEnableButtonGroup.add(openRadioButton);
         editEnableButtonGroup.add(closeRadioButton);
@@ -71,22 +86,78 @@ public class SettingOptions extends JPanel {
         editEnablePanel.add(openRadioButton);
         editEnablePanel.add(closeRadioButton);
 
-        JPanel lineSetupPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        lineSetupPanel.setBorder(BorderBuilder.bottomBorder(1, ThemeColor.watermarkColor));
-        FlatLabel lineSetupLabel = new FlatLabel();
-        lineSetupLabel.setText("是否自动换行：");
-        ColorRadioButton yesRadioButton = new ColorRadioButton("是");
-        ColorRadioButton noRadioButton = new ColorRadioButton("否");
-        ButtonGroup lineSetupButtonGroup = new ButtonGroup();
-        lineSetupButtonGroup.add(yesRadioButton);
-        lineSetupButtonGroup.add(noRadioButton);
-        lineSetupPanel.add(lineSetupLabel);
-        lineSetupPanel.add(yesRadioButton);
-        lineSetupPanel.add(noRadioButton);
+        JPanel lineFeedSetupPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        lineFeedSetupPanel.setBorder(BorderBuilder.bottomBorder(1, ThemeColor.watermarkColor));
+        FlatLabel lineFeedSetupLabel = new FlatLabel();
+        lineFeedSetupLabel.setText("自动换行：");
+        ColorRadioButton yesLineFeedRadioButton = new ColorRadioButton("是");
+        ColorRadioButton noLineFeedRadioButton = new ColorRadioButton("否");
+        ButtonGroup lineFeedSetupButtonGroup = new ButtonGroup();
+        lineFeedSetupButtonGroup.add(yesLineFeedRadioButton);
+        lineFeedSetupButtonGroup.add(noLineFeedRadioButton);
+        lineFeedSetupPanel.add(lineFeedSetupLabel);
+        lineFeedSetupPanel.add(yesLineFeedRadioButton);
+        lineFeedSetupPanel.add(noLineFeedRadioButton);
 
+        JPanel lineNumSetupPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        FlatLabel lineNumSetupLabel = new FlatLabel();
+        lineNumSetupLabel.setText("显示行号：");
+        ColorRadioButton yesLineNumRadioButton = new ColorRadioButton("是");
+        ColorRadioButton noLineNumRadioButton = new ColorRadioButton("否");
+        ButtonGroup lineNumSetupButtonGroup = new ButtonGroup();
+        lineNumSetupButtonGroup.add(yesLineNumRadioButton);
+        lineNumSetupButtonGroup.add(noLineNumRadioButton);
+        lineNumSetupPanel.add(lineNumSetupLabel);
+        lineNumSetupPanel.add(yesLineNumRadioButton);
+        lineNumSetupPanel.add(noLineNumRadioButton);
 
         settingPanel.add(editEnablePanel);
-        settingPanel.add(lineSetupPanel);
+        settingPanel.add(lineFeedSetupPanel);
+        settingPanel.add(lineNumSetupPanel);
+        return settingPanel;
+    }
+
+    private JPanel createPictureQualitySettingPanel() {
+        JPanel settingPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+        settingPanel.setBorder(BorderFactory.createTitledBorder("图片质量"));
+        ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
+        for (PictureQualityEnum value : PictureQualityEnum.values()) {
+            ColorRadioButton pictureQualityRadioButton = new ColorRadioButton(getMessage(value.getMessageKey()), value.getMessageKey() + "_" + value.getPictureQualityState());
+            pictureQualityButtonGroup.add(pictureQualityRadioButton);
+            settingPanel.add(pictureQualityRadioButton);
+        }
+        return settingPanel;
+    }
+
+    private JPanel createChineseConverSettingPanel() {
+        JPanel settingPanel = new JPanel(new GridLayout(3, 1, 10, 5));
+        settingPanel.setBorder(BorderFactory.createTitledBorder("中文转码"));
+        ButtonGroup buttonGroup = new ButtonGroup();
+        for (TextConvertEnum value : TextConvertEnum.values()) {
+            ColorRadioButton radioButton = new ColorRadioButton(getMessage(value.getMessageKey()), value.getMessageKey() + "_" + value.getConverType());
+            buttonGroup.add(radioButton);
+            settingPanel.add(radioButton);
+        }
+        return settingPanel;
+    }
+
+    private JPanel createLogViewPanel() {
+        JPanel settingPanel = new JPanel(new GridLayout(1, 1, 10, 5));
+        settingPanel.setBorder(BorderFactory.createTitledBorder("查看日志"));
+        JSONButton logViewButton = new JSONButton("查看日志");
+        logViewButton.addActionListener(e -> {
+            File file = new File(ApplicationContext.SYSTEM_LOG_FILE_PATH);
+            if (file.exists()) {
+                try {
+                    Desktop.getDesktop().open(file);
+                } catch (IOException ex) {
+                    throw new RuntimeException("日志文件打开失败" + ex.getMessage());
+                }
+            } else {
+                throw new RuntimeException("日志文件未找到，请检查");
+            }
+        });
+        settingPanel.add(logViewButton);
         return settingPanel;
     }
 
