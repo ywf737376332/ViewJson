@@ -44,14 +44,15 @@ public class SettingOptions extends JPanel {
         JPanel chineseConverSetting = createChineseConverSettingPanel();
         JPanel logViewPanel = createLogViewPanel();
         // 创建一个 垂直方向胶状 的不可见组件，用于撑满垂直方向剩余的空间（如果有多个该组件，则平分剩余空间）
+        Dimension viewSize = new Dimension(450,20);
         vBox.add(languageSetting);
-        vBox.add(Box.createRigidArea(new Dimension(470,20)));
+        vBox.add(Box.createRigidArea(viewSize));
         vBox.add(editorSetting);
-        vBox.add(Box.createRigidArea(new Dimension(470,20)));
+        vBox.add(Box.createRigidArea(viewSize));
         vBox.add(pictureQualitySetting);
-        vBox.add(Box.createRigidArea(new Dimension(470,20)));
+        vBox.add(Box.createRigidArea(viewSize));
         vBox.add(chineseConverSetting);
-        vBox.add(Box.createRigidArea(new Dimension(470,20)));
+        vBox.add(Box.createRigidArea(viewSize));
         vBox.add(logViewPanel);
         this.add(vBox);
     }
