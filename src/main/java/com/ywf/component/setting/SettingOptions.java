@@ -5,11 +5,13 @@ import com.ywf.action.MenuEventService;
 import com.ywf.action.ResourceBundleService;
 import com.ywf.component.JSONButton;
 import com.ywf.component.SwiftButton;
+import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.DropcapLabel;
 import com.ywf.framework.enums.LanguageEnum;
 import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.TextConvertEnum;
+import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ui.ColorRadioButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,9 @@ import java.util.ResourceBundle;
 public class SettingOptions extends JPanel {
 
     private final static Logger logger = LoggerFactory.getLogger(SettingOptions.class);
+
+    @Autowired
+    public static ConfigurableApplicationContext applicationContext;
 
     private ResourceBundle resourceBundle;
 
@@ -72,11 +77,17 @@ public class SettingOptions extends JPanel {
     }
 
     private JPanel createEditorSettingPanel() {
-        JPanel settingPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel settingPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         settingPanel.setBorder(BorderFactory.createTitledBorder("编辑器"));
-        settingPanel.add(createTitleAndDescPanelLayout("是否可编辑：", "当前窗口打开的所有编辑器是否可进行编辑"));
-        settingPanel.add(createTitleAndDescPanelLayout("自动换行：", "当前窗口打开的所有编辑器是否可自动换行"));
-        settingPanel.add(createTitleAndDescPanelLayout("显示行号：", "当前窗口打开的所有编辑器是否显示行号"));
+        settingPanel.add(createTitleAndDescPanelLayout("是否可编辑：", "编辑器是否可开启编辑功能", new SwiftButton()));
+        SwiftButton lineWrapBtn = new SwiftButton();
+        lineWrapBtn.setStateListener(source -> MenuEventService.getInstance().lineSetupActionPerformed());
+        settingPanel.add(createTitleAndDescPanelLayout("自动换行：", "编辑器是否可自动换行", lineWrapBtn));
+        settingPanel.add(createTitleAndDescPanelLayout("显示行号：", "编辑器是否显示行号", new SwiftButton()));
+        SwiftButton whitespaceBtn = new SwiftButton();
+        whitespaceBtn.setStateListener(e -> MenuEventService.getInstance().showWhitespaceActionPerformed());
+        settingPanel.add(createTitleAndDescPanelLayout("显示空格符：", "编辑器中显示空格符，以帮助您识别尾随空格", whitespaceBtn));
+        settingPanel.add(createTitleAndDescPanelLayout("显示分割符：", "编辑器中显示分割符位置", new ViewSlider(JSlider.HORIZONTAL, 0, 80, applicationContext.getMarginLine().getMarginWidth())));
         return settingPanel;
     }
 
@@ -89,7 +100,6 @@ public class SettingOptions extends JPanel {
             pictureQualityButtonGroup.add(pictureQualityRadioButton);
             settingPanel.add(pictureQualityRadioButton);
         }
-        settingPanel.add(new JRadioButton("hhhh"));
         return settingPanel;
     }
 
@@ -125,7 +135,7 @@ public class SettingOptions extends JPanel {
      * @param description
      * @return
      */
-    private JPanel createTitleAndDescPanelLayout(String title, String description) {
+    private JPanel createTitleAndDescPanelLayout(String title, String description, Component component) {
         JPanel main = new JPanel(new BorderLayout());
         main.setBorder(BorderBuilder.emptyBorder(10, 20, 10, 20));
         main.setPreferredSize(new Dimension(400, 80));
@@ -143,8 +153,7 @@ public class SettingOptions extends JPanel {
         // 右侧一行一个元素的面板
         JPanel right = new JPanel();
         right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
-        SwiftButton swiftButton = new SwiftButton();
-        right.add(swiftButton);
+        right.add(component);
         right.add(Box.createVerticalStrut(10));
         main.add(right, BorderLayout.EAST);
         return main;
@@ -179,10 +188,22 @@ public class SettingOptions extends JPanel {
         return root;
     }
 
-
     private String getMessage(String keyRoot) {
         return resourceBundle.getString(keyRoot + ".Name");
     }
 
+
+}
+
+
+class ViewSlider extends JSlider {
+    public ViewSlider(int orientation, int min, int max, int value) {
+        super(orientation, min, max, value);
+        setMajorTickSpacing(20); // 设置主刻度间隔
+        setMinorTickSpacing(5); // 设置次刻度间隔
+        setPaintTicks(true); // 显示刻度
+        setPaintLabels(true); // 显示刻度标签
+        addChangeListener(e -> MenuEventService.getInstance().updateEditorMarginLineWidth(e));
+    }
 
 }

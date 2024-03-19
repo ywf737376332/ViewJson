@@ -8,6 +8,12 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 
+/**
+ * Swift开关按钮
+ *
+ * @Author YWF
+ * @Date 2024/3/18 16:21
+ */
 public class SwiftButton extends JPanel {
     private boolean selected = true; // 开关, ON/OFF
     // 绘制参数设定
@@ -39,7 +45,6 @@ public class SwiftButton extends JPanel {
 
     private void onMouseClicked() {
         toggle(); // 点击时切换状态
-
         // 自定义接口
         if (stateListener != null) {
             stateListener.stateChanged(this);

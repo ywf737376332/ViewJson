@@ -3,7 +3,6 @@ package com.ywf.component;
 import com.ywf.action.StateBarEventService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.BorderBuilder;
-import com.ywf.framework.config.JSONRSyntaxTextAreaDocumentFilter;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ui.EditScrollPane;
@@ -17,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.text.AbstractDocument;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.io.IOException;
@@ -116,19 +114,11 @@ public class TextAreaBuilder {
         // 突出显示“匹配的括号”
         textArea.setBracketMatchingEnabled(true);
         textArea.setPaintMatchedBracketPair(true);
-        // 空格和制表符都可以在编辑器中呈现，也可以在行尾字符中呈现，以帮助您识别尾随空格。
-        //textArea.setWhitespaceVisible(true);
-        //textArea.setEOLMarkersVisible(false);
-
-        // RSyntaxTextArea 可以呈现制表符偏移量，以显示缩进的代码行的级别数。
-        //textArea.setPaintTabLines(true);
-        //textArea.setTabLineColor(ThemeColor.loadingColor);
-
+        // 空格符都可以在编辑器中呈现，也可以在行尾字符中呈现，以帮助您识别尾随空格。
+        textArea.setWhitespaceVisible(applicationContext.getShowWhitespace());
         // 分割线
-        //textArea.setMarginLineEnabled(true);
-        //textArea.setMarginLineColor(ThemeColor.loadingColor);
-        //textArea.setMarginLinePosition(120);
-
+        textArea.setMarginLineEnabled(applicationContext.getMarginLine().getShowMarginLine());
+        textArea.setMarginLinePosition(applicationContext.getMarginLine().getMarginWidth());
         // 自动换行功能
         textArea.setLineWrap(applicationContext.getTextAreaBreakLineState());
         textArea.setChineseConverState(applicationContext.getChineseConverState());

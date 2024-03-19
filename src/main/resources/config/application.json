@@ -1,26 +1,31 @@
 {
-  "textAreaEditState" : true,
-  "textAreaBreakLineState" : true,
-  "textAreaShowlineNumState" : true,
-  "showToolBarState" : true,
-  "showMenuBarState" : true,
-  "lastSystemThemes" : "FlatLaf Light",
-  "chineseConverState" : 2,
-  "pictureQualityState" : 1,
-  "systemLanguage" : "zh_CN",
-  "toolBarLocation" : "West",
+  "textAreaEditState": true,
+  "textAreaBreakLineState": true,
+  "textAreaShowlineNumState": true,
+  "showToolBarState": true,
+  "showMenuBarState": true,
+  "lastSystemThemes": "FlatLaf Light",
+  "chineseConverState": 2,
+  "pictureQualityState": 1,
+  "systemLanguage": "zh_CN",
+  "toolBarLocation": "West",
   "showToolBarText": true,
-  "webSiteUrl": "https://gitee.com/yufei88/ViewJSON.git",
-  "screenSize" : {
-    "width" : 1354,
-    "height" : 912
+  "showWhitespace": false,
+  "marginLine": {
+    "showMarginLine": false,
+    "marginWidth": 0
   },
-  "fontStyle" : {
-    "name" : "\u5fae\u8f6f\u96c5\u9ed1",
-    "size" : 16
+  "webSiteUrl": "https://gitee.com/yufei88/ViewJSON.git",
+  "screenSize": {
+    "width": 1354,
+    "height": 912
+  },
+  "fontStyle": {
+    "name": "\u5fae\u8f6f\u96c5\u9ed1",
+    "size": 16
   },
   "editorFontStyle": {
-    "name" : "JetBrainsMono",
-    "size" : 16
+    "name": "JetBrainsMono",
+    "size": 16
   }
 }

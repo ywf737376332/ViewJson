@@ -39,6 +39,10 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     private Boolean showToolBarText;
     // 官网
     private String webSiteUrl;
+    // 是否显示空格符
+    private Boolean showWhitespace;
+    // 是否显示分割线
+    private MarginLine marginLine;
     // 屏幕大小
     private ScreenSize screenSize;
     // 软件界面字体样式
@@ -153,6 +157,39 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
             return "EditorFontStyle{" +
                     "name='" + name + '\'' +
                     ", size=" + size +
+                    '}';
+        }
+    }
+
+    public static class MarginLine {
+
+        private Boolean showMarginLine;
+        private Integer marginWidth;
+
+        public MarginLine() {
+        }
+
+        public Boolean getShowMarginLine() {
+            return showMarginLine;
+        }
+
+        public void setShowMarginLine(Boolean showMarginLine) {
+            this.showMarginLine = showMarginLine;
+        }
+
+        public Integer getMarginWidth() {
+            return marginWidth;
+        }
+
+        public void setMarginWidth(Integer marginWidth) {
+            this.marginWidth = marginWidth;
+        }
+
+        @Override
+        public String toString() {
+            return "MarginLine{" +
+                    "showMarginLine=" + showMarginLine +
+                    ", marginWidth=" + marginWidth +
                     '}';
         }
     }
@@ -280,6 +317,22 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         this.webSiteUrl = webSiteUrl;
     }
 
+    public Boolean getShowWhitespace() {
+        return showWhitespace;
+    }
+
+    public void setShowWhitespace(Boolean showWhitespace) {
+        this.showWhitespace = showWhitespace;
+    }
+
+    public MarginLine getMarginLine() {
+        return marginLine;
+    }
+
+    public void setMarginLine(MarginLine marginLine) {
+        this.marginLine = marginLine;
+    }
+
     @Override
     public String toString() {
         return "ConfigurableApplicationContext{" +
@@ -295,8 +348,11 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                 ", toolBarLocation='" + toolBarLocation + '\'' +
                 ", showToolBarText=" + showToolBarText +
                 ", webSiteUrl='" + webSiteUrl + '\'' +
+                ", showWhitespace=" + showWhitespace +
+                ", marginLine=" + marginLine +
                 ", screenSize=" + screenSize +
                 ", fontStyle=" + fontStyle +
+                ", editorFontStyle=" + editorFontStyle +
                 '}';
     }
 }

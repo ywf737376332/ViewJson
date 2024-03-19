@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -662,5 +663,50 @@ public class MenuEventService {
         } else {
             Toast.error(WindowUtils.getFrame(), "日志文件未找到，请检查");
         }
+    }
+
+    /**
+     * 更新编辑器分割线位置
+     *
+     * @param event
+     */
+    public void updateEditorMarginLineWidth(ChangeEvent event) {
+        LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
+        SwingUtilities.invokeLater(() -> {
+            JSlider source = (JSlider) event.getSource();
+            int value = source.getValue();
+            boolean showMarginLine = value == 0 ? false : true;
+            for (int i = 0; i < scrollPaneList.size(); i++) {
+                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
+                if (!source.getValueIsAdjusting()) {
+                    rSyntaxTextArea.setMarginLineEnabled(showMarginLine);
+                    rSyntaxTextArea.setMarginLinePosition(value);
+                    rSyntaxTextArea.repaint();
+                    if (i == scrollPaneList.size() - 1) {
+                        ConfigurableApplicationContext.MarginLine marginLine = applicationContext.getMarginLine();
+                        marginLine.setMarginWidth(value);
+                        marginLine.setShowMarginLine(showMarginLine);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 显示/隐藏空白字符
+     */
+    public void showWhitespaceActionPerformed() {
+        LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
+        SwingUtilities.invokeLater(() -> {
+            for (int i = 0; i < scrollPaneList.size(); i++) {
+                JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
+                boolean isSelected = rSyntaxTextArea.isWhitespaceVisible();
+                rSyntaxTextArea.setWhitespaceVisible(!isSelected);
+                rSyntaxTextArea.repaint();
+                if (i == scrollPaneList.size() - 1) {
+                    applicationContext.setShowWhitespace(!isSelected);
+                }
+            }
+        });
     }
 }
