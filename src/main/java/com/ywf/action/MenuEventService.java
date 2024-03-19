@@ -17,6 +17,7 @@ import com.ywf.framework.enums.LocationEnum;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
+import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.utils.*;
 import com.ywf.view.PanelView;
@@ -31,6 +32,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -645,4 +647,20 @@ public class MenuEventService {
         DialogBuilder.showDialog(WindowUtils.getFrame(), "系统设置菜单", tabbedPane, 100).setVisible(true);
     }
 
+    /**
+     * 打开日志文件
+     */
+    public void opneLogFileActionPerformed() {
+        File file = new File(ApplicationContext.SYSTEM_LOG_FILE_PATH);
+        if (file.exists()) {
+            try {
+                Desktop.getDesktop().open(file);
+            } catch (IOException ex) {
+                Toast.error(WindowUtils.getFrame(), "日志文件打开失败");
+                logger.error("日志文件打开失败", ex.getMessage());
+            }
+        } else {
+            Toast.error(WindowUtils.getFrame(), "日志文件未找到，请检查");
+        }
+    }
 }

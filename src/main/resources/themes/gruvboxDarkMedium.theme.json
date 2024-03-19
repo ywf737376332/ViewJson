@@ -95,6 +95,13 @@
       "underlineColor": "blue1",
       "inactiveMaskColor": "#28282866"
     },
+    "RadioButton": {
+      "background": "bg",
+      "focusColor": "bg2",
+      "foreground": "fg",
+      "selectionEnabledColor": "fg1",
+      "selectionEnabledShadowColor": "bg"
+    },
     "ToolWindow": {
       "Header": {
         "background": "bg0_s",

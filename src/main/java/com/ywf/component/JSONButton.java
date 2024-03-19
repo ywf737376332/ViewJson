@@ -1,6 +1,5 @@
-package com.ywf.component.toolToast;
+package com.ywf.component;
 
-import cn.hutool.crypto.Padding;
 import com.ywf.framework.base.BorderBuilder;
 
 import javax.swing.*;
@@ -39,7 +38,7 @@ public class JSONButton extends JButton {
         setBtnBorder();
     }
 
-    private void setBtnBorder(){
+    private void setBtnBorder() {
         //setBorder(BorderBuilder.emptyBorder(6, 15, 6, 15));
     }
 
@@ -48,4 +47,11 @@ public class JSONButton extends JButton {
         preferredSize.setSize(preferredSize.width + 40, preferredSize.height + 10);
         super.setPreferredSize(preferredSize);
     }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return super.getPreferredSize();
+    }
+
+
 }
