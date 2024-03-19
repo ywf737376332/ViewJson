@@ -85,7 +85,7 @@ public class DialogBuilder {
     }
 
     private static JDialog createTimeDialog(JFrame parentFrame, String title, Component component, int timeout) {
-        final JDialog dialog = new JDialog(parentFrame, title, true);
+        final JDialog dialog = new JDialog(parentFrame, title, false);
         // 设置标签的首选大小为图片的大小
         dialog.setSize(component.getWidth() + 25, component.getHeight() + 60);
         dialog.add(component);

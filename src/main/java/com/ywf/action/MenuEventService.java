@@ -19,6 +19,7 @@ import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.enums.TextTypeEnum;
 import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
+import com.ywf.framework.ui.ColorRadioButton;
 import com.ywf.framework.utils.*;
 import com.ywf.view.PanelView;
 import org.fife.ui.rtextarea.RTextArea;
@@ -38,6 +39,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Year;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -429,6 +431,11 @@ public class MenuEventService {
         chineseConverEvent(chineseConverMenu, chineseConverState);
     }
 
+    public void chineseConverActionPerformed(ButtonGroup buttonGroup) {
+        int chineseConverState = applicationContext.getChineseConverState();
+        chineseConverEvent(buttonGroup, chineseConverState);
+    }
+
     /**
      * 中文转码按钮组事件注册
      *
@@ -447,6 +454,17 @@ public class MenuEventService {
         }
     }
 
+    private void chineseConverEvent(ButtonGroup buttonGroup, int chineseConverState) {
+        Enumeration<AbstractButton> elements = buttonGroup.getElements();
+        while (elements.hasMoreElements()) {
+            ColorRadioButton radioButton = (ColorRadioButton) elements.nextElement();
+            if (chineseConverState == radioButton.getMsgValue()) {
+                radioButton.setSelected(true);
+            }
+            radioButton.addActionListener(e -> addChineseConverMenuActionListener(radioButton));
+        }
+    }
+
     /**
      * 设置中文转码状态
      *
@@ -454,6 +472,18 @@ public class MenuEventService {
      */
     private void addChineseConverMenuActionListener(CHToCNRadioButtonMenuItem chineseConverMenuItem) {
         int btnConverState = chineseConverMenuItem.getChineseConverState();
+        LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
+        for (int i = 0; i < scrollPaneList.size(); i++) {
+            JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
+            rSyntaxTextArea.setChineseConverState(btnConverState);
+            if (i == scrollPaneList.size() - 1) {
+                applicationContext.setChineseConverState(btnConverState);
+            }
+        }
+    }
+
+    private void addChineseConverMenuActionListener(ColorRadioButton radioButton) {
+        int btnConverState = radioButton.getMsgValue();
         LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
         for (int i = 0; i < scrollPaneList.size(); i++) {
             JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
@@ -488,6 +518,24 @@ public class MenuEventService {
         }
     }
 
+    public void setupLanguageActionPerformed(JFrame frame, ButtonGroup buttonGroup) {
+        String language = applicationContext.getSystemLanguage();
+        Enumeration<AbstractButton> elements = buttonGroup.getElements();
+        while (elements.hasMoreElements()) {
+            ColorRadioButton radioButton = (ColorRadioButton) elements.nextElement();
+            if (language.equals(radioButton.getMsgKey())) {
+                radioButton.setSelected(true);
+            }
+            radioButton.addActionListener(e -> {
+                applicationContext.setSystemLanguage(radioButton.getMsgKey());
+                FlatLabel tipLabel = PanelView.getTipMessage();
+                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "语言切换成功，重启后生效！" + "</span></html>");
+                Toast.info(frame, "语言切换成功，重启后生效！");
+            });
+        }
+    }
+
+
     /**
      * 图片质量按钮组事件注册
      *
@@ -506,6 +554,20 @@ public class MenuEventService {
                     applicationContext.setPictureQualityState(pictureQualityMenuitem.getPictureQualityState());
                 });
             }
+        }
+    }
+
+    public void pictureQualityActionPerformed(ButtonGroup buttonGroup) {
+        int pictureQuality = applicationContext.getPictureQualityState();
+        Enumeration<AbstractButton> elements = buttonGroup.getElements();
+        while (elements.hasMoreElements()) {
+            ColorRadioButton radioButton = (ColorRadioButton) elements.nextElement();
+            if (pictureQuality == radioButton.getMsgValue()) {
+                radioButton.setSelected(true);
+            }
+            radioButton.addActionListener(e -> {
+                applicationContext.setPictureQualityState(radioButton.getMsgValue());
+            });
         }
     }
 

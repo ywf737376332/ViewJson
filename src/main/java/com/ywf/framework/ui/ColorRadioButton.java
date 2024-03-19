@@ -19,6 +19,7 @@ public class ColorRadioButton extends JRadioButton {
     protected static final int ICON_SIZE = 16;
 
     private String msgKey;
+    private Integer msgValue;
 
     public ColorRadioButton(String text) {
         super(text);
@@ -27,6 +28,11 @@ public class ColorRadioButton extends JRadioButton {
     public ColorRadioButton(String text, String msgKey) {
         super(text);
         this.msgKey = msgKey;
+    }
+
+    public ColorRadioButton(String text, Integer msgValue) {
+        super(text);
+        this.msgValue = msgValue;
     }
 
     private void initThemeColor() {
@@ -73,6 +79,14 @@ public class ColorRadioButton extends JRadioButton {
 
     public void setMsgKey(String msgKey) {
         this.msgKey = msgKey;
+    }
+
+    public Integer getMsgValue() {
+        return msgValue;
+    }
+
+    public void setMsgValue(Integer msgValue) {
+        this.msgValue = msgValue;
     }
 }
 

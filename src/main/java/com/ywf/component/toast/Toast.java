@@ -74,7 +74,6 @@ public class Toast extends JWindow {
         this.period = period;
         font = SystemConstant.SYSTEM_WATERMARK_FONT;
         setSize(getStringSize(font, true, message));
-        // 相对JFrame的位置
         setLocationRelativeTo(parent);
         installTheme(type);
     }
@@ -82,9 +81,7 @@ public class Toast extends JWindow {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        // old
         Composite oldComposite = g2.getComposite();
-
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setFont(font);
@@ -93,14 +90,12 @@ public class Toast extends JWindow {
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 12, 12);
         g2.setColor(foreground);
         g2.drawString(message, insets.left, fm.getAscent() + insets.top);
-        // restore
         g2.setComposite(oldComposite);
     }
 
     /**
      * 启动提示
      */
-
     public void start() {
         this.setVisible(true);
         Timer timer = new Timer();
@@ -113,8 +108,10 @@ public class Toast extends JWindow {
         }, period);
     }
 
+    /**
+     * 渐隐效果
+     */
     public void close() {
-        // 渐隐效果
         float translucent = 1.0f;
         while (translucent > 0) {
             setOpacity(translucent);

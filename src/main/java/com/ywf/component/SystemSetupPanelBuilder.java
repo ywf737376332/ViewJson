@@ -6,6 +6,8 @@ import com.ywf.component.setting.SettingOptions;
 import com.ywf.component.setting.ThemesPanel;
 import com.ywf.framework.base.SvgIconFactory;
 
+import java.awt.*;
+
 /**
  * 系统设置面板
  *
@@ -26,6 +28,7 @@ public final class SystemSetupPanelBuilder {
     private static SettingTabbedPane initSystemSetupPanel() {
         SettingTabbedPane tabs = new SettingTabbedPane();
         tabs.setSize(620, 500);
+        tabs.setMaximumSize(new Dimension(700, 600));
         tabs.addTab("系统主题", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.theme), ScrollPaneBuilder.createScrollPane(new ThemesPanel()));
         tabs.addTab("字体设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.fontSet), ScrollPaneBuilder.createScrollPane(new FontsPanel()));
         tabs.addTab("系统设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), ScrollPaneBuilder.createScrollPane(new SettingOptions()));
