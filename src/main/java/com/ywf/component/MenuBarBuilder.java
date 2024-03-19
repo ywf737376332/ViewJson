@@ -210,21 +210,21 @@ public class MenuBarBuilder {
         }
         MenuEventService.getInstance().setupLanguageActionPerformed(frame, languageMenu);
 
-        setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
-        editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
-        setupMenu.add(lineSetupMenuItem = createCheckBoxMenu(lineSetupAction));
-        lineSetupMenuItem.setSelected(applicationContext.getTextAreaBreakLineState());
-        setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
-        showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
+        //setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
+        //editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
+        //setupMenu.add(lineSetupMenuItem = createCheckBoxMenu(lineSetupAction));
+        //lineSetupMenuItem.setSelected(applicationContext.getTextAreaBreakLineState());
+        //setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
+        //showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
 
-        setupMenu.add(pictureQualityMenu);
-        ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
-        for (PictureQualityEnum value : PictureQualityEnum.values()) {
-            PictureQualityRadioButtonMenuItem pictureQualityMenuItem = new PictureQualityRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getPictureQualityState());
-            pictureQualityButtonGroup.add(pictureQualityMenuItem);
-            pictureQualityMenu.add(pictureQualityMenuItem);
-        }
-        MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);
+        //setupMenu.add(pictureQualityMenu);
+        //ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
+        //for (PictureQualityEnum value : PictureQualityEnum.values()) {
+        //    PictureQualityRadioButtonMenuItem pictureQualityMenuItem = new PictureQualityRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getPictureQualityState());
+        //    pictureQualityButtonGroup.add(pictureQualityMenuItem);
+        //    pictureQualityMenu.add(pictureQualityMenuItem);
+        //}
+        //MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);
 
         setupMenu.add(chineseConverMenu);
         ButtonGroup chineseConverButtonGroup = new ButtonGroup();
