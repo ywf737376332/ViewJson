@@ -1,13 +1,10 @@
 package com.ywf.component.setting;
 
-import com.ywf.component.JSONRSyntaxTextArea;
-import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.ui.EditScrollPane;
-import com.ywf.framework.utils.ComponentUtils;
-import com.ywf.framework.utils.TreeBuilder;
+import com.ywf.component.TreeBuilder;
 
 import javax.swing.*;
 import java.awt.*;

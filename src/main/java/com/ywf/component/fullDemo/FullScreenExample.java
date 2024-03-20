@@ -7,7 +7,7 @@ package com.ywf.component.fullDemo;
  * @Date 2024/2/26 10:15
  */
 
-import com.ywf.framework.utils.TreeBuilder;
+import com.ywf.component.TreeBuilder;
 
 import javax.swing.*;
 import java.awt.*;
