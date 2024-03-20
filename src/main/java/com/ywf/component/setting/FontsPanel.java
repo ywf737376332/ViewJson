@@ -7,8 +7,12 @@ import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.enums.FontEnum;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -46,17 +50,17 @@ public class FontsPanel extends JPanel {
         frameFontPanel.setPreferredSize(new Dimension(462, 185));
         frameFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "界面字体设置"));
 
-        JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getName).toArray(String[]::new));
-        JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, "字体：", new Dimension(220, 140));
-        frameFontPanel.add(fontNameScrollPane, BorderLayout.WEST);
-
-        JList fontStyleList = createJList(Stream.of("常规", "粗体", "斜体").toArray(String[]::new));  //数据模型
-        JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, "字形：", new Dimension(100, 140));
-        frameFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
-
-        JList fontSizeList = createJList(Stream.of(FontEnum.Size.values()).map(name -> name.getSize()).toArray(Integer[]::new));  //数据模型
-        JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, "字号：", new Dimension(80, 140));
-        frameFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
+        //JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getName).toArray(String[]::new));
+        //JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, "字体：", new Dimension(220, 140));
+        //frameFontPanel.add(fontNameScrollPane, BorderLayout.WEST);
+        //
+        //JList fontStyleList = createJList(Stream.of("常规", "粗体", "斜体").toArray(String[]::new));  //数据模型
+        //JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, "字形：", new Dimension(100, 140));
+        //frameFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
+        //
+        //JList fontSizeList = createJList(Stream.of(FontEnum.Size.values()).map(name -> name.getSize()).toArray(Integer[]::new));  //数据模型
+        //JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, "字号：", new Dimension(80, 140));
+        //frameFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
         return frameFontPanel;
     }
 
@@ -70,17 +74,18 @@ public class FontsPanel extends JPanel {
         editorFontPanel.setPreferredSize(new Dimension(462, 185));
         editorFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "编辑器字体设置"));
 
-        JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getName).toArray(String[]::new));
+        //JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getName).toArray(String[]::new));
+        JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getMsgKey).collect(Collectors.toCollection(ArrayList::new)),Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getMsgKey).collect(Collectors.toCollection(ArrayList::new)));
         JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, "字体：", new Dimension(220, 140));
         editorFontPanel.add(fontNameScrollPane, BorderLayout.WEST);
 
-        JList fontStyleList = createJList((Stream.of("常规", "粗体", "斜体").toArray(String[]::new)));
-        JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, "字形：", new Dimension(100, 140));
-        editorFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
+        //JList fontStyleList = createJList((Stream.of("常规", "粗体", "斜体").toArray(String[]::new)));
+        //JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, "字形：", new Dimension(100, 140));
+        //editorFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
 
-        JList fontSizeList = createJList(Stream.of(FontEnum.Size.values()).map(name -> name.getSize()).toArray(Integer[]::new));
-        JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, "字号：", new Dimension(80, 140));
-        editorFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
+        //JList fontSizeList = createJList(Stream.of(FontEnum.Size.values()).map(name -> name.getSize()).toArray(Integer[]::new));
+        //JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, "字号：", new Dimension(80, 140));
+        //editorFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
 
         return editorFontPanel;
     }
@@ -105,11 +110,50 @@ public class FontsPanel extends JPanel {
         return viewFontPanel;
     }
 
-    private <E> JList createJList(final E items[]) {
+    /*private <E> JList createJList(final E items[]) {
         JList viewList = new JList();
         ListModel fontStyleListModel = new DefaultComboBoxModel(items);  //数据模型
         viewList.setModel(fontStyleListModel);
         return viewList;
+    }*/
+
+    private <E> JList createJList(final ArrayList<String> items,final ArrayList<String> values) {
+        JList viewList = new JList();
+        ListModel fontStyleListModel = new CustomListModel(items,values);  //数据模型
+        viewList.setModel(fontStyleListModel);
+        viewList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting()){
+                    System.out.println("当前值："+viewList.getSelectedValue());
+                }
+            }
+        });
+        return viewList;
     }
 
+}
+
+class CustomListModel extends AbstractListModel<String> {
+    private final ArrayList<String> displayValues;
+    private final ArrayList<String> actualValues;
+
+    public CustomListModel(ArrayList<String> displayValues, ArrayList<String> actualValues) {
+        this.displayValues = displayValues;
+        this.actualValues = actualValues;
+    }
+
+    @Override
+    public int getSize() {
+        return displayValues.size();
+    }
+
+    @Override
+    public String getElementAt(int index) {
+        return displayValues.get(index);
+    }
+
+    public String getActualValueAt(int index) {
+        return actualValues.get(index);
+    }
 }
