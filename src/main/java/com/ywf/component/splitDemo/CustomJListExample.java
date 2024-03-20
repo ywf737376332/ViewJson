@@ -25,11 +25,15 @@ public class CustomJListExample {
 
             CustomListModel model = new CustomListModel(displayValues, actualValues);
             JList<String> list = new JList<>(model);
+            // 添加选择监听器
             list.addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
-                    if (e.getValueIsAdjusting()){
-                        System.out.println("当前值："+list.getSelectedValue());
+                    if (!e.getValueIsAdjusting()) { // 忽略调整事件
+                        // 获取选中的值
+                        System.out.println(e.getValueIsAdjusting());
+                        String selectedValue = list.getSelectedValue();
+                        System.out.println("选中的值为：" + selectedValue);
                     }
                 }
             });
