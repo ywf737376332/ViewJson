@@ -87,7 +87,7 @@ public class SettingOptions extends JPanel {
         SwiftButton whitespaceBtn = new SwiftButton();
         whitespaceBtn.setStateListener(e -> MenuEventService.getInstance().showWhitespaceActionPerformed());
         settingPanel.add(createTitleAndDescPanelLayout("显示空格符：", "编辑器中显示空格符，以帮助您识别尾随空格", whitespaceBtn));
-        settingPanel.add(createTitleAndDescPanelLayout("显示分割符：", "编辑器中显示分割符位置", new ViewSlider(JSlider.HORIZONTAL, 0, 80, applicationContext.getMarginLine().getMarginWidth())));
+        settingPanel.add(createTitleAndDescPanelLayout("显示分割线：", "调节编辑器中分割线位置", new ViewSlider(JSlider.HORIZONTAL, 0, 80, applicationContext.getMarginLine().getMarginWidth())));
         return settingPanel;
     }
 
