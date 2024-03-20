@@ -1,10 +1,14 @@
 package com.ywf.component.setting;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.ywf.action.MenuEventService;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.base.ThemeColor;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.enums.SystemThemesEnum;
+import com.ywf.framework.utils.ObjectUtils;
+import com.ywf.framework.utils.WindowUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +38,7 @@ public class ThemesPanel extends JPanel {
             buttonGroup.add(radioButton);
             add(radioButton);
         }
+        MenuEventService.getInstance().setupThemesActionPerformed(ObjectUtils.getBean(GlobalKEY.MAIN_FRAME), buttonGroup);
     }
 
     /**

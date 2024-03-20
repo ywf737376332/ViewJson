@@ -1,17 +1,17 @@
 package com.ywf.component.setting;
 
 import com.formdev.flatlaf.extras.components.FlatLabel;
+import com.ywf.action.ResourceBundleService;
 import com.ywf.component.ScrollPaneBuilder;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.enums.FontEnum;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,6 +23,8 @@ import java.util.stream.Stream;
  */
 public class FontsPanel extends JPanel {
 
+    private static ResourceBundle resourceBundle;
+
     public FontsPanel() {
         super();
         //setBackground(Color.GRAY);
@@ -32,6 +34,7 @@ public class FontsPanel extends JPanel {
     }
 
     private void init() {
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         JPanel frameFontPanel = createFrameFontPanel();
         JPanel editorFontPanel = createEditorFontPanel();
         JPanel viewFontPanel = createViewFontPanel();
@@ -51,16 +54,17 @@ public class FontsPanel extends JPanel {
         frameFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "界面字体设置"));
 
         //JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getName).toArray(String[]::new));
-        //JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, "字体：", new Dimension(220, 140));
-        //frameFontPanel.add(fontNameScrollPane, BorderLayout.WEST);
-        //
-        //JList fontStyleList = createJList(Stream.of("常规", "粗体", "斜体").toArray(String[]::new));  //数据模型
-        //JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, "字形：", new Dimension(100, 140));
-        //frameFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
-        //
-        //JList fontSizeList = createJList(Stream.of(FontEnum.Size.values()).map(name -> name.getSize()).toArray(Integer[]::new));  //数据模型
-        //JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, "字号：", new Dimension(80, 140));
-        //frameFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
+        JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getMsgKey).collect(Collectors.toCollection(ArrayList::new)),Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getName).collect(Collectors.toCollection(ArrayList::new)));
+        JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, "字体：", new Dimension(220, 140));
+        frameFontPanel.add(fontNameScrollPane, BorderLayout.WEST);
+
+        JList fontStyleList = createJList(Stream.of("常规", "粗体", "斜体").toArray(String[]::new));  //数据模型
+        JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, "字形：", new Dimension(100, 140));
+        frameFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
+
+        JList fontSizeList = createJList(Stream.of(FontEnum.Size.values()).map(name -> name.getSize()).toArray(Integer[]::new));  //数据模型
+        JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, "字号：", new Dimension(80, 140));
+        frameFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
         return frameFontPanel;
     }
 
@@ -75,17 +79,17 @@ public class FontsPanel extends JPanel {
         editorFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "编辑器字体设置"));
 
         //JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getName).toArray(String[]::new));
-        JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getMsgKey).collect(Collectors.toCollection(ArrayList::new)),Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getMsgKey).collect(Collectors.toCollection(ArrayList::new)));
+        JList fontNameList = createJList(Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getMsgKey).limit(3).collect(Collectors.toCollection(ArrayList::new)),Arrays.stream(FontEnum.Name.values()).map(FontEnum.Name::getName).collect(Collectors.toCollection(ArrayList::new)));
         JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, "字体：", new Dimension(220, 140));
         editorFontPanel.add(fontNameScrollPane, BorderLayout.WEST);
 
-        //JList fontStyleList = createJList((Stream.of("常规", "粗体", "斜体").toArray(String[]::new)));
-        //JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, "字形：", new Dimension(100, 140));
-        //editorFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
+        JList fontStyleList = createJList((Stream.of("常规", "粗体", "斜体").toArray(String[]::new)));
+        JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, "字形：", new Dimension(100, 140));
+        editorFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
 
-        //JList fontSizeList = createJList(Stream.of(FontEnum.Size.values()).map(name -> name.getSize()).toArray(Integer[]::new));
-        //JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, "字号：", new Dimension(80, 140));
-        //editorFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
+        JList fontSizeList = createJList(Stream.of(FontEnum.Size.values()).map(name -> name.getSize()).limit(3).toArray(Integer[]::new));
+        JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, "字号：", new Dimension(80, 140));
+        editorFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
 
         return editorFontPanel;
     }
@@ -110,50 +114,69 @@ public class FontsPanel extends JPanel {
         return viewFontPanel;
     }
 
-    /*private <E> JList createJList(final E items[]) {
+    private <E> JList createJList(final E items[]) {
         JList viewList = new JList();
         ListModel fontStyleListModel = new DefaultComboBoxModel(items);  //数据模型
         viewList.setModel(fontStyleListModel);
-        return viewList;
-    }*/
-
-    private <E> JList createJList(final ArrayList<String> items,final ArrayList<String> values) {
-        JList viewList = new JList();
-        ListModel fontStyleListModel = new CustomListModel(items,values);  //数据模型
-        viewList.setModel(fontStyleListModel);
-        viewList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (e.getValueIsAdjusting()){
-                    System.out.println("当前值："+viewList.getSelectedValue());
-                }
+        viewList.addListSelectionListener(e -> {
+            if (e.getValueIsAdjusting()){
+                System.out.println("当前实际值："+FontEnum.Name.getFontNameByKey((String) viewList.getSelectedValue()));
             }
         });
         return viewList;
     }
 
-}
-
-class CustomListModel extends AbstractListModel<String> {
-    private final ArrayList<String> displayValues;
-    private final ArrayList<String> actualValues;
-
-    public CustomListModel(ArrayList<String> displayValues, ArrayList<String> actualValues) {
-        this.displayValues = displayValues;
-        this.actualValues = actualValues;
+    private <E> JList createJList(final ArrayList<String> items,final ArrayList<String> values) {
+        JList viewList = new JList();
+        FontListModel fontStyleListModel = new FontListModel(items,values);  //数据模型
+        viewList.setModel(fontStyleListModel);
+        viewList.setCellRenderer(new ViewListRenderer());
+        viewList.addListSelectionListener(e -> {
+            if (e.getValueIsAdjusting()){
+                System.out.println("当前实际值："+fontStyleListModel.getValueAt(viewList.getSelectedIndex()));
+            }
+        });
+        return viewList;
     }
 
+    public static String getMessage(Object keyRoot) {
+        return resourceBundle.getString(keyRoot + ".Name");
+    }
+
+}
+
+/**
+ * JList数据模型
+ */
+class FontListModel extends AbstractListModel<String> {
+    private final ArrayList<String> names;
+    private final ArrayList<String> values;
+
+    public FontListModel(ArrayList<String> names, ArrayList<String> values) {
+        this.names = names;
+        this.values = values;
+    }
     @Override
     public int getSize() {
-        return displayValues.size();
+        return names.size();
     }
 
     @Override
     public String getElementAt(int index) {
-        return displayValues.get(index);
+        return names.get(index);
     }
 
-    public String getActualValueAt(int index) {
-        return actualValues.get(index);
+    public String getValueAt(int index) {
+        return values.get(index);
+    }
+}
+
+/**
+ * 显示值的处理
+ */
+class ViewListRenderer extends DefaultListCellRenderer {
+    @Override
+    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        return super.getListCellRendererComponent(list, FontsPanel.getMessage(value), index, isSelected, cellHasFocus);
     }
 }

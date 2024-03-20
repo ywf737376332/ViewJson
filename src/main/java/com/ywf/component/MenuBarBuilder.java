@@ -198,17 +198,17 @@ public class MenuBarBuilder {
         showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());
         facadeMenu.add(showMenuBarMenuItem = createCheckBoxMenu(showMenuBarAction));
         showMenuBarMenuItem.setSelected(applicationContext.getShowMenuBarState());
-        facadeMenu.add(showToolBarTextMenuItem = createCheckBoxMenu(showToolBarTextAction));
-        showToolBarTextMenuItem.setSelected(applicationContext.getShowToolBarText());
+        //facadeMenu.add(showToolBarTextMenuItem = createCheckBoxMenu(showToolBarTextAction));
+        //showToolBarTextMenuItem.setSelected(applicationContext.getShowToolBarText());
 
-        setupMenu.add(languageMenu);
+        /*setupMenu.add(languageMenu);
         ButtonGroup languageButtonGroup = new ButtonGroup();
         for (LanguageEnum value : LanguageEnum.values()) {
             LanguageRadioButtonMenuItem languageRadioMenuitem = new LanguageRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getLanguage() + "_" + value.getCountry());
             languageButtonGroup.add(languageRadioMenuitem);
             languageMenu.add(languageRadioMenuitem);
         }
-        MenuEventService.getInstance().setupLanguageActionPerformed(frame, languageMenu);
+        MenuEventService.getInstance().setupLanguageActionPerformed(frame, languageMenu);*/
 
         //setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
         //editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
@@ -238,14 +238,14 @@ public class MenuBarBuilder {
         /**
          * 主题
          */
-        menuBar.add(themesMenu);
-        ButtonGroup buttonGroupThemes = new ButtonGroup();
+        //menuBar.add(themesMenu);
+        /*ButtonGroup buttonGroupThemes = new ButtonGroup();
         for (SystemThemesEnum value : SystemThemesEnum.values()) {
             JRadioButtonMenuItem themeRadioButtonMenuItem = new JRadioButtonMenuItem(value.getThemesKey());
             buttonGroupThemes.add(themeRadioButtonMenuItem);
             themesMenu.add(themeRadioButtonMenuItem);
         }
-        MenuEventService.getInstance().setupThemesActionPerformed(frame, themesMenu);
+        MenuEventService.getInstance().setupThemesActionPerformed(frame, themesMenu);*/
 
         menuBar.add(helpMenu);
         helpMenu.add(updateVersionLogMenuItem = createMenuItem(updateVersionLogAction));

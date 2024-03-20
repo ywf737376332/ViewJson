@@ -1,6 +1,10 @@
 package com.ywf.component;
 
+import com.ywf.framework.ui.ArrowButtonlessScrollBarUI;
+import com.ywf.framework.ui.EditScrollPane;
+
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * 系统设置选项卡
@@ -13,6 +17,16 @@ public class SettingTabbedPane extends JTabbedPane {
 
     public SettingTabbedPane() {
         super();
+        this.addChangeListener(e -> {
+            Component[] components = getComponents();
+            for (Component component : components) {
+                if (component instanceof JScrollPane) {
+                    EditScrollPane scrollPane = (EditScrollPane) component;
+                    scrollPane.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+                    scrollPane.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+                }
+            }
+        });
     }
 
     @Override
@@ -23,5 +37,6 @@ public class SettingTabbedPane extends JTabbedPane {
         setTabPlacement(SwingConstants.LEFT);
         setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
+
 
 }

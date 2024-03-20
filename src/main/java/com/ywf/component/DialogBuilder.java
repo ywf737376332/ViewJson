@@ -138,7 +138,7 @@ public class DialogBuilder {
         toolBatPanel.add(new DButton("确定"));
         toolBatPanel.add(new DButton("取消"));
         toolBatPanel.add(new DButton("应用"));
-        dialog.add(toolBatPanel, BorderLayout.SOUTH);
+        //dialog.add(toolBatPanel, BorderLayout.SOUTH);
         return dialog;
     }
 

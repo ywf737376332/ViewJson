@@ -1,10 +1,10 @@
 package com.ywf.component.setting;
 
+import com.ywf.component.TreeBuilder;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.ui.EditScrollPane;
-import com.ywf.component.TreeBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,8 +32,8 @@ public class DefaultSettingPanel extends JPanel {
     private void init() {
         SwingUtilities.invokeLater(() -> {
             JTree tree = TreeBuilder.getInstance().initTree(readeFile().toString());
-            EditScrollPane scrollPane = new EditScrollPane(tree);
-            scrollPane.setBorder(BorderBuilder.border(1,ThemeColor.themeColor));
+            JScrollPane scrollPane = new EditScrollPane(tree);
+            scrollPane.setBorder(BorderBuilder.border(1, ThemeColor.themeColor));
             scrollPane.setFocusable(false);
             add(scrollPane, BorderLayout.CENTER);
             tree.setBorder(BorderBuilder.emptyBorder(5));

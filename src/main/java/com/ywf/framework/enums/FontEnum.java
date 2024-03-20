@@ -24,6 +24,15 @@ public class FontEnum {
             this.name = name;
         }
 
+        public static String getFontNameByKey(String msgKey) {
+            for (Name value : Name.values()) {
+                if (msgKey.equalsIgnoreCase(value.msgKey)){
+                    return value.name;
+                }
+            }
+            return null;
+        }
+
         public String getMsgKey() {
             return msgKey;
         }

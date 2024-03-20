@@ -51,7 +51,13 @@ public class SettingOptions extends JPanel {
         JPanel editorSetting = createEditorSettingPanel();
         JPanel pictureQualitySetting = createPictureQualitySettingPanel();
         JPanel chineseConverSetting = createChineseConverSettingPanel();
-        JPanel logViewPanel = createLogViewPanel("日志查看", "打开当前系统运行的日志文件");
+        SwiftButton showToolBarTextBtn = new SwiftButton();
+        showToolBarTextBtn.setSelected(applicationContext.getShowToolBarText());
+        showToolBarTextBtn.setStateListener(source -> MenuEventService.getInstance().showToolBarTextActionPerformed(WindowUtils.getFrame()));
+        JPanel toolBarTextPanel = createBorderTitleAndDescPanelLayout("工具栏","工具栏名称", "是否显示工具栏名称",showToolBarTextBtn);
+        JSONButton logButton = new JSONButton("查看日志");
+        logButton.addActionListener(e -> MenuEventService.getInstance().opneLogFileActionPerformed());
+        JPanel logViewPanel = createBorderTitleAndDescPanelLayout("","日志查看", "打开当前系统运行的日志文件",logButton);
         // 创建一个 垂直方向胶状 的不可见组件，用于撑满垂直方向剩余的空间（如果有多个该组件，则平分剩余空间）
         Dimension viewSize = new Dimension(450, 20);
         vBox.add(languageSetting);
@@ -61,6 +67,8 @@ public class SettingOptions extends JPanel {
         vBox.add(pictureQualitySetting);
         vBox.add(Box.createRigidArea(viewSize));
         vBox.add(chineseConverSetting);
+        vBox.add(Box.createRigidArea(viewSize));
+        vBox.add(toolBarTextPanel);
         vBox.add(Box.createRigidArea(viewSize));
         vBox.add(logViewPanel);
         this.add(vBox);
@@ -93,9 +101,9 @@ public class SettingOptions extends JPanel {
         JPanel settingPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         settingPanel.setBorder(BorderFactory.createTitledBorder("编辑器"));
         SwiftButton isEditableBtn = new SwiftButton();
-        isEditableBtn.setSelected(applicationContext.getTextAreaEditState());
+        isEditableBtn.setSelected(!applicationContext.getTextAreaEditState());
         isEditableBtn.setStateListener(source -> MenuEventService.getInstance().editSwitchActionPerformed());
-        settingPanel.add(createTitleAndDescPanelLayout("是否可编辑：", "编辑器是否可开启编辑功能", isEditableBtn));
+        settingPanel.add(createTitleAndDescPanelLayout("锁定编辑：", "编辑器是否开启编辑功能", isEditableBtn));
         SwiftButton lineWrapBtn = new SwiftButton();
         lineWrapBtn.setSelected(applicationContext.getTextAreaBreakLineState());
         lineWrapBtn.setStateListener(source -> MenuEventService.getInstance().lineSetupActionPerformed());
@@ -182,17 +190,17 @@ public class SettingOptions extends JPanel {
         return main;
     }
 
-    private JPanel createLogViewPanel(String title, String description) {
+    private JPanel createBorderTitleAndDescPanelLayout(String borderTitle,String title, String description, Component component) {
         JPanel root = new JPanel();
-        root.setBorder(BorderFactory.createTitledBorder("日志"));
+        root.setBorder(BorderFactory.createTitledBorder(borderTitle));
         JPanel main = new JPanel(new BorderLayout());
-        main.setBorder(BorderBuilder.emptyBorder(10, 20, 10, 20));
+        main.setBorder(BorderBuilder.emptyBorder(10, 10, 10, 10));
         main.setPreferredSize(new Dimension(400, 70));
         // 左侧两行两个元素的面板
         JPanel left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
         FlatLabel titleLabel = new FlatLabel();
-        titleLabel.setText("<html><span style=\"float:right\"><b>" + title + "</b></span></html>");
+        titleLabel.setText("<html><span style=\"float:right\">" + title + "</span></html>");
         left.add(titleLabel);
         left.add(Box.createVerticalStrut(10)); // 添加间距
         FlatLabel descLabel = new FlatLabel();
@@ -202,9 +210,7 @@ public class SettingOptions extends JPanel {
         // 右侧一行一个元素的面板
         JPanel right = new JPanel();
         right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
-        JSONButton logButton = new JSONButton("查看日志");
-        logButton.addActionListener(e -> MenuEventService.getInstance().opneLogFileActionPerformed());
-        right.add(logButton);
+        right.add(component);
         right.add(Box.createVerticalStrut(10));
         main.add(right, BorderLayout.EAST);
         root.add(main, BorderLayout.CENTER);

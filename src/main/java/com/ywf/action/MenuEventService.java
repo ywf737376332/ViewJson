@@ -334,6 +334,27 @@ public class MenuEventService {
         }
     }
 
+    public void setupThemesActionPerformed(JFrame frame, ButtonGroup buttonGroup) {
+        // 主题按钮选中
+        SystemThemesEnum themesCss = SystemThemesEnum.findThemesBykey(applicationContext.getLastSystemThemes());
+        Enumeration<AbstractButton> elements = buttonGroup.getElements();
+        while (elements.hasMoreElements()) {
+            JRadioButton radioButton = (JRadioButton) elements.nextElement();
+            if (themesCss.getThemesKey().equals(radioButton.getText())) {
+                radioButton.setSelected(true);
+            }
+            radioButton.addActionListener(e -> {
+                SwingUtilities.invokeLater(() -> {
+                    String name = radioButton.getText();
+                    SystemThemesEnum themesStyles = SystemThemesEnum.findThemesBykey(name);
+                    ChangeUIUtils.changeUIStyle(frame, themesStyles);
+                    // 保存上一次选定的主题
+                    applicationContext.setLastSystemThemes(themesStyles.getThemesKey());
+                });
+            });
+        }
+    }
+
     /**
      * 对多文本框进行是否可编辑设置
      *
