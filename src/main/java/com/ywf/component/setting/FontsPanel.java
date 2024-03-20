@@ -92,7 +92,7 @@ public class FontsPanel extends JPanel {
      */
     private JPanel createViewFontPanel() {
         JPanel viewFontPanel = new JPanel(new GridLayout(2, 1, 10, 10));
-        viewFontPanel.setPreferredSize(new Dimension(462, 60));
+        viewFontPanel.setPreferredSize(new Dimension(462, 100));
         viewFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "字体预览"));
         FlatLabel viewFontLabel1 = new FlatLabel();
         viewFontLabel1.setText("abcdefghijklmn ABCDEFGHIJKLMN 0123456789 (){}[]");

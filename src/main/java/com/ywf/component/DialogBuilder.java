@@ -1,5 +1,6 @@
 package com.ywf.component;
 
+import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.base.ThemeColor;
 
@@ -49,6 +50,10 @@ public class DialogBuilder {
 
     public static JDialog showDialog(JFrame parentFrame, String title, Component component, int timeout) {
         return createTimeDialog(parentFrame, title, component, timeout);
+    }
+
+    public static JDialog showBoolBarDialog(JFrame parentFrame, String title, Component component) {
+        return createBoolBarDialog(parentFrame, title, component);
     }
 
     public static JDialog showMoadlDialog(JFrame parentFrame, boolean hasModalColor, int width, int height) {
@@ -108,6 +113,35 @@ public class DialogBuilder {
         return dialog;
     }
 
+    /**
+     * 带工具栏的对话框框
+     *
+     * @param parentFrame
+     * @param title
+     * @param component
+     * @return
+     */
+    private static JDialog createBoolBarDialog(JFrame parentFrame, String title, Component component) {
+        final JDialog dialog = new JDialog(parentFrame, title, true);
+        dialog.setLayout(new BorderLayout());
+        // 设置标签的首选大小为图片的大小
+        dialog.setTitle("<html><span><b>" + title + "</b></span></html>");
+        dialog.setSize(component.getWidth() + 25, component.getHeight() + 60);
+        dialog.setMinimumSize(new Dimension(620, 500));
+        dialog.add(component);
+        dialog.setLocationRelativeTo(parentFrame);
+        dialog.setResizable(true);
+        dialog.add(component, BorderLayout.CENTER);
+        JPanel toolBatPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 5));
+        toolBatPanel.setBorder(BorderBuilder.topBorder(1, ThemeColor.themeColor));
+        toolBatPanel.setPreferredSize(new Dimension(component.getWidth() + 25, 45));
+        toolBatPanel.add(new DButton("确定"));
+        toolBatPanel.add(new DButton("取消"));
+        toolBatPanel.add(new DButton("应用"));
+        dialog.add(toolBatPanel, BorderLayout.SOUTH);
+        return dialog;
+    }
+
     private static JDialog createModalDialog(JFrame frame, boolean hasModalColor, int width, int height) {
         int radius = 20;
         JDialog dialog = new JDialog(frame, Dialog.ModalityType.APPLICATION_MODAL);
@@ -128,6 +162,26 @@ public class DialogBuilder {
         Color color = hasModalColor ? ThemeColor.loadingModalColor : ThemeColor.noColor;
         dialog.setBackground(color);
         return dialog;
+    }
+
+}
+
+class DButton extends JButton {
+
+
+    public DButton(String text) {
+        super("<html><span style=\"font-size:12px\">" + text + "</span></html>");
+    }
+
+    @Override
+    public void setPreferredSize(Dimension preferredSize) {
+        preferredSize.setSize(preferredSize.width, preferredSize.height);
+        super.setPreferredSize(preferredSize);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(90, super.getPreferredSize().height);
     }
 
 }
