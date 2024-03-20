@@ -32,6 +32,8 @@ public class CustomJListExample {
                     if (!e.getValueIsAdjusting()) { // 忽略调整事件
                         // 获取选中的值
                         System.out.println(e.getValueIsAdjusting());
+                        CustomListModel modao  = (CustomListModel)list.getModel();
+                        System.out.println(modao.getActualValueAt(list.getSelectedIndex()));
                         String selectedValue = list.getSelectedValue();
                         System.out.println("选中的值为：" + selectedValue);
                     }
