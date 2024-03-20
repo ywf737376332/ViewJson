@@ -174,12 +174,6 @@ class DButton extends JButton {
     }
 
     @Override
-    public void setPreferredSize(Dimension preferredSize) {
-        preferredSize.setSize(preferredSize.width, preferredSize.height);
-        super.setPreferredSize(preferredSize);
-    }
-
-    @Override
     public Dimension getPreferredSize() {
         return new Dimension(90, super.getPreferredSize().height);
     }
