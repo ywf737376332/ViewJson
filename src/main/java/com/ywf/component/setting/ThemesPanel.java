@@ -4,11 +4,11 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.base.ThemeColor;
+import com.ywf.framework.enums.SystemThemesEnum;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Path2D;
-import java.util.stream.Stream;
 
 /**
  * 主题设置面板UI
@@ -21,41 +21,19 @@ public class ThemesPanel extends JPanel {
     public ThemesPanel() {
         super();
         init();
-        setPreferredSize(new Dimension(400, 320));
-        setBorder(BorderBuilder.emptyBorder(0,20,20,20));
-        setLayout(new GridLayout(3, 4));
+        setPreferredSize(new Dimension(400, 200));
+        setBorder(BorderBuilder.emptyBorder(0, 20, 80, 20));
+        setLayout(new GridLayout(3, 4, 0, 0));
     }
 
     private void init() {
-        JRadioButton r1 = makeRadioButton("FlatLaf Light", getThemeIcon(SvgIconFactory.ThemesIcon.flatLafLightTheme));
-        r1.setSelectedIcon(new SelectedIcon(r1.getIcon(), ThemeColor.authorColor));
-
-        JRadioButton r2 = makeRadioButton("Arc Light Orange", getThemeIcon(SvgIconFactory.ThemesIcon.arcLightOrange));
-        r2.setSelectedIcon(new SelectedIcon(r2.getIcon(), ThemeColor.authorColor));
-
-        JRadioButton r3 = makeRadioButton("Solarized Light", getThemeIcon(SvgIconFactory.ThemesIcon.solarizedLight));
-        r3.setSelectedIcon(new SelectedIcon(r3.getIcon(), ThemeColor.authorColor));
-
-        JRadioButton r4 = makeRadioButton("Arc Dark Orange", getThemeIcon(SvgIconFactory.ThemesIcon.arcDarkOrange));
-        r4.setSelectedIcon(new SelectedIcon(r4.getIcon(), ThemeColor.authorColor));
-
-        JRadioButton r5 = makeRadioButton("Gruvbox Dark Medium", getThemeIcon(SvgIconFactory.ThemesIcon.gruvboxDarkMedium));
-        r5.setSelectedIcon(new SelectedIcon(r5.getIcon(), ThemeColor.authorColor));
-
-        JRadioButton r6 = makeRadioButton("Material Darker", getThemeIcon(SvgIconFactory.ThemesIcon.materialDarker));
-        r6.setSelectedIcon(new SelectedIcon(r6.getIcon(), ThemeColor.authorColor));
-
-        JRadioButton r7 = makeRadioButton("Material Deep Ocean", getThemeIcon(SvgIconFactory.ThemesIcon.materialDeepOcean));
-        r7.setSelectedIcon(new SelectedIcon(r7.getIcon(), ThemeColor.authorColor));
-
-        JRadioButton r8 = makeRadioButton("Night Owl", getThemeIcon(SvgIconFactory.ThemesIcon.nightOwl));
-        r8.setSelectedIcon(new SelectedIcon(r8.getIcon(), ThemeColor.authorColor));
-
         ButtonGroup buttonGroup = new ButtonGroup();
-        Stream.of(r1, r2, r3, r4, r5, r6, r7, r8).forEach(r -> {
-            buttonGroup.add(r);
-            add(r);
-        });
+        for (SystemThemesEnum themesEnum : SystemThemesEnum.values()) {
+            JRadioButton radioButton = makeRadioButton(themesEnum.getThemesKey(), getThemeIcon(themesEnum.getThemesIcon()));
+            radioButton.setSelectedIcon(new SelectedIcon(radioButton.getIcon(), ThemeColor.authorColor));
+            buttonGroup.add(radioButton);
+            add(radioButton);
+        }
     }
 
     /**

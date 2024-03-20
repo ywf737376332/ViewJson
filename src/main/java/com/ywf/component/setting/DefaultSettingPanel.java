@@ -1,10 +1,10 @@
 package com.ywf.component.setting;
 
-import com.ywf.component.JSONRSyntaxTextArea;
-import com.ywf.component.TextAreaBuilder;
 import com.ywf.framework.base.BorderBuilder;
+import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.init.SysConfigInit;
-import com.ywf.framework.utils.ComponentUtils;
+import com.ywf.framework.ui.EditScrollPane;
+import com.ywf.component.TreeBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * 日志展示面板
+ * 配置展示面板
  *
  * @Author YWF
  * @Date 2024/3/18 22:00
@@ -25,16 +25,19 @@ public class DefaultSettingPanel extends JPanel {
         super();
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(400, 300));
-        setBorder(BorderBuilder.emptyBorder(0,20,20,20));
+        setBorder(BorderBuilder.emptyBorder(0, 20, 20, 20));
         init();
     }
 
-    private void init(){
-        JScrollPane scrollPane = TextAreaBuilder.createJsonScrollTextArea();
-        JSONRSyntaxTextArea syntaxTextArea = ComponentUtils.convertEditor(scrollPane);
-        syntaxTextArea.setText(readeFile().toString());
-        syntaxTextArea.setEnabled(false);
-        add(scrollPane, BorderLayout.CENTER);
+    private void init() {
+        SwingUtilities.invokeLater(() -> {
+            JTree tree = TreeBuilder.getInstance().initTree(readeFile().toString());
+            EditScrollPane scrollPane = new EditScrollPane(tree);
+            scrollPane.setBorder(BorderBuilder.border(1,ThemeColor.themeColor));
+            scrollPane.setFocusable(false);
+            add(scrollPane, BorderLayout.CENTER);
+            tree.setBorder(BorderBuilder.emptyBorder(5));
+        });
     }
 
     private StringBuilder readeFile() {

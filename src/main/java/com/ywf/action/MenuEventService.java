@@ -707,7 +707,7 @@ public class MenuEventService {
      */
     public void systemSetupActionPerformed() {
         SettingTabbedPane tabbedPane = SystemSetupPanelBuilder.createSystemSetupPanel();
-        DialogBuilder.showDialog(WindowUtils.getFrame(), "系统设置菜单", tabbedPane, 100).setVisible(true);
+        DialogBuilder.showBoolBarDialog(WindowUtils.getFrame(), "系统设置菜单", tabbedPane).setVisible(true);
     }
 
     /**
