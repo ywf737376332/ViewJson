@@ -6,9 +6,15 @@ package com.ywf.component.fullDemo;
  * @Author YWF
  * @Date 2024/2/26 10:15
  */
+
+import com.ywf.framework.utils.TreeBuilder;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FullScreenExample {
 
@@ -16,6 +22,7 @@ public class FullScreenExample {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Full Screen Example");
+        frame.add(TreeBuilder.getInstance().initTree("{\"textAreaEditState\":true,\"marginLine\":{\"showMarginLine\":false,\"marginWidth\":0},\"fontStyle\":{\"name\":\"微软雅黑\",\"size\":16,\"editorFontStyle\":{\"name\":\"JetBrainsMono\",\"size\":16.0}}}"), BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(800, 600));
         frame.setLocationRelativeTo(null);
