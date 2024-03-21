@@ -43,8 +43,10 @@ public class FrameFontsPanel extends JPanel {
         resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         JPanel frameFontPanel = createFrameFontPanel();
         JPanel viewFontPanel = createViewFontPanel();
-        this.add(frameFontPanel, BorderLayout.CENTER);
-        this.add(viewFontPanel, BorderLayout.SOUTH);
+        JPanel editorFontPanel = createEditorFontPanel();
+        this.add(frameFontPanel, BorderLayout.NORTH);
+        this.add(viewFontPanel, BorderLayout.CENTER);
+        this.add(editorFontPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -54,7 +56,7 @@ public class FrameFontsPanel extends JPanel {
      */
     private JPanel createFrameFontPanel() {
         JPanel frameFontPanel = new JPanel(new BorderLayout(10, 20));
-        frameFontPanel.setPreferredSize(new Dimension(450, 340));
+        frameFontPanel.setPreferredSize(new Dimension(450, 280));
         frameFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "界面字体设置"));
 
         ArrayList<ModelEntity> fontNameModelList = Arrays.stream(FontEnum.Name.values()).map((FontEnum.Name fontName) -> new ModelEntity(fontName.getMsgKey(), fontName.getName())).collect(Collectors.toCollection(ArrayList::new));
@@ -91,6 +93,15 @@ public class FrameFontsPanel extends JPanel {
         viewFontLabel2.setBorder(BorderBuilder.emptyBorder(10));
         viewFontPanel.add(viewFontLabel1);
         viewFontPanel.add(viewFontLabel2);
+        return viewFontPanel;
+    }
+
+    private JPanel createEditorFontPanel() {
+        JPanel viewFontPanel = new JPanel(new GridLayout(1, 1, 10, 10));
+        viewFontPanel.setPreferredSize(new Dimension(450, 120));
+        viewFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "编辑框字体大小调整"));
+        EditorFontSlider editorFontSlider = new EditorFontSlider(JSlider.HORIZONTAL, 10, 30, ConvertUtils.toInt(applicationContext.getEditorFontStyle().getSize()));
+        viewFontPanel.add(editorFontSlider);
         return viewFontPanel;
     }
 
@@ -142,4 +153,17 @@ public class FrameFontsPanel extends JPanel {
         return resourceBundle.getString(keyRoot + ".Name");
     }
 
+}
+
+class EditorFontSlider extends JSlider {
+    public EditorFontSlider(int orientation, int min, int max, int value) {
+        super(orientation, min, max, value);
+        setMajorTickSpacing(2); // 设置主刻度间隔
+        setMinorTickSpacing(1); // 设置次刻度间隔
+        setPaintTicks(true); // 显示刻度
+        setPaintLabels(true); // 显示刻度标签
+        //setFont(new Font(FontEnum.Name.MicYaHei.getName(), Font.PLAIN, FontEnum.Size.mini.getSize()));
+        setPreferredSize(new Dimension(400, 200));
+        addChangeListener(e -> MenuEventService.getInstance().updateEditorFontSizeActionPerformed(e));
+    }
 }

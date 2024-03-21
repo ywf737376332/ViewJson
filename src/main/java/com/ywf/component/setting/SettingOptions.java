@@ -236,5 +236,4 @@ class ViewSlider extends JSlider {
         setPreferredSize(new Dimension(200, 60));
         addChangeListener(e -> MenuEventService.getInstance().updateEditorMarginLineWidth(e));
     }
-
 }

@@ -42,6 +42,7 @@ public final class ScrollPaneBuilder {
         scrollPane.setBorder(BorderBuilder.emptyBorder(5));
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        // 缓存滚动条对象
         return scrollPane;
     }
 

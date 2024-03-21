@@ -5,7 +5,7 @@ import com.ywf.action.ResourceBundleService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.MenuAction;
 import com.ywf.framework.config.MenuBarKit;
-import com.ywf.framework.enums.*;
+import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -210,21 +210,21 @@ public class MenuBarBuilder {
         }
         MenuEventService.getInstance().setupLanguageActionPerformed(frame, languageMenu);*/
 
-        //setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
-        //editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
-        //setupMenu.add(lineSetupMenuItem = createCheckBoxMenu(lineSetupAction));
-        //lineSetupMenuItem.setSelected(applicationContext.getTextAreaBreakLineState());
+        setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
+        editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
+        setupMenu.add(lineSetupMenuItem = createCheckBoxMenu(lineSetupAction));
+        lineSetupMenuItem.setSelected(applicationContext.getTextAreaBreakLineState());
         //setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
         //showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
 
-        //setupMenu.add(pictureQualityMenu);
-        //ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
-        //for (PictureQualityEnum value : PictureQualityEnum.values()) {
-        //    PictureQualityRadioButtonMenuItem pictureQualityMenuItem = new PictureQualityRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getPictureQualityState());
-        //    pictureQualityButtonGroup.add(pictureQualityMenuItem);
-        //    pictureQualityMenu.add(pictureQualityMenuItem);
-        //}
-        //MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);
+        /*setupMenu.add(pictureQualityMenu);
+        ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
+        for (PictureQualityEnum value : PictureQualityEnum.values()) {
+            PictureQualityRadioButtonMenuItem pictureQualityMenuItem = new PictureQualityRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getPictureQualityState());
+            pictureQualityButtonGroup.add(pictureQualityMenuItem);
+            pictureQualityMenu.add(pictureQualityMenuItem);
+        }
+        MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);*/
 
         setupMenu.add(chineseConverMenu);
         ButtonGroup chineseConverButtonGroup = new ButtonGroup();
@@ -250,10 +250,8 @@ public class MenuBarBuilder {
         menuBar.add(helpMenu);
         helpMenu.add(updateVersionLogMenuItem = createMenuItem(updateVersionLogAction));
         helpMenu.add(privacyPolicyMenuItem = createMenuItem(privacyPolicyAction));
-        //privacyPolicyMenuItem.setEnabled(false);
         helpMenu.add(officialWebsiteMenuItem = createMenuItem(officialWebsiteAction));
         helpMenu.add(expressThanksMenuItem = createMenuItem(expressThanksAction));
-        //expressThanksMenuItem.setEnabled(false);
         helpMenu.add(aboutMenuItem = createMenuItem(aboutAction));
         menuBar.setVisible(applicationContext.getShowMenuBarState());
         return menuBar;

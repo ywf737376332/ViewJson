@@ -18,7 +18,7 @@ public class EditScrollPane extends JScrollPane {
     @Override
     public void updateUI() {
         super.updateUI();
-        getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
-        getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+        this.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+        this.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
     }
 }

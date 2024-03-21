@@ -42,8 +42,6 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.ywf.framework.enums.FontEnum.Type.FONT_NAME;
-
 
 /**
  * 菜单事件
@@ -708,7 +706,6 @@ public class MenuEventService {
         String fontNameNew = fontName == null ? fontConfigStyle.getName() : fontName;
         int fontStyleNew = fontStyle == null ? fontConfigStyle.getStyle() : fontStyle;
         float fontSizeNew = fontSize == null ? fontConfigStyle.getSize() : fontSize;
-        System.out.println("当前编辑器字体：" + new Font(fontNameNew, fontStyleNew, 16));
         ChangeUIUtils.setTextEditorFont(new Font(fontNameNew, fontStyleNew, 16));
         ConfigurableApplicationContext.EditorFontStyle fontConfigStyleNew = applicationContext.getEditorFontStyle();
         fontConfigStyleNew.setName(fontNameNew);
@@ -863,5 +860,20 @@ public class MenuEventService {
                 }
             }
         });
+    }
+
+    /**
+     * 更新编辑框字体大小
+     *
+     * @param e
+     */
+    public void updateEditorFontSizeActionPerformed(ChangeEvent e) {
+        if (e.getSource() instanceof JSlider) {
+            JSlider slider = (JSlider) e.getSource();
+            int fontSize = slider.getValue();
+            Font readFileFonts = ChangeUIUtils.getReadFileFonts();
+            ChangeUIUtils.changeTextAreaFont(new Font(readFileFonts.getName(), Font.PLAIN, fontSize));
+            applicationContext.getEditorFontStyle().setSize(ConvertUtils.toFloat(fontSize));
+        }
     }
 }
