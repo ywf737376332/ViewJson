@@ -54,7 +54,7 @@ public class SettingOptions extends JPanel {
         SwiftButton showToolBarTextBtn = new SwiftButton();
         showToolBarTextBtn.setSelected(applicationContext.getShowToolBarText());
         showToolBarTextBtn.setStateListener(source -> MenuEventService.getInstance().showToolBarTextActionPerformed(WindowUtils.getFrame()));
-        JPanel toolBarTextPanel = createBorderTitleAndDescPanelLayout("工具栏","工具栏名称", "是否显示工具栏名称",showToolBarTextBtn);
+        JPanel toolBarTextPanel = createBorderTitleAndDescPanelLayout("","工具栏名称", "是否显示工具栏名称",showToolBarTextBtn);
         JSONButton logButton = new JSONButton("查看日志");
         logButton.addActionListener(e -> MenuEventService.getInstance().opneLogFileActionPerformed());
         JPanel logViewPanel = createBorderTitleAndDescPanelLayout("","日志查看", "打开当前系统运行的日志文件",logButton);
