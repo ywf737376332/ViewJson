@@ -174,24 +174,24 @@ public class MenuBarBuilder {
          */
         menuBar.add(setupMenu);
         setupMenu.add(systemSetupMenuItem = createMenuItem(systemSetupAction));
-        setupMenu.add(frameFontMenu);
-        frameFontMenu.add(fontStyleMenu);
-        ButtonGroup fontNameButtonGroup = new ButtonGroup();
-        for (FontEnum.Name value : FontEnum.Name.values()) {
-            // 确保每一个字体都存在于系统中,此方法取消，系统在英文环境中得到的全部是英文字体
-            //if (ChangeUIUtils.getSystemFonts(value.getName())){}
-            FontNameRadioButtonMenuItem fontNameMenuItem = new FontNameRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getName());
-            fontNameButtonGroup.add(fontNameMenuItem);
-            fontStyleMenu.add(fontNameMenuItem);
-        }
-        frameFontMenu.add(fontSizeMenu);
-        ButtonGroup fontSizeButtonGroup = new ButtonGroup();
-        for (FontEnum.Size value : FontEnum.Size.values()) {
-            FontSizeRadioButtonMenuItem fontSizeMenuItem = new FontSizeRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getSize());
-            fontSizeButtonGroup.add(fontSizeMenuItem);
-            fontSizeMenu.add(fontSizeMenuItem);
-        }
-        MenuEventService.getInstance().applyFrameFontActionPerformed(fontStyleMenu, fontSizeMenu);
+        //setupMenu.add(frameFontMenu);
+        //frameFontMenu.add(fontStyleMenu);
+        //ButtonGroup fontNameButtonGroup = new ButtonGroup();
+        //for (FontEnum.Name value : FontEnum.Name.values()) {
+        //    // 确保每一个字体都存在于系统中,此方法取消，系统在英文环境中得到的全部是英文字体
+        //    //if (ChangeUIUtils.getSystemFonts(value.getName())){}
+        //    FontNameRadioButtonMenuItem fontNameMenuItem = new FontNameRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getName());
+        //    fontNameButtonGroup.add(fontNameMenuItem);
+        //    fontStyleMenu.add(fontNameMenuItem);
+        //}
+        //frameFontMenu.add(fontSizeMenu);
+        //ButtonGroup fontSizeButtonGroup = new ButtonGroup();
+        //for (FontEnum.Size value : FontEnum.Size.values()) {
+        //    FontSizeRadioButtonMenuItem fontSizeMenuItem = new FontSizeRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getSize());
+        //    fontSizeButtonGroup.add(fontSizeMenuItem);
+        //    fontSizeMenu.add(fontSizeMenuItem);
+        //}
+        //MenuEventService.getInstance().applyFrameFontActionPerformed(fontStyleMenu, fontSizeMenu);
 
         setupMenu.add(facadeMenu);
         facadeMenu.add(showToolBarMenuItem = createCheckBoxMenu(showToolBarAction));

@@ -75,7 +75,8 @@ public final class SvgIconFactory {
         String about = "icons/logo.svg";
         String author = "icons/auth.svg";
         String theme = "icons/theme.svg";
-        String fontSet = "icons/fontSet.svg";
+        String frameFont = "icons/frameFont.svg";
+        String editorFont = "icons/editorFont.svg";
         String systemSet = "icons/systemSet.svg";
         String systemLog = "icons/systemLog.svg";
     }

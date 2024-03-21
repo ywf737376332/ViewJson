@@ -127,7 +127,7 @@ public class DialogBuilder {
         // 设置标签的首选大小为图片的大小
         dialog.setTitle("<html><span><b>" + title + "</b></span></html>");
         dialog.setSize(component.getWidth() + 25, component.getHeight() + 60);
-        dialog.setMinimumSize(new Dimension(620, 500));
+        dialog.setMinimumSize(new Dimension(650, 500));
         dialog.add(component);
         dialog.setLocationRelativeTo(parentFrame);
         dialog.setResizable(true);

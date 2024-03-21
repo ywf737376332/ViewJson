@@ -1,13 +1,23 @@
 package com.ywf.component.splitDemo;
 
+import com.ywf.action.ResourceBundleService;
+import com.ywf.framework.enums.FontEnum;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class CustomJListExample {
+
+    private static ResourceBundle resourceBundle;
     public static void main(String[] args) {
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
+
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Custom JList Example");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,9 +32,10 @@ public class CustomJListExample {
             actualValues.add("实际值1");
             actualValues.add("实际值2");
             actualValues.add("实际值3");
-
-            CustomListModel model = new CustomListModel(displayValues, actualValues);
-            JList<String> list = new JList<>(model);
+            ArrayList<FontEnum.Name> collect = Arrays.stream(FontEnum.Name.values()).collect(Collectors.toCollection(ArrayList::new));
+            CustomListModel model = new CustomListModel(collect);
+            JList<FontEnum.Name> list = new JList(FontEnum.Name.values());
+            list.setCellRenderer(new EnumListRenderer());
             // 添加选择监听器
             list.addListSelectionListener(new ListSelectionListener() {
                 @Override
@@ -32,9 +43,7 @@ public class CustomJListExample {
                     if (!e.getValueIsAdjusting()) { // 忽略调整事件
                         // 获取选中的值
                         System.out.println(e.getValueIsAdjusting());
-                        CustomListModel modao  = (CustomListModel)list.getModel();
-                        System.out.println(modao.getActualValueAt(list.getSelectedIndex()));
-                        String selectedValue = list.getSelectedValue();
+                        FontEnum.Name selectedValue = list.getSelectedValue();
                         System.out.println("选中的值为：" + selectedValue);
                     }
                 }
@@ -44,15 +53,17 @@ public class CustomJListExample {
             frame.setVisible(true);
         });
     }
+    public static String getMessage(Object keyRoot) {
+        return resourceBundle.getString(keyRoot + ".Name");
+    }
+
 }
 
-class CustomListModel extends AbstractListModel<String> {
-    private final ArrayList<String> displayValues;
-    private final ArrayList<String> actualValues;
+class CustomListModel extends AbstractListModel<Enum> {
+    private final ArrayList<FontEnum.Name> displayValues;
 
-    public CustomListModel(ArrayList<String> displayValues, ArrayList<String> actualValues) {
+    public CustomListModel(ArrayList<FontEnum.Name> displayValues) {
         this.displayValues = displayValues;
-        this.actualValues = actualValues;
     }
 
     @Override
@@ -61,11 +72,31 @@ class CustomListModel extends AbstractListModel<String> {
     }
 
     @Override
-    public String getElementAt(int index) {
+    public Enum getElementAt(int index) {
+        System.out.println("显示值："+displayValues.get(index));
         return displayValues.get(index);
     }
 
     public String getActualValueAt(int index) {
-        return actualValues.get(index);
+        return displayValues.get(index).name();
+    }
+}
+
+class EnumListRenderer extends JLabel implements ListCellRenderer<FontEnum.Name> {
+
+    @Override
+    public Component getListCellRendererComponent(JList<? extends FontEnum.Name> list, FontEnum.Name value, int index, boolean isSelected, boolean cellHasFocus) {
+        setText(CustomJListExample.getMessage(value.getMsgKey()));
+        if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        } else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
+        setEnabled(list.isEnabled());
+        setFont(list.getFont());
+        setOpaque(true);
+        return this;
     }
 }

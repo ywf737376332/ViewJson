@@ -1,20 +1,23 @@
 package com.ywf.framework.enums;
 
 /**
- * 字体定义
+ * 编辑器字体定义
  *
  * @Author YWF
  * @Date 2024/2/23 11:17
  */
-public class FontEnum {
+public class EditorFontEnum {
+
+    /**
+     * DejaVuSansMono.ttf
+     * JetBrainsMono.ttf
+     * Monaco.ttf
+     */
 
     public enum Name {
-        MicYaHei("MenuItem.FontName.MicYaHei", "微软雅黑"),
-        ChristmasWorship("MenuItem.FontName.ChristmasWorship", "华文中宋"),
-        Arial("MenuItem.FontName.Arial", "黑体"),
-        BlackLetter("MenuItem.FontName.BlackLetter", "等线"),
-        StLiti("MenuItem.FontName.StLiti", "华文隶书"),
-        YouYuan("MenuItem.FontName.YouYuan", "幼圆");
+        DejaVuSansMono("Editor.FontName.DejaVuSansMono", "DejaVuSansMono"),
+        JetBrainsMono("Editor.FontName.JetBrainsMono", "JetBrainsMono"),
+        Monaco("Editor.FontName.Monaco", "Monaco");
 
         private String msgKey;
         private String name;
@@ -22,15 +25,6 @@ public class FontEnum {
         Name(String msgKey, String name) {
             this.msgKey = msgKey;
             this.name = name;
-        }
-
-        public static String getFontNameByKey(String msgKey) {
-            for (Name value : Name.values()) {
-                if (msgKey.equalsIgnoreCase(value.msgKey)){
-                    return value.name;
-                }
-            }
-            return null;
         }
 
         public String getMsgKey() {
@@ -43,9 +37,9 @@ public class FontEnum {
     }
 
     public enum Style {
-        PLAIN("MenuItem.FontStyle.Plain", 0,"常规"),
-        BOLD("MenuItem.FontStyle.Bold", 1,"粗体"),
-        ITALIC("MenuItem.FontStyle.Italic", 2,"斜体");
+        PLAIN("Editor.FontStyle.Plain", 0, "常规"),
+        BOLD("Editor.FontStyle.Bold", 1, "粗体"),
+        ITALIC("Editor.FontStyle.Italic", 2, "斜体");
 
         private String msgKey;
         private int style;
@@ -83,18 +77,18 @@ public class FontEnum {
     }
 
     public enum Size {
-        mini("MenuItem.FontSize.Mini", 10, "迷你"),
-        small("MenuItem.FontSize.Small", 12, "小号"),
-        medium("MenuItem.FontSize.Medium", 14, "中号"),
-        regular("MenuItem.FontSize.Regular", 16, "常规"),
-        large("MenuItem.FontSize.Large", 18, "大号"),
-        tooLarge("MenuItem.FontSize.TooLarge", 20, "特大号");
+        mini("Editor.FontSize.Mini", 10.0f, "迷你"),
+        small("Editor.FontSize.Small", 12.0f, "小号"),
+        medium("Editor.FontSize.Medium", 14.0f, "中号"),
+        regular("Editor.FontSize.Regular", 16.0f, "常规"),
+        large("Editor.FontSize.Large", 18.0f, "大号"),
+        tooLarge("Editor.FontSize.TooLarge", 20.0f, "特大号");
 
         private String msgKey;
-        private int size;
+        private float size;
         private String desc;
 
-        Size(String msgKey, int size, String desc) {
+        Size(String msgKey, float size, String desc) {
             this.msgKey = msgKey;
             this.size = size;
             this.desc = desc;
@@ -104,12 +98,24 @@ public class FontEnum {
             return msgKey;
         }
 
-        public int getSize() {
+        public void setMsgKey(String msgKey) {
+            this.msgKey = msgKey;
+        }
+
+        public float getSize() {
             return size;
+        }
+
+        public void setSize(float size) {
+            this.size = size;
         }
 
         public String getDesc() {
             return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
         }
     }
 

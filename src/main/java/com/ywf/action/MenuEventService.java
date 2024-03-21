@@ -13,14 +13,12 @@ import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
-import com.ywf.framework.enums.LocationEnum;
-import com.ywf.framework.enums.SystemThemesEnum;
-import com.ywf.framework.enums.TextConvertEnum;
-import com.ywf.framework.enums.TextTypeEnum;
+import com.ywf.framework.enums.*;
 import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ui.ColorRadioButton;
 import com.ywf.framework.utils.*;
+import com.ywf.pojo.FontListModel;
 import com.ywf.view.PanelView;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -29,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -42,6 +41,8 @@ import java.time.Year;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.ywf.framework.enums.FontEnum.Type.FONT_NAME;
 
 
 /**
@@ -642,6 +643,77 @@ public class MenuEventService {
                 });
             }
         }
+    }
+
+    public void applyFrameFontActionPerformed(ListSelectionEvent e, JList viewList, FontListModel fontStyleListModel, FontEnum.Type type) {
+        if (e.getValueIsAdjusting()) {
+            SwingUtilities.invokeLater(() -> {
+                switch (type) {
+                    case FONT_NAME:
+                        //此事件，解决修改字体后，搜索框界面布局混乱问题
+                        FindPanelBuilder.getLayout().hideFindPanelActionPerformed();
+                        String fontName = (String) fontStyleListModel.getValueAt(viewList.getSelectedIndex());
+                        setFrameFont(fontName, null, null);
+                        break;
+                    case FONT_STYLE:
+                        int fontStyle = (int) fontStyleListModel.getValueAt(viewList.getSelectedIndex());
+                        setFrameFont(null, fontStyle, null);
+                        break;
+                    case FONT_SIZE:
+                        int fontSize = (int) fontStyleListModel.getValueAt(viewList.getSelectedIndex());
+                        setFrameFont(null, null, fontSize);
+                        break;
+                    default:
+                }
+            });
+        }
+    }
+
+    private void setFrameFont(String fontName, Integer fontStyle, Integer fontSize) {
+        ConfigurableApplicationContext.FontStyle fontConfigStyle = applicationContext.getFontStyle();
+        String fontNameNew = fontName == null ? fontConfigStyle.getName() : fontName;
+        int fontStyleNew = fontStyle == null ? fontConfigStyle.getStyle() : fontStyle;
+        int fontSizeNew = fontSize == null ? fontConfigStyle.getSize() : fontSize;
+        ChangeUIUtils.changeGlobalFont(new Font(fontNameNew, fontStyleNew, fontSizeNew));
+        ConfigurableApplicationContext.FontStyle fontConfigStyleNew = applicationContext.getFontStyle();
+        fontConfigStyleNew.setName(fontNameNew);
+        fontConfigStyleNew.setStyle(fontStyleNew);
+        fontConfigStyleNew.setSize(fontSizeNew);
+    }
+
+    public void applyEditorFontActionPerformed(ListSelectionEvent e, JList viewList, FontListModel fontStyleListModel, EditorFontEnum.Type type) {
+        if (e.getValueIsAdjusting()) {
+            SwingUtilities.invokeLater(() -> {
+                switch (type) {
+                    case FONT_NAME:
+                        String fontName = (String) fontStyleListModel.getValueAt(viewList.getSelectedIndex());
+                        setEditorFont(fontName, null, null);
+                        break;
+                    case FONT_STYLE:
+                        int fontStyle = (int) fontStyleListModel.getValueAt(viewList.getSelectedIndex());
+                        setEditorFont(null, fontStyle, null);
+                        break;
+                    case FONT_SIZE:
+                        int fontSize = (int) fontStyleListModel.getValueAt(viewList.getSelectedIndex());
+                        setEditorFont(null, null, fontSize);
+                        break;
+                    default:
+                }
+            });
+        }
+    }
+
+    private void setEditorFont(String fontName, Integer fontStyle, Integer fontSize) {
+        ConfigurableApplicationContext.EditorFontStyle fontConfigStyle = applicationContext.getEditorFontStyle();
+        String fontNameNew = fontName == null ? fontConfigStyle.getName() : fontName;
+        int fontStyleNew = fontStyle == null ? fontConfigStyle.getStyle() : fontStyle;
+        float fontSizeNew = fontSize == null ? fontConfigStyle.getSize() : fontSize;
+        System.out.println("当前编辑器字体：" + new Font(fontNameNew, fontStyleNew, 16));
+        ChangeUIUtils.setTextEditorFont(new Font(fontNameNew, fontStyleNew, 16));
+        ConfigurableApplicationContext.EditorFontStyle fontConfigStyleNew = applicationContext.getEditorFontStyle();
+        fontConfigStyleNew.setName(fontNameNew);
+        fontConfigStyleNew.setStyle(fontStyleNew);
+        fontConfigStyleNew.setSize(fontSizeNew);
     }
 
     /**

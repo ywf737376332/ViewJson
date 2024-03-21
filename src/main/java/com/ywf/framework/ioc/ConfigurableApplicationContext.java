@@ -52,13 +52,15 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
 
     public static class FontStyle {
         private String name;
+        private Integer style;
         private Integer size;
 
         public FontStyle() {
         }
 
-        public FontStyle(String name, Integer size) {
+        public FontStyle(String name, Integer style, Integer size) {
             this.name = name;
+            this.style = style;
             this.size = size;
         }
 
@@ -68,6 +70,14 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public Integer getStyle() {
+            return style;
+        }
+
+        public void setStyle(Integer style) {
+            this.style = style;
         }
 
         public Integer getSize() {
@@ -82,6 +92,7 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         public String toString() {
             return "FontStyle{" +
                     "name='" + name + '\'' +
+                    ", style=" + style +
                     ", size=" + size +
                     '}';
         }
@@ -126,13 +137,15 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
 
     public static class EditorFontStyle {
         private String name;
+        private Integer style;
         private Float size;
 
         public EditorFontStyle() {
         }
 
-        public EditorFontStyle(String name, Float size) {
+        public EditorFontStyle(String name, Integer style, Float size) {
             this.name = name;
+            this.style = style;
             this.size = size;
         }
 
@@ -144,20 +157,20 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
             this.name = name;
         }
 
+        public Integer getStyle() {
+            return style;
+        }
+
+        public void setStyle(Integer style) {
+            this.style = style;
+        }
+
         public Float getSize() {
             return size;
         }
 
         public void setSize(Float size) {
             this.size = size;
-        }
-
-        @Override
-        public String toString() {
-            return "EditorFontStyle{" +
-                    "name='" + name + '\'' +
-                    ", size=" + size +
-                    '}';
         }
     }
 

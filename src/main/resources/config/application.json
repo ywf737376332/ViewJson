@@ -8,7 +8,7 @@
   "chineseConverState": 2,
   "pictureQualityState": 1,
   "systemLanguage": "zh_CN",
-  "toolBarLocation": "West",
+  "toolBarLocation": "North",
   "showToolBarText": true,
   "showWhitespace": false,
   "marginLine": {
@@ -22,10 +22,12 @@
   },
   "fontStyle": {
     "name": "\u5fae\u8f6f\u96c5\u9ed1",
+    "style": 0,
     "size": 16
   },
   "editorFontStyle": {
     "name": "JetBrainsMono",
+    "style": 0,
     "size": 16
   }
 }

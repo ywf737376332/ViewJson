@@ -1,9 +1,6 @@
 package com.ywf.component;
 
-import com.ywf.component.setting.DefaultSettingPanel;
-import com.ywf.component.setting.FontsPanel;
-import com.ywf.component.setting.SettingOptions;
-import com.ywf.component.setting.ThemesPanel;
+import com.ywf.component.setting.*;
 import com.ywf.framework.base.SvgIconFactory;
 
 import java.awt.*;
@@ -30,7 +27,8 @@ public final class SystemSetupPanelBuilder {
         tabs.setSize(620, 500);
         tabs.setMaximumSize(new Dimension(700, 600));
         tabs.addTab("系统主题", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.theme), ScrollPaneBuilder.createScrollPane(new ThemesPanel()));
-        tabs.addTab("字体设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.fontSet), ScrollPaneBuilder.createScrollPane(new FontsPanel()));
+        tabs.addTab("界面字体", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.frameFont), ScrollPaneBuilder.createScrollPane(new FrameFontsPanel()));
+        tabs.addTab("内容字体", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.editorFont), ScrollPaneBuilder.createScrollPane(new EditorFontsPanel()));
         tabs.addTab("系统设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), ScrollPaneBuilder.createScrollPane(new SettingOptions()));
         tabs.addTab("配置预览", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemLog), ScrollPaneBuilder.createScrollPane(new DefaultSettingPanel()));
         return tabs;
