@@ -25,7 +25,10 @@ public final class SystemSetupPanelBuilder {
     }
 
     private static SettingTabbedPane initSystemSetupPanel() {
-        SettingTabbedPane tabs = new SettingTabbedPane();
+        if (tabs != null) {
+            return tabs;
+        }
+        tabs = new SettingTabbedPane();
         tabs.setSize(700, 520);
         tabs.setMinimumSize(new Dimension(700, 520));
         tabs.addTab("系统主题", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.theme), ScrollPaneBuilder.createScrollPane(new ThemesPanel()));
