@@ -92,6 +92,20 @@ public class SysConfigInit extends ApplicationContext {
     }
 
     /**
+     * 获取用户日志文件
+     *
+     * @date 2023/12/3 20:04
+     */
+    public static String getSystemRootLogFilePath() {
+        // 获取用户目录
+        String userHome = SYSTEM_CONFIG_HOME;
+        // 创建文件夹路径
+        String folderPath = userHome + SYSTEM_CONFIG_FOLDER_PATH;
+        // 创建配置文件路径
+        return folderPath + SYSTEM_LOG_FILE_PATH;
+    }
+
+    /**
      * 获取用户配置目录
      *
      * @date 2023/12/3 20:04

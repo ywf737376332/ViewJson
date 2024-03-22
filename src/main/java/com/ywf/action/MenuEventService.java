@@ -14,6 +14,7 @@ import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.*;
+import com.ywf.framework.init.SysConfigInit;
 import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ui.ColorRadioButton;
@@ -804,7 +805,7 @@ public class MenuEventService {
      * 打开日志文件
      */
     public void opneLogFileActionPerformed() {
-        File file = new File(ApplicationContext.SYSTEM_LOG_FILE_PATH);
+        File file = new File(SysConfigInit.getSystemRootLogFilePath());
         if (file.exists()) {
             try {
                 Desktop.getDesktop().open(file);
