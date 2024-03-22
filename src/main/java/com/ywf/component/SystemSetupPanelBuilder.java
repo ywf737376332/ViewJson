@@ -26,7 +26,7 @@ public final class SystemSetupPanelBuilder {
 
     private static SettingTabbedPane initSystemSetupPanel() {
         SettingTabbedPane tabs = new SettingTabbedPane();
-        tabs.setSize(700, 500);
+        tabs.setSize(700, 520);
         tabs.setMinimumSize(new Dimension(700, 600));
         tabs.addTab("系统主题", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.theme), ScrollPaneBuilder.createScrollPane(new ThemesPanel()));
         tabs.addTab("界面字体", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.frameFont), ScrollPaneBuilder.createScrollPane(new FrameFontsPanel()));
