@@ -186,7 +186,7 @@ public class ReflectUtils {
         boolean isSuccess = false;
         try {
             Class<?> clazz = Class.forName(typeName);
-            boolean isStaticClass = Modifier.isStatic(clazz.getModifiers()) && clazz.getEnclosingClass() != null ? true : false;
+            boolean isStaticClass = isStatic(clazz);
             if (isStaticClass) {
                 Object innerClass = constructInstance(clazz);
                 for (Field field : getFields(clazz)) {
@@ -212,7 +212,7 @@ public class ReflectUtils {
         boolean isSuccess = false;
         try {
             Class<?> clazz = source.getClass();
-            boolean isStaticClass = Modifier.isStatic(clazz.getModifiers()) && clazz.getEnclosingClass() != null ? true : false;
+            boolean isStaticClass = isStatic(clazz);
             if (isStaticClass) {
                 for (Field field : getFields(clazz)) {
                     field.setAccessible(true);
@@ -265,7 +265,8 @@ public class ReflectUtils {
                 field.setAccessible(true);
                 Object fieldValue = field.get(userSettings);
                 String fieldName = field.getName();
-                if (fieldValue == null) {
+
+                if (fieldValue == null || (isStatic(fieldValue.getClass()) && checkNullField(fieldValue))) {
                     Object defaultValue = getFieldValue(defaultSettings, fieldName);
                     field.set(userSettings, defaultValue);
                     counts++;
@@ -276,5 +277,28 @@ public class ReflectUtils {
             }
         }
         return counts;
+    }
+
+    private static <T> boolean checkNullField(T object) {
+        for (Field field : getFields(object.getClass())) {
+            field.setAccessible(true);
+            try {
+                field.setAccessible(true);
+                Object fieldValue = field.get(object);
+                String fieldName = field.getName();
+                // 出现空字段，跳出循环，直接整个赋值，没必要再判断后续字段
+                if (fieldValue == null) {
+                    logger.warn("当前属性：{}，出现空字段：{}", object, fieldName);
+                    return true;
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return false;
+    }
+
+    private static boolean isStatic(Class<?> clazz) {
+        return Modifier.isStatic(clazz.getModifiers()) && clazz.getEnclosingClass() != null ? true : false;
     }
 }

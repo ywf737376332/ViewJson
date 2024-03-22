@@ -161,9 +161,9 @@ public class ChangeUIUtils {
      */
     private static void initJSONAreaFontStyle(JScrollPane scrollPane, Font font) {
         JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
-        //logger.warn("编辑框字体改变前：{}", rSyntaxTextArea.getFont());
+        logger.warn("编辑框字体改变前：{}", rSyntaxTextArea.getFont());
         rSyntaxTextArea.setFont(font);
-        //logger.warn("编辑框字体改变后：{}", rSyntaxTextArea.getFont());
+        logger.warn("编辑框字体改变后：{}", rSyntaxTextArea.getFont());
     }
 
     /**
@@ -230,23 +230,20 @@ public class ChangeUIUtils {
      * @return
      */
     public static Font getReadFileFonts() {
-        if (fileBaseFont == null) {
-            /**
-             * DejaVuSansMono.ttf
-             * JetBrainsMono.ttf
-             * Monaco.ttf
-             */
-            ConfigurableApplicationContext.EditorFontStyle editorFontStyle = applicationContext.getEditorFontStyle();
-            String fontFileName = "fonts/" + editorFontStyle.getName() + ".ttf";
-            try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream(fontFileName)) {
-                Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-                fileBaseFont = font.deriveFont(editorFontStyle.getSize());
-                return fileBaseFont;
-            } catch (IOException | FontFormatException e) {
-                throw new RuntimeException("资源文件加载失败：" + e.getMessage());
-            }
+        /**
+         * DejaVuSansMono.ttf
+         * JetBrainsMono.ttf
+         * Monaco.ttf
+         */
+        ConfigurableApplicationContext.EditorFontStyle editorFontStyle = applicationContext.getEditorFontStyle();
+        String fontFileName = "fonts/" + editorFontStyle.getName() + ".ttf";
+        try (InputStream inputStream = ResourceContext.class.getClassLoader().getResourceAsStream(fontFileName)) {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            fileBaseFont = font.deriveFont(editorFontStyle.getSize());
+            return fileBaseFont;
+        } catch (IOException | FontFormatException e) {
+            throw new RuntimeException("资源文件加载失败：" + e.getMessage());
         }
-        return fileBaseFont;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.ywf.framework.ioc;
 import com.ywf.framework.annotation.PropertySource;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 应用配置类
@@ -96,6 +97,19 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                     ", size=" + size +
                     '}';
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            FontStyle fontStyle = (FontStyle) o;
+            return Objects.equals(name, fontStyle.name) && Objects.equals(style, fontStyle.style) && Objects.equals(size, fontStyle.size);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, style, size);
+        }
     }
 
     public static class ScreenSize {
@@ -132,6 +146,19 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                     "width=" + width +
                     ", height=" + height +
                     '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ScreenSize that = (ScreenSize) o;
+            return Objects.equals(width, that.width) && Objects.equals(height, that.height);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(width, height);
         }
     }
 
@@ -172,6 +199,19 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         public void setSize(Float size) {
             this.size = size;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            EditorFontStyle that = (EditorFontStyle) o;
+            return Objects.equals(name, that.name) && Objects.equals(style, that.style) && Objects.equals(size, that.size);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, style, size);
+        }
     }
 
     public static class MarginLine {
@@ -204,6 +244,19 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                     "showMarginLine=" + showMarginLine +
                     ", marginWidth=" + marginWidth +
                     '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            MarginLine that = (MarginLine) o;
+            return Objects.equals(showMarginLine, that.showMarginLine) && Objects.equals(marginWidth, that.marginWidth);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(showMarginLine, marginWidth);
         }
     }
 
