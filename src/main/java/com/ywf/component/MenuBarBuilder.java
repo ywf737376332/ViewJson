@@ -1,11 +1,9 @@
 package com.ywf.component;
 
-import com.ywf.action.MenuEventService;
 import com.ywf.action.ResourceBundleService;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.config.MenuAction;
 import com.ywf.framework.config.MenuBarKit;
-import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,16 +79,13 @@ public class MenuBarBuilder {
      * ......中文转Unicode
      * ......Unicode转中文
      */
-    private JMenu setupMenu;
-    private JMenu frameFontMenu, fontStyleMenu, fontSizeMenu;
+
     private JMenu facadeMenu;
-    private MenuAction systemSetupAction, showToolBarAction, showMenuBarAction, showToolBarTextAction;
-    private JMenu languageMenu;
-    private JCheckBoxMenuItem showToolBarMenuItem, showMenuBarMenuItem, showToolBarTextMenuItem;
+    private MenuAction systemSetupAction, showToolBarAction, showMenuBarAction;
+    private JCheckBoxMenuItem showToolBarMenuItem, showMenuBarMenuItem;
+    private JMenu setupMenu;
     private MenuAction editSetupAction, lineSetupAction, showlineNumAction;
     private JMenuItem systemSetupMenuItem, editSetupMenuItem, lineSetupMenuItem, showlineNumMenuItem;
-    private JMenu pictureQualityMenu;
-    private JMenu chineseConverMenu;
     /**
      * 主题
      * ...FlatLaf Light
@@ -155,7 +150,7 @@ public class MenuBarBuilder {
         fileMenu.add(savePictMenuItem = createMenuItem(savePictAction));
         fileMenu.add(saveFileMenuItem = createMenuItem(saveFileAction));
         fileMenu.add(favoritesMenuItem = createMenuItem(favoritesAction));
-        favoritesMenuItem.setEnabled(false);
+        favoritesMenuItem.setVisible(false);
         fileMenu.add(exitMenuItem = createMenuItem(exitAction));
 
         /**
@@ -174,66 +169,17 @@ public class MenuBarBuilder {
          */
         menuBar.add(setupMenu);
         setupMenu.add(systemSetupMenuItem = createMenuItem(systemSetupAction));
-        //setupMenu.add(frameFontMenu);
-        //frameFontMenu.add(fontStyleMenu);
-        //ButtonGroup fontNameButtonGroup = new ButtonGroup();
-        //for (FontEnum.Name value : FontEnum.Name.values()) {
-        //    // 确保每一个字体都存在于系统中,此方法取消，系统在英文环境中得到的全部是英文字体
-        //    //if (ChangeUIUtils.getSystemFonts(value.getName())){}
-        //    FontNameRadioButtonMenuItem fontNameMenuItem = new FontNameRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getName());
-        //    fontNameButtonGroup.add(fontNameMenuItem);
-        //    fontStyleMenu.add(fontNameMenuItem);
-        //}
-        //frameFontMenu.add(fontSizeMenu);
-        //ButtonGroup fontSizeButtonGroup = new ButtonGroup();
-        //for (FontEnum.Size value : FontEnum.Size.values()) {
-        //    FontSizeRadioButtonMenuItem fontSizeMenuItem = new FontSizeRadioButtonMenuItem(getMessage(value.getMsgKey()), value.getSize());
-        //    fontSizeButtonGroup.add(fontSizeMenuItem);
-        //    fontSizeMenu.add(fontSizeMenuItem);
-        //}
-        //MenuEventService.getInstance().applyFrameFontActionPerformed(fontStyleMenu, fontSizeMenu);
-
         setupMenu.add(facadeMenu);
         facadeMenu.add(showToolBarMenuItem = createCheckBoxMenu(showToolBarAction));
         showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());
         facadeMenu.add(showMenuBarMenuItem = createCheckBoxMenu(showMenuBarAction));
         showMenuBarMenuItem.setSelected(applicationContext.getShowMenuBarState());
-        //facadeMenu.add(showToolBarTextMenuItem = createCheckBoxMenu(showToolBarTextAction));
-        //showToolBarTextMenuItem.setSelected(applicationContext.getShowToolBarText());
-
-        /*setupMenu.add(languageMenu);
-        ButtonGroup languageButtonGroup = new ButtonGroup();
-        for (LanguageEnum value : LanguageEnum.values()) {
-            LanguageRadioButtonMenuItem languageRadioMenuitem = new LanguageRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getLanguage() + "_" + value.getCountry());
-            languageButtonGroup.add(languageRadioMenuitem);
-            languageMenu.add(languageRadioMenuitem);
-        }
-        MenuEventService.getInstance().setupLanguageActionPerformed(frame, languageMenu);*/
-
         setupMenu.add(editSetupMenuItem = createCheckBoxMenu(editSetupAction));
         editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
         setupMenu.add(lineSetupMenuItem = createCheckBoxMenu(lineSetupAction));
         lineSetupMenuItem.setSelected(applicationContext.getTextAreaBreakLineState());
-        //setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
-        //showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
-
-        /*setupMenu.add(pictureQualityMenu);
-        ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
-        for (PictureQualityEnum value : PictureQualityEnum.values()) {
-            PictureQualityRadioButtonMenuItem pictureQualityMenuItem = new PictureQualityRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getPictureQualityState());
-            pictureQualityButtonGroup.add(pictureQualityMenuItem);
-            pictureQualityMenu.add(pictureQualityMenuItem);
-        }
-        MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityMenu);*/
-
-        setupMenu.add(chineseConverMenu);
-        ButtonGroup chineseConverButtonGroup = new ButtonGroup();
-        for (TextConvertEnum value : TextConvertEnum.values()) {
-            CHToCNRadioButtonMenuItem chineseConverMenuItem = new CHToCNRadioButtonMenuItem(getMessage(value.getMessageKey()), value.getConverType());
-            chineseConverButtonGroup.add(chineseConverMenuItem);
-            chineseConverMenu.add(chineseConverMenuItem);
-        }
-        MenuEventService.getInstance().chineseConverActionPerformed(chineseConverMenu);
+        setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
+        showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
 
         /**
          * 主题
@@ -299,8 +245,6 @@ public class MenuBarBuilder {
         showToolBarAction.setProperties(msg, "MenuItem.ShowToolBar");
         showMenuBarAction = new MenuBarKit.ShowMenuBarAction();
         showMenuBarAction.setProperties(msg, "MenuItem.ShowMenuBar");
-        showToolBarTextAction = new MenuBarKit.ShowToolBarTextAction();
-        showToolBarTextAction.setProperties(msg, "MenuItem.ShowToolBarText");
 
         editSetupAction = new MenuBarKit.EditSetupAction();
         editSetupAction.setProperties(msg, "MenuItem.EditSetup");
@@ -326,18 +270,8 @@ public class MenuBarBuilder {
     private void createMenus() {
         fileMenu = new JMenu(getMessage("MenuBar.File"));
         editMenu = new JMenu(getMessage("MenuBar.Edit"));
-
         setupMenu = new JMenu(getMessage("MenuBar.Setting"));
-        frameFontMenu = new JMenu(getMessage("MenuItem.FrameFont"));
-        fontStyleMenu = new JMenu(getMessage("MenuItem.FrameFont.FontStyle"));
-        fontSizeMenu = new JMenu(getMessage("MenuItem.FrameFont.FontSize"));
-
         facadeMenu = new JMenu(getMessage("MenuItem.facadeMenu"));
-        languageMenu = new JMenu(getMessage("MenuItem.languageMenu"));
-
-        pictureQualityMenu = new JMenu(getMessage("MenuItem.PictureQuality"));
-        chineseConverMenu = new JMenu(getMessage("MenuItem.ChineseConver"));
-
         themesMenu = new JMenu(getMessage("MenuBar.Theme"));
         helpMenu = new JMenu(getMessage("MenuBar.Help"));
     }
@@ -356,5 +290,13 @@ public class MenuBarBuilder {
 
     public JCheckBoxMenuItem getShowToolBarMenuItem() {
         return showToolBarMenuItem;
+    }
+
+    public JMenuItem getEditSetupMenuItem() {
+        return editSetupMenuItem;
+    }
+
+    public JMenuItem getLineSetupMenuItem() {
+        return lineSetupMenuItem;
     }
 }

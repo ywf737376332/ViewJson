@@ -1,9 +1,10 @@
 package com.ywf.component;
 
-import com.ywf.action.MenuEventService;
 import com.ywf.action.QRCodeEventService;
 import com.ywf.action.ResourceBundleService;
 import com.ywf.framework.annotation.Autowired;
+import com.ywf.framework.config.MenuAction;
+import com.ywf.framework.config.MenuBarKit;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 
 import javax.swing.*;
@@ -25,27 +26,19 @@ public class PopupMenuBuilder {
     private static ResourceBundle resourceBundle;
     private JPopupMenu contextMenu;
     private MouseListener popupListener;
-    private JCheckBoxMenuItem menuBarShowState, toolBarShowState;
+    private MenuAction showToolBarAction, showMenuBarAction;
+    private JCheckBoxMenuItem showToolBarMenuItem, showMenuBarMenuItem;
 
     volatile private static PopupMenuBuilder instance = null;
 
     private PopupMenuBuilder() {
-        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
-        initPopupMenu();
+        init();
     }
 
-    private void initPopupMenu() {
-        contextMenu = new JPopupMenu();
-        menuBarShowState = new JCheckBoxMenuItem(getMessage("MenuItem.ShowMenuBar"));
-        menuBarShowState.setSelected(applicationContext.getShowMenuBarState());
-        menuBarShowState.addActionListener(e -> MenuEventService.getInstance().showMenuBarActionPerformed());
-        toolBarShowState = new JCheckBoxMenuItem(getMessage("MenuItem.ShowToolBar"));
-        toolBarShowState.setSelected(applicationContext.getShowToolBarState());
-        toolBarShowState.addActionListener(e -> MenuEventService.getInstance().showToolBarActionPerformed());
-        contextMenu.add(menuBarShowState);
-        contextMenu.addSeparator();
-        contextMenu.add(toolBarShowState);
-        popupListener = new PopupListener(contextMenu);
+    private void init() {
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
+        createMenuActions();
+        createMenus();
     }
 
     public static PopupMenuBuilder getInstance() {
@@ -57,6 +50,31 @@ public class PopupMenuBuilder {
             }
         }
         return instance;
+    }
+
+    private void createMenus() {
+        contextMenu = new JPopupMenu();
+        contextMenu.add(showToolBarMenuItem = createCheckBoxMenu(showToolBarAction));
+        showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());
+        contextMenu.addSeparator();
+        contextMenu.add(showMenuBarMenuItem = createCheckBoxMenu(showMenuBarAction));
+        showMenuBarMenuItem.setSelected(applicationContext.getShowMenuBarState());
+        popupListener = new PopupListener(contextMenu);
+    }
+
+    /**
+     * 菜单事件初始化
+     */
+    private void createMenuActions() {
+        ResourceBundle msg = resourceBundle;
+        showMenuBarAction = new MenuBarKit.ShowMenuBarAction();
+        showMenuBarAction.setProperties(msg, "MenuItem.ShowMenuBar");
+        showToolBarAction = new MenuBarKit.ShowToolBarAction();
+        showToolBarAction.setProperties(msg, "MenuItem.ShowToolBar");
+    }
+
+    protected JCheckBoxMenuItem createCheckBoxMenu(Action a) {
+        return new JCheckBoxMenuItem(a);
     }
 
     //添加内部类，其扩展了MouseAdapter类，用来处理鼠标事件
@@ -91,16 +109,11 @@ public class PopupMenuBuilder {
         return popupListener;
     }
 
-    public JCheckBoxMenuItem getMenuBarShowState() {
-        return menuBarShowState;
+    public JCheckBoxMenuItem getShowToolBarMenuItem() {
+        return showToolBarMenuItem;
     }
 
-    public JCheckBoxMenuItem getToolBarShowState() {
-        return toolBarShowState;
+    public JCheckBoxMenuItem getShowMenuBarMenuItem() {
+        return showMenuBarMenuItem;
     }
-
-    private static String getMessage(String keyRoot) {
-        return resourceBundle.getString(keyRoot + ".Name");
-    }
-
 }

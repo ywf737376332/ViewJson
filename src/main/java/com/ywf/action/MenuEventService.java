@@ -7,6 +7,7 @@ import com.formdev.flatlaf.extras.components.FlatLabel;
 import com.ywf.component.*;
 import com.ywf.component.loading.BackgroundTaskKit;
 import com.ywf.component.loading.LoadingBuild;
+import com.ywf.component.setting.SettingOptions;
 import com.ywf.component.toast.Toast;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.SvgIconFactory;
@@ -15,7 +16,6 @@ import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.constant.SystemConstant;
 import com.ywf.framework.enums.*;
 import com.ywf.framework.init.SysConfigInit;
-import com.ywf.framework.ioc.ApplicationContext;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ui.ColorRadioButton;
 import com.ywf.framework.utils.*;
@@ -279,7 +279,7 @@ public class MenuEventService {
      * 功能介绍
      */
     public void updateLogActionPerformed() {
-        String message = "<html><body><center><h3>JSON工具功能介绍</h3></center><ol><li>支持JSON，XML类型的内容格式化显示，压缩，转义，去除转义。</li><li>支持JSON，XML报文内容的中文和Unicode互转。</li><li>支持编辑框内容复制到剪贴板。</li><li>支持编辑框内容生成图片并复制到剪贴板。</li><li>支持编辑框内容分享为二维码，可实现扫码内容识别获取。</li><li>支持编辑框内容关键字查找，计数，高亮显示。</li><li>支持一键清空编辑框内容。</li><li>支持编辑框内容导出为文件。</li><li>支持编辑框内容导出为图片，图片带有日期水印，图片导出清晰度可配置。</li><li>编辑器可自动根据内容识别包含JSON，XML,Properties,Sql,JavaScript,Java,Yaml的7种语言类型。</li><li>编辑器可设置行号是否显示。</li><li>编辑器可设置是否自动换行。</li><li>编辑器可设置内容是否可编辑。</li><li>编辑器支持光标一键由底部跳转到顶部的功能。</li><li>可支持并排创建四个编辑器,方便实现代码对比查看。</li><li>软件支持八种明暗主题的设置。</li><li>软件界面支持字体字号的设置。</li><li>软件有状态栏监控显示：运行时长，内容类型，字数统计，鼠标位置，操作状态。</li></ol><p style=\"text-align:right;font-weight:blod\">2024年3月5日</p><p style=\"text-align:right;font-weight:blod\">莫斐鱼</p></body></html>";
+        String message = "<html><body><center><h3>JSON工具功能介绍</h3></center><ol><li>支持JSON，XML类型的内容格式化显示，压缩，转义，去除转义。</li><li>支持JSON，XML报文内容的中文和Unicode互转。</li><li>支持编辑框内容复制到剪贴板。</li><li>支持编辑框内容生成图片并复制到剪贴板。</li><li>支持编辑框内容分享为二维码，可实现扫码内容识别获取。</li><li>支持编辑框内容关键字查找，计数，高亮显示。</li><li>支持一键清空编辑框内容。</li><li>支持编辑框内容导出为文件。</li><li>支持编辑框内容导出为图片，图片带有日期水印，图片导出清晰度可配置。</li><li>编辑器可自动根据内容识别包含JSON，XML,Properties,Sql,JavaScript,Java,Yaml的7种语言类型。</li><li>编辑器可设置行号是否显示。</li><li>编辑器可设置是否自动换行。</li><li>编辑器可设置内容是否可编辑。</li><li>编辑器支持光标一键置顶的功能。</li><li>可支持并排创建四个编辑器,方便实现代码对比查看。</li><li>软件支持八种丰富多彩的主题的设置，。</li><li>软件界面支持字体字号的设置，可支持5种字体字号的设置。</li><li>编辑器支持字号大小的设置，可支持10号字体到30号字体大小的设置。</li><li>软件有状态栏监控显示：运行时长，内容类型，字数统计，鼠标位置，操作状态。</li><li>软件支持查看运行日志的功能。</li><li>软件中英文双语切换使用。</li></ol><p style=\"text-align:right;font-weight:blod\">2024年3月5日</p><p style=\"text-align:right;font-weight:blod\">莫斐鱼</p></body></html>";
         JScrollPane scrollPane = TextAreaBuilder.createScrollEditorPane(message, 600, 500);
         final Dialog dialog = DialogBuilder.showDialog(WindowUtils.getFrame(), "功能介绍", scrollPane, 30);
         dialog.setVisible(true);
@@ -366,8 +366,12 @@ public class MenuEventService {
             for (int i = 0; i < scrollPaneList.size(); i++) {
                 JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
                 boolean isEditable = rSyntaxTextArea.isEditable();
+                System.out.println("状态：" + isEditable);
                 rSyntaxTextArea.setEditable(!isEditable);
                 if (i == scrollPaneList.size() - 1) {
+                    // 菜单栏和工具按钮联动修改状态
+                    MenuBarBuilder.getInstance().getEditSetupMenuItem().setSelected(isEditable);
+                    SettingOptions.getInstance().getIsEditableBtn().setSelected(isEditable);
                     applicationContext.setTextAreaEditState(!isEditable);
                 }
             }
@@ -387,6 +391,9 @@ public class MenuEventService {
                 boolean breakLine = rSyntaxTextArea.getLineWrap();
                 rSyntaxTextArea.setLineWrap(!breakLine);
                 if (i == scrollPaneList.size() - 1) {
+                    // 菜单栏和工具按钮联动修改状态
+                    MenuBarBuilder.getInstance().getLineSetupMenuItem().setSelected(breakLine);
+                    SettingOptions.getInstance().getLineWrapBtn().setSelected(breakLine);
                     applicationContext.setTextAreaBreakLineState(!breakLine);
                 }
             }
@@ -423,7 +430,7 @@ public class MenuEventService {
         toolBar.setVisible(!showToolBar);
         // 菜单栏和工具按钮联动修改状态
         MenuBarBuilder.getInstance().getShowToolBarMenuItem().setSelected(!showToolBar);
-        PopupMenuBuilder.getInstance().getToolBarShowState().setSelected(!showToolBar);
+        PopupMenuBuilder.getInstance().getShowToolBarMenuItem().setSelected(!showToolBar);
         applicationContext.setShowToolBarState(!showToolBar);
     }
 
@@ -438,7 +445,7 @@ public class MenuEventService {
         menuBar.setVisible(!showMenuBar);
         // 菜单栏和工具按钮联动修改状态
         MenuBarBuilder.getInstance().getShowMenuBarMenuItem().setSelected(!showMenuBar);
-        PopupMenuBuilder.getInstance().getMenuBarShowState().setSelected(!showMenuBar);
+        PopupMenuBuilder.getInstance().getShowMenuBarMenuItem().setSelected(!showMenuBar);
         applicationContext.setShowMenuBarState(!showMenuBar);
     }
 

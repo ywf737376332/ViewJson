@@ -37,13 +37,28 @@ public class SettingOptions extends JPanel {
 
     private ResourceBundle resourceBundle;
 
-    public SettingOptions() {
+    private SwiftButton isEditableBtn, lineWrapBtn, showLineBtn;
+
+    volatile private static SettingOptions instance = null;
+
+    private SettingOptions() {
         super();
-        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         init();
     }
 
+    public static SettingOptions getInstance() {
+        if (instance == null) {
+            synchronized (SettingOptions.class) {
+                if (instance == null) {
+                    instance = new SettingOptions();
+                }
+            }
+        }
+        return instance;
+    }
+
     private void init() {
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         // 创建一个垂直箱容器
         Box vBox = Box.createVerticalBox();
         //设置语言
@@ -54,10 +69,10 @@ public class SettingOptions extends JPanel {
         SwiftButton showToolBarTextBtn = new SwiftButton();
         showToolBarTextBtn.setSelected(applicationContext.getShowToolBarText());
         showToolBarTextBtn.setStateListener(source -> MenuEventService.getInstance().showToolBarTextActionPerformed(WindowUtils.getFrame()));
-        JPanel toolBarTextPanel = createBorderTitleAndDescPanelLayout("","工具栏名称", "是否显示工具栏名称",showToolBarTextBtn);
+        JPanel toolBarTextPanel = createBorderTitleAndDescPanelLayout("", "工具栏名称", "是否显示工具栏名称", showToolBarTextBtn);
         JSONButton logButton = new JSONButton("查看日志");
         logButton.addActionListener(e -> MenuEventService.getInstance().opneLogFileActionPerformed());
-        JPanel logViewPanel = createBorderTitleAndDescPanelLayout("","日志查看", "打开当前系统运行的日志文件",logButton);
+        JPanel logViewPanel = createBorderTitleAndDescPanelLayout("", "日志查看", "打开当前系统运行的日志文件", logButton);
         // 创建一个 垂直方向胶状 的不可见组件，用于撑满垂直方向剩余的空间（如果有多个该组件，则平分剩余空间）
         Dimension viewSize = new Dimension(450, 20);
         vBox.add(languageSetting);
@@ -100,15 +115,15 @@ public class SettingOptions extends JPanel {
     private JPanel createEditorSettingPanel() {
         JPanel settingPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         settingPanel.setBorder(BorderFactory.createTitledBorder("编辑器"));
-        SwiftButton isEditableBtn = new SwiftButton();
+        isEditableBtn = new SwiftButton();
         isEditableBtn.setSelected(!applicationContext.getTextAreaEditState());
         isEditableBtn.setStateListener(source -> MenuEventService.getInstance().editSwitchActionPerformed());
         settingPanel.add(createTitleAndDescPanelLayout("锁定编辑：", "编辑器是否开启编辑功能", isEditableBtn));
-        SwiftButton lineWrapBtn = new SwiftButton();
+        lineWrapBtn = new SwiftButton();
         lineWrapBtn.setSelected(applicationContext.getTextAreaBreakLineState());
         lineWrapBtn.setStateListener(source -> MenuEventService.getInstance().lineSetupActionPerformed());
         settingPanel.add(createTitleAndDescPanelLayout("自动换行：", "编辑器是否可自动换行", lineWrapBtn));
-        SwiftButton showLineBtn = new SwiftButton();
+        showLineBtn = new SwiftButton();
         showLineBtn.setSelected(applicationContext.getTextAreaShowlineNumState());
         showLineBtn.setStateListener(source -> MenuEventService.getInstance().showLineNumActionPerformed());
         settingPanel.add(createTitleAndDescPanelLayout("显示行号：", "编辑器是否显示行号", showLineBtn));
@@ -190,7 +205,7 @@ public class SettingOptions extends JPanel {
         return main;
     }
 
-    private JPanel createBorderTitleAndDescPanelLayout(String borderTitle,String title, String description, Component component) {
+    private JPanel createBorderTitleAndDescPanelLayout(String borderTitle, String title, String description, Component component) {
         JPanel root = new JPanel();
         root.setBorder(BorderFactory.createTitledBorder(borderTitle));
         JPanel main = new JPanel(new BorderLayout());
@@ -221,6 +236,17 @@ public class SettingOptions extends JPanel {
         return resourceBundle.getString(keyRoot + ".Name");
     }
 
+    public SwiftButton getIsEditableBtn() {
+        return isEditableBtn;
+    }
+
+    public SwiftButton getLineWrapBtn() {
+        return lineWrapBtn;
+    }
+
+    public SwiftButton getShowLineBtn() {
+        return showLineBtn;
+    }
 
 }
 
