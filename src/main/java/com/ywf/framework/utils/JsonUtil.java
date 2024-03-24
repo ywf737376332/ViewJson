@@ -1,10 +1,12 @@
 package com.ywf.framework.utils;
 
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.vertical_blank.sqlformatter.SqlFormatter;
 import com.ywf.framework.enums.TextTypeEnum;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Document;
@@ -174,6 +176,9 @@ public class JsonUtil {
                 break;
             case XML:
                 result = prettyPrintByTransformer(content, 4, false);
+                break;
+            case SQL:
+                result = SqlFormatter.format(content).replace(";", ";\n");
                 break;
             case URL:
                 result = compressingStr(content);
