@@ -163,7 +163,7 @@ public class MenuEventService {
         SwingUtilities.invokeLater(() -> {
             String sourceText = rSyntaxTextArea.getText();
             TextTypeEnum textType = rSyntaxTextArea.getTextType();
-            switch (textType){
+            switch (textType) {
                 case SQL:
                     rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText).replaceAll(";", ";\n\n"));
                     break;
