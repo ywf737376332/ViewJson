@@ -90,7 +90,7 @@ public class StateBarEventService {
             FlatLabel tipLabel = PanelView.getTipMessage();
             int lineNumber = rSyntaxTextArea.getCaretLineNumber() + 1;
             int columnNumber = rSyntaxTextArea.getCaretOffsetFromLineStart() + 1;
-            tipLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + "行:" + lineNumber + " 列:" + columnNumber + "</span></html>");
+            tipLabel.setText("<html><span color=\"#389FD6\" style=\"font-family:'Microsoft YaHei UI';font-size:10px\">" + lineNumber  + MessageConstant.SYSTEM_STATE_BAR_LINE + columnNumber+ MessageConstant.SYSTEM_STATE_BAR_COLUMN + "</span></html>");
         });
     }
 

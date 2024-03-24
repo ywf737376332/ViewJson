@@ -57,21 +57,21 @@ public class FrameFontsPanel extends JPanel {
     private JPanel createFrameFontPanel() {
         JPanel frameFontPanel = new JPanel(new BorderLayout(10, 20));
         frameFontPanel.setPreferredSize(new Dimension(450, 240));
-        frameFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "界面字体设置"));
+        frameFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), getMessage("Settings.WindowsFonts")));
 
         ArrayList<ModelEntity> fontNameModelList = Arrays.stream(FontEnum.Name.values()).map((FontEnum.Name fontName) -> new ModelEntity(fontName.getMsgKey(), fontName.getName())).collect(Collectors.toCollection(ArrayList::new));
         JList fontNameList = createJList(fontNameModelList, FontEnum.Type.FONT_NAME);
-        JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, "字体：", new Dimension(200, 140));
+        JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, getMessage("Settings.WindowsFonts.FontName"), new Dimension(200, 140));
         frameFontPanel.add(fontNameScrollPane, BorderLayout.WEST);
 
         ArrayList<ModelEntity> fontStyleModelList = Arrays.stream(FontEnum.Style.values()).map((FontEnum.Style fontStyle) -> new ModelEntity(fontStyle.getMsgKey(), fontStyle.getStyle())).collect(Collectors.toCollection(ArrayList::new));
         JList fontStyleList = createJList(fontStyleModelList, FontEnum.Type.FONT_STYLE);
-        JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, "字形：", new Dimension(140, 140));
+        JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, getMessage("Settings.WindowsFonts.FontStyle"), new Dimension(140, 140));
         frameFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
 
         ArrayList<ModelEntity> fontSizeModelList = Arrays.stream(FontEnum.Size.values()).map((FontEnum.Size fontSize) -> new ModelEntity(fontSize.getMsgKey(), fontSize.getSize())).collect(Collectors.toCollection(ArrayList::new));
         JList fontSizeList = createJList(fontSizeModelList, FontEnum.Type.FONT_SIZE);
-        JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, "字号：", new Dimension(120, 140));
+        JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, getMessage("Settings.WindowsFonts.FontSize"), new Dimension(120, 140));
         frameFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
         return frameFontPanel;
     }
@@ -84,7 +84,7 @@ public class FrameFontsPanel extends JPanel {
     private JPanel createViewFontPanel() {
         JPanel viewFontPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         viewFontPanel.setPreferredSize(new Dimension(450, 100));
-        viewFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "字体预览"));
+        viewFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), getMessage("Settings.WindowsFonts.View")));
         FlatLabel viewFontLabel1 = new FlatLabel();
         viewFontLabel1.setText("abcdefghijklmn ABCDEFGHIJKLMN 0123456789 (){}[]");
         viewFontLabel1.setBorder(BorderBuilder.emptyBorder(10));
@@ -99,7 +99,7 @@ public class FrameFontsPanel extends JPanel {
     private JPanel createEditorFontPanel() {
         JPanel viewFontPanel = new JPanel(new GridLayout(1, 1, 10, 10));
         viewFontPanel.setPreferredSize(new Dimension(450, 120));
-        viewFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), "编辑框字体大小调整"));
+        viewFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), getMessage("Settings.EditorFonts.FontSize")));
         EditorFontSlider editorFontSlider = new EditorFontSlider(JSlider.HORIZONTAL, 10, 30, ConvertUtils.toInt(applicationContext.getEditorFontStyle().getSize()));
         viewFontPanel.add(editorFontSlider);
         return viewFontPanel;

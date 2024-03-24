@@ -207,6 +207,36 @@ public class MessageConstant {
      */
     public static final String SYSTEM_FIND_RESULTS_TIP = getMessage("System.FindResults.Tip");
 
+    /**
+     * 系统设置
+     */
+    public static final String TAB_TITLE_SYSTEM_SETTINGS = getMessage("Tab.Title.SystemSettings");
+
+    /**
+     * 系统主题
+     */
+    public static final String TAB_TITLE_SYSTEM_THEMES = getMessage("Tab.Title.SystemThemes");
+
+    /**
+     * 界面字体
+     */
+    public static final String TAB_TITLE_SETTINGS_FONT = getMessage("Tab.Title.SystemFont");
+
+    /**
+     * 行
+     */
+    public static final String SYSTEM_STATE_BAR_LINE = getMessage("System.StateBar.Line");
+
+    /**
+     * 列
+     */
+    public static final String SYSTEM_STATE_BAR_COLUMN = getMessage("System.StateBar.Column");
+
+    /**
+     * 关闭倒计时：
+     */
+    public static final String SYSTEM_DIALOG_CLOSE_TIP = getMessage("System.Dialog.CloseTime");
+
 
     private static String getSepMessage(String keyRoot) {
         return resourceBundle.getString(keyRoot + ".Name") + Separator;

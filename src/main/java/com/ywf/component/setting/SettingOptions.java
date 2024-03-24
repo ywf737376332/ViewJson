@@ -69,10 +69,10 @@ public class SettingOptions extends JPanel {
         SwiftButton showToolBarTextBtn = new SwiftButton();
         showToolBarTextBtn.setSelected(applicationContext.getShowToolBarText());
         showToolBarTextBtn.setStateListener(source -> MenuEventService.getInstance().showToolBarTextActionPerformed(WindowUtils.getFrame()));
-        JPanel toolBarTextPanel = createBorderTitleAndDescPanelLayout("", "工具栏名称", "是否显示工具栏名称", showToolBarTextBtn);
-        JSONButton logButton = new JSONButton("查看日志");
+        JPanel toolBarTextPanel = createBorderTitleAndDescPanelLayout("", getMessage("Settings.ToolBarTitle"), getMessage("Settings.ToolBarTitle.Descript"), showToolBarTextBtn);
+        JSONButton logButton = new JSONButton(getMessage("Settings.LookLog"));
         logButton.addActionListener(e -> MenuEventService.getInstance().opneLogFileActionPerformed());
-        JPanel logViewPanel = createBorderTitleAndDescPanelLayout("", "日志查看", "打开当前系统运行的日志文件", logButton);
+        JPanel logViewPanel = createBorderTitleAndDescPanelLayout("", getMessage("Settings.LookLog"), getMessage("Settings.LookLog.Descript"), logButton);
         // 创建一个 垂直方向胶状 的不可见组件，用于撑满垂直方向剩余的空间（如果有多个该组件，则平分剩余空间）
         Dimension viewSize = new Dimension(450, 20);
         vBox.add(languageSetting);
@@ -96,7 +96,7 @@ public class SettingOptions extends JPanel {
      */
     private JPanel createLanguageSettingPanel() {
         JPanel settingPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
-        settingPanel.setBorder(BorderFactory.createTitledBorder("语言"));
+        settingPanel.setBorder(BorderFactory.createTitledBorder(getMessage("Settings.Language")));
         ButtonGroup languageButtonGroup = new ButtonGroup();
         for (LanguageEnum value : LanguageEnum.values()) {
             ColorRadioButton languageRadioButton = new ColorRadioButton(getMessage(value.getMessageKey()), value.getLanguage() + "_" + value.getCountry());
@@ -114,30 +114,30 @@ public class SettingOptions extends JPanel {
      */
     private JPanel createEditorSettingPanel() {
         JPanel settingPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        settingPanel.setBorder(BorderFactory.createTitledBorder("编辑器"));
+        settingPanel.setBorder(BorderFactory.createTitledBorder(getMessage("Settings.Editor")));
         isEditableBtn = new SwiftButton();
         isEditableBtn.setSelected(!applicationContext.getTextAreaEditState());
         isEditableBtn.setStateListener(source -> MenuEventService.getInstance().editSwitchActionPerformed());
-        settingPanel.add(createTitleAndDescPanelLayout("锁定编辑：", "编辑器是否开启编辑功能", isEditableBtn));
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("MenuItem.EditSetup"), getMessage("MenuItem.EditSetup.Descript"), isEditableBtn));
         lineWrapBtn = new SwiftButton();
         lineWrapBtn.setSelected(applicationContext.getTextAreaBreakLineState());
         lineWrapBtn.setStateListener(source -> MenuEventService.getInstance().lineSetupActionPerformed());
-        settingPanel.add(createTitleAndDescPanelLayout("自动换行：", "编辑器是否可自动换行", lineWrapBtn));
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("MenuItem.LineSetup"), getMessage("MenuItem.LineSetup.Descript"), lineWrapBtn));
         showLineBtn = new SwiftButton();
         showLineBtn.setSelected(applicationContext.getTextAreaShowlineNumState());
         showLineBtn.setStateListener(source -> MenuEventService.getInstance().showLineNumActionPerformed());
-        settingPanel.add(createTitleAndDescPanelLayout("显示行号：", "编辑器是否显示行号", showLineBtn));
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("MenuItem.Showline"), getMessage("MenuItem.Showline.Descript"), showLineBtn));
         SwiftButton whitespaceBtn = new SwiftButton();
         whitespaceBtn.setSelected(applicationContext.getShowWhitespace());
         whitespaceBtn.setStateListener(e -> MenuEventService.getInstance().showWhitespaceActionPerformed());
-        settingPanel.add(createTitleAndDescPanelLayout("显示空格符：", "编辑器中显示空格符，以帮助您识别尾随空格", whitespaceBtn));
-        settingPanel.add(createTitleAndDescPanelLayout("显示分割线：", "调节编辑器中分割线位置", new ViewSlider(JSlider.HORIZONTAL, 0, 80, applicationContext.getMarginLine().getMarginWidth())));
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("Settings.ShowSpaceChar"), getMessage("Settings.ShowSpaceChar.Descript"), whitespaceBtn));
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("Settings.SplitLines"), getMessage("Settings.SplitLines.Descript"), new ViewSlider(JSlider.HORIZONTAL, 0, 80, applicationContext.getMarginLine().getMarginWidth())));
         return settingPanel;
     }
 
     private JPanel createPictureQualitySettingPanel() {
         JPanel settingPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
-        settingPanel.setBorder(BorderFactory.createTitledBorder("图片质量"));
+        settingPanel.setBorder(BorderFactory.createTitledBorder(getMessage("Settings.PictureQuality")));
         ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
         for (PictureQualityEnum value : PictureQualityEnum.values()) {
             ColorRadioButton pictureQualityRadioButton = new ColorRadioButton(getMessage(value.getMessageKey()), value.getPictureQualityState());
@@ -150,7 +150,7 @@ public class SettingOptions extends JPanel {
 
     private JPanel createChineseConverSettingPanel() {
         JPanel rootPanel = new JPanel(new GridLayout(1, 2, 0, 0));
-        rootPanel.setBorder(BorderFactory.createTitledBorder("中文转码"));
+        rootPanel.setBorder(BorderFactory.createTitledBorder(getMessage("Settings.ChineseConvert")));
         JPanel settingPanel = new JPanel(new GridLayout(3, 1, 5, 5));
         settingPanel.setBorder(BorderBuilder.emptyBorder(10, 20, 10, 20));
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -162,7 +162,7 @@ public class SettingOptions extends JPanel {
         MenuEventService.getInstance().chineseConverActionPerformed(buttonGroup);
         JPanel descriptPanel = new JPanel(new GridLayout(1, 1, 5, 5));
         descriptPanel.setBorder(BorderBuilder.emptyBorder(10, 20, 10, 20));
-        String text = "当前的文本编辑器，在点击格式化按钮的时候，是否开启中文和Unicode互转的功能。";
+        String text = getMessage("Settings.ChineseConvert.Descript");
         DropcapLabel descriptLabel = new DropcapLabel(text);
         descriptLabel.setPreferredSize(new Dimension(80, 40));
         descriptPanel.add(descriptLabel);

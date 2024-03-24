@@ -3,6 +3,7 @@ package com.ywf.component;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.base.ThemeColor;
+import com.ywf.framework.constant.MessageConstant;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,7 +80,7 @@ public class DialogBuilder {
 
             @Override
             public void run() {
-                dialog.setTitle("<html><span style=\"float:right\"><b>" + title + "</b>，关闭倒计时：" + count-- + "秒</span></html>");
+                dialog.setTitle("<html><span style=\"float:right\"><b>" + title + "</b>，" + MessageConstant.SYSTEM_DIALOG_CLOSE_TIP + "：" + count-- + "秒</span></html>");
                 if (count < 0) {
                     dialog.setVisible(false);
                     timer.cancel();
@@ -102,7 +103,7 @@ public class DialogBuilder {
 
             @Override
             public void run() {
-                dialog.setTitle("<html><span style=\"float:right\"><b>" + title + "</b>，关闭倒计时：" + count-- + "秒</span></html>");
+                dialog.setTitle("<html><span style=\"float:right\"><b>" + title + "</b>，" + MessageConstant.SYSTEM_DIALOG_CLOSE_TIP + "：" + count-- + "秒</span></html>");
                 if (count < 0) {
                     dialog.setVisible(false);
                     timer.cancel();
