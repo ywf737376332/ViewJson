@@ -374,7 +374,6 @@ public class MenuEventService {
             for (int i = 0; i < scrollPaneList.size(); i++) {
                 JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
                 boolean isEditable = rSyntaxTextArea.isEditable();
-                System.out.println("状态：" + isEditable);
                 rSyntaxTextArea.setEditable(!isEditable);
                 if (i == scrollPaneList.size() - 1) {
                     // 菜单栏和工具按钮联动修改状态

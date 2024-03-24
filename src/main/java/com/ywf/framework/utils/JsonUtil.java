@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vertical_blank.sqlformatter.SqlFormatter;
+import com.ywf.component.toast.Toast;
 import com.ywf.framework.enums.TextTypeEnum;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Document;
@@ -20,7 +21,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URLEncoder;
 
 public class JsonUtil {
     private static final String FOUR_SPACE = "    ";
@@ -178,13 +181,25 @@ public class JsonUtil {
                 result = prettyPrintByTransformer(content, 4, false);
                 break;
             case SQL:
-                result = SqlFormatter.format(content).replace(";", ";\n");
+                result = sqlFormatter(content);
                 break;
             case URL:
                 result = compressingStr(content);
                 break;
             case TEXT:
                 result = formatJson(content);
+                break;
+            case PROPERTIES:
+                Toast.info(WindowUtils.getFrame(), "当前内容，不支持格式化操作！");
+                break;
+            case YAML:
+                Toast.info(WindowUtils.getFrame(), "当前内容，不支持格式化操作！");
+                break;
+            case JAVA:
+                Toast.info(WindowUtils.getFrame(), "当前内容，不支持格式化操作！");
+                break;
+            case JAVASCRIPT:
+                Toast.info(WindowUtils.getFrame(), "当前内容，不支持格式化操作！");
                 break;
             default:
         }
@@ -239,6 +254,25 @@ public class JsonUtil {
             return mapper.writer(printer).writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("JSON格式化失败：" + e.getMessage());
+        }
+    }
+
+    private static String sqlFormatter(String jsonStr) {
+        return SqlFormatter.format(jsonStr).replace(";", ";\n");
+    }
+
+    /**
+     * 对URL进行编码
+     *
+     * @param jsonStr
+     * @return
+     */
+    private static String urlEncoder(String jsonStr) {
+        String content = compressingStr(jsonStr);
+        try {
+            return URLEncoder.encode(content, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 }
