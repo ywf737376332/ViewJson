@@ -137,7 +137,7 @@ public class ChangeUIUtils {
             LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
             for (JScrollPane scrollPane : sp) {
                 // 重置滚动条UI,避免重新应用主题后，滚动条UI被还原
-                initScrollBarUi();
+                initScrollBarUi(scrollPane);
                 // 重置滚动条UI,避免重新应用主题后，编辑框字体被还原
                 initJSONAreaFontStyle(scrollPane, font);
             }
@@ -147,16 +147,16 @@ public class ChangeUIUtils {
     /**
      * 重新设置JScrollPane的下拉条UI
      */
-    private static void initScrollBarUi() {
-        //scrollPane.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
-        //scrollPane.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
-
+    private static void initScrollBarUi(JScrollPane editorScrollPane) {
+        //编辑框滚动条UI重置
+        editorScrollPane.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+        editorScrollPane.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+        // 循环遍历当前界面创建的所有滚动条，进行UI重置，避免主题更换后失效，必须提前缓存滚动条组件
         ObjectUtils.getGroupBean(GlobalKEY.COMPONENT_SCROLL_GROUP).forEach((k, v) -> {
             if (v instanceof JScrollPane) {
-                System.out.println("k:"+k + " v:"+v);
-                JScrollPane scrollPane = (JScrollPane) v;
-                scrollPane.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
-                scrollPane.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+                JScrollPane viewScrollPane = (JScrollPane) v;
+                viewScrollPane.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+                viewScrollPane.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
             }
         });
     }

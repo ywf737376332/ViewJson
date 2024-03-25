@@ -402,7 +402,6 @@ public class MenuEventService {
      */
     public void lineSetupActionPerformed() {
         LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
-        System.out.println("执行了：1");
         SwingUtilities.invokeLater(() -> {
             for (int i = 0; i < scrollPaneList.size(); i++) {
                 JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));

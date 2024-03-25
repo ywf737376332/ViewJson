@@ -1,10 +1,8 @@
 package com.ywf.component;
 
 import com.ywf.action.StateBarEventService;
-import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.ui.ScrollBackToTopLayerUI;
 import com.ywf.framework.utils.ComponentUtils;
-import com.ywf.framework.utils.ObjectUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -245,8 +243,6 @@ public class JTabbedSplitEditor extends JPanel {
     private RTextScrollPane initScrollEditor() {
         RTextScrollPane scrollTextArea = TextAreaBuilder.createJsonScrollTextArea();
         requestFocusToScrollEditor(scrollTextArea);
-        //缓存滚动框
-        ObjectUtils.addGroupBean(GlobalKEY.COMPONENT_SCROLL_GROUP, scrollTextArea);
         return scrollTextArea;
     }
 
