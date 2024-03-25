@@ -178,8 +178,8 @@ public class MenuBarBuilder {
         editSetupMenuItem.setSelected(!applicationContext.getTextAreaEditState());
         setupMenu.add(lineSetupMenuItem = createCheckBoxMenu(lineSetupAction));
         lineSetupMenuItem.setSelected(applicationContext.getTextAreaBreakLineState());
-        setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
-        showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
+        //setupMenu.add(showlineNumMenuItem = createCheckBoxMenu(showlineNumAction));
+        //showlineNumMenuItem.setSelected(applicationContext.getTextAreaShowlineNumState());
 
         /**
          * 主题
@@ -250,8 +250,8 @@ public class MenuBarBuilder {
         editSetupAction.setProperties(msg, "MenuItem.EditSetup");
         lineSetupAction = new MenuBarKit.LineSetupAction();
         lineSetupAction.setProperties(msg, "MenuItem.LineSetup");
-        showlineNumAction = new MenuBarKit.ShowlineNumAction();
-        showlineNumAction.setProperties(msg, "MenuItem.Showline");
+        //showlineNumAction = new MenuBarKit.ShowlineNumAction();
+        //showlineNumAction.setProperties(msg, "MenuItem.Showline");
         systemSetupAction = new MenuBarKit.SystemSetupAction();
         systemSetupAction.setProperties(msg, "MenuItem.SystemSetup");
 

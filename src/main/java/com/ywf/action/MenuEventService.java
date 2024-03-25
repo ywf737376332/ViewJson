@@ -402,6 +402,7 @@ public class MenuEventService {
      */
     public void lineSetupActionPerformed() {
         LinkedList<JScrollPane> scrollPaneList = tabbedSplitEditor.getPages();
+        System.out.println("执行了：1");
         SwingUtilities.invokeLater(() -> {
             for (int i = 0; i < scrollPaneList.size(); i++) {
                 JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPaneList.get(i));
@@ -409,8 +410,8 @@ public class MenuEventService {
                 rSyntaxTextArea.setLineWrap(!breakLine);
                 if (i == scrollPaneList.size() - 1) {
                     // 菜单栏和工具按钮联动修改状态
-                    MenuBarBuilder.getInstance().getLineSetupMenuItem().setSelected(breakLine);
-                    SettingOptions.getInstance().getLineWrapBtn().setSelected(breakLine);
+                    MenuBarBuilder.getInstance().getLineSetupMenuItem().setSelected(!breakLine);
+                    SettingOptions.getInstance().getLineWrapBtn().setSelected(!breakLine);
                     applicationContext.setTextAreaBreakLineState(!breakLine);
                 }
             }
