@@ -14,6 +14,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicToolBarUI;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -33,6 +37,8 @@ public class ToolBarBuilder {
     private JToolBar toolBar;
     private JButton btnFormat, btnCompress, btnEscape, btnUnescape, btnCopyCode, btnCopyPict, btnShowQrcode, btnFind, btnClean;
     private MenuAction formatAction, compressAction, escapeAction, unescapeAction, copyCodeAction, copyPictAction, showQrcodeAction, findAction, cleanAction;
+
+    private Map<Integer, JButton> toolBarElementList;
 
 
     volatile private static ToolBarBuilder instance = null;
@@ -76,6 +82,7 @@ public class ToolBarBuilder {
         toolBar.add(btnFind = createButton(findAction));
         toolBar.addSeparator();
         toolBar.add(btnClean = createButton(cleanAction));
+        cashToolBarElement(toolBar);
         return toolBar;
     }
 
@@ -147,6 +154,29 @@ public class ToolBarBuilder {
         mainFrame.add(createToolBar(frame), applicationContext.getToolBarLocation());
         mainFrame.revalidate();
         mainFrame.repaint();
+    }
+
+    /**
+     * 按组件按钮名称缓存组件按钮对象
+     *
+     * @param toolBar
+     */
+    private void cashToolBarElement(JToolBar toolBar) {
+        if (toolBar != null) {
+            toolBarElementList = new LinkedHashMap<>();
+            int i = 0;
+            for (Component component : toolBar.getComponents()) {
+                if (component instanceof JButton) {
+                    JButton toolBarBtn = (JButton) component;
+                    toolBarElementList.put(i, toolBarBtn);
+                    i++;
+                }
+            }
+        }
+    }
+
+    public Map<Integer, JButton> getToolBarElementList() {
+        return toolBarElementList;
     }
 
     public JToolBar getToolBar() {
