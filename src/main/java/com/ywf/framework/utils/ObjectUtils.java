@@ -11,7 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ObjectUtils {
 
     private static final ConcurrentHashMap<String, Object> VIEW_SOURCES = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<Class<?>, Object> VIEW_COMPONENTS = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Object> VIEW_COMPONENTS = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> VIEW_GROUPS = new ConcurrentHashMap<>();
 
     public static <T> T getBean(String clazzKey) {
         return (T) VIEW_SOURCES.get(clazzKey);
@@ -21,16 +22,21 @@ public class ObjectUtils {
         VIEW_SOURCES.put(clazzKey, value);
     }
 
-
-    public static <T> T getBean(Class<?> clazz) {
-        return (T) VIEW_COMPONENTS.get(clazz);
-    }
-
-    public static void setBean(Class<?> clazz, Object value) {
-        Object val = VIEW_COMPONENTS.get(clazz);
-        if (val == null) {
-            VIEW_COMPONENTS.put(clazz, value);
+    public static void addGroupBean(String groupId, Object value) {
+        if (VIEW_GROUPS.containsKey(groupId)) {
+            ConcurrentHashMap<String, Object> SOURCES = VIEW_GROUPS.get(groupId);
+            if (!SOURCES.containsKey(groupId + value.hashCode()) && !VIEW_COMPONENTS.containsValue(value)) {
+                VIEW_COMPONENTS.put(groupId + value.hashCode(), value);
+            }
+        } else {
+            VIEW_COMPONENTS.put(groupId + value.hashCode(), value);
+            VIEW_GROUPS.put(groupId, VIEW_COMPONENTS);
         }
     }
+
+    public static ConcurrentHashMap<String, Object> getGroupBean(String groupId) {
+        return VIEW_GROUPS.get(groupId);
+    }
+
 
 }

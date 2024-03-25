@@ -2,7 +2,9 @@ package com.ywf.component;
 
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.ThemeColor;
+import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.ui.EditScrollPane;
+import com.ywf.framework.utils.ObjectUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,6 +45,7 @@ public final class ScrollPaneBuilder {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         // 缓存滚动条对象
+        ObjectUtils.addGroupBean(GlobalKEY.COMPONENT_SCROLL_GROUP, scrollPane);
         return scrollPane;
     }
 

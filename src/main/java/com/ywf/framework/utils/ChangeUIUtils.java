@@ -137,7 +137,7 @@ public class ChangeUIUtils {
             LinkedList<JScrollPane> sp = tabbedSplitEditor.getPages();
             for (JScrollPane scrollPane : sp) {
                 // 重置滚动条UI,避免重新应用主题后，滚动条UI被还原
-                initJSONAreaScrollBarUi(scrollPane);
+                initScrollBarUi();
                 // 重置滚动条UI,避免重新应用主题后，编辑框字体被还原
                 initJSONAreaFontStyle(scrollPane, font);
             }
@@ -146,12 +146,19 @@ public class ChangeUIUtils {
 
     /**
      * 重新设置JScrollPane的下拉条UI
-     *
-     * @param scrollPane
      */
-    private static void initJSONAreaScrollBarUi(JScrollPane scrollPane) {
-        scrollPane.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
-        scrollPane.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+    private static void initScrollBarUi() {
+        //scrollPane.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+        //scrollPane.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+
+        ObjectUtils.getGroupBean(GlobalKEY.COMPONENT_SCROLL_GROUP).forEach((k, v) -> {
+            if (v instanceof JScrollPane) {
+                System.out.println("k:"+k + " v:"+v);
+                JScrollPane scrollPane = (JScrollPane) v;
+                scrollPane.getVerticalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+                scrollPane.getHorizontalScrollBar().setUI(new ArrowButtonlessScrollBarUI());
+            }
+        });
     }
 
     /**
@@ -161,9 +168,9 @@ public class ChangeUIUtils {
      */
     private static void initJSONAreaFontStyle(JScrollPane scrollPane, Font font) {
         JSONRSyntaxTextArea rSyntaxTextArea = ComponentUtils.convertEditor(scrollPane);
-        logger.warn("编辑框字体改变前：{}", rSyntaxTextArea.getFont());
+        //logger.warn("编辑框字体改变前：{}", rSyntaxTextArea.getFont());
         rSyntaxTextArea.setFont(font);
-        logger.warn("编辑框字体改变后：{}", rSyntaxTextArea.getFont());
+        //logger.warn("编辑框字体改变后：{}", rSyntaxTextArea.getFont());
     }
 
     /**

@@ -56,7 +56,7 @@ public class FrameFontsPanel extends JPanel {
      */
     private JPanel createFrameFontPanel() {
         JPanel frameFontPanel = new JPanel(new BorderLayout(10, 20));
-        frameFontPanel.setPreferredSize(new Dimension(450, 240));
+        frameFontPanel.setPreferredSize(new Dimension(450, 200));
         frameFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), getMessage("Settings.WindowsFonts")));
 
         ArrayList<ModelEntity> fontNameModelList = Arrays.stream(FontEnum.Name.values()).map((FontEnum.Name fontName) -> new ModelEntity(fontName.getMsgKey(), fontName.getName())).collect(Collectors.toCollection(ArrayList::new));

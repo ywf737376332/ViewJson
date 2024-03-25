@@ -30,8 +30,8 @@ public final class SystemSetupPanelBuilder {
             return tabs;
         }
         tabs = new SettingTabbedPane();
-        tabs.setSize(700, 520);
-        tabs.setMinimumSize(new Dimension(700, 520));
+        tabs.setSize(680, 520);
+        tabs.setMinimumSize(new Dimension(680, 520));
         tabs.addTab(MessageConstant.TAB_TITLE_SYSTEM_THEMES, SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.theme), ScrollPaneBuilder.createScrollPane(new ThemesPanel()));
         tabs.addTab(MessageConstant.TAB_TITLE_SETTINGS_FONT, SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.frameFont), ScrollPaneBuilder.createScrollPane(new FrameFontsPanel()));
         //tabs.addTab("内容字体", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.editorFont), ScrollPaneBuilder.createScrollPane(new EditorFontsPanel()));

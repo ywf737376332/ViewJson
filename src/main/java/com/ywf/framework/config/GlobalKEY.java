@@ -21,6 +21,7 @@ public class GlobalKEY extends JFrame implements Serializable {
     public static final String STATE_BAR_TEXT_LENGTH = PREFIX + "stateBarTextLength";
     public static final String STATE_BAR_RUN_TIME = PREFIX + "stateBarRunTime";
     public static final String STATE_BAR_COST_TIME = PREFIX + "stateBarCostTime";
+    public static final String COMPONENT_SCROLL_GROUP = PREFIX + "Group:ScrollPane";
 
     /**
      * 系统设置配置参数
