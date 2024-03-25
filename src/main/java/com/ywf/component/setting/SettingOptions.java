@@ -8,11 +8,13 @@ import com.ywf.component.SwiftButton;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.DropcapLabel;
+import com.ywf.framework.enums.FontEnum;
 import com.ywf.framework.enums.LanguageEnum;
 import com.ywf.framework.enums.PictureQualityEnum;
 import com.ywf.framework.enums.TextConvertEnum;
 import com.ywf.framework.ioc.ConfigurableApplicationContext;
 import com.ywf.framework.ui.ColorRadioButton;
+import com.ywf.framework.utils.WindowUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,13 +37,28 @@ public class SettingOptions extends JPanel {
 
     private ResourceBundle resourceBundle;
 
-    public SettingOptions() {
+    private SwiftButton isEditableBtn, lineWrapBtn, showLineBtn;
+
+    volatile private static SettingOptions instance = null;
+
+    private SettingOptions() {
         super();
-        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         init();
     }
 
+    public static SettingOptions getInstance() {
+        if (instance == null) {
+            synchronized (SettingOptions.class) {
+                if (instance == null) {
+                    instance = new SettingOptions();
+                }
+            }
+        }
+        return instance;
+    }
+
     private void init() {
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         // 创建一个垂直箱容器
         Box vBox = Box.createVerticalBox();
         //设置语言
@@ -49,7 +66,13 @@ public class SettingOptions extends JPanel {
         JPanel editorSetting = createEditorSettingPanel();
         JPanel pictureQualitySetting = createPictureQualitySettingPanel();
         JPanel chineseConverSetting = createChineseConverSettingPanel();
-        JPanel logViewPanel = createLogViewPanel("日志查看", "打开当前系统运行的日志文件");
+        SwiftButton showToolBarTextBtn = new SwiftButton();
+        showToolBarTextBtn.setSelected(applicationContext.getShowToolBarText());
+        showToolBarTextBtn.setStateListener(source -> MenuEventService.getInstance().showToolBarTextActionPerformed(WindowUtils.getFrame()));
+        JPanel toolBarTextPanel = createBorderTitleAndDescPanelLayout("", getMessage("Settings.ToolBarTitle"), getMessage("Settings.ToolBarTitle.Descript"), showToolBarTextBtn);
+        JSONButton logButton = new JSONButton(getMessage("Settings.LookLog"));
+        logButton.addActionListener(e -> MenuEventService.getInstance().opneLogFileActionPerformed());
+        JPanel logViewPanel = createBorderTitleAndDescPanelLayout("", getMessage("Settings.LookLog"), getMessage("Settings.LookLog.Descript"), logButton);
         // 创建一个 垂直方向胶状 的不可见组件，用于撑满垂直方向剩余的空间（如果有多个该组件，则平分剩余空间）
         Dimension viewSize = new Dimension(450, 20);
         vBox.add(languageSetting);
@@ -60,63 +83,86 @@ public class SettingOptions extends JPanel {
         vBox.add(Box.createRigidArea(viewSize));
         vBox.add(chineseConverSetting);
         vBox.add(Box.createRigidArea(viewSize));
+        vBox.add(toolBarTextPanel);
+        vBox.add(Box.createRigidArea(viewSize));
         vBox.add(logViewPanel);
         this.add(vBox);
     }
 
+    /**
+     * 语言设置面板
+     *
+     * @return
+     */
     private JPanel createLanguageSettingPanel() {
         JPanel settingPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
-        settingPanel.setBorder(BorderFactory.createTitledBorder("语言"));
+        settingPanel.setBorder(BorderFactory.createTitledBorder(getMessage("Settings.Language")));
         ButtonGroup languageButtonGroup = new ButtonGroup();
         for (LanguageEnum value : LanguageEnum.values()) {
             ColorRadioButton languageRadioButton = new ColorRadioButton(getMessage(value.getMessageKey()), value.getLanguage() + "_" + value.getCountry());
             languageButtonGroup.add(languageRadioButton);
             settingPanel.add(languageRadioButton);
         }
+        MenuEventService.getInstance().setupLanguageActionPerformed(WindowUtils.getFrame(), languageButtonGroup);
         return settingPanel;
     }
 
+    /**
+     * 编辑器设置面板
+     *
+     * @return
+     */
     private JPanel createEditorSettingPanel() {
         JPanel settingPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        settingPanel.setBorder(BorderFactory.createTitledBorder("编辑器"));
-        settingPanel.add(createTitleAndDescPanelLayout("是否可编辑：", "编辑器是否可开启编辑功能", new SwiftButton()));
-        SwiftButton lineWrapBtn = new SwiftButton();
+        settingPanel.setBorder(BorderFactory.createTitledBorder(getMessage("Settings.Editor")));
+        isEditableBtn = new SwiftButton();
+        isEditableBtn.setSelected(!applicationContext.getTextAreaEditState());
+        isEditableBtn.setStateListener(source -> MenuEventService.getInstance().editSwitchActionPerformed());
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("MenuItem.EditSetup"), getMessage("MenuItem.EditSetup.Descript"), isEditableBtn));
+        lineWrapBtn = new SwiftButton();
+        lineWrapBtn.setSelected(applicationContext.getTextAreaBreakLineState());
         lineWrapBtn.setStateListener(source -> MenuEventService.getInstance().lineSetupActionPerformed());
-        settingPanel.add(createTitleAndDescPanelLayout("自动换行：", "编辑器是否可自动换行", lineWrapBtn));
-        settingPanel.add(createTitleAndDescPanelLayout("显示行号：", "编辑器是否显示行号", new SwiftButton()));
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("MenuItem.LineSetup"), getMessage("MenuItem.LineSetup.Descript"), lineWrapBtn));
+        showLineBtn = new SwiftButton();
+        showLineBtn.setSelected(applicationContext.getTextAreaShowlineNumState());
+        showLineBtn.setStateListener(source -> MenuEventService.getInstance().showLineNumActionPerformed());
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("MenuItem.Showline"), getMessage("MenuItem.Showline.Descript"), showLineBtn));
         SwiftButton whitespaceBtn = new SwiftButton();
+        whitespaceBtn.setSelected(applicationContext.getShowWhitespace());
         whitespaceBtn.setStateListener(e -> MenuEventService.getInstance().showWhitespaceActionPerformed());
-        settingPanel.add(createTitleAndDescPanelLayout("显示空格符：", "编辑器中显示空格符，以帮助您识别尾随空格", whitespaceBtn));
-        settingPanel.add(createTitleAndDescPanelLayout("显示分割符：", "编辑器中显示分割符位置", new ViewSlider(JSlider.HORIZONTAL, 0, 80, applicationContext.getMarginLine().getMarginWidth())));
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("Settings.ShowSpaceChar"), getMessage("Settings.ShowSpaceChar.Descript"), whitespaceBtn));
+        settingPanel.add(createTitleAndDescPanelLayout(getMessage("Settings.SplitLines"), getMessage("Settings.SplitLines.Descript"), new ViewSlider(JSlider.HORIZONTAL, 0, 80, applicationContext.getMarginLine().getMarginWidth())));
         return settingPanel;
     }
 
     private JPanel createPictureQualitySettingPanel() {
         JPanel settingPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
-        settingPanel.setBorder(BorderFactory.createTitledBorder("图片质量"));
+        settingPanel.setBorder(BorderFactory.createTitledBorder(getMessage("Settings.PictureQuality")));
         ButtonGroup pictureQualityButtonGroup = new ButtonGroup();
         for (PictureQualityEnum value : PictureQualityEnum.values()) {
-            ColorRadioButton pictureQualityRadioButton = new ColorRadioButton(getMessage(value.getMessageKey()), value.getMessageKey() + "_" + value.getPictureQualityState());
+            ColorRadioButton pictureQualityRadioButton = new ColorRadioButton(getMessage(value.getMessageKey()), value.getPictureQualityState());
             pictureQualityButtonGroup.add(pictureQualityRadioButton);
             settingPanel.add(pictureQualityRadioButton);
         }
+        MenuEventService.getInstance().pictureQualityActionPerformed(pictureQualityButtonGroup);
         return settingPanel;
     }
 
     private JPanel createChineseConverSettingPanel() {
         JPanel rootPanel = new JPanel(new GridLayout(1, 2, 0, 0));
-        rootPanel.setBorder(BorderFactory.createTitledBorder("中文转码"));
+        rootPanel.setBorder(BorderFactory.createTitledBorder(getMessage("Settings.ChineseConvert")));
         JPanel settingPanel = new JPanel(new GridLayout(3, 1, 5, 5));
         settingPanel.setBorder(BorderBuilder.emptyBorder(10, 20, 10, 20));
         ButtonGroup buttonGroup = new ButtonGroup();
         for (TextConvertEnum value : TextConvertEnum.values()) {
-            ColorRadioButton radioButton = new ColorRadioButton(getMessage(value.getMessageKey()), value.getMessageKey() + "_" + value.getConverType());
+            ColorRadioButton radioButton = new ColorRadioButton(getMessage(value.getMessageKey()), value.getConverType());
             buttonGroup.add(radioButton);
             settingPanel.add(radioButton);
         }
+        MenuEventService.getInstance().chineseConverActionPerformed(buttonGroup);
         JPanel descriptPanel = new JPanel(new GridLayout(1, 1, 5, 5));
         descriptPanel.setBorder(BorderBuilder.emptyBorder(10, 20, 10, 20));
-        String text = "当前的文本编辑器，在点击格式化按钮的时候，是否开启中文和Unicode互转的功能。";
+        String text = getMessage("Settings.ChineseConvert.Descript");
         DropcapLabel descriptLabel = new DropcapLabel(text);
         descriptLabel.setPreferredSize(new Dimension(80, 40));
         descriptPanel.add(descriptLabel);
@@ -143,7 +189,33 @@ public class SettingOptions extends JPanel {
         JPanel left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
         FlatLabel titleLabel = new FlatLabel();
-        titleLabel.setText("<html><span style=\"float:right\"><b>" + title + "</b></span></html>");
+        titleLabel.setText("<html><span style=\"font-weight:400\">" + title + "</span></html>");
+        left.add(titleLabel);
+        left.add(Box.createVerticalStrut(10)); // 添加间距
+        FlatLabel descLabel = new FlatLabel();
+        descLabel.setText("<html><span style=\"font-size:10px;\">" + description + "</span></html>");
+        left.add(descLabel);
+        main.add(left, BorderLayout.WEST);
+        // 右侧一行一个元素的面板
+        JPanel right = new JPanel();
+        right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
+        right.add(component);
+        right.add(Box.createVerticalStrut(10));
+        main.add(right, BorderLayout.EAST);
+        return main;
+    }
+
+    private JPanel createBorderTitleAndDescPanelLayout(String borderTitle, String title, String description, Component component) {
+        JPanel root = new JPanel();
+        root.setBorder(BorderFactory.createTitledBorder(borderTitle));
+        JPanel main = new JPanel(new BorderLayout());
+        main.setBorder(BorderBuilder.emptyBorder(10, 10, 10, 10));
+        main.setPreferredSize(new Dimension(400, 70));
+        // 左侧两行两个元素的面板
+        JPanel left = new JPanel();
+        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+        FlatLabel titleLabel = new FlatLabel();
+        titleLabel.setText("<html><span style=\"float:right\">" + title + "</span></html>");
         left.add(titleLabel);
         left.add(Box.createVerticalStrut(10)); // 添加间距
         FlatLabel descLabel = new FlatLabel();
@@ -156,34 +228,6 @@ public class SettingOptions extends JPanel {
         right.add(component);
         right.add(Box.createVerticalStrut(10));
         main.add(right, BorderLayout.EAST);
-        return main;
-    }
-
-    private JPanel createLogViewPanel(String title, String description) {
-        JPanel root = new JPanel();
-        root.setBorder(BorderFactory.createTitledBorder("日志"));
-        JPanel main = new JPanel(new BorderLayout());
-        main.setBorder(BorderBuilder.emptyBorder(10, 20, 10, 20));
-        main.setPreferredSize(new Dimension(400, 70));
-        // 左侧两行两个元素的面板
-        JPanel left = new JPanel();
-        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-        FlatLabel titleLabel = new FlatLabel();
-        titleLabel.setText("<html><span style=\"float:right\"><b>" + title + "</b></span></html>");
-        left.add(titleLabel);
-        left.add(Box.createVerticalStrut(10)); // 添加间距
-        FlatLabel descLabel = new FlatLabel();
-        descLabel.setText("<html><span style=\"font-size:10px\">" + description + "</span></html>");
-        left.add(descLabel);
-        main.add(left, BorderLayout.WEST);
-        // 右侧一行一个元素的面板
-        JPanel right = new JPanel();
-        right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
-        JSONButton logButton = new JSONButton("查看日志");
-        logButton.addActionListener(e -> MenuEventService.getInstance().opneLogFileActionPerformed());
-        right.add(logButton);
-        right.add(Box.createVerticalStrut(10));
-        main.add(right, BorderLayout.EAST);
         root.add(main, BorderLayout.CENTER);
         return root;
     }
@@ -192,6 +236,17 @@ public class SettingOptions extends JPanel {
         return resourceBundle.getString(keyRoot + ".Name");
     }
 
+    public SwiftButton getIsEditableBtn() {
+        return isEditableBtn;
+    }
+
+    public SwiftButton getLineWrapBtn() {
+        return lineWrapBtn;
+    }
+
+    public SwiftButton getShowLineBtn() {
+        return showLineBtn;
+    }
 
 }
 
@@ -200,10 +255,11 @@ class ViewSlider extends JSlider {
     public ViewSlider(int orientation, int min, int max, int value) {
         super(orientation, min, max, value);
         setMajorTickSpacing(20); // 设置主刻度间隔
-        setMinorTickSpacing(5); // 设置次刻度间隔
+        setMinorTickSpacing(10); // 设置次刻度间隔
         setPaintTicks(true); // 显示刻度
         setPaintLabels(true); // 显示刻度标签
+        setFont(new Font(FontEnum.Name.MicYaHei.getName(), Font.PLAIN, FontEnum.Size.mini.getSize()));
+        setPreferredSize(new Dimension(200, 60));
         addChangeListener(e -> MenuEventService.getInstance().updateEditorMarginLineWidth(e));
     }
-
 }
