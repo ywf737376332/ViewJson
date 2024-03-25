@@ -38,6 +38,8 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
     private String toolBarLocation;
     // 是否显示工具栏文字
     private Boolean showToolBarText;
+    // 窗口是否总是置顶显示
+    private Boolean frameAlwaysOnTop;
     // 官网
     private String webSiteUrl;
     // 是否显示空格符
@@ -371,6 +373,14 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
         return showToolBarText;
     }
 
+    public Boolean getFrameAlwaysOnTop() {
+        return frameAlwaysOnTop;
+    }
+
+    public void setFrameAlwaysOnTop(Boolean frameAlwaysOnTop) {
+        this.frameAlwaysOnTop = frameAlwaysOnTop;
+    }
+
     public void setShowToolBarText(Boolean showToolBarText) {
         this.showToolBarText = showToolBarText;
     }
@@ -413,6 +423,7 @@ public class ConfigurableApplicationContext extends ApplicationContext implement
                 ", systemLanguage='" + systemLanguage + '\'' +
                 ", toolBarLocation='" + toolBarLocation + '\'' +
                 ", showToolBarText=" + showToolBarText +
+                ", frameAlwaysOnTop=" + frameAlwaysOnTop +
                 ", webSiteUrl='" + webSiteUrl + '\'' +
                 ", showWhitespace=" + showWhitespace +
                 ", marginLine=" + marginLine +

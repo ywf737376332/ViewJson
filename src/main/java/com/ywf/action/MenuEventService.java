@@ -818,6 +818,15 @@ public class MenuEventService {
     }
 
     /**
+     * 窗口是否总是置顶显示
+     */
+    public void frameAlwaysOnTopActionPerformed(JFrame frame) {
+        Boolean frameAlwaysOnTop = applicationContext.getFrameAlwaysOnTop();
+        applicationContext.setFrameAlwaysOnTop(!frameAlwaysOnTop);
+        frame.setAlwaysOnTop(!frameAlwaysOnTop);
+    }
+
+    /**
      * 系统设置
      */
     public void systemSetupActionPerformed() {

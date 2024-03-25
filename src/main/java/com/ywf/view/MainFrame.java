@@ -38,6 +38,8 @@ public class MainFrame extends AbstractWindow {
         setMinimumSize(new Dimension(SystemConstant.WINDOWS_MIN_WIDTH, SystemConstant.WINDOWS_MIN_HEIGHT));
         //设置图标
         setIconImages(FlatSVGUtils.createWindowIconImages(SvgIconFactory.SystemIcon.logo));
+        //窗口置顶设置
+        setAlwaysOnTop(applicationContext.getFrameAlwaysOnTop());
         // 初始化界面
         initUI(_this);
         // 窗口关闭事件监听

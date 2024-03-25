@@ -66,10 +66,17 @@ public class SettingOptions extends JPanel {
         JPanel editorSetting = createEditorSettingPanel();
         JPanel pictureQualitySetting = createPictureQualitySettingPanel();
         JPanel chineseConverSetting = createChineseConverSettingPanel();
+        // 工具栏名称是否显示
         SwiftButton showToolBarTextBtn = new SwiftButton();
         showToolBarTextBtn.setSelected(applicationContext.getShowToolBarText());
         showToolBarTextBtn.setStateListener(source -> MenuEventService.getInstance().showToolBarTextActionPerformed(WindowUtils.getFrame()));
         JPanel toolBarTextPanel = createBorderTitleAndDescPanelLayout("", getMessage("Settings.ToolBarTitle"), getMessage("Settings.ToolBarTitle.Descript"), showToolBarTextBtn);
+        // 窗口置顶设置
+        SwiftButton frameOnTopBtn = new SwiftButton();
+        frameOnTopBtn.setSelected(applicationContext.getFrameAlwaysOnTop());
+        frameOnTopBtn.setStateListener(source -> MenuEventService.getInstance().frameAlwaysOnTopActionPerformed(WindowUtils.getFrame()));
+        JPanel frameOnTopPanel = createBorderTitleAndDescPanelLayout("", getMessage("Settings.FrameOnTop"), getMessage("Settings.FrameOnTop.Descript"), frameOnTopBtn);
+        // 日志查看功能
         JSONButton logButton = new JSONButton(getMessage("Settings.LookLog"));
         logButton.addActionListener(e -> MenuEventService.getInstance().opneLogFileActionPerformed());
         JPanel logViewPanel = createBorderTitleAndDescPanelLayout("", getMessage("Settings.LookLog"), getMessage("Settings.LookLog.Descript"), logButton);
@@ -84,6 +91,8 @@ public class SettingOptions extends JPanel {
         vBox.add(chineseConverSetting);
         vBox.add(Box.createRigidArea(viewSize));
         vBox.add(toolBarTextPanel);
+        vBox.add(Box.createRigidArea(viewSize));
+        vBox.add(frameOnTopPanel);
         vBox.add(Box.createRigidArea(viewSize));
         vBox.add(logViewPanel);
         this.add(vBox);
@@ -209,7 +218,7 @@ public class SettingOptions extends JPanel {
         JPanel root = new JPanel();
         root.setBorder(BorderFactory.createTitledBorder(borderTitle));
         JPanel main = new JPanel(new BorderLayout());
-        main.setBorder(BorderBuilder.emptyBorder(10, 10, 10, 10));
+        main.setBorder(BorderBuilder.emptyBorder(10, 6, 10, 6));
         main.setPreferredSize(new Dimension(400, 70));
         // 左侧两行两个元素的面板
         JPanel left = new JPanel();

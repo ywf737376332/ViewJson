@@ -10,6 +10,7 @@
   "systemLanguage": "zh_CN",
   "toolBarLocation": "North",
   "showToolBarText": true,
+  "frameAlwaysOnTop": false,
   "showWhitespace": false,
   "marginLine": {
     "showMarginLine": false,
