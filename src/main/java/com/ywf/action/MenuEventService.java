@@ -165,7 +165,7 @@ public class MenuEventService {
             TextTypeEnum textType = rSyntaxTextArea.getTextType();
             switch (textType) {
                 case SQL:
-                    rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText).replaceAll(";", ";\n\n"));
+                    rSyntaxTextArea.setText(JsonUtil.replaceSemicolonWithNewlineAndTrim(sourceText));
                     break;
                 default:
                     rSyntaxTextArea.setText(JsonUtil.compressingStr(sourceText));

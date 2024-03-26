@@ -275,5 +275,16 @@ public class JsonUtil {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * 给分号后面加换行
+     *
+     * @param sourceText
+     * @return
+     */
+    public static String replaceSemicolonWithNewlineAndTrim(String sourceText) {
+        String replaced = compressingStr(sourceText).replaceAll(";", ";\n\n");
+        return replaced.trim();
+    }
 }
 
