@@ -5,6 +5,9 @@ JSON格式化工具类
 #### 软件架构
 swing + flatlaf + rsyntaxtextarea
 
+#### 下载体验版：
+https://gitee.com/yufei88/ViewJSON/releases/tag/ViewJson
+
 #### 框架层需要解决的问题
 1. 解决事件绑定的分离，页面结构分离，形成框架分离
 2. 解决配置文件获取,配置保存✌️
