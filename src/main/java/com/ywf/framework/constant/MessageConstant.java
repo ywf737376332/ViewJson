@@ -208,6 +208,16 @@ public class MessageConstant {
     public static final String SYSTEM_FIND_RESULTS_TIP = getMessage("System.FindResults.Tip");
 
     /**
+     * 已搜索到最底部，没有更多内容被找到
+     */
+    public static final String SYSTEM_NEXT_FIND_RESULTS_TIP = getMessage("System.NextFindResults.Tip");
+
+    /**
+     * 已搜索到最顶部，没有更多内容被找到
+     */
+    public static final String SYSTEM_PREV_FIND_RESULTS_TIP = getMessage("System.PrevFindResults.Tip");
+
+    /**
      * 系统设置
      */
     public static final String TAB_TITLE_SYSTEM_SETTINGS = getMessage("Tab.Title.SystemSettings");

@@ -198,7 +198,7 @@ public final class FindPanelBuilder {
         }
         boolean found = findContentHighlight(text, isNext).wasFound();
         if (!found) {
-            Toast.info(WindowUtils.getFrame(), isNext ? "已搜索到最底部，没有更多内容被找到!" : "已搜索到最顶部，没有更多内容被找到");
+            Toast.info(WindowUtils.getFrame(), isNext ? MessageConstant.SYSTEM_NEXT_FIND_RESULTS_TIP : MessageConstant.SYSTEM_PREV_FIND_RESULTS_TIP);
         }
     }
 
