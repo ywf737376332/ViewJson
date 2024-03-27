@@ -8,6 +8,7 @@ import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.config.GlobalKEY;
+import com.ywf.framework.config.MenuBarKit;
 import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.layout.FindPanelLayout;
 import com.ywf.framework.utils.ObjectUtils;
@@ -20,6 +21,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -58,6 +60,8 @@ public final class FindPanelBuilder {
         fieldFind.setBorder(BorderBuilder.leftAndRightBorder(1, ThemeColor.themeColor));
         fieldFind.setShowClearButton(true);
         fieldFind.getDocument().addDocumentListener(new HighlightDocumentListener());
+        // 注册快捷键
+        fieldFind.registerKeyboardAction(new MenuBarKit.FindAction(), KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
         // search toolbar
         JToolBar searchToolbar = new JToolBar();
