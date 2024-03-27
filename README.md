@@ -7,6 +7,7 @@ swing + flatlaf + rsyntaxtextarea
 
 #### 下载体验版：
 https://gitee.com/yufei88/ViewJSON/releases/tag/ViewJson
+软件安装密码，请联系作者：737376332@qq.com
 
 #### 框架层需要解决的问题
 1. 解决事件绑定的分离，页面结构分离，形成框架分离
