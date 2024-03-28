@@ -70,7 +70,8 @@ public class Example extends javax.swing.JFrame {
             left = " (LEAF name=left0 weight=0.5)";
             right = " (LEAF name=right0 weight=0.5)";
         } else if (boxCount == 2) {
-            left = "(LEAF name=left0 weight=0.3) (LEAF name=left" + new Integer(boxCount - 1).toString() + "  weight=0.2) ";
+            left = "(COLUMN weight=0.5 left0 left" + new Integer(boxCount - 1).toString() + ")";
+            //left = "(LEAF name=left0 weight=0.3) (LEAF name=left" + new Integer(boxCount - 1).toString() + "  weight=0.2) ";
         } else if (boxCount == 3) {
             right = "(COLUMN weight=0.5 right0 right" + new Integer(boxCount - 2).toString() + ")";
         } else if ((boxCount % 2 == 0) && (boxCount != 0)) {
