@@ -46,6 +46,7 @@ public class SettingOptions extends JPanel {
 
     private SettingOptions() {
         super();
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         init();
     }
 
@@ -61,7 +62,6 @@ public class SettingOptions extends JPanel {
     }
 
     private void init() {
-        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         // 创建一个垂直箱容器
         Box vBox = Box.createVerticalBox();
         //设置语言

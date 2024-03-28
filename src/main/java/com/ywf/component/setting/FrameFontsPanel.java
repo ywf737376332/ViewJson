@@ -34,8 +34,7 @@ public class FrameFontsPanel extends JPanel {
     private static ResourceBundle resourceBundle;
 
     public FrameFontsPanel() {
-        super();
-        setLayout(new BorderLayout(10, 10));
+        super(new BorderLayout(10, 10));
         init();
     }
 
