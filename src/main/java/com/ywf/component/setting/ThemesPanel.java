@@ -125,7 +125,7 @@ class SelectedIcon implements Icon {
 
         g2.setPaint(color);
         //g2.fill(triangle);
-        g2.setStroke(new BasicStroke(5f));
+        g2.setStroke(new BasicStroke(3f));
         g2.drawRoundRect(-6, -3, getIconWidth() + 12, getIconHeight() + 6, 20, 20);
         //g2.setPaint(Color.WHITE);
         //Font f = g2.getFont();
