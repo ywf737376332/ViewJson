@@ -8,11 +8,9 @@ import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.config.GlobalKEY;
 import com.ywf.framework.enums.SystemThemesEnum;
 import com.ywf.framework.utils.ObjectUtils;
-import com.ywf.framework.utils.WindowUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Path2D;
 
 /**
  * 主题设置面板UI
@@ -119,19 +117,19 @@ class SelectedIcon implements Icon {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.translate(x, y);
         icon.paintIcon(c, g2, 0, 0);
-        Path2D triangle = new Path2D.Double();
-        triangle.moveTo(getIconWidth(), getIconHeight() / 2d);
-        triangle.lineTo(getIconWidth(), getIconHeight());
-        triangle.lineTo(getIconWidth() - getIconHeight() / 2d, getIconHeight());
-        triangle.closePath();
+        //Path2D triangle = new Path2D.Double();
+        //triangle.moveTo(getIconWidth(), getIconHeight() / 2d);
+        //triangle.lineTo(getIconWidth(), getIconHeight());
+        //triangle.lineTo(getIconWidth() - getIconHeight() / 2d, getIconHeight());
+        //triangle.closePath();
 
         g2.setPaint(color);
-        g2.fill(triangle);
-        g2.setStroke(new BasicStroke(3f));
-        g2.drawRoundRect(0, 0, getIconWidth(), getIconHeight(), 20, 20);
-        g2.setPaint(Color.WHITE);
-        Font f = g2.getFont();
-        g2.drawString("√", getIconWidth() - f.getSize(), getIconHeight() - 3);
+        //g2.fill(triangle);
+        g2.setStroke(new BasicStroke(5f));
+        g2.drawRoundRect(-6, -3, getIconWidth() + 12, getIconHeight() + 6, 20, 20);
+        //g2.setPaint(Color.WHITE);
+        //Font f = g2.getFont();
+        //g2.drawString("★", getIconWidth() - f.getSize(), getIconHeight() - 3);
         g2.dispose();
     }
 
