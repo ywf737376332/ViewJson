@@ -3,6 +3,7 @@ package com.ywf.component;
 import com.ywf.component.setting.FrameFontsPanel;
 import com.ywf.component.setting.SettingOptions;
 import com.ywf.component.setting.ThemesPanel;
+import com.ywf.component.setting.ToolBarPanel;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.constant.MessageConstant;
 
@@ -37,6 +38,7 @@ public final class SystemSetupPanelBuilder {
         //tabs.addTab("内容字体", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.editorFont), ScrollPaneBuilder.createScrollPane(new EditorFontsPanel()));
         tabs.addTab(MessageConstant.TAB_TITLE_SYSTEM_SETTINGS, SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), ScrollPaneBuilder.createScrollPane(SettingOptions.getInstance()));
         //tabs.addTab("配置预览", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemLog), ScrollPaneBuilder.createScrollPane(new DefaultSettingPanel()));
+        tabs.addTab("工具设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), ScrollPaneBuilder.createScrollPane(new ToolBarPanel()));
         return tabs;
     }
 

@@ -5,7 +5,6 @@ import com.ywf.action.MenuEventService;
 import com.ywf.action.ResourceBundleService;
 import com.ywf.component.JSONButton;
 import com.ywf.component.SwiftButton;
-import com.ywf.component.ToolBarBuilder;
 import com.ywf.framework.annotation.Autowired;
 import com.ywf.framework.base.BorderBuilder;
 import com.ywf.framework.base.DropcapLabel;
@@ -21,8 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -83,8 +80,6 @@ public class SettingOptions extends JPanel {
         JSONButton logButton = new JSONButton(getMessage("Settings.LookLog"));
         logButton.addActionListener(e -> MenuEventService.getInstance().opneLogFileActionPerformed());
         JPanel logViewPanel = createBorderTitleAndDescPanelLayout("", getMessage("Settings.LookLog"), getMessage("Settings.LookLog.Descript"), logButton);
-        // 工具栏按钮列表
-        JPanel toolBarSetting = createBorderTitleToolBarPane("工具栏按钮");
         // 创建一个 垂直方向胶状 的不可见组件，用于撑满垂直方向剩余的空间（如果有多个该组件，则平分剩余空间）
         Dimension viewSize = new Dimension(450, 20);
         vBox.add(languageSetting);
@@ -100,8 +95,6 @@ public class SettingOptions extends JPanel {
         vBox.add(frameOnTopPanel);
         vBox.add(Box.createRigidArea(viewSize));
         vBox.add(logViewPanel);
-        vBox.add(Box.createRigidArea(viewSize));
-        vBox.add(toolBarSetting);
         this.add(vBox);
     }
 
@@ -244,48 +237,6 @@ public class SettingOptions extends JPanel {
         right.add(component);
         right.add(Box.createVerticalStrut(10));
         main.add(right, BorderLayout.EAST);
-        root.add(main, BorderLayout.CENTER);
-        return root;
-    }
-
-    /**
-     * 工具栏按钮
-     *
-     * @param borderTitle
-     * @return
-     */
-    private JPanel createBorderTitleToolBarPane(String borderTitle) {
-        JPanel root = new JPanel(new BorderLayout());
-        root.setBorder(BorderFactory.createTitledBorder(borderTitle));
-        JPanel main = new JPanel(new GridLayout(3, 4, 8, 5));
-        main.setBorder(BorderBuilder.emptyBorder(10, 20, 10, 20));
-        main.setPreferredSize(new Dimension(400, 100));
-        ToolBarBuilder toolBarBuilder = ToolBarBuilder.getInstance();
-        JToolBar toolBar = toolBarBuilder.getToolBar();
-        Map<Integer, JButton> toolBarElementList = toolBarBuilder.getToolBarElementList();
-        toolBarElementList.forEach((index, toolBtn) -> {
-            JCheckBox checkBoxBtn = new JCheckBox(toolBtn.getText() + index, true);
-            main.add(checkBoxBtn);
-            checkBoxBtn.addItemListener(e -> {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    System.out.println("添加元素位置:" + index + "  " + toolBtn);
-                    toolBar.add(toolBtn, (int) index);
-                    toolBar.addSeparator();
-                } else {
-                    System.out.println("移除元素位置:" + index + "  " + toolBtn);
-                    int componentIndex = toolBar.getComponentIndex(toolBtn) - 1;
-                    if (componentIndex < toolBar.getComponents().length && componentIndex > -1) {
-                        toolBar.remove(componentIndex);
-                    }
-                    if (componentIndex < toolBar.getComponents().length && componentIndex == -1) {
-                        toolBar.remove(componentIndex);
-                    }
-                    toolBar.remove(toolBtn);
-                }
-                toolBar.revalidate();
-                toolBar.repaint();
-            });
-        });
         root.add(main, BorderLayout.CENTER);
         return root;
     }
