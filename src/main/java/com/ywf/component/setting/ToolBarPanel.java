@@ -33,7 +33,7 @@ public class ToolBarPanel extends JPanel {
         ArrayListModel<ToolBarElement> model = new ArrayListModel<>();
         ToolBarBuilder toolBarBuilder = ToolBarBuilder.getInstance();
         JToolBar toolBar = toolBarBuilder.getToolBar();
-        LinkedList<ToolBarElement> toolBarElementList = toolBarBuilder.getToolBarElementList();
+        LinkedList<ToolBarElement> toolBarElementList = null; //toolBarBuilder.getToolBarElementList();
         toolBarElementList.forEach(element -> {
             model.add(element);
         });
