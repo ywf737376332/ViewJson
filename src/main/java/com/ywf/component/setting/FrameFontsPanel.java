@@ -34,7 +34,7 @@ public class FrameFontsPanel extends JPanel {
     private static ResourceBundle resourceBundle;
 
     public FrameFontsPanel() {
-        super(new BorderLayout(10, 10));
+        super(new BorderLayout(10, 20));
         resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         init();
     }
@@ -55,22 +55,21 @@ public class FrameFontsPanel extends JPanel {
      */
     private JPanel createFrameFontPanel() {
         JPanel frameFontPanel = new JPanel(new BorderLayout(10, 20));
-        frameFontPanel.setPreferredSize(new Dimension(450, 200));
         frameFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), getMessage("Settings.WindowsFonts")));
 
         ArrayList<ModelEntity> fontNameModelList = Arrays.stream(FontEnum.Name.values()).map((FontEnum.Name fontName) -> new ModelEntity(fontName.getMsgKey(), fontName.getName())).collect(Collectors.toCollection(ArrayList::new));
         JList fontNameList = createJList(fontNameModelList, FontEnum.Type.FONT_NAME);
-        JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, getMessage("Settings.WindowsFonts.FontName"), new Dimension(200, 140));
+        JScrollPane fontNameScrollPane = ScrollPaneBuilder.createScrollPane(fontNameList, getMessage("Settings.WindowsFonts.FontName"), new Dimension(200, 200));
         frameFontPanel.add(fontNameScrollPane, BorderLayout.WEST);
 
         ArrayList<ModelEntity> fontStyleModelList = Arrays.stream(FontEnum.Style.values()).map((FontEnum.Style fontStyle) -> new ModelEntity(fontStyle.getMsgKey(), fontStyle.getStyle())).collect(Collectors.toCollection(ArrayList::new));
         JList fontStyleList = createJList(fontStyleModelList, FontEnum.Type.FONT_STYLE);
-        JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, getMessage("Settings.WindowsFonts.FontStyle"), new Dimension(140, 140));
+        JScrollPane fontStyleScrollPane = ScrollPaneBuilder.createScrollPane(fontStyleList, getMessage("Settings.WindowsFonts.FontStyle"), new Dimension(140, 200));
         frameFontPanel.add(fontStyleScrollPane, BorderLayout.CENTER);
 
         ArrayList<ModelEntity> fontSizeModelList = Arrays.stream(FontEnum.Size.values()).map((FontEnum.Size fontSize) -> new ModelEntity(fontSize.getMsgKey(), fontSize.getSize())).collect(Collectors.toCollection(ArrayList::new));
         JList fontSizeList = createJList(fontSizeModelList, FontEnum.Type.FONT_SIZE);
-        JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, getMessage("Settings.WindowsFonts.FontSize"), new Dimension(120, 140));
+        JScrollPane fontSizeScrollPane = ScrollPaneBuilder.createScrollPane(fontSizeList, getMessage("Settings.WindowsFonts.FontSize"), new Dimension(120, 200));
         frameFontPanel.add(fontSizeScrollPane, BorderLayout.EAST);
         return frameFontPanel;
     }
@@ -82,7 +81,9 @@ public class FrameFontsPanel extends JPanel {
      */
     private JPanel createViewFontPanel() {
         JPanel viewFontPanel = new JPanel(new GridLayout(4, 1, 10, 10));
-        viewFontPanel.setPreferredSize(new Dimension(450, 100));
+        viewFontPanel.setPreferredSize(new Dimension(450, 50));
+        viewFontPanel.setMaximumSize(new Dimension(450, 50));
+        viewFontPanel.setMinimumSize(new Dimension(450, 50));
         viewFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), getMessage("Settings.WindowsFonts.View")));
         FlatLabel viewFontLabel1 = new FlatLabel();
         viewFontLabel1.setText("abcdefghijklmnopqrstuvwxyz 0123456789 (){}[]");
@@ -104,11 +105,11 @@ public class FrameFontsPanel extends JPanel {
     }
 
     private JPanel createEditorFontPanel() {
-        JPanel viewFontPanel = new JPanel(new GridLayout(1, 1, 10, 10));
+        JPanel viewFontPanel = new JPanel(new BorderLayout());
         viewFontPanel.setPreferredSize(new Dimension(450, 120));
         viewFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), getMessage("Settings.EditorFonts.FontSize")));
         EditorFontSlider editorFontSlider = new EditorFontSlider(JSlider.HORIZONTAL, 10, 30, ConvertUtils.toInt(applicationContext.getEditorFontStyle().getSize()));
-        viewFontPanel.add(editorFontSlider);
+        viewFontPanel.add(editorFontSlider, BorderLayout.CENTER);
         return viewFontPanel;
     }
 

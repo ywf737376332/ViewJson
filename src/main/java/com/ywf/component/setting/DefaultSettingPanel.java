@@ -22,8 +22,7 @@ import java.io.IOException;
 public class DefaultSettingPanel extends JPanel {
 
     public DefaultSettingPanel() {
-        super();
-        setLayout(new BorderLayout());
+        super(new BorderLayout());
         setPreferredSize(new Dimension(400, 300));
         setBorder(BorderBuilder.emptyBorder(0, 20, 20, 20));
         init();
