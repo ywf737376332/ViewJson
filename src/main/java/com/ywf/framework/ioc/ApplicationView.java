@@ -14,6 +14,7 @@ import com.ywf.framework.utils.ChangeUIUtils;
 import com.ywf.framework.utils.ObjectUtils;
 import com.ywf.framework.utils.StrUtils;
 import com.ywf.view.MainFrame;
+import com.ywf.view.Welcome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,12 +38,14 @@ public class ApplicationView {
 
     private MainFrame applicationView;
     private ConfigLoadHandler configLoadHandler;
+    private final static Welcome welcome = new Welcome();
 
     /**
      * 本地资源加注入
      */
     public ApplicationView(Class<?> primarySource) {
         startTime = System.nanoTime();
+        welcome.start();
         logger.info("应用程序启动开始,当前时间：{}~", DateUtil.now());
         String basePackages = getBasePackages(primarySource);
         String applicationRootPath = SysConfigInit.getSystemRootFilePath();
@@ -57,6 +60,7 @@ public class ApplicationView {
          */
         configLoadHandler = new ConfigLoadHandler(basePackages);
         configLoadHandler.configLoadAutowired(basePackages, applicationRootPath);
+        welcome.setAppRunLog("容器初始化完成，属性注入成功...");
         /**
          * 国际化语言设置,必须在构造方法中执行,提前到国际化类加载之前
          */
@@ -90,6 +94,7 @@ public class ApplicationView {
             SwingUtilities.invokeLater(() -> {
                 logger.info("程序UI界面绘制~~~");
                 applicationView.createAndShowGUI(MessageConstant.SYSTEM_TITLE + SystemConstant.SYSTEM_VERSION);
+                welcome.setAppRunLog("程序UI界面加载成功...");
             });
         } catch (Exception e) {
             logger.error("APP界面加载失败", e);
@@ -107,6 +112,7 @@ public class ApplicationView {
             String[] language = StrUtils.strSplit(applicationContext.getSystemLanguage());
             Locale.setDefault(new Locale(language[0], language[1]));
             JComponent.setDefaultLocale(Locale.getDefault());
+            welcome.setAppRunLog("国际化资源加载成功...");
             logger.info("国际化资源语言设置：{}，{}", language, Locale.getDefault());
         } catch (Exception e) {
             logger.error("APP国际化失败", e);
@@ -125,6 +131,7 @@ public class ApplicationView {
                 } catch (Exception e) {
                     logger.error("初始化主题失败", e);
                 }
+                welcome.setAppRunLog("主题加载成功...");
                 return true;
             }
         };
@@ -141,6 +148,7 @@ public class ApplicationView {
         } catch (Exception e) {
             logger.error("初始化字体失败", e);
         }
+        welcome.setAppRunLog("字体初始化成功...");
         return this;
     }
 
@@ -148,6 +156,7 @@ public class ApplicationView {
         logger.info("扫描缓存全局组件,实现真正意义上的IOC容器,此功能暂未完善");
         long endTime = System.nanoTime();
         logger.info("应用程序启动结束,当前时间:{},实际耗时:{}毫秒~~", DateUtil.now(), (endTime - startTime) / 1_000_000);
+        welcome.destory();
         return applicationContext;
     }
 

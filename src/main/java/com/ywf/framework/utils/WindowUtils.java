@@ -1,7 +1,8 @@
 package com.ywf.framework.utils;
 
+import com.ywf.framework.config.GlobalKEY;
+
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * window系统工具类
@@ -12,7 +13,7 @@ import java.awt.*;
 public class WindowUtils {
 
     public static JFrame getFrame() {
-        return (JFrame) Window.getWindows()[0];
+        return ObjectUtils.getBean(GlobalKEY.MAIN_FRAME);
     }
 
 }
