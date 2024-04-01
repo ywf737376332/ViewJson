@@ -591,8 +591,8 @@ public class MenuEventService {
                 languageRadioMenuitem.addActionListener(e -> {
                     applicationContext.setSystemLanguage(languageRadioMenuitem.getLanguageKey());
                     FlatLabel tipLabel = PanelView.getTipMessage();
-                    tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "语言切换成功，重启后生效！" + "</span></html>");
-                    Toast.info(frame, "语言切换成功，重启后生效！");
+                    tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + MessageConstant.SYSTEM_SET_LANGUAGE_SUCCESS + "</span></html>");
+                    Toast.info(frame, MessageConstant.SYSTEM_SET_LANGUAGE_SUCCESS);
                 });
             }
         }
@@ -609,8 +609,8 @@ public class MenuEventService {
             radioButton.addActionListener(e -> {
                 applicationContext.setSystemLanguage(radioButton.getMsgKey());
                 FlatLabel tipLabel = PanelView.getTipMessage();
-                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + "语言切换成功，重启后生效！" + "</span></html>");
-                Toast.info(frame, "语言切换成功，重启后生效！");
+                tipLabel.setText("<html><span color=\"#107C41\" style=\"font-size:10px\">" + MessageConstant.SYSTEM_SET_LANGUAGE_SUCCESS + "</span></html>");
+                Toast.info(frame, MessageConstant.SYSTEM_SET_LANGUAGE_SUCCESS);
             });
         }
     }

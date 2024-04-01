@@ -247,6 +247,10 @@ public class MessageConstant {
      */
     public static final String SYSTEM_DIALOG_CLOSE_TIP = getMessage("System.Dialog.CloseTime");
 
+    /**
+     * 语言切换
+     */
+    public static final String SYSTEM_SET_LANGUAGE_SUCCESS = getMessage("System.SetLanguage.Success");
 
     private static String getSepMessage(String keyRoot) {
         return resourceBundle.getString(keyRoot + ".Name") + Separator;
