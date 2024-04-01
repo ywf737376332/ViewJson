@@ -35,11 +35,11 @@ public class FrameFontsPanel extends JPanel {
 
     public FrameFontsPanel() {
         super(new BorderLayout(10, 10));
+        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         init();
     }
 
     private void init() {
-        resourceBundle = ResourceBundleService.getInstance().getResourceBundle();
         JPanel frameFontPanel = createFrameFontPanel();
         JPanel viewFontPanel = createViewFontPanel();
         JPanel editorFontPanel = createEditorFontPanel();
@@ -81,17 +81,25 @@ public class FrameFontsPanel extends JPanel {
      * @return
      */
     private JPanel createViewFontPanel() {
-        JPanel viewFontPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        JPanel viewFontPanel = new JPanel(new GridLayout(4, 1, 10, 10));
         viewFontPanel.setPreferredSize(new Dimension(450, 100));
         viewFontPanel.setBorder(BorderFactory.createTitledBorder(BorderBuilder.border(1, ThemeColor.themeColor), getMessage("Settings.WindowsFonts.View")));
         FlatLabel viewFontLabel1 = new FlatLabel();
-        viewFontLabel1.setText("abcdefghijklmn ABCDEFGHIJKLMN 0123456789 (){}[]");
+        viewFontLabel1.setText("abcdefghijklmnopqrstuvwxyz 0123456789 (){}[]");
         viewFontLabel1.setBorder(BorderBuilder.emptyBorder(10));
         FlatLabel viewFontLabel2 = new FlatLabel();
-        viewFontLabel2.setText("每个程序员都渴望的自主可控工具箱 +-*/= .,;:!? #&$%@|^");
+        viewFontLabel2.setText("ABCDEFGHIJKLMNOPQRSTUVWXYZ +-*/= .,;:!? #&$%@|^");
         viewFontLabel2.setBorder(BorderBuilder.emptyBorder(10));
+        FlatLabel viewFontLabel3 = new FlatLabel();
+        viewFontLabel3.setText("<!-- -- != := === >= >- >=> |-> -> <$> </> #[ |||> |= ~@");
+        viewFontLabel3.setBorder(BorderBuilder.emptyBorder(10));
+        FlatLabel viewFontLabel4 = new FlatLabel();
+        viewFontLabel4.setText("每个程序员都渴望的定制化工具箱");
+        viewFontLabel4.setBorder(BorderBuilder.emptyBorder(10));
         viewFontPanel.add(viewFontLabel1);
         viewFontPanel.add(viewFontLabel2);
+        viewFontPanel.add(viewFontLabel3);
+        viewFontPanel.add(viewFontLabel4);
         return viewFontPanel;
     }
 
