@@ -123,7 +123,8 @@ public class DialogBuilder {
      * @return
      */
     private static JDialog createBoolBarDialog(JFrame parentFrame, String title, Component component) {
-        final JDialog dialog = new JDialog(parentFrame, title, true);
+        final JDialog dialog = new JDialog(parentFrame, title);
+        dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setLayout(new BorderLayout());
         // 设置标签的首选大小为图片的大小
         dialog.setTitle("<html><span><b>" + title + "</b></span></html>");

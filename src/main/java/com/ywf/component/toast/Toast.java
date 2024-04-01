@@ -75,6 +75,8 @@ public class Toast extends JWindow {
         font = SystemConstant.SYSTEM_WATERMARK_FONT;
         setSize(getStringSize(font, true, message));
         setLocationRelativeTo(parent);
+        toFront();
+        setAlwaysOnTop(true);
         installTheme(type);
     }
 
