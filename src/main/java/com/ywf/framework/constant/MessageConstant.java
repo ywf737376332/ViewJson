@@ -257,6 +257,16 @@ public class MessageConstant {
      */
     public static final String SYSTEM_SET_LANGUAGE_SUCCESS = getMessage("System.SetLanguage.Success");
 
+    /**
+     * 当前内容，不支持格式化操作！
+     */
+    public static final String SYSTEM_FORMAT_WARN = getMessage("System.Format.Warn");
+
+    /**
+     * 当前内容，不支持转义操作！
+     */
+    public static final String SYSTEM_ESCAPE_WARN = getMessage("System.Escape.Warn");
+
     private static String getSepMessage(String keyRoot) {
         return resourceBundle.getString(keyRoot + ".Name") + Separator;
     }

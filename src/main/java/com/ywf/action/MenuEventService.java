@@ -180,8 +180,13 @@ public class MenuEventService {
     public void escapeJsonActionPerformed() {
         JSONRSyntaxTextArea rSyntaxTextArea = tabbedSplitEditor.getFocusEditor();
         String sourceText = rSyntaxTextArea.getText();
+        TextTypeEnum textType = rSyntaxTextArea.getTextType();
         SwingUtilities.invokeLater(() -> {
-            rSyntaxTextArea.setText(JsonUtil.escapeJSON(sourceText));
+            if (textType == TextTypeEnum.JSON || textType == TextTypeEnum.XML) {
+                rSyntaxTextArea.setText(JsonUtil.escapeJSON(sourceText));
+            } else {
+                Toast.info(WindowUtils.getFrame(), MessageConstant.SYSTEM_ESCAPE_WARN);
+            }
         });
     }
 

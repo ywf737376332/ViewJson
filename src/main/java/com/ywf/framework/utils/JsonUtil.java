@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.vertical_blank.sqlformatter.SqlFormatter;
 import com.ywf.component.toast.Toast;
+import com.ywf.framework.constant.MessageConstant;
 import com.ywf.framework.enums.TextTypeEnum;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Document;
@@ -152,7 +153,7 @@ public class JsonUtil {
     }
 
     /**
-     * 取出转义
+     * 去除转义
      *
      * @param jsonStr
      * @return
@@ -190,16 +191,16 @@ public class JsonUtil {
                 result = formatJson(content);
                 break;
             case PROPERTIES:
-                Toast.info(WindowUtils.getFrame(), "当前内容，不支持格式化操作！");
+                Toast.info(WindowUtils.getFrame(), MessageConstant.SYSTEM_FORMAT_WARN);
                 break;
             case YAML:
-                Toast.info(WindowUtils.getFrame(), "当前内容，不支持格式化操作！");
+                Toast.info(WindowUtils.getFrame(), MessageConstant.SYSTEM_FORMAT_WARN);
                 break;
             case JAVA:
-                Toast.info(WindowUtils.getFrame(), "当前内容，不支持格式化操作！");
+                Toast.info(WindowUtils.getFrame(), MessageConstant.SYSTEM_FORMAT_WARN);
                 break;
             case JAVASCRIPT:
-                Toast.info(WindowUtils.getFrame(), "当前内容，不支持格式化操作！");
+                Toast.info(WindowUtils.getFrame(), MessageConstant.SYSTEM_FORMAT_WARN);
                 break;
             default:
         }
