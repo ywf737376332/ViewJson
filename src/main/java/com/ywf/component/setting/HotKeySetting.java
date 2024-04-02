@@ -136,7 +136,7 @@ public class HotKeySetting extends JPanel {
         JPanel left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
         FlatLabel titleLabel = new FlatLabel();
-        titleLabel.setText("<html><span style=\"font-weight:400\">" + title + "</span></html>");
+        titleLabel.setText("<html><span style=\"font-weight:500\">" + title + "</span></html>");
         left.add(titleLabel);
         left.add(Box.createVerticalStrut(10)); // 添加间距
         FlatLabel descLabel = new FlatLabel();
