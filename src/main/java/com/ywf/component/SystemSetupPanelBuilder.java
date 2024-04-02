@@ -1,12 +1,13 @@
 package com.ywf.component;
 
 import com.ywf.component.setting.FrameFontsPanel;
+import com.ywf.component.setting.HotKeySetting;
 import com.ywf.component.setting.SettingOptions;
 import com.ywf.component.setting.ThemesPanel;
-import com.ywf.component.setting.ToolBarPanel;
 import com.ywf.framework.base.SvgIconFactory;
 import com.ywf.framework.constant.MessageConstant;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -31,12 +32,14 @@ public final class SystemSetupPanelBuilder {
             return tabs;
         }
         tabs = new SettingTabbedPane();
+        tabs.setTabPlacement(JTabbedPane.LEFT);
         tabs.setSize(680, 520);
         tabs.setMinimumSize(new Dimension(680, 520));
         tabs.addTab(MessageConstant.TAB_TITLE_SYSTEM_THEMES, SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.theme), ScrollPaneBuilder.createScrollPane(new ThemesPanel()));
         tabs.addTab(MessageConstant.TAB_TITLE_SETTINGS_FONT, SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.frameFont), ScrollPaneBuilder.createScrollPane(new FrameFontsPanel()));
         //tabs.addTab("内容字体", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.editorFont), ScrollPaneBuilder.createScrollPane(new EditorFontsPanel()));
         tabs.addTab(MessageConstant.TAB_TITLE_SYSTEM_SETTINGS, SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), ScrollPaneBuilder.createScrollPane(SettingOptions.getInstance()));
+        tabs.addTab(MessageConstant.TAB_TITLE_SYSTEM_HOTKEY, SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemHotkey), ScrollPaneBuilder.createScrollPane(new HotKeySetting()));
         //tabs.addTab("配置预览", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemLog), ScrollPaneBuilder.createScrollPane(new DefaultSettingPanel()));
         //tabs.addTab("工具设置", SvgIconFactory.mediumIcon(SvgIconFactory.SystemIcon.systemSet), ScrollPaneBuilder.createScrollPane(new ToolBarPanel()));
         return tabs;

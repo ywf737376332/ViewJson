@@ -233,6 +233,11 @@ public class MessageConstant {
     public static final String TAB_TITLE_SETTINGS_FONT = getMessage("Tab.Title.SystemFont");
 
     /**
+     * 热键查看
+     */
+    public static final String TAB_TITLE_SYSTEM_HOTKEY = getMessage("Tab.Title.SystemHotkey");
+
+    /**
      * 行
      */
     public static final String SYSTEM_STATE_BAR_LINE = getMessage("System.StateBar.Line");

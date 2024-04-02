@@ -865,8 +865,10 @@ public class MenuEventService {
      * 系统设置
      */
     public void systemSetupActionPerformed() {
-        SettingTabbedPane tabbedPane = SystemSetupPanelBuilder.createSystemSetupPanel();
-        DialogBuilder.showBoolBarDialog(WindowUtils.getFrame(), getMessage("Dialog.Title.Settings"), tabbedPane).setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            SettingTabbedPane tabbedPane = SystemSetupPanelBuilder.createSystemSetupPanel();
+            DialogBuilder.showBoolBarDialog(WindowUtils.getFrame(), getMessage("Dialog.Title.Settings"), tabbedPane).setVisible(true);
+        });
     }
 
     /**

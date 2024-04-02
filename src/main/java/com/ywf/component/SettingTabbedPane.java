@@ -16,7 +16,7 @@ public class SettingTabbedPane extends JTabbedPane {
 
 
     public SettingTabbedPane() {
-        super();
+        super(SwingConstants.LEFT);
         this.addChangeListener(e -> {
             Component[] components = getComponents();
             for (Component component : components) {
@@ -34,7 +34,6 @@ public class SettingTabbedPane extends JTabbedPane {
         super.updateUI();
         setOpaque(true);
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        setTabPlacement(SwingConstants.LEFT);
         setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
 

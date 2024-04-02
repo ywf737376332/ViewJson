@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 
 /**
@@ -147,11 +148,14 @@ public class MenuBarBuilder {
          */
         menuBar.add(fileMenu);
         fileMenu.add(newTabMenuItem = createMenuItem(newTabAction));
+        newTabMenuItem.registerKeyboardAction(newTabAction, KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         fileMenu.add(savePictMenuItem = createMenuItem(savePictAction));
         fileMenu.add(saveFileMenuItem = createMenuItem(saveFileAction));
         fileMenu.add(favoritesMenuItem = createMenuItem(favoritesAction));
         favoritesMenuItem.setVisible(false);
         fileMenu.add(exitMenuItem = createMenuItem(exitAction));
+        exitMenuItem.registerKeyboardAction(exitAction, KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.ALT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
 
         /**
          * 编辑
@@ -164,11 +168,13 @@ public class MenuBarBuilder {
         editMenu.add(findMenuItem = createMenuItem(findAction));
         editMenu.add(cleanMenuItem = createMenuItem(cleanAction));
 
+
         /**
          * 设置
          */
         menuBar.add(setupMenu);
         setupMenu.add(systemSetupMenuItem = createMenuItem(systemSetupAction));
+        systemSetupMenuItem.registerKeyboardAction(systemSetupAction, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK | KeyEvent.ALT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         setupMenu.add(facadeMenu);
         facadeMenu.add(showToolBarMenuItem = createCheckBoxMenu(showToolBarAction));
         showToolBarMenuItem.setSelected(applicationContext.getShowToolBarState());

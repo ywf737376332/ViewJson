@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicToolBarUI;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -82,10 +83,12 @@ public class ToolBarBuilder {
         btnCopyPict.registerKeyboardAction(copyPictAction, KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK | KeyEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         toolBar.addSeparator();
         toolBar.add(btnShowQrcode = createButton(showQrcodeAction));
+        btnShowQrcode.registerKeyboardAction(showQrcodeAction, KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK | KeyEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         toolBar.addSeparator();
         toolBar.add(btnFind = createButton(findAction));
         toolBar.addSeparator();
         toolBar.add(btnClean = createButton(cleanAction));
+        btnClean.registerKeyboardAction(cleanAction, KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_MASK | KeyEvent.SHIFT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
         cashToolBarElement(toolBar);
         return toolBar;
     }

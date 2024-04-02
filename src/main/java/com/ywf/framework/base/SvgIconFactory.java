@@ -79,6 +79,7 @@ public final class SvgIconFactory {
         String editorFont = "icons/editorFont.svg";
         String systemSet = "icons/systemSet.svg";
         String systemLog = "icons/systemLog.svg";
+        String systemHotkey = "icons/systemHotkey.svg";
     }
 
     public interface ThemesIcon {
