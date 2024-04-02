@@ -1,8 +1,6 @@
 package com.ywf.view;
 
 import com.formdev.flatlaf.extras.components.FlatLabel;
-import com.sun.awt.AWTUtilities;
-import com.ywf.framework.base.ThemeColor;
 import com.ywf.framework.utils.IconUtils;
 
 import javax.swing.*;
@@ -31,7 +29,6 @@ public class Welcome extends JWindow {
         JLabel backgroundLabel = new JLabel(backgroundImage);
         getContentPane().add(backgroundLabel);
         backgroundLabel.setBounds(0, 0, backgroundImage.getIconWidth(), backgroundImage.getIconHeight());
-        setSize(425,236);
         setSize(backgroundImage.getIconWidth(), backgroundImage.getIconHeight());
         setLocationRelativeTo(null); // 居中显示窗口
         label = new FlatLabel();
