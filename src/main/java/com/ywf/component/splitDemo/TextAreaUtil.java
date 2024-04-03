@@ -34,7 +34,7 @@ public class TextAreaUtil {
     private static RTextScrollPane createJsonScrollTextArea() {
         JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, "/themes/textAreaThemes/ideaLight.xml");
         RTextScrollPane rTextScrollPane = new RTextScrollPane(syntaxTextArea);
-        rTextScrollPane.setBorder(BorderBuilder.emptyBorder(0));
+        //rTextScrollPane.setBorder(BorderBuilder.emptyBorder(0));
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(true);
         rTextScrollPane.setFoldIndicatorEnabled(true);

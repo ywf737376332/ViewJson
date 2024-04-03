@@ -77,7 +77,9 @@ public class TextAreaBuilder {
         String themesPath = themesStyles != null ? themesStyles.getTextAreaStyles() : SystemThemesEnum.FlatLightLafThemesStyle.getTextAreaStyles();
         JSONRSyntaxTextArea syntaxTextArea = createTextArea(SyntaxConstants.SYNTAX_STYLE_JSON, themesPath);
         RJSONScrollPane rTextScrollPane = new RJSONScrollPane(syntaxTextArea);
+        //消除编辑框的边框 和 视口边框
         rTextScrollPane.setBorder(BorderBuilder.emptyBorder(0));
+        rTextScrollPane.setViewportBorder(BorderBuilder.emptyBorder(0));
         // 显示行号
         rTextScrollPane.setLineNumbersEnabled(applicationContext.getTextAreaShowlineNumState());
         rTextScrollPane.setFoldIndicatorEnabled(true);

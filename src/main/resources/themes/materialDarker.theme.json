@@ -1229,7 +1229,7 @@
       "selectionForeground": "activeFg"
     },
     "SplitPane": {
-      "background": "bg",
+      "background": "second",
       "highlight": "hc"
     },
     "SplitPaneDivider.draggingColor": "second",

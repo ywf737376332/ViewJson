@@ -57,6 +57,10 @@
     "ActionButton": {
       "hoverBackground": "bg2"
     },
+    "SplitPane": {
+      "background": "bg1",
+      "highlight": "bg"
+    },
     "Button": {
       "startBackground": "bg",
       "endBackground": "bg",
